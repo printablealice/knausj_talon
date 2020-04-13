@@ -1,5 +1,6 @@
 os: linux
 app: /Teams/
+app: /teams/
 -
 
 # Shortcut reference
@@ -28,11 +29,11 @@ open calendar: key(ctrl-4)
 open planner: key(ctrl-5)
 open calls: key(ctrl-6)
 open files: key(ctrl-7)
-[go] [to] previous [list] item: key(alt-up)
+[go] [to] (prev|previous) [list] item: key(alt-up)
 [go] [to] next [list] item: key(alt-down)
 move [selected] team up: key(ctrl-shift-up)
 move [selected] team down: key(ctrl-shift-down)
-[go] [to] previous section: key(ctrl-shift-f6)
+[go] [to] (prev|previous) section: key(ctrl-shift-f6)
 [go] [to] next section: key(ctrl-f6)
 
 # messaging
@@ -57,7 +58,7 @@ decline screen share: key(ctrl-shift-d)
 accept screen share: key(ctrl-shift-a)
 schedule [a] meeting: key(alt-shift-n)
 go to current time: key(alt-.)
-go to previous (day|week): key(ctrl-alt-left)
+go to (prev|previous) (day|week): key(ctrl-alt-left)
 go to next (day|week): key(ctrl-alt-right)
 view day: key(ctrl-alt-1)
 view work week: key(ctrl-alt-2)
