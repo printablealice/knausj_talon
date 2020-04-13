@@ -1,9 +1,8 @@
 app: Google Chrome
-app: Firefox
+app: /irefox/
 app: Microsoft Edge
 app: MicrosoftEdge.exe
 app: chrome.exe
-app: firefox.exe
 app: Safari
 
 #todo: use tags, remove apps

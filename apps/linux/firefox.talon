@@ -1,5 +1,5 @@
 os: linux
-app: Firefox
+app: /irefox/
 -
 #todo tags
 # settings():
