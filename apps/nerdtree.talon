@@ -1,0 +1,2 @@
+-
+nerd: insert(":NERDTree\n")
