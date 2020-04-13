@@ -17,7 +17,7 @@ hard link: "ln "
 # file management
 move: "mv "
 copy: "cp "
-cat: "cat "
+#cat: "cat "
 
 touch: "touch "
 
