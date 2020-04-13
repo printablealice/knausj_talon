@@ -4,7 +4,7 @@ save and quit: ":wq\n"
 quit: ":q\n"
 force quit: ":q!\n"
 go [to] line <number>:
-    key(":")
+    key(:)
     key("{number}")
     key(enter)
 
@@ -16,15 +16,15 @@ buffer open: ":b "
 # vim windowing
 split right:
     key(ctrl-w)
-    key("l")
+    key(l)
 split left:
     key(ctrl-w)
-    key("h")
+    key(h)
 split up:
     key(ctrl-w)
-    key("k")
+    key(k)
 split down:
     key(ctrl-w)
-    key("j")
+    key(j)
 
-highlight off: insert(":nohl")
+highlight off: ":nohl\n"
