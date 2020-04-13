@@ -1,12 +1,33 @@
-code.language: talon
+#code.language: talon
 -
 insert: 
 	insert('insert("")')
 	edit.left()
 	edit.left()
 	
+
 key:
 	insert('key()')
+	edit.left()
+
+control key:
+	insert('key(ctrl-)')
+	edit.left()
+
+control shift key:
+	insert('key(ctrl-shift-)')
+	edit.left()
+
+control alt key:
+	insert('key(ctrl-alt-)')
+	edit.left()
+
+alt key:
+	insert('key(alt-)')
+	edit.left()
+
+alt shift key:
+	insert('key(alt-shift-)')
 	edit.left()
 
 action:
