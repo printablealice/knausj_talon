@@ -1,4 +1,4 @@
-app: /terminal/
+app: /term/
 app: cmd.exe
 app: iTerm2
 app: Terminal
