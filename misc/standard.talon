@@ -1,8 +1,9 @@
 dragon words: "<dgnwords>"
 dragon dictation: "<phrase>"
-slap:
-	edit.line_end()
-	key(enter)
+(shock|slap): key(enter)
+#slap:
+#	edit.line_end()
+#key(enter)
 cd: "cd "
 #cd talon home: "cd {}\n".format(TALON_HOME),
 #cd talon user: "cd {}\n".format(TALON_USER),
@@ -67,7 +68,7 @@ copy: edit.copy()
 cut: edit.cut()
 paste: edit.paste()
 paste match: edit.paste_match_style()
-save: edit.save()
+#save: edit.save()
 #menu help: key(F1)
 #spotlight: key(super)
 (undo | under | skunks): edit.undo()
