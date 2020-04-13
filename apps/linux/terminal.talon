@@ -1,5 +1,5 @@
 os: linux
-app: /terminal/
+app: /term/
 -
 action(app.tab_open):
   key(ctrl-shift-t)
