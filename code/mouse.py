@@ -55,6 +55,7 @@ ctx.lists['self.mouse_button'] = {
      
      #left click
      'chiff': '0',
+     'beep': '0',
 }
 
 @mod.capture
