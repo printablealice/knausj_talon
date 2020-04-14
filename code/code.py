@@ -25,10 +25,8 @@ class CodeActions:
         #but the doc is correct.
         if title == "":
             title = ui.active_window().doc
-        print(title)
 
         m = regex_ext.search(title)
-        print(m)
         if m:
             extension = m.group(1)
             if extension in extension_lang_map:
