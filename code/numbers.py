@@ -23,7 +23,10 @@ def fuse_scale(words, limit=None):
     ret = []
     n = None
     scale = 1
+    count = 0
     for w in words:
+        count += 1
+
         if w in tens_map:
             scale *= tens_map[w]
             continue
@@ -34,7 +37,14 @@ def fuse_scale(words, limit=None):
             continue
 
         if n is not None:
+            # Capture someone saying "one twenty two" to mean
+            # "one hundred twenty two". Only happens on quantities in the
+            # hundreds which is why count == 2
+            if count == 2:
+                print("setting n from to %d to %d" % (n, n*100))
+                scale = 100
             ret.append(n * scale)
+
         n = None
         scale = 1
 
@@ -45,6 +55,7 @@ def fuse_scale(words, limit=None):
 
     if n is not None:
         ret.append(n * scale)
+    print("final ret list: {}".format(ret))
     return ret
 
 # fuse small numbers leftward onto larger numbers
@@ -116,7 +127,7 @@ def number_small(m):
             result += teens_map[word]
     return result
 
-@ctx.capture('number', rule=f'<number_small> [{alt_scales} ([and] (<number_small> | {alt_scales} | <number_small> {alt_scales}))*]')
+@ctx.capture('number', rule=f'<number_small> [(<number_small>|{alt_scales}) ([and] (<number_small> | {alt_scales} | <number_small> {alt_scales}))*]')
 def number(m):
     return fuse_num(fuse_scale(fuse_num(fuse_scale(list(m), 3))))[0]
 
