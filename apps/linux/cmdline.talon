@@ -9,6 +9,10 @@ app: /term/
 (cd|deer|dir) up: "cd ..\n"
 (cd|deer|dir) home: "cd\n"
 (cd|deer|dir) last: "cd -\n"
+make (dur|dear|dir): "mkdir "
+make (dur|dear|dir) <word>: "mkdir {word}"
+remove (dur|dear|dir): "rmdir "
+remove (dur|dear|dir) <word>: "rmdir {word}"
 
 # links
 sim link: "ln -s "
