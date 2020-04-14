@@ -1,9 +1,11 @@
+os:linux
+app:/term/
 -
 save: ":w\n"
-save and quit: ":wq\n"
+save and (quit|close): ":wq\n"
 quit: ":q\n"
 force quit: ":q!\n"
-go [to] line <number>:
+(go|jump) [to] line <number>:
     key(:)
     key("{number}")
     key(enter)
@@ -28,3 +30,18 @@ split down:
     key(j)
 
 highlight off: ":nohl\n"
+
+action(edit.redo): key(ctrl-r)
+undo: key(u)
+
+# symbol
+jump [to] symbol: key(ctrl-])
+leave symbol: key(ctrl-t)
+
+# misc
+
+file info: key(ctrl-g)
+extra file info:
+# show buffer number by pressing 2
+    key(2) 
+    key(ctrl-g)
