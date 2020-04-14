@@ -1,5 +1,7 @@
 os:linux
+app:gvim
 app:/term/
+and win.title:/VIM/
 -
 save: ":w\n"
 save and (quit|close): ":wq\n"
