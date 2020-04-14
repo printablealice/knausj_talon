@@ -41,7 +41,6 @@ def fuse_scale(words, limit=None):
             # "one hundred twenty two". Only happens on quantities in the
             # hundreds which is why count == 2
             if count == 2:
-                print("setting n from to %d to %d" % (n, n*100))
                 scale = 100
             ret.append(n * scale)
 
@@ -55,7 +54,6 @@ def fuse_scale(words, limit=None):
 
     if n is not None:
         ret.append(n * scale)
-    print("final ret list: {}".format(ret))
     return ret
 
 # fuse small numbers leftward onto larger numbers
