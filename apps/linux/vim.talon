@@ -9,7 +9,7 @@ quit: ":q\n"
 force quit: ":q!\n"
 (go|jump) [to] line <number>:
     key(:)
-    key("{number}")
+    insert("{number}")
     key(enter)
 
 # buffering
