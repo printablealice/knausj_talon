@@ -1,3 +1,4 @@
+code.language: python
 -
 logical and: insert(" and ")
 logical or: insert(" or ")
