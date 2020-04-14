@@ -50,6 +50,7 @@ ctx.lists['user.abbreviation'] = {
     "extend": "ext",
     "function": "func",
     "framework": "fw",
+    "image": "img",
     "initialize": "init",
     "initializer": "init",
     "instance": "inst",
