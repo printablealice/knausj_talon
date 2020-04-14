@@ -6,7 +6,10 @@ app: /term/
 (list|lisa) (deer|dir): "ls "
 
 # directory 
+up (dear|dir): "../"
+(cd|deer|dir) <word>: "cd {word}"
 (cd|deer|dir) up: "cd ..\n"
+parent (deer|dir): "cd ..\n"
 (cd|deer|dir) home: "cd\n"
 (cd|deer|dir) last: "cd -\n"
 make (dur|dear|dir): "mkdir "
