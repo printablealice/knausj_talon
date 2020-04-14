@@ -1,3 +1,7 @@
+# https://support.office.com/en-us/article/keyboard-shortcuts-for-outlook-3cdeb221-7ae5-4c1d-8c1d-9e63216c1efd#PickTab=Web
+# the shortcuts below our based half of the bill in short cut menu, but the
+# link above has significantly more that could so be added
+
 app: /Firefox/
 app: /firefox/
 app: /Chrome/
