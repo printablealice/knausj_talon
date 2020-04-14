@@ -1,4 +1,4 @@
-#code.language: talon
+code.language: talon
 -
 insert: 
 	insert('insert("")')
