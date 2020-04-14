@@ -22,7 +22,6 @@ copy: "cp "
 touch: "touch "
 
 run that: key("ctrl-o")
-run last: key("ctrl-r")
 clear: "clear\n"
 (chuck|fuck) [that]: key("ctrl-c")
 
@@ -41,3 +40,4 @@ rip (exact|precise): "rg "
 # networking
 show eye pee: "ip addr\n"
 show route: "ip route\n"
+see tags: "ctags --recurse *\n"
