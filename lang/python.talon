@@ -1,3 +1,4 @@
+app: python
 code.language: python
 -
 logical and: insert(" and ")
