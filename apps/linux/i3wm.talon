@@ -26,6 +26,8 @@ full screen: key("super-f")
 toggle floating: key("super-shift-space")
 focus floating: key("super-space")
 resize mode: key("super-r")
+focus parent: key(super-a)
+focus child: key(super-shift-a)
 
 # XXX - should include talon sleep maybe
 lock screen: key("super-shift-x")
@@ -40,7 +42,11 @@ vertical (shell|terminal):
     key("super-enter")
 
 move [window] [to] workspace <number>: key("super-shift-{number}")
+move [window] [to] last workspace: key(super-shift-b) 
 move <user.vim_arrow>: key("super-shift-{vim_arrow}")
 
 (win|window) horizontal: key("super-;")
 (win|window) vertical: key("super-v")
+
+make scratch: key("super-shift-")
+show scratch: key("super--")
