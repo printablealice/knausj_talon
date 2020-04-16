@@ -134,7 +134,8 @@ simple_keys = [
     'home', 'pageup', 'pagedown', 'end',
 ]
 alternate_keys = {
-    'delete': 'backspace',
+    'delete': 'delete',
+    'nuke': 'delete',
     'junk': 'backspace',
     'backspace': 'backspace',
     'forward delete': 'delete',
