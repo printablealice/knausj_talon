@@ -40,6 +40,7 @@ ctx.lists['user.abbreviation'] = {
     "dictation": "dict",
     "direction": "dir",
     "directory": "dir",
+    "document": "doc",
     "dynamic": "dyn",
     "example": "ex",
     "escape": "esc",
