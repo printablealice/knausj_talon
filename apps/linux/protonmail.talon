@@ -1,4 +1,5 @@
 app: firefox
+app: Firefox
 win.title: /ProtonMail/
 -
 # General
@@ -41,8 +42,8 @@ save message: key(ctrl-s)
 ## Navigation
 (prev|previous) message: key(up)
 next message: key(down)
-last message: key(left)
-(unmark|unselect) message: key(right)
+exit message: key(left)
+enter message: key(right)
 (show|display) newer [message]: key(k)
 (show|display) older [message]: key(j)
 open message: key(enter)
