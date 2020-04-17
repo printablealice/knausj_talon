@@ -125,6 +125,10 @@ def number_small(m):
             result += teens_map[word]
     return result
 
+#@ctx.capture('hexadecimal', rule=f'<number_small> [(<number_small>|{alt_scales}) ([and] (<number_small> | {alt_scales} | <number_small> {alt_scales}))*]')
+#def number(m):
+#    return "0x" + fuse_num(fuse_scale(fuse_num(fuse_scale(list(m), 3))))[0]
+
 @ctx.capture('number', rule=f'<number_small> [(<number_small>|{alt_scales}) ([and] (<number_small> | {alt_scales} | <number_small> {alt_scales}))*]')
 def number(m):
     return fuse_num(fuse_scale(fuse_num(fuse_scale(list(m), 3))))[0]
