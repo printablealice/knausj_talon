@@ -31,6 +31,9 @@ op dub: " => "
 (op | pad) colon: " : "
 indirect: "&"
 dereference: "*"
+new line: "\\n"
+carriage return: "\\r"
+line feed: "\\r\\n"
 (op equals | assign): " = "
 op (minus | subtract | sub): " - "
 op (plus | add): " + "
@@ -65,5 +68,6 @@ op or: " || "
 empty dubstring:
     '""'
     key(left)
-empty string: "''"
+empty string: 
+    "''"
     key(left)
