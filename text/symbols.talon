@@ -3,6 +3,7 @@ tilde: "~"
 (bang | exclamation point): "!"
 dollar [sign]: "$"
 (downscore | underscore): "_"
+double dash: "--"
 colon: ":"
 (paren | left paren): "("
 (rparen | are paren | right paren): ")"
@@ -20,7 +21,8 @@ pipe: "|"
 (dubquote | double quote): '"'
 triple quote: "'''"
 (dot dot | dotdot): ".."
-ellipses: "…"
+#ellipses: "…"
+ellipses: "..."
 (comma and | spamma): ", "
 plus: "+"
 arrow: "->"
@@ -60,3 +62,8 @@ op or: " || "
 (op | logical | bitwise) (ex | exclusive) or equals: " ^= "
 [(op | logical | bitwise)] (left shift | shift left) equals: " <<= "
 [(op | logical | bitwise)] (left right | shift right) equals: " >>= "
+empty dubstring:
+    '""'
+    key(left)
+empty string: "''"
+    key(left)
