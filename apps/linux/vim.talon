@@ -40,6 +40,26 @@ undo: key(u)
 jump [to] symbol: key(ctrl-])
 leave symbol: key(ctrl-t)
 
+# marks
+mark <user.letter>:
+    key(m)
+    key(letter)
+(go|jump) [to] mark <user.letter>:
+    key(`)
+    key(letter)
+(del|delete) (mark|marks):
+    key(escape)
+    insert(":delmarks ")
+(del|delete) all (mark|marks):
+    key(escape)
+    insert(":delmarks! ")
+(list|show) [all] marks:
+    key(escape)
+    insert(":marks\n")
+(list|show) specific marks:
+    key(escape)
+    insert(":marks ")
+
 # misc
 
 file info: key(ctrl-g)
@@ -47,3 +67,4 @@ extra file info:
 # show buffer number by pressing 2
     key(2) 
     key(ctrl-g)
+
