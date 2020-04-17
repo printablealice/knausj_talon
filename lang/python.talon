@@ -14,47 +14,47 @@ state if: "if "
 state else: "else:"
 state self: "self"
 state while: 
-	insert("while ()")
-	edit.left()
+    insert("while ()")
+    edit.left()
 state for: "for "
 state switch: 
-	insert("switch ()") 
-	edit.left()
+    insert("switch ()") 
+    edit.left()
 state case: 
-	insert("case \nbreak;") 
-	edit.up()
+    insert("case \nbreak;") 
+    edit.up()
 state goto: 
-	insert("goto ")
+    insert("goto ")
 state import: 
-	insert("import ")
+    insert("import ")
 state class: insert("class ")
 state include: insert("#include ")
 state include system: 
-	insert("#include <>")
-	edit.left()
+    insert("#include <>")
+    edit.left()
 state include local:
-	insert('#include ""') 
-	edit.left()
+    insert('#include ""') 
+    edit.left()
 state type deaf: insert("typedef ")
 state type deaf struct: 
-	insert("typedef struct")
-	insert("{{\n\n}}")
-	edit.up()
-	key(tab)
+    insert("typedef struct")
+    insert("{{\n\n}}")
+    edit.up()
+    key(tab)
 comment py: insert("# ")
 dunder in it: insert("__init__")
 self taught: 
-	insert("self.")
+    insert("self.")
 from import: 
-	insert("from import ")
-	key(left)
-	edit.word_left()
-	key(space) 
-	edit.left()
+    insert("from import ")
+    key(left)
+    edit.word_left()
+    key(space) 
+    edit.left()
 for in: 
-	insert("for in ")
-	key(left)
-	edit.word_left()
-	key(space) 
-	edit.left()
-	
+    insert("for in ")
+    key(left)
+    edit.word_left()
+    key(space) 
+    edit.left()
+    
