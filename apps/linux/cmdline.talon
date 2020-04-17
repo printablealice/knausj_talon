@@ -50,4 +50,4 @@ show route: "ip route\n"
 see tags: "ctags --recurse *\n"
 
 process list: "ps -ef\n"
-top: "htop\n"
+process top: "htop\n"
