@@ -57,4 +57,5 @@ for in:
     edit.word_left()
     key(space) 
     edit.left()
-    
+true: "True"
+false: "False"
