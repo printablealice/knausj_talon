@@ -31,6 +31,10 @@ split down:
     key(ctrl-w)
     key(j)
 
+# navigation
+end of file: key(G)
+start of file: "gg"
+
 highlight off: ":nohl\n"
 
 action(edit.redo): key(ctrl-r)
@@ -59,6 +63,14 @@ mark <user.letter>:
 (list|show) specific marks:
     key(escape)
     insert(":marks ")
+(go|jump) [to] edit: "`."
+(go|jump) [to] (cursor|location): "``"
+
+# jump list
+show jump list: ":jumps\n"
+clear jump list: ":clearjumps\n"
+(prev|previous|older) jump [entry]: key(ctrl-o)
+(next|newer) jump [entry]: key(ctrl-i)
 
 # misc
 
@@ -68,3 +80,21 @@ extra file info:
     key(2) 
     key(ctrl-g)
 
+# motions:
+shift right: key(>)
+shift left: key(<)
+
+vim help: ":help "
+
+screen (centre|center):
+    key(escape)
+    insert("z.i")
+
+screen bottom:
+    key(escape)
+    insert("zbi")
+
+screen top:
+    key(escape)
+    insert("zti")
+matching: key(%)
