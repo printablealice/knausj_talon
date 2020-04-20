@@ -6,6 +6,7 @@ app: Windows Command Processor
 -
 git add patch: insert("git add . -p\n")
 git add: insert("git add ")
+git add everything: insert("git add -u\n")
 git bisect: insert("git bisect ")
 git branch: insert("git branch ")
 git checkout: insert("git checkout ")
@@ -45,3 +46,16 @@ git status: insert("git status\n")
 git tag: insert("git tag ")
 git merge <phrase>:insert("git merge {phrase}")
 
+git diff highlighted:
+    key(ctrl-shift-c)
+    insert("git diff ")
+    key(ctrl-shift-v)
+    key(enter)
+git diff clipboard:
+    insert("git diff ")
+    key(ctrl-shift-v)
+    key(enter)
+git add clipboard:
+    insert("git add ")
+    key(ctrl-shift-v)
+    key(enter)
