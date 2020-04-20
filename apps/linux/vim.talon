@@ -19,18 +19,16 @@ buffer open: ":b "
 (go|jump|open) buffer <number>: ":b {number}\n"
 
 # vim windowing
-split right:
-    key(ctrl-w)
-    key(l)
-split left:
-    key(ctrl-w)
-    key(h)
-split up:
-    key(ctrl-w)
-    key(k)
-split down:
-    key(ctrl-w)
-    key(j)
+split <user.vim_arrow>:
+    key("ctrl-w")
+    key("{vim_arrow}")
+split (only|exclusive):
+    key("ctrl-w")
+    key("o")
+## window resizing
+split equalize:
+    key("ctrl-w")
+    key("=")
 
 # navigation
 end of file: key(G)
