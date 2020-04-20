@@ -1,3 +1,4 @@
+win.title: /NERD_tree/
 -
-nerd tree: insert(":NERDTree\n")
-nerd find [current] file: insert(":NERDTreeFind\n")
+change root: key(C)
+go parent [(dur|dir|directory)]: key("p")
