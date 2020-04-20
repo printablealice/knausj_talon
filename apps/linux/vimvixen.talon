@@ -66,7 +66,6 @@ zoom out:
 zoom reset:
     user.vimvixen_key("z")
     key(z)
-
 focus:
     user.focus_vimvixen()
 search :
@@ -97,7 +96,8 @@ half down:
 half up:
     user.vimvixen_key("ctrl-u")
 top:
-    user.vimvixen_key("g, g")
+    user.vimvixen_key("g")
+    key(g)
 bottom:
     user.vimvixen_key("G")
 
@@ -110,7 +110,13 @@ find <phrase>:
     user.vimvixen_key("escape, slash")
     insert("{phrase}")
     user.vimvixen_key("enter")
-next:
+next [result]:
     user.vimvixen_key("n")
-prev|previous:
+(prev|previous) [result]:
     user.vimvixen_key("N")
+(enable|disable) vixen:
+    user.vimvixen_key("shift-escape")
+open clipboard link:
+    user.vimvixen_key("p")
+open new clipboard link:
+    user.vimvixen_key("P")
