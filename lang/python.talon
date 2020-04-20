@@ -1,4 +1,4 @@
-app: python
+#app: python
 code.language: python
 -
 logical and: insert(" and ")
@@ -9,39 +9,22 @@ is none: insert("  None")
 empty dict: insert("{}")
 word (dickt | dictionary): "dict"
 state (def | deaf | deft): "def "
-state else if: "elif "
-state if: "if "
+state else if:
+    insert("elif :")
+    edit.left()
+state if: 
+    insert("if :")
+    edit.left()
 state else: "else:"
 state self: "self"
 state while: 
     insert("while ()")
     edit.left()
 state for: "for "
-state switch: 
-    insert("switch ()") 
-    edit.left()
-state case: 
-    insert("case \nbreak;") 
-    edit.up()
-state goto: 
-    insert("goto ")
 state import: 
     insert("import ")
 state class: insert("class ")
-state include: insert("#include ")
-state include system: 
-    insert("#include <>")
-    edit.left()
-state include local:
-    insert('#include ""') 
-    edit.left()
-state type deaf: insert("typedef ")
-state type deaf struct: 
-    insert("typedef struct")
-    insert("{{\n\n}}")
-    edit.up()
-    key(tab)
-comment py: insert("# ")
+comment: insert("# ")
 dunder in it: insert("__init__")
 self taught: 
     insert("self.")
@@ -59,3 +42,38 @@ for in:
     edit.left()
 true: "True"
 false: "False"
+
+comment block:
+    insert('"""\n')
+    edit.up()
+    insert('"""\n')
+
+class <phrase>:
+    insert("class ")
+    insert(user.formatted_text(phrase, "hammer"))
+    insert("():\n")
+
+private (method|function) <phrase>:
+    insert("def _")
+    insert(user.formatted_text(phrase, "snake"))
+    insert("(self):")
+    key(left)
+    key(left)
+
+public (method|function) <phrase>:
+    insert("def ")
+    insert(user.formatted_text(phrase, "snake"))
+    insert("(self):")
+    key(left)
+    key(left)
+
+call method <phrase>:
+    key(.)
+    insert(user.formatted_text(phrase, "snake"))
+    insert("()")
+    key(left)
+
+call function <phrase>:
+    insert(user.formatted_text(phrase, "snake"))
+    insert("()")
+    key(left)
