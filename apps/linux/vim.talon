@@ -97,3 +97,13 @@ screen top:
     key(escape)
     insert("zti")
 matching: key(%)
+
+remove trailing white space: insert(":%s/\s\+$//e\n")
+
+# Plugins
+nerd tree: insert(":NERDTree\n")
+nerd open <phrase>:
+    insert(":NERDTree\n")
+nerd find [current] file: insert(":NERDTreeFind\n")
+
+
