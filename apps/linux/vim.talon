@@ -16,6 +16,7 @@ force quit: ":q!\n"
 buffer list: ":ls\n"
 buffer close: ":bd\n"
 buffer open: ":b "
+(go|jump|open) buffer <number>: ":b {number}\n"
 
 # vim windowing
 split right:
