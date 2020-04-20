@@ -8,3 +8,6 @@ hookah:
     key(delete)
     key(space)
     key(down)
+
+edit (vim|them) config: "vim ~/.vimrc\n"
+edit eye three config: "vim ~/.i3/config\n"
