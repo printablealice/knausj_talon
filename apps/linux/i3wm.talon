@@ -44,7 +44,7 @@ vertical (shell|terminal):
 
 move [window] [to] workspace <number>: key("super-shift-{number}")
 move [window] [to] last workspace: key(super-shift-b) 
-move <user.vim_arrow>: key(super-shift-{vim_arrow})
+move [window] <user.vim_arrow>: key("super-shift-{vim_arrow}")
 
 (win|window) horizontal: key(super-;)
 (win|window) vertical: key(super-v)
