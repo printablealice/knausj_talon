@@ -11,7 +11,11 @@ sleep all:
 	user.mouse_sleep()
 	speech.disable()
 	user.engine_sleep()
-talon sleep: speech.disable()
-talon wake: speech.enable()
+talon sleep: 
+    speech.disable()
+    app.notify("Talon Sleep")
+talon wake: 
+    speech.enable()
+    app.notify("Talon Awake")
 dragon mode: speech.disable()
 talon mode: speech.enable()
