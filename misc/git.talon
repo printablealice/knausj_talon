@@ -59,3 +59,9 @@ git add clipboard:
     insert("git add ")
     key(ctrl-shift-v)
     key(enter)
+
+git commit highlighted:
+    key(ctrl-shift-c)
+    insert("git add ")
+    key(ctrl-shift-v)
+    insert("\ngit commit\n")
