@@ -103,6 +103,10 @@ mark <user.letter>:
 (go|jump) [to] edit: "`."
 (go|jump) [to] (cursor|location): "``"
 
+# macros
+record macro <user.letter>: "q{letter}"
+stop recording: key(q)
+
 # jump list
 show jump list: ":jumps\n"
 clear jump list: ":clearjumps\n"
@@ -174,13 +178,16 @@ find (reversed|reverse) sensitive:
     insert("?\C")
 
 # More complicated grammar comboing. Based on vimspeak. See vim.py
-#<user.vim_motion_verbs>:
-#    user.vim_cmd(vim_motion_verbs)
-
 <user.vim_normal_counted_command>:
     insert("{vim_normal_counted_command}")
 <user.vim_motion_verbs>:
     insert("{vim_motion_verbs}")
+<user.vim_normal_counted_action>:
+    insert("{vim_normal_counted_action}")
+
+
+select <user.vim_select_motion>:
+    insert("v{vim_select_motion}")
 
 # Plugins
 nerd tree: insert(":NERDTree\n")
@@ -211,3 +218,41 @@ swap global:
     key(left)
     key(left)
     key(left)
+
+# noncounted action verbs 
+# not in vim.py because we don't need any special handling
+# note not all of them are listed below, because some are grouped more logically above. for instance marks
+#Sequence [commentary; motion]
+
+# Tabular
+# XXX - finished tabular support
+# not just letter
+(a line|align) on <letter>: ":Tab/{letter}"
+
+# XXX sort into more suitable spot
+display current line number: key(ctrl-g)
+delete remaining line: key(D)
+change remaining line: key(C)
+change line: "cc"
+duplicate line: "yyp"
+swap characters: "xp"
+swap words: "dwwP"
+swap lines: "ddp"
+# XXX - not just letters
+replace <letter>: "r{letter}"
+replace mode: key(R)
+overwrite: key(R)
+visual: key(v)
+select: key(v)
+visual line: key(V)
+select line: key(V)
+visual all: "ggVG"
+select all: "ggVG"
+visual block: key(ctrl-v)
+select block: key(ctrl-v)
+scroll top: "zt"
+scroll middle: "zz"
+scroll botton: "zb"
+scroll top reset cursor: "z\n"
+scroll middle reset cursor: "z."
+scroll botton reset cursor: "z "

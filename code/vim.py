@@ -47,16 +47,19 @@ ctx.lists['self.vim_surround_targets'] = {
     "h2 tags" : "<h2>",
     "div tags" : "<div>",
     "bold tags" : "<b>",
-
 }
 
-ctx.lists['self.vim_counted_actions'] = {
+ctx.lists['self.vim_noncounted_action_verbs'] = {
+}
+
+ctx.lists['self.vim_counted_action_verbs'] = {
     "after" : "a",
     "append" : "a",
     "after line" : "A",
     "append line" : "A",
     "insert" : "i",
     "insert before line" : "I",
+    "insert line" : "I",
     "insert column zero" : "gI",
     "open" : "o",
     "open below" : "o",
@@ -98,7 +101,7 @@ ctx.lists['self.vim_counted_actions'] = {
     "play again" : "@@",
 }
 
-ctx.lists['self.vim_jump_verbs'] = {
+ctx.lists['self.vim_jump_range'] = {
     "jump to line of" : "'",
     "jump to character of" : "`",
 }
@@ -240,12 +243,43 @@ ctx.lists['self.vim_text_object_select'] = {
 }
 
 mod.list('vim_command_verbs',    desc='Common VIM commands')
+mod.list('vim_counted_motion_verbs',    desc='Common VIM motions')
+mod.list('vim_counted_action_verbs',    desc='Common VIM motions')
+mod.list('vim_normal_counted_action',    desc='Common VIM motions')
 mod.list('vim_motion_verbs',    desc='Common VIM motions')
 mod.list('vim_text_object_count',    desc='Common VIM motions')
 mod.list('vim_text_object_range',    desc='Common VIM motions')
 mod.list('vim_text_object_select',    desc='Common VIM motions')
+mod.list('vim_jump_range',    desc='Common VIM motions')
+mod.list('vim_jump_verbs',    desc='Common VIM motions')
+mod.list('vim_jump_targets',    desc='Common VIM motions')
 mod.list('vim_normal_counted_command',    desc='Common VIM motions')
+mod.list('vim_select_motion',    desc='Common VIM motions')
 mod.list('vim_any',    desc='Common VIM motions')
+
+@mod.capture
+def vim_select_motion(m) -> str:
+     "Returns a string"
+
+@mod.capture
+def vim_counted_action_verbs(m) -> str:
+     "Returns a string"
+
+@mod.capture
+def vim_normal_counted_action(m) -> str:
+     "Returns a string"
+
+@mod.capture
+def vim_jump_targets(m) -> str:
+     "Returns a string"
+
+@mod.capture
+def vim_jump_verbs(m) -> str:
+     "Returns a string"
+
+@mod.capture
+def vim_jump_range(m) -> str:
+     "Returns a string"
 
 @mod.capture
 def vim_text_object_count(m) -> str:
@@ -261,6 +295,10 @@ def vim_text_object_select(m) -> str:
 
 @mod.capture
 def vim_command_verbs(m) -> str:
+    "Returns a list of verbs"
+
+@mod.capture
+def vim_counted_motion_verbs(m) -> str:
     "Returns a list of verbs"
 
 @mod.capture
@@ -306,17 +344,45 @@ def vim_text_object_count(m) -> str:
 def vim_command_verbs(m) -> str:
     return m.vim_command_verbs
 
-@ctx.capture(rule='[<self.number>] {self.vim_motion_verbs}$')
+@ctx.capture(rule='{self.vim_motion_verbs}')
 def vim_motion_verbs(m) -> str:
     return m.vim_motion_verbs
+
+@ctx.capture(rule='{self.vim_counted_action_verbs}')
+def vim_counted_action_verbs(m) -> str:
+    return m.vim_counted_action_verbs
+
+@ctx.capture(rule='[<self.number>] <self.vim_motion_verbs>$')
+def vim_counted_motion_verbs(m) -> str:
+    return "".join(list(m))
+
+@ctx.capture(rule='{self.vim_jump_range}')
+def vim_jump_range(m) -> str:
+    return m.vim_jump_range
+
+@ctx.capture(rule='{self.vim_jump_verbs}')
+def vim_jump_verbs(m) -> str:
+    return m.vim_jump_verbs
+
+@ctx.capture(rule='<self.vim_jump_range> <self.vim_jump_verbs>$')
+def vim_jump_targets(m) -> str:
+    return "".join(list(m))
 
 @ctx.capture(rule='[<self.vim_text_object_count>] <self.vim_text_object_range> <self.vim_text_object_select>$')
 def vim_text_objects(m) -> str:
     return "".join(list(m))
 
-@ctx.capture(rule='[<self.number>] <self.vim_command_verbs> (<self.vim_motion_verbs> | <self.vim_text_objects>)$')
+@ctx.capture(rule='[<self.number>] <self.vim_command_verbs> (<self.vim_motion_verbs> | <self.vim_text_objects> | <self.vim_jump_targets>)$')
 def vim_normal_counted_command(m) -> str:
     return("".join(list(m)))
+
+@ctx.capture(rule='[<self.number>] <self.vim_counted_action_verbs>$')
+def vim_normal_counted_action(m) -> str:
+    return "".join(list(m))
+
+@ctx.capture(rule='[<self.number>] (<self.vim_motion_verbs> | <self.vim_text_objects> | <self.vim_jump_targets>)$')
+def vim_select_motion(m) -> str:
+    return "".join(list(m))
 
 @mod.action_class
 class Actions:
