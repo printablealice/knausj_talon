@@ -23,10 +23,7 @@ def fuse_scale(words, limit=None):
     ret = []
     n = None
     scale = 1
-    count = 0
     for w in words:
-        count += 1
-
         if w in tens_map:
             scale *= tens_map[w]
             continue
@@ -37,13 +34,7 @@ def fuse_scale(words, limit=None):
             continue
 
         if n is not None:
-            # Capture someone saying "one twenty two" to mean
-            # "one hundred twenty two". Only happens on quantities in the
-            # hundreds which is why count == 2
-            if count == 2:
-                scale = 100
             ret.append(n * scale)
-
         n = None
         scale = 1
 
@@ -125,11 +116,7 @@ def number_small(m):
             result += teens_map[word]
     return result
 
-#@ctx.capture('hexadecimal', rule=f'<number_small> [(<number_small>|{alt_scales}) ([and] (<number_small> | {alt_scales} | <number_small> {alt_scales}))*]')
-#def number(m):
-#    return "0x" + fuse_num(fuse_scale(fuse_num(fuse_scale(list(m), 3))))[0]
-
-@ctx.capture('number', rule=f'<number_small> [(<number_small>|{alt_scales}) ([and] (<number_small> | {alt_scales} | <number_small> {alt_scales}))*]')
+@ctx.capture('number', rule=f'<number_small> [{alt_scales} ([and] (<number_small> | {alt_scales} | <number_small> {alt_scales}))*]')
 def number(m):
     return fuse_num(fuse_scale(fuse_num(fuse_scale(list(m), 3))))[0]
 

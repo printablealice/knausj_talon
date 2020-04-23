@@ -51,3 +51,22 @@ see tags: "ctags --recurse *\n"
 
 process list: "ps -ef\n"
 process top: "htop\n"
+locate: "locate "
+(where am I|print working directory): "pwd\n"
+
+lazy edit:
+    insert("vim ")
+    insert("$(find . -name \"**\")")
+    key("left")
+    key("left")
+    key("left")
+
+lazy edit <phrase>:
+    insert("vim ")
+    insert("$(find . -name \"*{phrase}*\")\n")
+
+find <phrase> inside (python|pie) files:
+    insert('$(find . -name \"*.py\") | xargs rg -i "{phrase}"\n')
+
+find <phrase> inside (python|pie) files less:
+    insert('$(find . -name \"*.py\") | xargs rg -i "{phrase}\" | less\n')
