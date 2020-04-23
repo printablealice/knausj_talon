@@ -21,10 +21,24 @@ force quit:
 refresh file:
     key(escape)
     insert(":e!\n")
+
+# XXX - which to a generic number grammar: like mixed_number
 [(go|jump)] [to] line <number>:
     key(escape)
     key(:)
     insert("{number}")
+    key(enter)
+
+[(go|jump)] [to] line <digits> <number>:
+    key(escape)
+    key(:)
+    insert("{digits}{number}")
+    key(enter)
+
+[(go|jump)] [to] line <digits>:
+    key(escape)
+    key(:)
+    insert("{digits}")
     key(enter)
 
 # editing
