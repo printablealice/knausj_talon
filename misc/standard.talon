@@ -16,6 +16,7 @@ run L S: "ls\n"
 run (S S H | S H): "ssh"
 diff: "diff "
 dot pie: ".py"
+dot talon: ".talon"
 run vim: "vim "
 run make: "make\n"
 run make (durr | dear): "mkdir "
@@ -24,16 +25,18 @@ run make (durr | dear): "mkdir "
 tls: "tls"
 M D five: "md5"
 (regex | rejex): "regex"
-args: 
+(parens|args):
 	insert("()")
 	key(left)
 [inside] (index | array): 
 	insert("[]") 
 	key(left)
-block: 
+(block|brackets): 
 	insert("{}") 
 	key(left enter enter up tab)
 empty array: "[]"
+square: "[]"
+angles: "<>"
 comment see: "// "
 word queue: "queue"
 word eye: "eye"
