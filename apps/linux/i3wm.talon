@@ -50,7 +50,7 @@ move [window] <user.vim_arrow>: key("super-shift-{vim_arrow}")
 (win|window) vertical: key(super-v)
 
 make scratch: key(super-shift--)
-(show|hide) scratch: key(super--)
+[(show|hide)] scratch: key(super--)
 new scratch shell:
     key(super-enter)
     sleep(200ms)
