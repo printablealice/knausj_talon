@@ -134,15 +134,15 @@ simple_keys = [
     'home', 'pageup', 'pagedown', 'end',
 ]
 alternate_keys = {
-    'delete': 'delete',
+#'delete': 'delete',
     'nuke': 'delete',
     'junk': 'backspace',
     'backspace': 'backspace',
     'forward delete': 'delete',
-    'up': 'up',
-    'down': 'down',
-    'right': 'right',
-    'left': 'left',
+#'up': 'up',
+#    'down': 'down',
+#    'right': 'right',
+#    'left': 'left',
 }
 keys = {k: k for k in simple_keys}
 keys.update(alternate_keys)
