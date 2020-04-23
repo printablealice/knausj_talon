@@ -3,14 +3,34 @@ app:gvim
 app:/term/
 and win.title:/VIM/
 -
-save: ":w\n"
-save and (quit|close): ":wq\n"
-quit: ":q\n"
-force quit: ":q!\n"
-(go|jump) [to] line <number>:
+save: 
+    key(escape)
+    insert(":w\n")
+save as: 
+    key(escape)
+    insert(":w ")
+save and (quit|close): 
+    key(escape)
+    insert(":wq\n")
+quit: 
+    key(escape)
+    insert(":q\n")
+force quit: 
+    key(escape)
+    insert(":q!\n")
+refresh file:
+    key(escape)
+    insert(":e!\n")
+[(go|jump)] [to] line <number>:
+    key(escape)
     key(:)
     insert("{number}")
     key(enter)
+
+# editing
+format line: "=="
+delete line: "dd"
+(copy|yank) line: "Y"
 
 # buffering
 buffer list: ":ls\n"
@@ -29,15 +49,19 @@ split (only|exclusive):
 split equalize:
     key("ctrl-w")
     key("=")
+new vertical split: insert(":vsplit\n")
+new split: insert(":split\n")
 
-# navigation
-end of file: key(G)
-start of file: "gg"
+push:
+    key(escape)
+    key(A)
 
 highlight off: ":nohl\n"
 
 action(edit.redo): key(ctrl-r)
-undo: key(u)
+undo:
+    key(escape)
+    key(u)
 
 # symbol
 jump [to] symbol: key(ctrl-])
@@ -85,6 +109,7 @@ shift left: key(<)
 
 vim help: ":help "
 
+# XXX - remove the auto 'i' changes?
 screen (centre|center):
     key(escape)
     insert("z.i")
@@ -98,7 +123,50 @@ screen top:
     insert("zti")
 matching: key(%)
 
-remove trailing white space: insert(":%s/\s\+$//e\n")
+visual block: key(ctrl-v)
+
+scroll top: "zt"
+
+find:
+    key(escape)
+    insert("/\c")
+
+find sensitive:
+    key(escape)
+    insert("/\C")
+
+find <phrase>:
+    key(escape)
+    insert("/\c{phrase}\n")
+
+find <phrase> sensitive:
+    key(escape)
+    insert("/\C{phrase}\n")
+
+find <user.ordinals> <phrase>:
+    key(escape)
+    insert("{ordinals}/\c{phrase}\n")
+
+find (reversed|reverse) <phrase>: 
+    key(escape)
+    insert("?\c{phrase}\n")
+
+find (reversed|reverse):
+    key(escape)
+    insert("?\c")
+
+find (reversed|reverse) sensitive:
+    key(escape)
+    insert("?\C")
+
+# More complicated grammar comboing. Based on vimspeak. See vim.py
+#<user.vim_motion_verbs>:
+#    user.vim_cmd(vim_motion_verbs)
+
+<user.vim_normal_counted_command>:
+    insert("{vim_normal_counted_command}")
+<user.vim_motion_verbs>:
+    insert("{vim_motion_verbs}")
 
 # Plugins
 nerd tree: insert(":NERDTree\n")
@@ -106,4 +174,25 @@ nerd open <phrase>:
     insert(":NERDTree\n")
 nerd find [current] file: insert(":NERDTreeFind\n")
 
+# Personalized stuff
+run as python: 
+    insert(":w\n")
+    insert(":exec '!python' shellescape(@%, 1)\n")
 
+remove trailing white space: insert(":%s/\s\+$//e\n")
+
+reselect: "gv"
+swap selected:
+    insert(":")
+    # leave time for vim to populate '<,'>
+    sleep(50ms) 
+    insert("s///g")
+    key(left)
+    key(left)
+    key(left)
+
+swap global:
+    insert(":%s///g")
+    key(left)
+    key(left)
+    key(left)
