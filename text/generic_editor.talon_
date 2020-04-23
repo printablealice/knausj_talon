@@ -94,6 +94,7 @@ clear line:
 	edit.delete_line()
     
 clear left: 
+
 	edit.extend_line_start()
 	edit.delete()
 	
