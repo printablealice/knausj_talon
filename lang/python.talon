@@ -77,3 +77,15 @@ call function <phrase>:
     insert(user.formatted_text(phrase, "snake"))
     insert("()")
     key(left)
+
+capture <phrase>:
+    insert("@mod.capture\ndef ")
+    insert(user.formatted_text(phrase, "snake"))
+    insert("(m) -> str:\n")
+    insert('    "Returns a string"\n\n')
+    insert("@ctx.capture(rule='{self.")
+    insert(user.formatted_text(phrase, "snake"))
+    insert("}')\ndef ")
+    insert(user.formatted_text(phrase, "snake"))
+    insert("(m) -> str:\n")
+    insert('    "Returns a string"\n')
