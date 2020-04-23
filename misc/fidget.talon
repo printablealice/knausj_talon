@@ -11,4 +11,5 @@ hookah:
 
 edit (vim|them) config: "vim ~/.vimrc\n"
 edit eye three config: "vim ~/.i3/config\n"
+jump to work: "cd ~/src/edg/ && ls\n"
 talon source: "cd  ~/src/talon\n"
