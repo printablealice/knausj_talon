@@ -180,6 +180,7 @@ run as python:
     insert(":exec '!python' shellescape(@%, 1)\n")
 
 remove trailing white space: insert(":%s/\s\+$//e\n")
+remove all tabs: insert(":%s/\t/    /eg\n")
 
 reselect: "gv"
 swap selected:
