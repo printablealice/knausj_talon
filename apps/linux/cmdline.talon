@@ -80,4 +80,3 @@ find <phrase> inside (python|pie) files less:
     insert('$(find . -name \"*.py\") | xargs rg -i "{phrase}\" | less\n')
 
 man: "man "
-yogurt: "yaourt "
