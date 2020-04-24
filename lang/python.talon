@@ -5,7 +5,7 @@ logical and: insert(" and ")
 logical or: insert(" or ")
 state in: insert(" in ")
 is not none: insert(" is not None")
-is none: insert("  None")
+is none: insert(" is None")
 empty dict: insert("{}")
 word (dickt | dictionary): "dict"
 state (def | deaf | deft): "def "
