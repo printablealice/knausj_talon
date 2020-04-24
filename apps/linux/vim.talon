@@ -1,3 +1,8 @@
+# XXX - globalReplace
+[you] surround and indent line with <user.vim_surround_targets>:
+    insert("yss{vim_surround_targets}")
+
+
 os:linux
 app:gvim
 app:/term/
@@ -71,6 +76,8 @@ push:
     key(A)
 
 highlight off: ":nohl\n"
+set highlight search: ":set hls\n"
+set no highlight search: ":set nohls\n"
 
 action(edit.redo): key(ctrl-r)
 undo:
@@ -104,6 +111,7 @@ mark <user.letter>:
 (go|jump) [to] (cursor|location): "``"
 
 # macros
+play macro <user.letter>: "@{letter}"
 record macro <user.letter>: "q{letter}"
 stop recording: key(q)
 
@@ -145,43 +153,43 @@ visual block: key(ctrl-v)
 
 scroll top: "zt"
 
-find:
+search:
     key(escape)
     insert("/\c")
 
-find sensitive:
+search sensitive:
     key(escape)
     insert("/\C")
 
-find <phrase>:
+search <phrase>:
     key(escape)
     insert("/\c{phrase}\n")
 
-find <phrase> sensitive:
+search <phrase> sensitive:
     key(escape)
     insert("/\C{phrase}\n")
 
-find <user.ordinals> <phrase>:
+search <user.ordinals> <phrase>:
     key(escape)
     insert("{ordinals}/\c{phrase}\n")
 
-find (reversed|reverse) <phrase>: 
+search (reversed|reverse) <phrase>: 
     key(escape)
     insert("?\c{phrase}\n")
 
-find (reversed|reverse):
+search (reversed|reverse):
     key(escape)
     insert("?\c")
 
-find (reversed|reverse) sensitive:
+search (reversed|reverse) sensitive:
     key(escape)
     insert("?\C")
 
 # More complicated grammar comboing. Based on vimspeak. See vim.py
 <user.vim_normal_counted_command>:
     insert("{vim_normal_counted_command}")
-<user.vim_motion_verbs>:
-    insert("{vim_motion_verbs}")
+<user.vim_motion_verbs_all>:
+    insert("{vim_motion_verbs_all}")
 <user.vim_normal_counted_action>:
     insert("{vim_normal_counted_action}")
 
@@ -227,7 +235,7 @@ swap global:
 # Tabular
 # XXX - finished tabular support
 # not just letter
-(a line|align) on <letter>: ":Tab/{letter}"
+(a line|align) on <user.letter>: ":Tab/{letter}"
 
 # XXX sort into more suitable spot
 display current line number: key(ctrl-g)
@@ -239,7 +247,7 @@ swap characters: "xp"
 swap words: "dwwP"
 swap lines: "ddp"
 # XXX - not just letters
-replace <letter>: "r{letter}"
+replace <user.letter>: "r{letter}"
 replace mode: key(R)
 overwrite: key(R)
 visual: key(v)
@@ -256,3 +264,19 @@ scroll botton: "zb"
 scroll top reset cursor: "z\n"
 scroll middle reset cursor: "z."
 scroll botton reset cursor: "z "
+
+# Surround plugin
+surround <user.vim_text_objects> with <user.vim_surround_targets>:
+    insert("ys{vim_text_objects}{vim_surround_targets}")
+
+[you] surround line with <user.vim_surround_targets>:
+    insert("yss{vim_surround_targets}")
+
+[you] surround and indent line with <user.vim_surround_targets>:
+    insert("ySS{vim_surround_targets}")
+
+delete surrounding <user.vim_surround_targets>:
+    insert("ds{vim_surround_targets}")
+
+change surrounding <user.vim_surround_targets> to <user.vim_surround_targets>:
+    insert("cs{vim_surround_targets}{vim_surround_targets}")
