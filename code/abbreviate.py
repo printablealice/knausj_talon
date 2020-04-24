@@ -64,6 +64,7 @@ ctx.lists['user.abbreviation'] = {
     "language": "lng",
     "library": "lib",
     "length": "len",
+    "mount": "mnt",
     "number": "num",
     "object": "obj",
     "okay": "ok",
@@ -75,6 +76,8 @@ ctx.lists['user.abbreviation'] = {
     "point": "pt",
     "previous": "prev",
     "property": "prop",
+    "public": "pub",
+
     "python": "py",
     "query string": "qs",
     "reference": "ref",
