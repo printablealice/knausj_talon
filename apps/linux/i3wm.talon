@@ -4,11 +4,11 @@ os: linux
 # TODO: take vim_arrow vs arrow from a settings file
 -
 
-(works|flip) <number>: key("super-{number}")
-(works|flip) ten: key(super-0)
-(works|flip) (last|back): key(super-u)
-(works|flip) (right|next): key(super-o)
-(works|flip) (prev|previous|left): key(super-y)
+(works|screen) <number>: key("super-{number}")
+(works|screen) ten: key(super-0)
+(works|screen) (last|back): key(super-u)
+(works|screen) (right|next): key(super-o)
+(works|screen) (prev|previous|left): key(super-y)
 
 (win|window) left: key(super-h)
 (win|window) right: key(super-l)
