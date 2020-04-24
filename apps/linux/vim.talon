@@ -1,5 +1,6 @@
 # XXX - globalReplace
-# XXX - ysfa} need to add some of the motion verbs to the text objects
+# XXX - need to add some of the motion verbs to the text objects
+# XXX - pipe everything through something that can detect the vim mode
 
 os:linux
 app:gvim
@@ -53,8 +54,8 @@ split (only|exclusive):
 split equalize:
     key("ctrl-w")
     key("=")
-new vertical split: insert(":vsplit\n")
-new split: insert(":split\n")
+[new] vertical split: insert(":vsplit\n")
+[new] split: insert(":split\n")
 
 push:
     key(escape)
@@ -94,6 +95,9 @@ mark <user.letter>:
     insert(":marks ")
 (go|jump) [to] edit: "`."
 (go|jump) [to] (cursor|location): "``"
+
+# sessions
+make session: "mksession "
 
 # macros
 play macro <user.letter>: "@{letter}"

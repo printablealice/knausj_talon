@@ -1,4 +1,9 @@
-#this is largely modeled on vimspeak
+# This is largely modeled on vimspeak: https://github.com/AshleyF/VimSpeak
+# XXX - probably a lot of the captures could be cleaned up?
+# XXX - the old vim speak special characters needs to be replaced to a the
+#       existing talon ones
+# XXX - finish adding the visual commands, for instance the surround
+#       commands for visual mode
 
 from typing import Set
 
