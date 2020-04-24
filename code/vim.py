@@ -228,14 +228,14 @@ ctx.lists['self.vim_text_object_select'] = {
     "word" : "w",
     "words" : "w",
     "big word" : "W",
-    "big-words" : "W",
+    "big words" : "W",
     "block" : "b",
     "blocks" : "b",
-    "big-block" : "B",
-    "big-blocks" : "B",
+    "big block" : "B",
+    "big blocks" : "B",
     "quotes" : "\"",
-    "double-quotes" : "\"",
-    "single-quotes" : "'",
+    "double quotes" : "\"",
+    "single quotes" : "'",
     "parens" : "(",
     "parenthesis" : "(",
     "angle brackets" : "<",
@@ -248,7 +248,7 @@ ctx.lists['self.vim_text_object_select'] = {
     "sentences" : "s",
     "paragraph" : "p",
     "paragraphs" : "p",
-    "tag-block" : "t",
+    "tag block" : "t",
 }
 
 mod.list('vim_command_verbs',    desc='Common VIM commands')
