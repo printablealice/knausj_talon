@@ -1,7 +1,5 @@
 # XXX - globalReplace
-[you] surround and indent line with <user.vim_surround_targets>:
-    insert("yss{vim_surround_targets}")
-
+# XXX - ysfa} need to add some of the motion verbs to the text objects
 
 os:linux
 app:gvim
@@ -227,7 +225,7 @@ swap global:
     key(left)
     key(left)
 
-# noncounted action verbs 
+# noncounted action erbs 
 # not in vim.py because we don't need any special handling
 # note not all of them are listed below, because some are grouped more logically above. for instance marks
 #Sequence [commentary; motion]
@@ -236,6 +234,11 @@ swap global:
 # XXX - finished tabular support
 # not just letter
 (a line|align) on <user.letter>: ":Tab/{letter}"
+
+# auto completion
+complete: key(ctrl-n)
+complete next: key(ctrl-n)
+complete previous: key(ctrl-n)
 
 # XXX sort into more suitable spot
 display current line number: key(ctrl-g)

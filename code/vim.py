@@ -49,9 +49,6 @@ ctx.lists['self.vim_surround_targets'] = {
     "bold tags" : "<b>",
 }
 
-ctx.lists['self.vim_noncounted_action_verbs'] = {
-}
-
 ctx.lists['self.vim_counted_action_verbs'] = {
     "after" : "a",
     "append" : "a",
@@ -224,6 +221,7 @@ ctx.lists['self.vim_text_object_count'] = {
 ctx.lists['self.vim_text_object_range'] = {
     "inner" : "i",
     "around" : "a",
+    "this" : "a",
 }
 
 ctx.lists['self.vim_text_object_select'] = {
