@@ -16,10 +16,18 @@ make (dur|dear|dir): "mkdir "
 make (dur|dear|dir) <word>: "mkdir {word}"
 remove (dur|dear|dir): "rmdir "
 remove (dur|dear|dir) <word>: "rmdir {word}"
+tree: "tree\n"
+temp directory: "cd /tmp\n"
+pop (dur|dear|dir): "popd"
 
 # links
 sim link: "ln -s "
 hard link: "ln "
+
+# finds
+list sim links: "find . -maxdepth 1 -type l  -ls\n"
+list folders: "find . -maxdepth 1 -type d  -ls\n"
+list files: "find . -maxdepth 1 -type f  -ls\n"
 
 # file management
 move: "mv "
@@ -70,3 +78,5 @@ find <phrase> inside (python|pie) files:
 
 find <phrase> inside (python|pie) files less:
     insert('$(find . -name \"*.py\") | xargs rg -i "{phrase}\" | less\n')
+
+man: "man "
