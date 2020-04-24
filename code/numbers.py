@@ -1,4 +1,4 @@
-from talon import Context, actions
+from talon import Context, Module, actions
 
 digits = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
 teens = ['eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen']
@@ -126,3 +126,19 @@ def number_signed(m):
     if m[0] == 'negative':
         return -number
     return number
+
+mod = Module()
+mod.list('number_mixed',    desc='Mix of numbers and digits')
+
+@mod.capture
+def number_mixed(m) -> str:
+    "Returns a series of numbers as a string"
+
+# This rule offers more colloquial number speaking when combined with a command
+# like: "go to line <number>"
+# Example: " one one five            " == 115
+#          " one fifteen             " == 115
+#          " one hundred and fifteen " == 115
+@ctx.capture('self.number_mixed', rule=f'(<number> | <digits> <number> | <digits>)')
+def number_mixed(m):
+    return "".join(str(i) for i in list(m))
