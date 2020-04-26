@@ -276,8 +276,8 @@ surround <user.vim_unranged_surround_text_objects> with <user.vim_surround_targe
 [you] surround and indent line with <user.vim_surround_targets>:
     insert("ySS{vim_surround_targets}")
 
-delete surrounding <user.vim_surround_targets>:
+delete [surrounding|those] <user.vim_surround_targets>:
     insert("ds{vim_surround_targets}")
 
-change surrounding <user.vim_surround_targets> to <user.vim_surround_targets>:
-    insert("cs{vim_surround_targets}{vim_surround_targets}")
+change [surrounding|those] <user.vim_surround_targets> to <user.vim_surround_targets>:
+    insert("cs{vim_surround_targets_1}{vim_surround_targets_2}")
