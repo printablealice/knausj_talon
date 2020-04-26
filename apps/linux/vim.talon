@@ -35,7 +35,11 @@ refresh file:
 # editing
 format line: "=="
 delete line: "dd"
+delete line <user.number_mixed>: ":{number_mixed}d\n"
+delete line <user.number_mixed> through <user.number_mixed>: ":{number_mixed_1},{number_mixed_2}y\n"
 (copy|yank) line: "Y"
+(copy|yank) line <user.number_mixed>: ":{number_mixed}y\n"
+(copy|yank) line <user.number_mixed> through <user.number_mixed>: ":{number_mixed_1},{number_mixed_2}y\n"
 
 # buffering
 buffer list: ":ls\n"
@@ -241,7 +245,7 @@ swap characters: "xp"
 swap words: "dwwP"
 swap lines: "ddp"
 # XXX - not just letters
-replace <user.letter>: "r{letter}"
+replace <user.any>: "r{any}"
 replace mode: key(R)
 overwrite: key(R)
 visual: key(v)
@@ -254,14 +258,17 @@ visual block: key(ctrl-v)
 select block: key(ctrl-v)
 scroll top: "zt"
 scroll middle: "zz"
-scroll botton: "zb"
+scroll bottom: "zb"
 scroll top reset cursor: "z\n"
 scroll middle reset cursor: "z."
-scroll botton reset cursor: "z "
+scroll bottom reset cursor: "z "
 
 # Surround plugin
 surround <user.vim_text_objects> with <user.vim_surround_targets>:
     insert("ys{vim_text_objects}{vim_surround_targets}")
+
+surround <user.vim_unranged_surround_text_objects> with <user.vim_surround_targets>:
+    insert("ys{vim_unranged_surround_text_objects}{vim_surround_targets}")
 
 [you] surround line with <user.vim_surround_targets>:
     insert("yss{vim_surround_targets}")

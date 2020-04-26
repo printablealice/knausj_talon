@@ -356,6 +356,13 @@ def vim_text_objects(m) -> str:
     "Returns a string"
 
 @mod.capture
+def vim_unranged_surround_text_objects(m) -> str:
+    "Returns a string"
+
+@mod.capture
+def vim_text_objects(m) -> str:
+    "Returns a string"
+@mod.capture
 def vim_normal_counted_command(m) -> str:
     "Returns a string"
 
@@ -421,6 +428,16 @@ def vim_jump_targets(m) -> str:
 @ctx.capture(rule='[<self.vim_text_object_count>] <self.vim_text_object_range> <self.vim_text_object_select>$')
 def vim_text_objects(m) -> str:
     return "".join(list(m))
+
+# when speaking adding in the object ranges is a little bit annoying, so it's a
+# little bit more natural to just assume that you mean around
+@ctx.capture(rule='[<self.vim_text_object_count>] <self.vim_text_object_select>$')
+def vim_unranged_surround_text_objects(m) -> str:
+    if len(list(m)) == 1:
+        return "a" + "".join(list(m))
+    else:
+        return  "".join(list(m)[0:1]) + "a" + "".join(list(m)[1:])
+
 
 @ctx.capture(rule='[<self.number>] <self.vim_command_verbs> (<self.vim_motion_verbs_all> | <self.vim_text_objects> | <self.vim_jump_targets>)$')
 def vim_normal_counted_command(m) -> str:
