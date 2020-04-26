@@ -40,6 +40,7 @@ delete line <user.number_mixed> through <user.number_mixed>: ":{number_mixed_1},
 (copy|yank) line: "Y"
 (copy|yank) line <user.number_mixed>: ":{number_mixed}y\n"
 (copy|yank) line <user.number_mixed> through <user.number_mixed>: ":{number_mixed_1},{number_mixed_2}y\n"
+open this file: "gf"
 
 # buffering
 buffer list: ":ls\n"
