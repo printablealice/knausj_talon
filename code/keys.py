@@ -185,7 +185,7 @@ def function(m):
 def vim_arrow(m):
     return m.vim_arrow
 
-@ctx.capture(rule='(<self.arrow> | <self.vim_arrow> | <self.number> | <self.letter> | <self.symbol> | <self.function> | <self.special>)')
+@ctx.capture(rule='(<self.arrow> | <self.number> | <self.letter> | <self.symbol> | <self.function> | <self.special>)')
 def any(m) -> str:
     return str(m)
 
