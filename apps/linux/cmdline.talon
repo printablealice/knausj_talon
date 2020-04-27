@@ -23,6 +23,9 @@ tree: "tree\n"
 temp directory: "cd /tmp\n"
 pop (dur|dear|dir): "popd\n"
 
+# permissions
+make executable: "chmod +x "
+
 # links
 sim link: "ln -s "
 hard link: "ln "
