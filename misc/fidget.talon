@@ -10,6 +10,9 @@ hookah:
     key(down)
 
 edit (vim|them) config: "vim ~/.vimrc\n"
+jump to (vim|them): "cd ~/.vim\n"
+edit shell config: "vim ~/.zshrc\n"
+jump to shell: "cd ~/.ohmyzsh\n"
 edit eye three config: "vim ~/.i3/config\n"
 jump to work: "cd ~/src/edg/ && ls\n"
 talon source: "cd  ~/src/talon\n"
