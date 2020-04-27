@@ -82,9 +82,9 @@ ctx.lists['self.symbol'] = {
     'back tick': '`', '`':'`',
     'comma': ',', ',': ',',
     'dot': '.', 'period': '.',
-
+    'space': ' ',
     'semi': ';', 'semicolon': ';',
-    'quote': "'",
+    'quote': "'", 'tick': "'",
     'L square': '[', 'left square': '[', 'square': '[',
     'R square': ']', 'right square': ']',
     'forward slash': '/', 'slash': '/',
