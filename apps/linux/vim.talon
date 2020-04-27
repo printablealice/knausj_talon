@@ -36,9 +36,13 @@ edit [file|new]:
 
 # editing
 format line: "=="
+# XXX - this doesn't work with numbers below nine, because the nine will
+# trigger its own discrete command in the first part of the command will
+# trigger the dd below. we probably need to come up with different trigger for
+# the one were you specify the line
+delete line <user.number_mixed>$: ":{number_mixed}d\n"
+delete line <user.number_mixed> through <user.number_mixed>$: ":{number_mixed_1},{number_mixed_2}y\n"
 delete line: "dd"
-delete line <user.number_mixed>: ":{number_mixed}d\n"
-delete line <user.number_mixed> through <user.number_mixed>: ":{number_mixed_1},{number_mixed_2}y\n"
 (copy|yank) line: "Y"
 (copy|yank) line <user.number_mixed>: ":{number_mixed}y\n"
 (copy|yank) line <user.number_mixed> through <user.number_mixed>: ":{number_mixed_1},{number_mixed_2}y\n"
