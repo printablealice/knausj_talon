@@ -78,7 +78,6 @@ ctx.lists['user.abbreviation'] = {
     "previous": "prev",
     "property": "prop",
     "public": "pub",
-
     "python": "py",
     "query string": "qs",
     "reference": "ref",
@@ -109,6 +108,7 @@ ctx.lists['user.abbreviation'] = {
     "temporary": "tmp",
     "text": "txt",
     "value": "val",
+    "variable": "var",
     "window": "win",
 }
 
