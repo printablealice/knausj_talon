@@ -87,11 +87,11 @@ duck duck <phrase>:
     insert("{phrase}")
 
 #  Moving around
-(screen|scroll) down:
+(page|screen|scroll) down:
     user.vimvixen_key("ctrl-f")
 half down:
     user.vimvixen_key("ctrl-d")
-(screen|scroll) up:
+(page|screen|scroll) up:
     user.vimvixen_key("ctrl-b")
 half up:
     user.vimvixen_key("ctrl-u")
