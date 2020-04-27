@@ -1,6 +1,7 @@
-os: linux
-#app: /KeePassX/
-#app: /eepassx/
+os:linux
+app:/KeePassX/
+app:/eepassx/
+app:keepassx2
 -
 
 # Database
