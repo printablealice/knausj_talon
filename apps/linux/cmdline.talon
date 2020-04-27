@@ -1,8 +1,11 @@
+# NOTE: these are command line commands, not shell-specific bindings
+# see shell.talon for shell-specific keybindings
 os: linux
 app: /term/
 -
 (list|lisa): "ls\n"
 (list|lisa) long: "ls -al\n"
+(list|lisa) <phrase>: "ls {phrase}"
 (list|lisa) (deer|dir): "ls "
 
 # directory 
@@ -18,7 +21,7 @@ remove (dur|dear|dir): "rmdir "
 remove (dur|dear|dir) <word>: "rmdir {word}"
 tree: "tree\n"
 temp directory: "cd /tmp\n"
-pop (dur|dear|dir): "popd"
+pop (dur|dear|dir): "popd\n"
 
 # links
 sim link: "ln -s "
@@ -32,13 +35,13 @@ list files: "find . -maxdepth 1 -type f  -ls\n"
 # file management
 move: "mv "
 copy: "cp "
-#cat: "cat "
+show me <phrase>: "cat {phrase}"
+show me: "cat "
+less: "less "
 
 touch: "touch "
 
-run that: key("ctrl-o")
 clear: "clear\n"
-(chuck|fuck) [that]: key("ctrl-c")
 
 # find
 find file: "find . -name "
@@ -61,6 +64,11 @@ process list: "ps -ef\n"
 process top: "htop\n"
 locate: "locate "
 (where am I|print working directory): "pwd\n"
+
+edit here: insert("vim .\n")
+
+edit:
+    insert("vim ")
 
 lazy edit:
     insert("vim ")
