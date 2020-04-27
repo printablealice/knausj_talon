@@ -25,6 +25,7 @@ pop (dur|dear|dir): "popd\n"
 
 # permissions
 make executable: "chmod +x "
+change ownership: "chown "
 
 # links
 sim link: "ln -s "
@@ -91,3 +92,5 @@ find <phrase> inside (python|pie) files less:
     insert('$(find . -name \"*.py\") | xargs rg -i "{phrase}\" | less\n')
 
 man: "man "
+so do: "sudo "
+d message: "dmesg"
