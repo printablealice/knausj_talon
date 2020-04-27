@@ -130,7 +130,8 @@ ctx.lists['self.vim_arrow'] = {
 }
 
 simple_keys = [
-    'tab', 'escape', 'enter', 'space',
+#    'tab', 'escape', 'enter', 'space',
+    'tab', 'escape', 'space',
     'home', 'pageup', 'pagedown', 'end',
 ]
 alternate_keys = {
