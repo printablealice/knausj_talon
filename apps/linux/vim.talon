@@ -25,6 +25,8 @@ force quit:
 refresh file:
     key(escape)
     insert(":e!\n")
+edit [file|new]:
+    insert(":e ")
 
 [(go|jump)] [to] line <user.number_mixed>:
     key(escape)
@@ -40,13 +42,21 @@ delete line <user.number_mixed> through <user.number_mixed>: ":{number_mixed_1},
 (copy|yank) line: "Y"
 (copy|yank) line <user.number_mixed>: ":{number_mixed}y\n"
 (copy|yank) line <user.number_mixed> through <user.number_mixed>: ":{number_mixed_1},{number_mixed_2}y\n"
+open [this] link: "gx"
 open this file: "gf"
+open this file in [split|window]: 
+    key(ctrl-w)
+    key(f)
+open this file in vertical [split|window]: 
+    insert(":vertical wincmd f\n")
 
 # buffering
 buffer list: ":ls\n"
 buffer close: ":bd\n"
 buffer open: ":b "
-(go|jump|open) buffer <number>: ":b {number}\n"
+buffer left: ":bprev\n"
+buffer right: ":bnext\n"
+(go|jump|oen) buffer <number>: ":b {number}\n"
 
 # vim windowing
 split <user.vim_arrow>:
@@ -75,9 +85,9 @@ undo:
     key(escape)
     key(u)
 
-# symbol
-jump [to] symbol: key(ctrl-])
-leave symbol: key(ctrl-t)
+# tags/symbol
+jump [to] (symbol|tag): key(ctrl-])
+(pop|leave) (symbol|take): key(ctrl-t)
 
 # marks
 mark <user.letter>:
@@ -98,8 +108,8 @@ mark <user.letter>:
 (list|show) specific marks:
     key(escape)
     insert(":marks ")
-(go|jump) [to] edit: "`."
-(go|jump) [to] (cursor|location): "``"
+(go|jump) [to] [last] edit: "`."
+(go|jump) [to] [last] (cursor|location): "``"
 
 # sessions
 make session: "mksession "
@@ -277,8 +287,8 @@ surround <user.vim_unranged_surround_text_objects> with <user.vim_surround_targe
 [you] surround and indent line with <user.vim_surround_targets>:
     insert("ySS{vim_surround_targets}")
 
-delete [surrounding|those] <user.vim_surround_targets>:
+delete (surrounding|those) <user.vim_surround_targets>:
     insert("ds{vim_surround_targets}")
 
-change [surrounding|those] <user.vim_surround_targets> to <user.vim_surround_targets>:
+change (surrounding|those) <user.vim_surround_targets> to <user.vim_surround_targets>:
     insert("cs{vim_surround_targets_1}{vim_surround_targets_2}")

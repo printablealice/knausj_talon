@@ -47,6 +47,8 @@ ctx.lists['self.vim_surround_targets'] = {
     "backticks" : "`",
     "sentence" : "s",
     "paragraph" : "p",
+    "space" : "  ", # double spaces is required because surround gets confused
+    "spaces" : "  ",
     "tags" : "t",
     "h1 tags" : "<h1>",
     "h2 tags" : "<h2>",
@@ -429,8 +431,8 @@ def vim_jump_targets(m) -> str:
 def vim_text_objects(m) -> str:
     return "".join(list(m))
 
-# when speaking adding in the object ranges is a little bit annoying, so it's a
-# little bit more natural to just assume that you mean around
+# when speaking adding in the object ranges a little bit annoying, so it's a
+# little bit and more natural to just assume that you mean around
 @ctx.capture(rule='[<self.vim_text_object_count>] <self.vim_text_object_select>$')
 def vim_unranged_surround_text_objects(m) -> str:
     if len(list(m)) == 1:
