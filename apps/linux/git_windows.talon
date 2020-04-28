@@ -1,5 +1,5 @@
 os: linux
 app:/term/
-win.title:/git log/
+win.title:/git/
 -
 quit: "q"
