@@ -94,3 +94,8 @@ find <phrase> inside (python|pie) files less:
 man: "man "
 so do: "sudo "
 d message: "dmesg"
+
+# extraction
+tar ball: "tar -"
+tar ball extract [zip]: "tar -xvzf "
+tar ball extract bee zip: "tar -xvjf "
