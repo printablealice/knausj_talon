@@ -18,7 +18,7 @@ diff: "diff "
 dot pie: ".py"
 dot talon: ".talon"
 dot mark down: ".md"
-dot shell: ".h
+dot shell: ".sh"
 run vim: "vim "
 run make: "make\n"
 run make (durr | dear): "mkdir "
