@@ -16,7 +16,7 @@ git clone clipboard:
   insert("git clone ")
   edit.paste()
   key(enter)
-git commit message <phrase>: insert('git commit -m "{phrase}"')
+git commit message <phrase>$: insert('git commit -m "{phrase}"')
 git commit: insert("git commit\n")
 git diff (colour|color) words: insert("git diff --color-words ")
 git diff: insert("git diff ")
@@ -47,6 +47,7 @@ git status: insert("git status\n")
 git tag: insert("git tag ")
 git merge <phrase>:insert("git merge {phrase}")
 
+# Linux shell git specific
 git diff highlighted:
     key(ctrl-shift-c)
     insert("git diff ")
@@ -56,6 +57,13 @@ git diff clipboard:
     insert("git diff ")
     key(ctrl-shift-v)
     key(enter)
+
+git add highlighted:
+    key(ctrl-shift-c)
+    insert("git add ")
+    key(ctrl-shift-v)
+    key(enter)
+
 git add clipboard:
     insert("git add ")
     key(ctrl-shift-v)
