@@ -139,8 +139,11 @@ extra file info:
     key(ctrl-g)
 
 # motions:
-shift right: key(>)
-shift left: key(<)
+[shift|indent] right: key(>)
+[shift|indent] left: key(<)
+
+# insert mode trips
+clear line: key(ctrl-u)
 
 vim help: ":help "
 
@@ -298,5 +301,5 @@ surround <user.vim_unranged_surround_text_objects> with <user.vim_surround_targe
 delete (surrounding|those) <user.vim_surround_targets>:
     insert("ds{vim_surround_targets}")
 
-change (surrounding|those) <user.vim_surround_targets> to <user.vim_surround_targets>:
+(change|replace) (surrounding|those) <user.vim_surround_targets> to <user.vim_surround_targets>:
     insert("cs{vim_surround_targets_1}{vim_surround_targets_2}")
