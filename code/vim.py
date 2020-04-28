@@ -391,7 +391,8 @@ def vim_command_verbs(m) -> str:
 def vim_motion_verbs(m) -> str:
     return m.vim_motion_verbs
 
-@ctx.capture(rule='{self.vim_motion_verbs_with_character} (<user.letter>|<user.number>|<user.symbol>)')
+#@ctx.capture(rule='{self.vim_motion_verbs_with_character} (<user.letter>|<user.number>|<user.symbol>)')
+@ctx.capture(rule='{self.vim_motion_verbs_with_character} <user.any>')
 def vim_motion_verbs_with_character(m) -> str:
     return m.vim_motion_verbs_with_character + "".join(list(m)[1:])
 

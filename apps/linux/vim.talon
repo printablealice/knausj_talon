@@ -41,8 +41,9 @@ format line: "=="
 # trigger the dd below. we probably need to come up with different trigger for
 # the one were you specify the line
 delete line <user.number_mixed>$: ":{number_mixed}d\n"
-delete line <user.number_mixed> through <user.number_mixed>$: ":{number_mixed_1},{number_mixed_2}y\n"
+delete line <user.number_mixed> through <user.number_mixed>$: ":{number_mixed_1},{number_mixed_2}d\n"
 delete line: "dd"
+yank: "y"
 (copy|yank) line: "Y"
 (copy|yank) line <user.number_mixed>: ":{number_mixed}y\n"
 (copy|yank) line <user.number_mixed> through <user.number_mixed>: ":{number_mixed_1},{number_mixed_2}y\n"
