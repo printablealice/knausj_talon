@@ -8,7 +8,7 @@ app: /term/
 (list|lisa) <phrase>: "ls {phrase}"
 (list|lisa) (deer|dir): "ls "
 
-# directory 
+# directory and files
 up (dear|dir): "../"
 (cd|deer|dir) <word>: "cd {word}"
 (cd|deer|dir) up: "cd ..\n"
@@ -19,6 +19,7 @@ make (dur|dear|dir): "mkdir "
 make (dur|dear|dir) <word>: "mkdir {word}"
 remove (dur|dear|dir): "rmdir "
 remove (dur|dear|dir) <word>: "rmdir {word}"
+remove file: "rm "
 tree: "tree\n"
 temp directory: "cd /tmp\n"
 pop (dur|dear|dir): "popd\n"
@@ -36,16 +37,16 @@ list sim links: "find . -maxdepth 1 -type l  -ls\n"
 list folders: "find . -maxdepth 1 -type d  -ls\n"
 list files: "find . -maxdepth 1 -type f  -ls\n"
 
+touch: "touch "
 # file management
-move: "mv "
-copy: "cp "
+move file: "mv "
+copy file: "cp "
 show me <phrase>: "cat {phrase}"
 show me: "cat "
 less: "less "
 
-touch: "touch "
 
-clear: "clear\n"
+clear [screen|page]: "clear\n"
 
 # find
 find file: "find . -name "
