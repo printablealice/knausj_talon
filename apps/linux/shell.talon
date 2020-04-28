@@ -12,7 +12,7 @@ fuzzy (dir|dear|dur) <phrase>:
     insert("{phrase}")
 
 # zsh commands
-reload shell config: "source ~/.zshrc"
+reload shell config: "source ~/.zshrc\n"
 
 # zsh autosuggestions plugin
 [got|run] [it|that]: key(ctrl-o)
