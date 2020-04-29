@@ -139,8 +139,8 @@ extra file info:
     key(ctrl-g)
 
 # motions:
-[shift|indent] right: key(>)
-[shift|indent] left: key(<)
+(shift|indent) right: key(>)
+(shift|indent) left: key(<)
 
 # insert mode trips
 clear line: key(ctrl-u)
