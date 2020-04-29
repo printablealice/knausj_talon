@@ -90,3 +90,4 @@ wipe: key(backspace)
 	key(left)
 funny: "ha ha"
 #menu: key(alt)
+local host: "127.0.0.1"
