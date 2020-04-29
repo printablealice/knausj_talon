@@ -24,34 +24,11 @@ state for: "for "
 state import: 
     insert("import ")
 state class: insert("class ")
-comment: insert("# ")
-dunder in it: insert("__init__")
-self taught: 
-    insert("self.")
-from import: 
-    insert("from import ")
-    key(left)
-    edit.word_left()
-    key(space) 
-    edit.left()
-for in: 
-    insert("for in ")
-    key(left)
-    edit.word_left()
-    key(space) 
-    edit.left()
-true: "True"
-false: "False"
-
-comment block:
-    insert('"""\n')
-    edit.up()
-    insert('"""\n')
-
 class <phrase>:
     insert("class ")
     insert(user.formatted_text(phrase, "hammer"))
     insert("():\n")
+return: "return "
 
 private (method|function) <phrase>:
     insert("def _")
@@ -64,6 +41,13 @@ public (method|function) <phrase>:
     insert("def ")
     insert(user.formatted_text(phrase, "snake"))
     insert("(self):")
+    key(left)
+    key(left)
+
+(method|function) <phrase>$:
+    insert("def ")
+    insert(user.formatted_text(phrase, "snake"))
+    insert("():")
     key(left)
     key(left)
 
