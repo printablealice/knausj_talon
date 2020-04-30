@@ -43,10 +43,10 @@ format line: "=="
 delete line <user.number_mixed>$: ":{number_mixed}d\n"
 delete line <user.number_mixed> through <user.number_mixed>$: ":{number_mixed_1},{number_mixed_2}d\n"
 delete line: "dd"
-yank: "y"
 (copy|yank) line: "Y"
 (copy|yank) line <user.number_mixed>: ":{number_mixed}y\n"
 (copy|yank) line <user.number_mixed> through <user.number_mixed>: ":{number_mixed_1},{number_mixed_2}y\n"
+
 open [this] link: "gx"
 open this file: "gf"
 open this file in [split|window]: 
@@ -61,7 +61,7 @@ buffer close: ":bd\n"
 buffer open: ":b "
 buffer left: ":bprev\n"
 buffer right: ":bnext\n"
-(go|jump|oen) buffer <number>: ":b {number}\n"
+(go|jump|open) buffer <number>: ":b {number}\n"
 
 # vim windowing
 split <user.vim_arrow>:
@@ -77,13 +77,30 @@ split equalize:
 [new] vertical split: insert(":vsplit\n")
 [new] split: insert(":split\n")
 
+## Non-standard helper commands
+
 push:
     key(escape)
     key(A)
 
+
+(dup|duplicate) line: "Yp" 
+
+# helpful for fixing typos or bad lexicons that miss a character
+inject <user.any> [before]:
+    insert("i{any}")
+    key(escape)
+
+inject <user.any> after: 
+    insert("a{any}")
+    key(escape)
+
 highlight off: ":nohl\n"
+hide (highlight|hightlights): ":nohl\n"
 set highlight search: ":set hls\n"
 set no highlight search: ":set nohls\n"
+(show|set) line numbers: ":set nu\n"
+(hide|set no) line numbers: ":set nonu\n"
 
 action(edit.redo): key(ctrl-r)
 undo:
@@ -148,22 +165,27 @@ clear line: key(ctrl-u)
 vim help: ":help "
 
 # XXX - remove the auto 'i' changes?
-screen (centre|center):
+scroll (centre|center):
     key(escape)
-    insert("z.i")
+    insert("z.")
 
-screen bottom:
+scroll bottom:
     key(escape)
-    insert("zbi")
+    insert("zb")
 
-screen top:
+scroll top:
     key(escape)
-    insert("zti")
+    insert("zt")
 matching: key(%)
+scroll up: key(ctrl-y)
+scroll down: key(ctrl-e)
+page up: key(ctrl-f)
+page down: key(ctrl-b)
+half page up: key(ctrl-d)
+half page down: key(ctrl-u)
 
 visual block: key(ctrl-v)
 
-scroll top: "zt"
 
 search:
     key(escape)
@@ -259,11 +281,9 @@ display current line number: key(ctrl-g)
 delete remaining line: key(D)
 change remaining line: key(C)
 change line: "cc"
-duplicate line: "yyp"
 swap characters: "xp"
 swap words: "dwwP"
 swap lines: "ddp"
-# XXX - not just letters
 replace <user.any>: "r{any}"
 replace mode: key(R)
 overwrite: key(R)
@@ -283,6 +303,7 @@ scroll middle reset cursor: "z."
 scroll bottom reset cursor: "z "
 
 # Surround plugin
+# XXX - switch to a separate file with mode
 surround <user.vim_text_objects> with <user.vim_surround_targets>:
     insert("ys{vim_text_objects}{vim_surround_targets}")
 
@@ -303,3 +324,7 @@ delete (surrounding|those) <user.vim_surround_targets>:
 
 (change|replace) (surrounding|those) <user.vim_surround_targets> to <user.vim_surround_targets>:
     insert("cs{vim_surround_targets_1}{vim_surround_targets_2}")
+
+# 
+[add] gap above: ":pu _\n:'[+1\n"
+[add] gap below: ":pu _\n:'[-1\n"
