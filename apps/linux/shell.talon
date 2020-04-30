@@ -2,7 +2,7 @@ os: linux
 app: /term/
 -
 (rerun|run) last command: "!!\n\n"
-(chuck|cancel) [that]: key("ctrl-c")
+(chuck|cancel) that: key("ctrl-c")
 
 # fzf keybindings
 search history: key(ctrl-r)
