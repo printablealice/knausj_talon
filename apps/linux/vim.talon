@@ -60,6 +60,7 @@ open this file in vertical [split|window]:
 # buffering
 buffer list: ":ls\n"
 buffer close: ":bd\n"
+force buffer close: ":bd!\n"
 buffer open: ":b "
 buffer left: ":bprev\n"
 buffer right: ":bnext\n"
@@ -324,7 +325,7 @@ surround <user.vim_unranged_surround_text_objects> with <user.vim_surround_targe
 [you] surround and indent line with <user.vim_surround_targets>:
     insert("ySS{vim_surround_targets}")
 
-delete (surrounding|those) <user.vim_surround_targets>:
+(delete|remove) (surrounding|those) <user.vim_surround_targets>:
     insert("ds{vim_surround_targets}")
 
 (change|replace) (surrounding|those) <user.vim_surround_targets> to <user.vim_surround_targets>:
@@ -333,3 +334,8 @@ delete (surrounding|those) <user.vim_surround_targets>:
 # 
 [add] gap above: ":pu _\n:'[+1\n"
 [add] gap below: ":pu _\n:'[-1\n"
+
+# Terminal mode
+(escape|pop) terminal:
+    key(ctrl-\)
+    key(ctrl-n)
