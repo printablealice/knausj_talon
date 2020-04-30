@@ -64,6 +64,16 @@ rip (exact|precise): "rg "
 show eye pee: "ip addr\n"
 show route: "ip route\n"
 see tags: "ctags --recurse *\n"
+generate see scope database:
+    insert('find . -name "*.c"')
+    insert('-o -name "*.cpp"')
+    insert('-o -name "*.h"') 
+    insert('-o -name "*.hpp"')
+    insert('-o -name "*.py"')
+    insert('-o -name "*.s"')
+    insert('-o -name "*.asm"')
+    insert('> cscope.files\n')
+    insert("cscope -q -R -b -i cscope.files\n")
 
 process list: "ps -ef\n"
 process top: "htop\n"
