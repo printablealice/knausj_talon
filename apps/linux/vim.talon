@@ -27,6 +27,8 @@ refresh file:
     insert(":e!\n")
 edit [file|new]:
     insert(":e ")
+reload config:
+    insert(":so $MYVIMRC\n")
 
 [(go|jump)] [to] line <user.number_mixed>:
     key(escape)
@@ -79,10 +81,13 @@ split equalize:
 
 ## Non-standard helper commands
 
-push:
+push [line]:
     key(escape)
     key(A)
 
+push file:
+    key(escape)
+    insert("Go")
 
 (dup|duplicate) line: "Yp" 
 
