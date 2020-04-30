@@ -12,7 +12,11 @@ edit directory: key(e)
 
 # menu-based actions
 menu: key(m)
-new file: "ma"
+(add|new) (node|file): "ma"
+(remove|delete) (node|file): "md"
+(move|rename) (node|file): "mm"
+list (node|file): "ml"
+copy (node|file): "mc"
 
 quick help: key(?)
 close nerd [tree]: key(q)
