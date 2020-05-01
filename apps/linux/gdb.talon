@@ -9,8 +9,8 @@ info source: "info source\n"
 
 # breakpoints
 (list|show|info) breakpoints: "info breakpoints\n"
-break on: "break "
-break here: "break\n"
+break [point] on: "break "
+break [point] here: "break\n"
 delete break [point] <number>: "d br {number}"
 disable break [point] <number>: "disable br {number}\n"
 enable break [point] <number>: "enable br {number}\n"
