@@ -141,6 +141,7 @@ ctx.lists['self.vim_command_verbs'] = {
     "undo": "u",
     "yank": "y",
     "copy": "y",
+    "fold": "zf",
 }
 
 ctx.lists['self.vim_motion_verbs'] = {
