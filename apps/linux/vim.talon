@@ -45,9 +45,14 @@ format line: "=="
 delete line <user.number_mixed>$: ":{number_mixed}d\n"
 delete line <user.number_mixed> through <user.number_mixed>$: ":{number_mixed_1},{number_mixed_2}d\n"
 delete line: "dd"
-(copy|yank) line: "Y"
-(copy|yank) line <user.number_mixed>: ":{number_mixed}y\n"
+(copy|yank) line <user.number_mixed>$: ":{number_mixed}y\n"
 (copy|yank) line <user.number_mixed> through <user.number_mixed>: ":{number_mixed_1},{number_mixed_2}y\n"
+(copy|yank) line: "Y"
+
+# paste line
+paste line <user.number_mixed> on line <user.number_mixed>$: ":{number_mixed_1}y\n:{number_mixed_2}\np"
+paste line <user.number_mixed> through <user.number_mixed>$: ":{number_mixed_1},{number_mixed_2}y\np"
+paste line <user.number_mixed>$: ":{number_mixed}y\np"
 
 open [this] link: "gx"
 open this file: "gf"
@@ -73,6 +78,10 @@ split <user.vim_arrow>:
 split (only|exclusive):
     key("ctrl-w")
     key("o")
+split rotate [right]:
+    key(ctrl-w)
+    key(r)
+
 ## window resizing
 split equalize:
     key("ctrl-w")
@@ -114,8 +123,8 @@ undo:
     key(u)
 
 # tags/symbol
-jump [to] (symbol|tag): key(ctrl-])
-(pop|leave) (symbol|take): key(ctrl-t)
+(jump|dive) [to] (symbol|tag): key(ctrl-])
+(pop|leave) (symbol|tag): key(ctrl-t)
 
 # marks
 mark <user.letter>:
@@ -170,7 +179,8 @@ clear line: key(ctrl-u)
 
 vim help: ":help "
 
-# XXX - remove the auto 'i' changes?
+focus line <user.number_mixed>: ":{number_mixed}\nzt"
+center line <user.number_mixed>: ":{number_mixed}\nz."
 scroll (centre|center):
     key(escape)
     insert("z.")
@@ -185,10 +195,10 @@ scroll top:
 matching: key(%)
 scroll up: key(ctrl-y)
 scroll down: key(ctrl-e)
-page up: key(ctrl-f)
-page down: key(ctrl-b)
-half page up: key(ctrl-d)
+page down: key(ctrl-f)
+page up: key(ctrl-b)
 half page down: key(ctrl-u)
+half page up: key(ctrl-d)
 
 visual block: key(ctrl-v)
 
@@ -339,3 +349,11 @@ surround <user.vim_unranged_surround_text_objects> with <user.vim_surround_targe
 (escape|pop) terminal:
     key(ctrl-\)
     key(ctrl-n)
+
+# tabs
+[show] tabs: ":tabs\n"
+tab close: ":tabclose\n"
+tab next: ":tabnext\n"
+tab (prev|previous): ":tabprevious\n"
+tab first: ":tabfirst\n"
+tab last: ":tablast\n"
