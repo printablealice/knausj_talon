@@ -18,6 +18,7 @@ break [on] clipboard:
     insert("break ")
     key(ctrl-shift-c)
     key(enter)
+until <user.number_mixed>: "until {number_mixed}"
 
 # registers
 (list|show|info) registers: "info registers\n"
@@ -68,3 +69,8 @@ show follow (fork|forks) [mode]: "show follow-fork-mode\n"
 show detach on fork: "show detach-on-fork\n"
 set detach on fork: "set detach-on-fork on\n"
 unset detach on fork: "set detach-on-fork off\n"
+
+# list
+show list size: "show listsize\n"
+set list size <user.number_mixed>: "set listsize {number_mixed}\n"
+
