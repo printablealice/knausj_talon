@@ -63,12 +63,14 @@ open this file in vertical [split|window]:
     insert(":vertical wincmd f\n")
 
 # buffering
-buffer list: ":ls\n"
-buffer close: ":bd\n"
-force buffer close: ":bd!\n"
+(buffer list|list buffers): ":ls\n"
+buffer close <user.number_mixed>: ":bd {number_mixed}"
+buffer close current: ":bd\n"
+force buffer close current: ":bd!\n"
 buffer open: ":b "
 buffer left: ":bprev\n"
 buffer right: ":bnext\n"
+close buffers: ":bd "
 (go|jump|open) buffer <number>: ":b {number}\n"
 
 # vim windowing
@@ -357,3 +359,9 @@ tab next: ":tabnext\n"
 tab (prev|previous): ":tabprevious\n"
 tab first: ":tabfirst\n"
 tab last: ":tablast\n"
+
+# folds
+fold (lines|line): "fZ"
+fold line <user.number_mixed> through <user.number_mixed>$: ":{number_mixed_1},{number_mixed_2}fo\n"
+(open fold|fold open): "zo"
+(close fold|fold close): "zc"
