@@ -8,9 +8,9 @@ fuzzy git files: insert(":GFiles\n")
 fuzzy git status: insert(":GFiles?\n")
 fuzzy buffers: insert(":Buffers\n")
 fuzzy colors: insert(":Colors\n")
-# silver searcher?
-#fuzzy grep: insert(":Ag")
-fuzzy (grep|rip): insert(":Rg")
+# XXX - silver searcher?
+fuzzy code search: insert(":Ag\n")
+fuzzy (grep|rip): insert(":Rg\n")
 fuzzy lines: insert(":Lines\n")
 fuzzy buffer lines: insert(":BLines\n")
 fuzzy tags: insert(":Tags\n")
