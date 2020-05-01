@@ -40,6 +40,7 @@ git push tags: insert("git push --tags\n")
 git rebase: insert("git rebase\n")
 git rebase continue: insert("git rebase --continue")
 git rebase skip: insert("git rebase --skip")
+git remote show origin: insert("git remote show origin")
 git remove: insert("git rm ")
 git reset: insert("git reset ")
 git reset soft: insert("git reset --soft ")
@@ -48,6 +49,8 @@ git show: insert("git show ")
 git stash pop: insert("git stash pop\n")
 git stash: insert("git stash\n")
 git status: insert("git status\n")
+git submodule init: "git submodule init\n"
+git submodule update: "git submodule update --remote"
 git tag: insert("git tag ")
 
 # Linux shell git specific
