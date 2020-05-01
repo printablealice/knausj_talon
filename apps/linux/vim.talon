@@ -70,8 +70,9 @@ force buffer close current: ":bd!\n"
 buffer open: ":b "
 buffer left: ":bprev\n"
 buffer right: ":bnext\n"
+buffer last: ":b#\n"
 close buffers: ":bd "
-(go|jump|open) buffer <number>: ":b {number}\n"
+[(go|jump|open)] buffer <user.number_mixed>: ":b {number_mixed}\n"
 
 # vim windowing
 split <user.vim_arrow>:
