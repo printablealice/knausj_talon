@@ -5,3 +5,4 @@ win.title: /gdb/
 
 pound bag: "pwndbg\n"
 hex dump: "hexdump "
+show (process id|pid): "pid\n"
