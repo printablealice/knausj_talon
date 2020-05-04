@@ -118,9 +118,3 @@ ctx.lists['user.abbreviation'] = {
 @ctx.capture(rule='{user.abbreviation}')
 def abbreviation(m):
     return m.abbreviation
-
-@mod.action_class
-class Actions:
-    def insert_abbreviation(name: str):
-        "Insert an abbreviation"
-        actions.insert(name)# ctx.lists["user.abbreviation"][name]
