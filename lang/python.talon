@@ -29,6 +29,9 @@ class <phrase>:
     insert(user.formatted_text(phrase, "hammer"))
     insert("():\n")
 return: "return "
+none: "None"
+true: "True"
+false: "False"
 
 private (method|function) <phrase>:
     insert("def _")
