@@ -69,12 +69,13 @@ open this file in vertical [split|window]:
 ((buf|buffer) list|list (buf|buffer)s): ":ls\n"
 (buf|buffer) close <user.number_mixed>: ":bd {number_mixed}"
 (buf|buffer) close current: ":bd\n"
-force (buf|buffer) close current: ":bd!\n"
+close this (buf|buffer): ":bd\n"
+force (buf|buffer) close: ":bd!\n"
 (buf|buffer) open: ":b "
 (buf|buffer) left: ":bprev\n"
 (buf|buffer) right: ":bnext\n"
 (buf|buffer) last: ":b#\n"
-close (buf|buffer)s: ":bd "
+close (bufs|buffers): ":bd "
 [(go|jump|open)] (buf|buffer) <user.number_mixed>: ":b {number_mixed}\n"
 
 # vim windowing
@@ -203,8 +204,8 @@ scroll up: key(ctrl-y)
 scroll down: key(ctrl-e)
 page down: key(ctrl-f)
 page up: key(ctrl-b)
-half page down: key(ctrl-u)
-half page up: key(ctrl-d)
+half [page] down: key(ctrl-d)
+half [page] up: key(ctrl-u)
 
 visual block: key(ctrl-v)
 
