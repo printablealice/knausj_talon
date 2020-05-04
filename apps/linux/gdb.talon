@@ -7,6 +7,9 @@ win.title: /gdb/
 list [source]: "list\n"
 info source: "info source\n"
 
+print: "p "
+print hex: "p/x "
+
 # breakpoints
 (list|show|info) breakpoints: "info breakpoints\n"
 break [point] on: "break "
@@ -73,4 +76,7 @@ unset detach on fork: "set detach-on-fork off\n"
 # list
 show list size: "show listsize\n"
 set list size <user.number_mixed>: "set listsize {number_mixed}\n"
+
+# misc
+clear screen: "shell clear\n"
 
