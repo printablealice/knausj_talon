@@ -13,10 +13,10 @@ sleep all:
 	user.engine_sleep()
 talon sleep: 
     speech.disable()
-    app.notify("Talon Sleep")
+    user.system_command('notify-send "Talon Sleep"')
 talon wake: 
     speech.enable()
-    app.notify("Talon Awake")
+    user.system_command('notify-send "Talon Awake"')
 dragon mode: speech.disable()
 talon mode: speech.enable()
 ^dictation mode$:
