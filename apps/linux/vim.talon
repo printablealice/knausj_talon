@@ -255,10 +255,15 @@ select <user.vim_select_motion>:
     insert("v{vim_select_motion}")
 
 # Plugins
+
+# NOTE: These are here rather than nerdtree.talon to allow it to load the
+# split buffer, which in turn loads nerdtree.talon when focused. Don't move
+# these into nerdtree.talon
 nerd tree: insert(":NERDTree\n")
 nerd open <phrase>:
     insert(":NERDTree\n")
 nerd find [current] file: insert(":NERDTreeFind\n")
+
 
 # Personalized stuff
 run as python: 
@@ -373,3 +378,7 @@ fold (lines|line): "fZ"
 fold line <user.number_mixed> through <user.number_mixed>$: ":{number_mixed_1},{number_mixed_2}fo\n"
 (open fold|fold open): "zo"
 (close fold|fold close): "zc"
+
+
+# run commands
+run as python: ":!python %\n"

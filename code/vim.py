@@ -62,7 +62,8 @@ ctx.lists['self.vim_counted_action_verbs'] = {
     "insert" : "i",
     "insert before line" : "I", "insert line" : "I",
     "insert column zero" : "gI",
-    "open" : "o", "open below" : "o",
+    # "open" : "o",  # conflicts too much with other commands
+    "open below" : "o",
     "open above" : "O",
     "substitute" : "s",
     "substitute line" : "S",
