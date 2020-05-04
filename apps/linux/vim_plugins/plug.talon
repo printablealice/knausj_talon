@@ -3,10 +3,24 @@ app: /term/
 win.title: /VIM/
 -
 
-plugins install: ":PlugInstall\n"
-plugins status: ":PlugStatus\n"
-plugins clean: ":PlugClean\n"
-plugins diff: ":PlugDiff\n"
-plugins update: ":PlugUpdate\n"
-plugins upgrade: ":PlugUpgrade\n"
-plugins snapshot: ":PlugSnapshot\n"
+plugins install:
+    insert(":so $MYVIMRC\n")
+    insert(":PlugInstall\n")
+plugins status:
+    insert(":so $MYVIMRC\n")
+    insert(":PlugStatus\n")
+plugins clean:
+    insert(":so $MYVIMRC\n")
+    insert(":PlugClean\n")
+plugins diff:
+    insert(":so $MYVIMRC\n")
+    insert(":PlugDiff\n")
+plugins update:
+    insert(":so $MYVIMRC\n")
+    insert(":PlugUpdate\n")
+plugins upgrade:
+    insert(":so $MYVIMRC\n")
+    insert(":PlugUpgrade\n")
+plugins snapshot:
+    insert(":so $MYVIMRC\n")
+    insert(":PlugSnapshot\n")
