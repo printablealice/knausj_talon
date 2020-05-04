@@ -13,6 +13,9 @@ save:
 save as: 
     key(escape)
     insert(":w ")
+save all: 
+    key(escape)
+    insert(":wa\n")
 save and (quit|close): 
     key(escape)
     insert(":wq\n")
@@ -27,7 +30,7 @@ refresh file:
     insert(":e!\n")
 edit [file|new]:
     insert(":e ")
-reload config:
+reload [vim] config:
     insert(":so $MYVIMRC\n")
 
 [(go|jump)] [to] line <user.number_mixed>:
@@ -49,10 +52,10 @@ delete line: "dd"
 (copy|yank) line <user.number_mixed> through <user.number_mixed>: ":{number_mixed_1},{number_mixed_2}y\n"
 (copy|yank) line: "Y"
 
-# paste line
-paste line <user.number_mixed> on line <user.number_mixed>$: ":{number_mixed_1}y\n:{number_mixed_2}\np"
-paste line <user.number_mixed> through <user.number_mixed>$: ":{number_mixed_1},{number_mixed_2}y\np"
-paste line <user.number_mixed>$: ":{number_mixed}y\np"
+# duplicating line
+(duplicate|paste) line <user.number_mixed> on line <user.number_mixed>$: ":{number_mixed_1}y\n:{number_mixed_2}\np"
+(duplicate|paste) line <user.number_mixed> through <user.number_mixed>$: ":{number_mixed_1},{number_mixed_2}y\np"
+(duplicate|paste) line <user.number_mixed>$: ":{number_mixed}y\np"
 
 open [this] link: "gx"
 open this file: "gf"
@@ -62,17 +65,17 @@ open this file in [split|window]:
 open this file in vertical [split|window]: 
     insert(":vertical wincmd f\n")
 
-# buffering
-(buffer list|list buffers): ":ls\n"
-buffer close <user.number_mixed>: ":bd {number_mixed}"
-buffer close current: ":bd\n"
-force buffer close current: ":bd!\n"
-buffer open: ":b "
-buffer left: ":bprev\n"
-buffer right: ":bnext\n"
-buffer last: ":b#\n"
-close buffers: ":bd "
-[(go|jump|open)] buffer <user.number_mixed>: ":b {number_mixed}\n"
+# (buf|buffer)ing
+((buf|buffer) list|list (buf|buffer)s): ":ls\n"
+(buf|buffer) close <user.number_mixed>: ":bd {number_mixed}"
+(buf|buffer) close current: ":bd\n"
+force (buf|buffer) close current: ":bd!\n"
+(buf|buffer) open: ":b "
+(buf|buffer) left: ":bprev\n"
+(buf|buffer) right: ":bnext\n"
+(buf|buffer) last: ":b#\n"
+close (buf|buffer)s: ":bd "
+[(go|jump|open)] (buf|buffer) <user.number_mixed>: ":b {number_mixed}\n"
 
 # vim windowing
 split <user.vim_arrow>:
@@ -265,6 +268,9 @@ remove trailing white space: insert(":%s/\s\+$//e\n")
 remove all tabs: insert(":%s/\t/    /eg\n")
 
 reselect: "gv"
+# XXX - This should be a callable function so we can do things like:
+#       'swap on this <highlight motion>'
+#       'swap between line x, y'
 swap selected:
     insert(":")
     # leave time for vim to populate '<,'>
