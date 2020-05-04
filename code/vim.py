@@ -57,16 +57,12 @@ ctx.lists['self.vim_surround_targets'] = {
 }
 
 ctx.lists['self.vim_counted_action_verbs'] = {
-    "after" : "a",
-    "append" : "a",
-    "after line" : "A",
-    "append line" : "A",
+    "after" : "a", "append" : "a",
+    "after line" : "A", "append line" : "A",
     "insert" : "i",
-    "insert before line" : "I",
-    "insert line" : "I",
+    "insert before line" : "I", "insert line" : "I",
     "insert column zero" : "gI",
-    "open" : "o",
-    "open below" : "o",
+    "open" : "o", "open below" : "o",
     "open above" : "O",
     "substitute" : "s",
     "substitute line" : "S",
@@ -74,15 +70,9 @@ ctx.lists['self.vim_counted_action_verbs'] = {
     "undo line" : "U",
     "redo" : "<C r>",
     "erase" : "x",
-    "erase reversed" : "X",
-    "erase back" : "X",
-    "put" : "p",
-    "put below" : "p",
-    "paste below" : "p",
-    "put before" : "P",
-    "paste before" : "P",
-    "put above" : "P",
-    "paste above" : "P",
+    "erase reversed" : "X", "erase back" : "X",
+    "put" : "p", "put below" : "p", "paste below" : "p",
+    "put before" : "P", "paste before" : "P", "put above" : "P", "paste above" : "P",
     "repeat" : ".",
     # XXX - fix these control characters
     "scroll up" : "<C-y>",
@@ -131,32 +121,23 @@ ctx.lists['self.vim_command_verbs'] = {
     "change": "c",
     "delete": "d",
     "indent": ">",
-    "unindent": "<",
-    "an indent": "<",
-    "un indent": "<",
+    "unindent": "<", "an indent": "<", "un indent": "<",
     "join": "J",
     "format": "=",
-    "put": "p",
-    "paste": "p",
+    "put": "p", "paste": "p",
     "undo": "u",
-    "yank": "y",
-    "copy": "y",
+    "yank": "y", "copy": "y",
     "fold": "zf",
 }
 
 ctx.lists['self.vim_motion_verbs'] = {
-    "back": "b",
-    "back word": "b",
-    "big back": "B",
-    "big back word": "B",
+    "back": "b", "back word": "b",
+    "big back": "B", "big back word": "B",
     "end": "e",
     "big end": "E",
-    "word": "w",
-    "words": "w",
-    "big word": "W",
-    "big words": "W",
-    "back end": "ge",
-    "back end": "ge",
+    "word": "w", "words": "w",
+    "big word": "W", "big words": "W",
+    "back end": "ge", "back end": "ge",
     "back big end": "gE",
 # XXX - see if there's a way to replaces with normal arrow keys
     "left": "h",
@@ -164,8 +145,7 @@ ctx.lists['self.vim_motion_verbs'] = {
     "up": "k",
     "right": "l",
     "next": "n",
-    "next reversed": "N",
-    "previous": "N",
+    "next reversed": "N", "previous": "N",
     "column zero": "0",
     "column": "|",
     "start of line": "^",
@@ -174,9 +154,9 @@ ctx.lists['self.vim_motion_verbs'] = {
     "search under cursor reversed": "#",
     "again": ";",
     "again reversed": ",",
-    "down sentence": ")",
+    "down sentence": ")", "sentence": ")",
     "up sentence": "(",
-    "down paragraph": "}",
+    "down paragraph": "}", "paragraph": "}",
     "up paragraph": "{",
     "start of next section": "]]",
     "start of previous section": "[[",
@@ -190,12 +170,9 @@ ctx.lists['self.vim_motion_verbs'] = {
     "cursor middle": "M",
     "cursor last": "L",
     # XXX see if we can mix these matches with talon style () somehow
-    "start of document": "gg",
-    "start of file": "gg",
-    "top of document": "gg",
-    "top of file": "gg",
-    "end of document": "G",
-    "end of file": "G",
+    "start of document": "gg", "start of file": "gg",
+    "top of document": "gg", "top of file": "gg",
+    "end of document": "G", "end of file": "G",
 
 # XXX - these need to be keys
     "retrace movements": "ctrl-o",
@@ -458,6 +435,8 @@ def vim_normal_counted_action(m) -> str:
 def vim_select_motion(m) -> str:
     return "".join(list(m))
 
+# XXX - Add support for ordinal motions: "delete 5th word", "find second <char>"
+
 @mod.action_class
 class Actions:
     def vim_cmd(words: list):
@@ -477,3 +456,4 @@ class LinuxVimMode(VimMode):
     def get_mode(self):
         # query win.title for mode based on having specific vim config
         print("linux mode")
+
