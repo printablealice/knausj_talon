@@ -67,6 +67,7 @@ ctx.lists['user.abbreviation'] = {
     "library": "lib",
     "length": "len",
     "markdown": "md",
+    "message": "msg",
     "mount": "mnt",
     "number": "num",
     "object": "obj",
