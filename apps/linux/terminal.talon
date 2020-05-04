@@ -1,5 +1,6 @@
 os: linux
 app: /term/
+not win.title: /VIM/
 -
 action(app.tab_open):
   key(ctrl-shift-t)

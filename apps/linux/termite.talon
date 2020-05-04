@@ -1,5 +1,6 @@
 os: linux
 app: /termite/
+not win.title: /VIM/
 -
 
 # Selection mode

@@ -2,6 +2,7 @@
 # see shell.talon for shell-specific keybindings
 os: linux
 app: /term/
+not win.title: /VIM/ 
 -
 (list|lisa): "ls\n"
 (list|lisa) long: "ls -al\n"

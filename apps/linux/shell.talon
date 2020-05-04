@@ -1,8 +1,9 @@
 os: linux
 app: /term/
+not win.title: /VIM/
 -
 (rerun|run) last command: "!!\n\n"
-(chuck|cancel) that: key("ctrl-c")
+(chuck|cancel) (it|that): key("ctrl-c")
 
 # fzf keybindings
 search history: key(ctrl-r)

@@ -1,5 +1,6 @@
 os: linux
 app: /term/
+not win.title: /VIM/
 -
 
 # general

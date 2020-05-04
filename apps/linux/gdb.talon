@@ -1,6 +1,7 @@
 os: linux
 app: /term/
 win.title: /gdb/
+not win.title: /VIM/
 -
 
 # information
@@ -8,11 +9,13 @@ list [source]: "list\n"
 info source: "info source\n"
 
 print: "p "
+print [variable] <phrase>: "p {phrase}"
 print hex: "p/x "
+print hex [variable] <phrase>: "p/x {phrase}"
 
 # breakpoints
 (list|show|info) breakpoints: "info breakpoints\n"
-break [point] on: "break "
+break [point] [on]: "break "
 break [point] here: "break\n"
 delete break [point] <number>: "d br {number}"
 disable break [point] <number>: "disable br {number}\n"
@@ -22,6 +25,7 @@ break [on] clipboard:
     key(ctrl-shift-c)
     key(enter)
 until <user.number_mixed>: "until {number_mixed}"
+finish [function]: "finish\n"
 
 # registers
 (list|show|info) registers: "info registers\n"
@@ -58,8 +62,12 @@ restart [program]: "r\n"
 (go|continue): "c\n"
 back trace: "bt\n"
 quit: "quit\n"
-info inferiors: "info inferiors\n"
-inferior: "inferior"
+(show|info) inferiors: "info inferiors\n"
+inferior <user.number_mixed>$: "inferior {number_mixed}\n"
+inferior: "inferior "
+resume from interfior <user.number_mixed>$: 
+    insert("inferior {number_mixed}\n")
+    insert("c\n")
 
 # arguments
 set args: "set args "
