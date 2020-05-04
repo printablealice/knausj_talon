@@ -90,3 +90,4 @@ wipe: key(backspace)
 funny: "ha ha"
 #menu: key(alt)
 local host: "127.0.0.1"
+hex <user.number_mixed>: "0x{number_mixed}"
