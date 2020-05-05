@@ -62,10 +62,13 @@ restart [program]: "r\n"
 (go|continue): "c\n"
 back trace: "bt\n"
 quit: "quit\n"
-(show|info) inferiors: "info inferiors\n"
+(show|info) (inf|inferiors): "info inferiors\n"
 inferior <user.number_mixed>$: "inferior {number_mixed}\n"
 inferior: "inferior "
-resume from interfior <user.number_mixed>$: 
+resume main (inf|inferior):
+    insert("inferior 1\n")
+    insert("c\n")
+resume [from] (inf|inferior) <user.number_mixed>$: 
     insert("inferior {number_mixed}\n")
     insert("c\n")
 
