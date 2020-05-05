@@ -21,3 +21,18 @@ talon source: "cd  ~/src/talon\n"
 edit talon lexicon: "vim ~/.talon/w2l/en_US/lexicon.txt && rm ~/.talon/w2l/en_US/lexicon_flat.bin\n"
 x him: "exim"
 add to do: "# XXX - "
+
+###
+# Work
+###
+edit work config: "vim ~/.talon/user/fidget/misc/edg.talon\n"
+(go|jump) [to] (current|active) [work] project: 
+    insert("source ~/projects/current &&")
+    insert(" cd $ACTIVE_PROJECT\n")
+edit [to] (current|active) [work] project: "vim ~/projects/current\n"
+edge (dur|dir): "cd ~/src/edg\n"
+run debug: "./debug.sh\n"
+
+smiley: ":)"
+big smiley: ":D"
+jiff smiley: ">\\o"
