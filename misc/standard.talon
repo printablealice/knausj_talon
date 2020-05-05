@@ -31,9 +31,6 @@ M D five: "md5"
 (parens|args):
 	insert("()")
 	key(left)
-[inside] (index | array): 
-	insert("[]") 
-	key(left)
 (block|brackets): 
 	insert("{}") 
 	key(left enter enter up tab)
@@ -58,7 +55,7 @@ self taught: "self."
 (in | inside) percent: 
 	insert("%%") 
 	key(left)
-list in it: 
+(index|list in it): 
 	insert("[]") 
 	key(left)
 string U T F eight: 
