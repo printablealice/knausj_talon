@@ -10,6 +10,9 @@ call key:
 	insert('key()')
 	edit.left()
 
+call tab key:
+	insert('key(tab)')
+
 call control key:
 	insert('key(ctrl-)')
 	edit.left()
