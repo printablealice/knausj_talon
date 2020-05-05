@@ -107,9 +107,11 @@ go to mark <letters>':
     insert("%(letters)s")
 #  Searching
 find <phrase>:
-    user.vimvixen_key("escape, slash")
+    user.vimvixen_key("/")
     insert("{phrase}")
     user.vimvixen_key("enter")
+find:
+    user.vimvixen_key("/")
 next [result]:
     user.vimvixen_key("n")
 (prev|previous) [result]:
