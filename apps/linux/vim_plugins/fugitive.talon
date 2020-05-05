@@ -5,6 +5,7 @@ win.title: /VIM/
 
 (fugitive|git) status: ":Gstatus\n"
 (fugitive|git) diff: ":Gdiff\n"
+(fugitive|git) (delete|remove): ":Gdelete"
 (fugitive|git) split diff: ":Gsplitdiff!"
 (fugitive|git) write: ":Gwrite"
 (fugitive|git) force write: ":Gwrite!"
