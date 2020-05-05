@@ -4,6 +4,7 @@
 #       existing talon ones
 # XXX - finish adding the visual commands, for instance the surround
 #       commands for visual mode
+# XXX - add visual to upper and lower commands
 
 from typing import Set
 
@@ -221,14 +222,21 @@ ctx.lists['self.vim_text_object_select'] = {
     "blocks" : "b",
     "big block" : "B",
     "big blocks" : "B",
+
     "quotes" : "\"",
     "double quotes" : "\"",
     "single quotes" : "'",
+    "ticks" : "'",
+
     "parens" : "(",
     "parenthesis" : "(",
     "angle brackets" : "<",
+
+    # These are pluralized because of how you speak vim grammars
+    # ex: yank inside braces
     "curly braces" : "{",
     "braces" : "{",
+
     "square brackets" : "[",
     "brackets" : "[",
     "backticks" : "`",

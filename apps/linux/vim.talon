@@ -7,10 +7,19 @@ app:gvim
 app:/term/
 and win.title:/VIM/
 -
-save: 
+
+
+###
+# Actions - Talon generic_editor.talon matching
+### 
+
+###
+# File editing
+###
+save [file]: 
     key(escape)
     insert(":w\n")
-save as: 
+save [file] as: 
     key(escape)
     insert(":w ")
 save all: 
@@ -19,10 +28,10 @@ save all:
 save and (quit|close): 
     key(escape)
     insert(":wq\n")
-quit: 
+(close|quit): 
     key(escape)
     insert(":q\n")
-force quit: 
+force (close|quit): 
     key(escape)
     insert(":q!\n")
 refresh file:
@@ -65,6 +74,9 @@ open this file in [split|window]:
 open this file in vertical [split|window]: 
     insert(":vertical wincmd f\n")
 
+###
+# Buffers
+###
 # (buf|buffer)ing
 ((buf|buffer) list|list (buf|buffer)s): ":ls\n"
 (buf|buffer) close <user.number_mixed>: ":bd {number_mixed}"
@@ -78,7 +90,11 @@ force (buf|buffer) close: ":bd!\n"
 close (bufs|buffers): ":bd "
 [(go|jump|open)] (buf|buffer) <user.number_mixed>: ":b {number_mixed}\n"
 
-# vim windowing
+###
+# Splits and Tabs
+###
+
+# Splits
 split <user.vim_arrow>:
     key("ctrl-w")
     key("{vim_arrow}")
@@ -95,6 +111,14 @@ split equalize:
     key("=")
 [new] vertical split: insert(":vsplit\n")
 [new] split: insert(":split\n")
+
+# Tabs
+[show] tabs: ":tabs\n"
+tab close: ":tabclose\n"
+tab next: ":tabnext\n"
+tab (prev|previous): ":tabprevious\n"
+tab first: ":tabfirst\n"
+tab last: ":tablast\n"
 
 ## Non-standard helper commands
 
@@ -124,7 +148,9 @@ set no highlight search: ":set nohls\n"
 (show|set) line numbers: ":set nu\n"
 (hide|set no) line numbers: ":set nonu\n"
 
-action(edit.redo): key(ctrl-r)
+redo: 
+    key(escape)
+    key(ctrl-r)
 undo:
     key(escape)
     key(u)
@@ -156,7 +182,8 @@ mark <user.letter>:
 (go|jump) [to] [last] (cursor|location): "``"
 
 # sessions
-make session: "mksession "
+(make|save) session: ":mksession "
+force (make|save) session: ":mksession! "
 
 # macros
 play macro <user.letter>: "@{letter}"
@@ -182,6 +209,7 @@ extra file info:
 (shift|indent) left: key(<)
 
 # insert mode trips
+# XXX - need make this have mode-specific properties
 clear line: key(ctrl-u)
 
 vim help: ":help "
@@ -218,19 +246,19 @@ search sensitive:
     key(escape)
     insert("/\C")
 
-search <phrase>:
+search <phrase>$:
     key(escape)
     insert("/\c{phrase}\n")
 
-search <phrase> sensitive:
+search <phrase> sensitive$:
     key(escape)
     insert("/\C{phrase}\n")
 
-search <user.ordinals> <phrase>:
+search <user.ordinals> <phrase>$:
     key(escape)
     insert("{ordinals}/\c{phrase}\n")
 
-search (reversed|reverse) <phrase>: 
+search (reversed|reverse) <phrase>$:
     key(escape)
     insert("?\c{phrase}\n")
 
@@ -260,10 +288,7 @@ select <user.vim_select_motion>:
 # split buffer, which in turn loads nerdtree.talon when focused. Don't move
 # these into nerdtree.talon
 nerd tree: insert(":NERDTree\n")
-nerd open <phrase>:
-    insert(":NERDTree\n")
 nerd find [current] file: insert(":NERDTreeFind\n")
-
 
 # Personalized stuff
 run as python: 
@@ -277,7 +302,7 @@ reselect: "gv"
 # XXX - This should be a callable function so we can do things like:
 #       'swap on this <highlight motion>'
 #       'swap between line x, y'
-swap selected:
+swap (selected|highlighted):
     insert(":")
     # leave time for vim to populate '<,'>
     sleep(50ms) 
@@ -318,14 +343,10 @@ swap lines: "ddp"
 replace <user.any>: "r{any}"
 replace mode: key(R)
 overwrite: key(R)
-visual: key(v)
-select: key(v)
-visual line: key(V)
-select line: key(V)
-visual all: "ggVG"
-select all: "ggVG"
-visual block: key(ctrl-v)
-select block: key(ctrl-v)
+(visual|select|highlight): key(v)
+(visual|select|highlight) line: key(V)
+(visual|select|highlight) all: "ggVG"
+(visual|select|highlight) block: key(ctrl-v)
 scroll top: "zt"
 scroll middle: "zz"
 scroll bottom: "zb"
@@ -353,7 +374,7 @@ surround <user.vim_unranged_surround_text_objects> with <user.vim_surround_targe
 (delete|remove) (surrounding|those) <user.vim_surround_targets>:
     insert("ds{vim_surround_targets}")
 
-(change|replace) (surrounding|those) <user.vim_surround_targets> to <user.vim_surround_targets>:
+(change|replace|swap) (surrounding|those) <user.vim_surround_targets> (to|with) <user.vim_surround_targets>:
     insert("cs{vim_surround_targets_1}{vim_surround_targets_2}")
 
 # 
@@ -364,14 +385,6 @@ surround <user.vim_unranged_surround_text_objects> with <user.vim_surround_targe
 (escape|pop) terminal:
     key(ctrl-\)
     key(ctrl-n)
-
-# tabs
-[show] tabs: ":tabs\n"
-tab close: ":tabclose\n"
-tab next: ":tabnext\n"
-tab (prev|previous): ":tabprevious\n"
-tab first: ":tabfirst\n"
-tab last: ":tablast\n"
 
 # folds
 fold (lines|line): "fZ"
