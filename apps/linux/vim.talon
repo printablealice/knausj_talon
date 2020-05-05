@@ -28,7 +28,7 @@ save all:
 save and (quit|close): 
     key(escape)
     insert(":wq\n")
-(close|quit): 
+(close|quit) file:  
     key(escape)
     insert(":q\n")
 force (close|quit): 
@@ -79,13 +79,14 @@ open this file in vertical [split|window]:
 ###
 # (buf|buffer)ing
 ((buf|buffer) list|list (buf|buffer)s): ":ls\n"
-(buf|buffer) close <user.number_mixed>: ":bd {number_mixed}"
+(buf|buffer) (close|delete) <user.number_mixed>: ":bd {number_mixed} "
+(close|delete) (buf|buffer) <user.number_mixed>: ":bd {number_mixed} "
 (buf|buffer) close current: ":bd\n"
-close this (buf|buffer): ":bd\n"
+(delete|close) (current|this) buffer: ":bd\n"
 force (buf|buffer) close: ":bd!\n"
 (buf|buffer) open: ":b "
-(buf|buffer) left: ":bprev\n"
-(buf|buffer) right: ":bnext\n"
+(buf|buffer) (left|prev): ":bprev\n"
+(buf|buffer) (right|next): ":bnext\n"
 (buf|buffer) last: ":b#\n"
 close (bufs|buffers): ":bd "
 [(go|jump|open)] (buf|buffer) <user.number_mixed>: ":b {number_mixed}\n"
@@ -187,6 +188,7 @@ force (make|save) session: ":mksession! "
 
 # macros
 play macro <user.letter>: "@{letter}"
+repeat macro: "@@"
 record macro <user.letter>: "q{letter}"
 stop recording: key(q)
 

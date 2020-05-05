@@ -5,6 +5,7 @@
 # XXX - finish adding the visual commands, for instance the surround
 #       commands for visual mode
 # XXX - add visual to upper and lower commands
+# XXX - Add support for ordinal motions: "delete 5th word","find second <char>"
 
 from typing import Set
 
@@ -47,7 +48,7 @@ ctx.lists['self.vim_surround_targets'] = {
     "backticks": "`",
     "sentence": "s",
     "paragraph": "p",
-    "space": "  ", # double spaces is required because surround gets confused
+    "space": "  ",  # double spaces is required because surround gets confused
     "spaces": "  ",
     "tags": "t",
     "h1 tags": "<h1>",
@@ -73,7 +74,8 @@ ctx.lists['self.vim_counted_action_verbs'] = {
     "erase": "x",
     "erase reversed": "X", "erase back": "X",
     "put": "p", "put below": "p", "paste below": "p",
-    "put before": "P", "paste before": "P", "put above": "P", "paste above": "P",
+    "put before": "P", "paste before": "P",
+    "put above": "P", "paste above": "P",
     "repeat": ".",
     # XXX - fix these control characters
     "scroll up": "<C-y>",
@@ -85,10 +87,10 @@ ctx.lists['self.vim_counted_action_verbs'] = {
     "indent line": ">>",
     "unindent line": "<<",
     "toggle case": "~",
-#    "comment line",             @"\\\",
-#    "comment lines",            @"\\\",
-#    "uncomment line",           @"\\\",
-#    "uncomment lines",          @"\\\",
+    #    "comment line",             @"\\\",
+    #    "comment lines",            @"\\\",
+    #    "uncomment line",           @"\\\",
+    #    "uncomment lines",          @"\\\",
     "scroll left": "zh",
     "scroll right": "zl",
     "scroll half screen left": "zH",
@@ -115,7 +117,7 @@ ctx.lists['self.vim_jump_verbs'] = {
 # XXX see about replacing the play word eth something that doesn't conflict
 # with an existing grammar
 ctx.lists['self.vim_counted_actions_args'] = {
-    "play macro": "@", # takes char arg
+    "play macro": "@",  # takes char arg
 }
 
 ctx.lists['self.vim_command_verbs'] = {
@@ -141,7 +143,7 @@ ctx.lists['self.vim_motion_verbs'] = {
     "big word": "W", "big words": "W",
     "back end": "ge", "back end": "ge",
     "back big end": "gE",
-# XXX - see if there's a way to replaces with normal arrow keys
+    # XXX - see if there's a way to replaces with normal arrow keys
     "left": "h",
     "down": "j",
     "up": "k",
@@ -266,96 +268,106 @@ mod.list('vim_select_motion',    desc='Common VIM motions')
 mod.list('vim_surround_targets',    desc='Common VIM motions')
 mod.list('vim_any',    desc='Common VIM motions')
 
+
 @mod.capture
 def vim_surround_targets(m) -> str:
-     "Returns a string"
+    "Returns a string"
+
 
 @mod.capture
 def vim_select_motion(m) -> str:
-     "Returns a string"
+    "Returns a string"
+
 
 @mod.capture
 def vim_counted_action_verbs(m) -> str:
-     "Returns a string"
+    "Returns a string"
+
 
 @mod.capture
 def vim_normal_counted_action(m) -> str:
-     "Returns a string"
+    "Returns a string"
+
 
 @mod.capture
 def vim_jump_targets(m) -> str:
-     "Returns a string"
+    "Returns a string"
+
 
 @mod.capture
 def vim_jump_verbs(m) -> str:
-     "Returns a string"
+    "Returns a string"
+
 
 @mod.capture
 def vim_jump_range(m) -> str:
-     "Returns a string"
+    "Returns a string"
+
 
 @mod.capture
 def vim_text_object_count(m) -> str:
-     "Returns a string"
+    "Returns a string"
+
 
 @mod.capture
 def vim_text_object_range(m) -> str:
-     "Returns a string"
+    "Returns a string"
+
 
 @mod.capture
 def vim_text_object_select(m) -> str:
-     "Returns a string"
+    "Returns a string"
+
 
 @mod.capture
 def vim_command_verbs(m) -> str:
     "Returns a list of verbs"
 
+
 @mod.capture
 def vim_counted_motion_verbs(m) -> str:
     "Returns a list of verbs"
+
 
 @mod.capture
 def vim_motion_verbs(m) -> str:
     "Returns a list of verbs"
 
+
 @mod.capture
 def vim_motion_verbs_with_character(m) -> str:
     "Returns a list of verbs"
+
 
 @mod.capture
 def vim_motion_verbs_with_phrase(m) -> str:
     "Returns a list of verbs"
 
+
 @mod.capture
 def vim_motion_verbs_all(m) -> str:
     "Returns a list of verbs"
+
 
 @mod.capture
 def vim_any(m) -> str:
     "Any one key"
 
-@mod.capture
-def vim_text_object_range(m) -> str:
-    "Returns a string"
-
-@mod.capture
-def vim_text_object_select(m) -> str:
-    "Returns a string"
 
 @mod.capture
 def vim_text_objects(m) -> str:
     "Returns a string"
+
 
 @mod.capture
 def vim_unranged_surround_text_objects(m) -> str:
     "Returns a string"
 
-@mod.capture
-def vim_text_objects(m) -> str:
-    "Returns a string"
+
 @mod.capture
 def vim_normal_counted_command(m) -> str:
     "Returns a string"
+
 
 @ctx.capture(rule='{self.vim_text_object_select}')
 def vim_text_object_select(m) -> str:
@@ -429,7 +441,7 @@ def vim_unranged_surround_text_objects(m) -> str:
     if len(list(m)) == 1:
         return "a" + "".join(list(m))
     else:
-        return  "".join(list(m)[0:1]) + "a" + "".join(list(m)[1:])
+        return "".join(list(m)[0:1]) + "a" + "".join(list(m)[1:])
 
 
 @ctx.capture(rule='[<self.number>] <self.vim_command_verbs> (<self.vim_motion_verbs_all> | <self.vim_text_objects> | <self.vim_jump_targets>)$')
@@ -444,7 +456,6 @@ def vim_normal_counted_action(m) -> str:
 def vim_select_motion(m) -> str:
     return "".join(list(m))
 
-# XXX - Add support for ordinal motions: "delete 5th word", "find second <char>"
 
 @mod.action_class
 class Actions:
@@ -454,12 +465,14 @@ class Actions:
             actions.insert(word)
         print(words)
 
+
 class VimMode:
     def get_mode(self):
         print("Get vim mode")
 
     def set_mode(self, mode):
         print("Set vim mode")
+
 
 class LinuxVimMode(VimMode):
     def get_mode(self):
