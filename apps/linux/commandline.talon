@@ -83,8 +83,15 @@ locate: "locate "
 
 edit here: insert("vim .\n")
 
+edit <phrase>$:
+    insert("vim {phrase}")
+
 edit:
     insert("vim ")
+
+# XXX - ~/.vim/sessions/<tab>
+edit session:
+    insert("vim -S ")
 
 lazy edit:
     insert("vim ")
@@ -111,3 +118,6 @@ d message: "dmesg"
 tar ball: "tar -"
 tar ball extract [zip]: "tar -xvzf "
 tar ball extract bee zip: "tar -xvjf "
+
+curl: "curl "
+double u get: "wget 
