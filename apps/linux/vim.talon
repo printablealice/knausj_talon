@@ -8,10 +8,77 @@ app:/term/
 and win.title:/VIM/
 -
 
-
 ###
-# Actions - Talon generic_editor.talon matching
+# Actions - Talon generic_editor.talon implementation
+# 
+# NOTE: You can disable generic_editor.talon by renaming it, and still fully
+# control vim. These are more for people that are used to the official talon
+# editor commands that want to trial vim a bit.
+# 
+# If you prefer to work from INSERT mode, you may want to add the ctrl-o key
+# prior to most of these
+# 
+# Note that I don't use any of the below, so they have not been thoroughly
+# tested and the VISUAL mode selection stuff will almost certainly not work as
+# expected.
 ### 
+action(edit.find): 
+    key(/)
+action(edit.find_next): 
+    key(n)
+action(edit.word_left): 
+    key(b)
+action(edit.word_right): 
+    key(w)
+action(edit.left): 
+    #key(ctrl-o)
+    key(h)
+action(edit.right): 
+    key(l)
+action(edit.up): 
+    key(k)
+action(edit.down): 
+    key(j)
+action(edit.line_start): 
+    key(^)
+action(edit.line_end): 
+    key($)
+action(edit.file_end): 
+    key(G)
+action(edit.file_start): 
+    "gg"
+action(edit.page_down): 
+    key(ctrl-f)
+action(edit.page_up): 
+    key(ctrl-b)
+action(edit.extend_line_end): 
+    "v$"
+action(edit.extend_left): 
+    "vh"
+action(edit.extend_right): 
+    "vl"
+action(edit.extend_line_up): 
+    "vk"
+action(edit.extend_line_down): 
+    "vj"
+action(edit.extend_word_left): 
+    "vb"
+action(edit.extend_word_right): 
+    "vw"
+action(edit.extend_line_start): 
+    "v^"
+action(edit.extend_file_start): 
+    "vgg"
+action(edit.extend_file_end): 
+    "vG"
+action(edit.indent_more): 
+    ">>"
+action(edit.indent_less): 
+    "<<"
+action(edit.delete_line): 
+    "dd"
+action(edit.delete): 
+    key(x)
 
 ###
 # File editing
@@ -216,8 +283,8 @@ clear line: key(ctrl-u)
 
 vim help: ":help "
 
-focus line <user.number_mixed>: ":{number_mixed}\nzt"
-center line <user.number_mixed>: ":{number_mixed}\nz."
+(focus|orient) [on] line <user.number_mixed>: ":{number_mixed}\nzt"
+center [on] line <user.number_mixed>: ":{number_mixed}\nz."
 scroll (centre|center):
     key(escape)
     insert("z.")
@@ -237,6 +304,9 @@ page up: key(ctrl-b)
 half [page] down: key(ctrl-d)
 half [page] up: key(ctrl-u)
 
+visual mode: key(v)
+normal mode: key(escape)
+insert mode: key(i)
 visual block: key(ctrl-v)
 
 
