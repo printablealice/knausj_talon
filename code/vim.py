@@ -1,4 +1,4 @@
-# This is largely modeled on vimspeak: https://github.com/AshleyF/VimSpeak
+#s(j) This is largely modeled on vimspeak: https://github.com/AshleyF/VimSpeak
 # XXX - probably a lot of the captures could be cleaned up?
 # XXX - the old vim speak special characters needs to be replaced to a the
 #       existing talon ones
@@ -21,9 +21,15 @@ ctx.lists['self.vim_surround_targets'] = {
     "big word": "W",
     "block": "b",
     "big block": "B",
-    "quotes": "\"",
+
+    # Match Talon naming
+    "dubquotes": "\"",
     "double quotes": "\"",
+
+    # Match Talon naming
+    "quotes": "\'",
     "single quotes": "'",
+
     "loose parens": "(",
     "loose parenthesis": "(",
     "loose angle brackets": "<",
@@ -173,7 +179,6 @@ ctx.lists['self.vim_motion_verbs'] = {
     "cursor home": "H",
     "cursor middle": "M",
     "cursor last": "L",
-    # XXX see if we can mix these matches with talon style () somehow
     "start of document": "gg", "start of file": "gg",
     "top of document": "gg", "top of file": "gg",
     "end of document": "G", "end of file": "G",
@@ -225,8 +230,12 @@ ctx.lists['self.vim_text_object_select'] = {
     "big block": "B",
     "big blocks": "B",
 
-    "quotes": "\"",
+    # Match talon naming (vimspeak used 'quote' for ")
+    "dubquote": "\"",
     "double quotes": "\"",
+
+    # Match talon naming
+    "quote": "\'",
     "single quotes": "'",
     "ticks": "'",
 
