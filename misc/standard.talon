@@ -20,6 +20,7 @@ dot talon: ".talon"
 dot mark down: ".md"
 dot shell: ".sh"
 dot vim: ".vim"
+dot see: ".c"
 run vim: "vim "
 run make: "make\n"
 run make (durr | dear): "mkdir "
@@ -35,7 +36,7 @@ M D five: "md5"
 	insert("{}") 
 	key(left enter enter up tab)
 empty array: "[]"
-comment see: "// "
+#comment see: "// "
 word queue: "queue"
 word eye: "eye"
 word iter: "iter"
@@ -80,11 +81,13 @@ mute: key(mute)
 play next: key(next)
 play previous: key(prev)
 (play | pause): key(play_pause)  
-wipe: key(backspace)
-(pad | padding): 
-	insert("  ") 
-	key(left)
-funny: "ha ha"
+#wipe: key(backspace)
+#(pad | padding): 
+#	insert("  ") 
+#	key(left)
+#funny: "ha ha"
 #menu: key(alt)
+
+
 local host: "127.0.0.1"
 hex <user.number_mixed>: "0x{number_mixed}"
