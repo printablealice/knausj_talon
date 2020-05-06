@@ -1,7 +1,8 @@
-os:linux
-app:/KeePassX/
-app:/eepassx/
-app:keepassx2
+os: linux
+#app: /KeePassX/
+#app: /eepassx/
+# XXX for some reason the app: field doesn't match atm
+win.title: /eePass/
 -
 
 # Database
@@ -16,7 +17,7 @@ quit: key(ctrl-q)
 clone entry: key(ctrl-k)
 (view|edit) entry: key(ctrl-e)
 delete entry: key(ctrl-d)
-copy username: key(ctrl-b)
+copy user [name]: key(ctrl-b)
 copy password: key(ctrl-c)
 open (earl|url|link): key(ctrl-u)
 copy (earl|url|link): key(ctrl-alt-u)
