@@ -107,6 +107,7 @@ ctx.lists["self.symbol"] = {
     "space": " ",
     "semi": ";",
     "semicolon": ";",
+    "apostrophe": "'",
     "quote": "'",
     "tick": "'",
     "L square": "[",
