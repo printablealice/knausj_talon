@@ -83,7 +83,8 @@ action(edit.delete):
 ###
 # File editing
 ###
-save [file]: 
+# save alone conflicts too much with say
+save file: 
     key(escape)
     insert(":w\n")
 save [file] as: 
@@ -109,10 +110,10 @@ edit [file|new]:
 reload [vim] config:
     insert(":so $MYVIMRC\n")
 
-[(go|jump)] [to] line <user.number_mixed>:
+[(go|jump)] [to] line <number>:
     key(escape)
     key(:)
-    insert("{number_mixed}")
+    insert("{number}")
     key(enter)
 
 # editing
@@ -121,17 +122,17 @@ format line: "=="
 # trigger its own discrete command in the first part of the command will
 # trigger the dd below. we probably need to come up with different trigger for
 # the one were you specify the line
-delete line <user.number_mixed>$: ":{number_mixed}d\n"
-delete line <user.number_mixed> through <user.number_mixed>$: ":{number_mixed_1},{number_mixed_2}d\n"
+delete line <number>$: ":{number}d\n"
+delete line <number> through <number>$: ":{number_1},{number_2}d\n"
 delete line: "dd"
-(copy|yank) line <user.number_mixed>$: ":{number_mixed}y\n"
-(copy|yank) line <user.number_mixed> through <user.number_mixed>: ":{number_mixed_1},{number_mixed_2}y\n"
+(copy|yank) line <number>$: ":{number}y\n"
+(copy|yank) line <number> through <number>: ":{number_1},{number_2}y\n"
 (copy|yank) line: "Y"
 
 # duplicating line
-(duplicate|paste) line <user.number_mixed> on line <user.number_mixed>$: ":{number_mixed_1}y\n:{number_mixed_2}\np"
-(duplicate|paste) line <user.number_mixed> through <user.number_mixed>$: ":{number_mixed_1},{number_mixed_2}y\np"
-(duplicate|paste) line <user.number_mixed>$: ":{number_mixed}y\np"
+(duplicate|paste) line <number> on line <number>$: ":{number_1}y\n:{number_2}\np"
+(duplicate|paste) line <number> through <number>$: ":{number_1},{number_2}y\np"
+(duplicate|paste) line <number>$: ":{number}y\np"
 
 open [this] link: "gx"
 open this file: "gf"
@@ -146,17 +147,19 @@ open this file in vertical [split|window]:
 ###
 # (buf|buffer)ing
 ((buf|buffer) list|list (buf|buffer)s): ":ls\n"
-(buf|buffer) (close|delete) <user.number_mixed>: ":bd {number_mixed} "
-(close|delete) (buf|buffer) <user.number_mixed>: ":bd {number_mixed} "
+(buf|buffer) (close|delete) <number>: ":bd {number} "
+(close|delete) (buf|buffer) <number>: ":bd {number} "
 (buf|buffer) close current: ":bd\n"
 (delete|close) (current|this) buffer: ":bd\n"
 force (buf|buffer) close: ":bd!\n"
 (buf|buffer) open: ":b "
+(buf|buffer) (first|rewind): ":br\n"
 (buf|buffer) (left|prev): ":bprev\n"
 (buf|buffer) (right|next): ":bnext\n"
+# XXX - conflicts with actual :bl command.. maybe use flip?
 (buf|buffer) last: ":b#\n"
 close (bufs|buffers): ":bd "
-[(go|jump|open)] (buf|buffer) <user.number_mixed>: ":b {number_mixed}\n"
+[(go|jump|open)] (buf|buffer) <number>: ":b {number}\n"
 
 ###
 # Splits and Tabs
@@ -174,13 +177,15 @@ split rotate [right]:
     key(r)
 
 ## window resizing
-split equalize:
+split (balance|equalize):
     key("ctrl-w")
     key("=")
 [new] vertical split: insert(":vsplit\n")
 [new] split: insert(":split\n")
 
+###
 # Tabs
+###
 [show] tabs: ":tabs\n"
 tab close: ":tabclose\n"
 tab next: ":tabnext\n"
@@ -209,6 +214,9 @@ inject <user.any> after:
     insert("a{any}")
     key(escape)
 
+### 
+# Settings
+###
 highlight off: ":nohl\n"
 hide (highlight|hightlights): ":nohl\n"
 set highlight search: ":set hls\n"
@@ -227,7 +235,16 @@ undo:
 (jump|dive) [to] (symbol|tag): key(ctrl-])
 (pop|leave) (symbol|tag): key(ctrl-t)
 
-# marks
+###
+# Movement
+#
+# Majority of movement is handled in code/vim.py
+###
+matching: key(%)
+
+###
+# Marks
+###
 mark <user.letter>:
     key(m)
     key(letter)
@@ -277,26 +294,24 @@ extra file info:
 (shift|indent) right: key(>)
 (shift|indent) left: key(<)
 
-# insert mode trips
+# insert mode tricks
 # XXX - need make this have mode-specific properties
 clear line: key(ctrl-u)
 
+
 vim help: ":help "
 
-(focus|orient) [on] line <user.number_mixed>: ":{number_mixed}\nzt"
-center [on] line <user.number_mixed>: ":{number_mixed}\nz."
-scroll (centre|center):
-    key(escape)
-    insert("z.")
-
-scroll bottom:
-    key(escape)
-    insert("zb")
-
-scroll top:
-    key(escape)
-    insert("zt")
-matching: key(%)
+###
+# Scrolling and page position
+###
+(focus|orient) [on] line <number>: ":{number}\nzt"
+center [on] line <number>: ":{number}\nz."
+scroll top: "zt"
+scroll (center|middle): "zz"
+scroll bottom: "zb"
+scroll top reset cursor: "z\n"
+scroll middle reset cursor: "z."
+scroll bottom reset cursor: "z "
 scroll up: key(ctrl-y)
 scroll down: key(ctrl-e)
 page down: key(ctrl-f)
@@ -353,6 +368,9 @@ search (reversed|reverse) sensitive:
 
 select <user.vim_select_motion>:
     insert("v{vim_select_motion}")
+
+spider man:
+    user.run_vim_cmd("beep")
 
 # Plugins
 
@@ -419,12 +437,6 @@ overwrite: key(R)
 (visual|select|highlight) line: key(V)
 (visual|select|highlight) all: "ggVG"
 (visual|select|highlight) block: key(ctrl-v)
-scroll top: "zt"
-scroll middle: "zz"
-scroll bottom: "zb"
-scroll top reset cursor: "z\n"
-scroll middle reset cursor: "z."
-scroll bottom reset cursor: "z "
 
 # Surround plugin
 # XXX - switch to a separate file with mode
@@ -458,11 +470,15 @@ surround <user.vim_unranged_surround_text_objects> with <user.vim_surround_targe
     key(ctrl-\)
     key(ctrl-n)
 
-# folds
+###
+# Folding
+###
 fold (lines|line): "fZ"
-fold line <user.number_mixed> through <user.number_mixed>$: ":{number_mixed_1},{number_mixed_2}fo\n"
-(open fold|fold open): "zo"
+fold line <number> through <number>$: ":{number_1},{number_2}fo\n"
+(unfold|open fold|fold open): "zo"
 (close fold|fold close): "zc"
+open all folds: "zR"
+close all folds: "zM"
 
 
 # run commands

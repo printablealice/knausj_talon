@@ -1,7 +1,7 @@
 os: linux
 app: /term/
+# XXX - this matches .gdb files atm
 win.title: /gdb/
-not win.title: /VIM/
 -
 
 # information
@@ -13,18 +13,31 @@ print [variable] <phrase>: "p {phrase}"
 print hex: "p/x "
 print hex [variable] <phrase>: "p/x {phrase}"
 
-# breakpoints
+### Breakpoints ###
+
+# enable
 (list|show|info) breakpoints: "info breakpoints\n"
 break [point] [on]: "break "
 break [point] here: "break\n"
-delete break [point] <number>: "d br {number}"
-disable break [point] <number>: "disable br {number}\n"
+enable all break points: "enable br\n"
 enable break [point] <number>: "enable br {number}\n"
 break [on] clipboard: 
     insert("break ")
     key(ctrl-shift-c)
     key(enter)
-until <user.number_mixed>: "until {number_mixed}"
+
+# disable
+disable all break points: "disable br\n"
+disable break [point] <number>: "disable br {number}\n"
+
+# delete
+delete all break points: "d br\n"
+force delete all break points: 
+    insert("d br\n")
+    insert("y\n")
+delete break [point] <number>: "d br {number}"
+
+until <number>: "until {number}"
 finish [function]: "finish\n"
 
 # registers
@@ -59,17 +72,19 @@ undisplay: "undisplay\n"
 info threads: "info threads\n"
 
 restart [program]: "r\n"
-(go|continue): "c\n"
+continue: "c\n"
 back trace: "bt\n"
 quit: "quit\n"
+# more quickly quit when there are inferiors 
+force quit: "quit\ny\n"
 (show|info) (inf|inferiors): "info inferiors\n"
-inferior <user.number_mixed>$: "inferior {number_mixed}\n"
+inferior <number>$: "inferior {number}\n"
 inferior: "inferior "
 resume main (inf|inferior):
     insert("inferior 1\n")
     insert("c\n")
-resume [from] (inf|inferior) <user.number_mixed>$: 
-    insert("inferior {number_mixed}\n")
+resume [from] (inf|inferior) <number>$: 
+    insert("inferior {number}\n")
     insert("c\n")
 
 # arguments
@@ -86,7 +101,7 @@ unset detach on fork: "set detach-on-fork off\n"
 
 # list
 show list size: "show listsize\n"
-set list size <user.number_mixed>: "set listsize {number_mixed}\n"
+set list size <number>: "set listsize {number}\n"
 
 # misc
 clear screen: "shell clear\n"

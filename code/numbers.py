@@ -116,9 +116,18 @@ def number_small(m):
             result += teens_map[word]
     return result
 
-@ctx.capture('number', rule=f'<number_small> [{alt_scales} ([and] (<number_small> | {alt_scales} | <number_small> {alt_scales}))*]')
-def number(m):
+@ctx.capture('self.number_scaled', rule=f'(<digits> | [<digits>] <number_small> [{alt_scales} ([and] (<number_small> | {alt_scales} | <number_small> {alt_scales}))*])')
+def number_scaled(m):
     return fuse_num(fuse_scale(fuse_num(fuse_scale(list(m), 3))))[0]
+
+# This rule offers more colloquial number speaking when combined with a command
+# like: "go to line <number>"
+# Example: " one one five            " == 115
+#          " one fifteen             " == 115
+#          " one hundred and fifteen " == 115
+@ctx.capture('number', rule=f'(<digits> | [<digits>] <user.number_scaled>)')
+def number(m):
+    return "".join(str(i) for i in list(m))
 
 @ctx.capture('number_signed', rule=f'[negative] <number>')
 def number_signed(m):
@@ -127,18 +136,11 @@ def number_signed(m):
         return -number
     return number
 
+# XXX - hack until i can figure out the proper way to integrate directly into
+# number
 mod = Module()
-mod.list('number_mixed',    desc='Mix of numbers and digits')
+mod.list('number_scaled',    desc='Mix of numbers and digits')
 
 @mod.capture
-def number_mixed(m) -> str:
+def number_scaled(m) -> str:
     "Returns a series of numbers as a string"
-
-# This rule offers more colloquial number speaking when combined with a command
-# like: "go to line <number>"
-# Example: " one one five            " == 115
-#          " one fifteen             " == 115
-#          " one hundred and fifteen " == 115
-@ctx.capture('self.number_mixed', rule=f'(<number> | <digits> <number> | <digits>)')
-def number_mixed(m):
-    return "".join(str(i) for i in list(m))

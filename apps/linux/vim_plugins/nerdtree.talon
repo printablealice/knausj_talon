@@ -8,8 +8,8 @@ close parent: key(x)
 close all children: key(X)
 
 # file node mappings
-open (line|file|node) <user.number_mixed>$: 
-    insert(":{number_mixed}\n")
+open (line|file|node) <number>$:
+    insert(":{number}\n")
     key(o)
 recursive open [file]: key(O)
 open file: key(o)
@@ -17,8 +17,8 @@ open file [in] split: key(i)
 open file [in] vertical split: key(s)
 
 # directory node mappings
-close (line|file|node) <user.number_mixed>$: 
-    insert(":{number_mixed}\n")
+close (line|file|node) <number>$:
+    insert(":{number}\n")
     key(o)
 close parent node: key(x)
 close all nodes: key(X)
