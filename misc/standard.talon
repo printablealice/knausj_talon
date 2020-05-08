@@ -32,8 +32,8 @@ M D five: "md5"
 (parens|args):
 	insert("()")
 	key(left)
-(block|brackets): 
-	insert("{}") 
+(block|brackets):
+	insert("{}")
 	key(left enter enter up tab)
 empty array: "[]"
 #comment see: "// "
@@ -43,23 +43,23 @@ word iter: "iter"
 word no: "NULL"
 word cmd: "cmd"
 word dup: "dup"
-word streak: 
-	insert("streq()") 
+word streak:
+	insert("streq()")
 	key(left)
 word printf: "printf"
 word shell: "shell"
 dunder in it: "__init__"
 self taught: "self."
-(dickt in it | inside bracket | in bracket): 
-	insert("{}") 
+(dickt in it | inside bracket | in bracket):
+	insert("{}")
 	key(left)
-(in | inside) percent: 
-	insert("%%") 
+(in | inside) percent:
+	insert("%%")
 	key(left)
-(index|list in it): 
-	insert("[]") 
+(index|list in it):
+	insert("[]")
 	key(left)
-string U T F eight: 
+string U T F eight:
 	insert("'utf8'")
 state past: "pass"
 zoom in: edit.zoom_in()
@@ -80,14 +80,13 @@ volume down: key(voldown)
 mute: key(mute)
 play next: key(next)
 play previous: key(prev)
-(play | pause): key(play_pause)  
+(play | pause): key(play_pause)
 #wipe: key(backspace)
-#(pad | padding): 
-#	insert("  ") 
+#(pad | padding):
+#	insert("  ")
 #	key(left)
 #funny: "ha ha"
 #menu: key(alt)
 
-
 local host: "127.0.0.1"
-hex <user.number_mixed>: "0x{number_mixed}"
+hex <number>: "0x{number}"
