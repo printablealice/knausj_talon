@@ -13,19 +13,19 @@ sleep all:
 	user.engine_sleep()
 talon sleep: 
     speech.disable()
-    user.system_command('notify-send "Talon Sleep"')
+    user.system_command('notify-send.sh -t 3000 -f -u low "Talon Sleep"')
 talon wake: 
     speech.enable()
-    user.system_command('notify-send "Talon Awake"')
+    user.system_command('notify-send.sh -t 3000 -f -u low "Talon Awake"')
 dragon mode: speech.disable()
 talon mode: speech.enable()
 ^dictation mode$:
     mode.disable("sleep")
     mode.disable("command")
     mode.enable("dictation")
-    user.system_command('notify-send "Dictation Mode"')
+    user.system_command('notify-send.sh -t 3000 -f -u low "Dictation Mode"')
 ^command mode$:
     mode.disable("sleep")
     mode.disable("dictation")
     mode.enable("command")
-    user.system_command('notify-send "Command Mode"')
+    user.system_command('notify-send.sh -t 3000 -f -u low "Command Mode"')
