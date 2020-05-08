@@ -5,6 +5,8 @@ app: Terminal
 app: Windows Command Processor
 not win.title: /VIM/
 -
+
+# Standard commands
 git add patch: insert("git add . -p\n")
 git add: insert("git add ")
 git add everything: insert("git add -u\n")
@@ -54,7 +56,12 @@ git submodule init: "git submodule init\n"
 git submodule update: "git submodule update --remote"
 git tag: insert("git tag ")
 
+# Convenience
+git edit config: "git config --local -e\n"
+
 # Linux shell git specific
+# XXX - Ideally ctrl-shift-v could be integrated as an edit.paste() command for
+# terminal eventually
 git diff highlighted:
     key(ctrl-shift-c)
     insert("git diff ")
