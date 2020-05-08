@@ -270,11 +270,19 @@ mark <user.letter>:
 (make|save) session: ":mksession "
 force (make|save) session: ":mksession! "
 
-# macros
+# macros and registers
+show registers: ":reg\n"
+show register <user.letter>: ":reg {letter}\n"
 play macro <user.letter>: "@{letter}"
 repeat macro: "@@"
 record macro <user.letter>: "q{letter}"
 stop recording: key(q)
+modify [register|macro] <user.letter>:
+    ":let @{letter}='"
+    key(ctrl-r)
+    key(ctrl-r)
+    insert("{letter}")
+    key(')
 
 # jump list
 show jump list: ":jumps\n"
@@ -292,7 +300,9 @@ extra file info:
 
 # motions:
 (shift|indent) right: key(>)
+indent [line] <number> through <number>$: ":{number_1},{number_2}>\n"
 (shift|indent) left: key(<)
+unindent [line] <number> through <number>$: ":{number_1},{number_2}>\n"
 
 # insert mode tricks
 # XXX - need make this have mode-specific properties
@@ -401,6 +411,12 @@ swap (selected|highlighted):
     key(left)
     key(left)
 
+deleted selected empty lines:
+    insert(":")
+    # leave time for vim to populate '<,'>
+    sleep(50ms) 
+    insert("g/^$/d\j")
+
 swap global:
     insert(":%s///g")
     key(left)
@@ -483,3 +499,5 @@ close all folds: "zM"
 
 # run commands
 run as python: ":!python %\n"
+
+
