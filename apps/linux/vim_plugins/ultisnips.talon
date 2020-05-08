@@ -1,2 +1,5 @@
+app: gvim
+app: /term/
+win.title: /VIM/
 -
-refresh snippets: ":call UltiSnips#RefreshSnippets()\n"
+(reload|refresh) snippets: ":call UltiSnips#RefreshSnippets()\n"
