@@ -30,6 +30,10 @@ action(edit.page_down):
   key(shift-pagedown)
 action(edit.page_up):
   key(shift-pageup)
+scroll up: 
+  key(shift-pageup)
+scroll down:
+  key(shift-pagedown)
 action(edit.paste):
   key(ctrl-shift-v)
 action(edit.copy):
