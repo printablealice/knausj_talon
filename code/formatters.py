@@ -28,7 +28,6 @@ def FormatText(m, fmtrs):
         words = s.get().split(" ")
         if not words:
             return
-    
     return format_text_helper(words, fmtrs)
 
 def format_text_helper(words, fmtrs):
@@ -108,6 +107,7 @@ formatters_words = {
     "kebab": formatters_dict["DASH_SEPARATED"],
     "packed": formatters_dict["DOUBLE_COLON_SEPARATED"],
     "allcaps": formatters_dict["ALL_CAPS"],
+    "upper": formatters_dict["ALL_CAPS"],
     "alldown": formatters_dict["ALL_LOWERCASE"],
     "dubstring": formatters_dict["DOUBLE_QUOTED_STRING"],
     "string": formatters_dict["SINGLE_QUOTED_STRING"],
