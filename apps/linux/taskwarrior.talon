@@ -24,8 +24,8 @@ task undo: "task undo\n"
 (tasks|task next): "task next\n"
 
 # task editing
-task <user.number_mixed> edit$: "task {number_mixed} edit"
+task <number> edit$: "task {number} edit"
 
 # task completion
-task <user.number_mixed> done$: "task {number_mixed} done"
-task <user.number_mixed> delete$: "task {number_mixed} delete"
+task <number> done$: "task {number} done"
+task <number> delete$: "task {number} delete"
