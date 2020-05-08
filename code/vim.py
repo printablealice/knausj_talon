@@ -1,4 +1,4 @@
-#s(j) This is largely modeled on vimspeak: https://github.com/AshleyF/VimSpeak
+# This is largely modeled on vimspeak: https://github.com/AshleyF/VimSpeak
 # XXX - probably a lot of the captures could be cleaned up?
 # XXX - the old vim speak special characters needs to be replaced to a the
 #       existing talon ones
@@ -7,9 +7,7 @@
 # XXX - add visual to upper and lower commands
 # XXX - Add support for ordinal motions: "delete 5th word","find second <char>"
 
-from typing import Set
-
-from talon import Module, Context, actions
+from talon import Module, Context, actions, ui
 
 mod = Module()
 ctx = Context()
@@ -183,7 +181,7 @@ ctx.lists['self.vim_motion_verbs'] = {
     "top of document": "gg", "top of file": "gg",
     "end of document": "G", "end of file": "G",
 
-# XXX - these need to be keys
+    # XXX - these need to be keys
     "retrace movements": "ctrl-o",
     "retrace movements forward": "ctrl-i",
 }
@@ -401,8 +399,8 @@ def vim_command_verbs(m) -> str:
 def vim_motion_verbs(m) -> str:
     return m.vim_motion_verbs
 
-#@ctx.capture(rule='{self.vim_motion_verbs_with_character} (<user.letter>|<user.number>|<user.symbol>)')
-@ctx.capture(rule='{self.vim_motion_verbs_with_character} <user.any>')
+@ctx.capture(rule='{self.vim_motion_verbs_with_character} (<user.letter>|<user.number>|<user.symbol>)')
+#@ctx.capture(rule='{self.vim_motion_verbs_with_character} <user.any>')
 def vim_motion_verbs_with_character(m) -> str:
     return m.vim_motion_verbs_with_character + "".join(list(m)[1:])
 
@@ -418,32 +416,38 @@ def vim_motion_verbs_all(m) -> str:
 def vim_counted_action_verbs(m) -> str:
     return m.vim_counted_action_verbs
 
+
 @ctx.capture(rule='[<self.number>] <self.vim_motion_verbs_all>$')
 def vim_counted_motion_verbs(m) -> str:
     return "".join(list(m))
+
 
 @ctx.capture(rule='{self.vim_jump_range}')
 def vim_jump_range(m) -> str:
     return m.vim_jump_range
 
+
 @ctx.capture(rule='{self.vim_jump_verbs}')
 def vim_jump_verbs(m) -> str:
     return m.vim_jump_verbs
+
 
 @ctx.capture(rule='{self.vim_surround_targets}')
 def vim_surround_targets(m) -> str:
     return m.vim_surround_targets
 
+
 @ctx.capture(rule='<self.vim_jump_range> <self.vim_jump_verbs>$')
 def vim_jump_targets(m) -> str:
     return "".join(list(m))
+
 
 @ctx.capture(rule='[<self.vim_text_object_count>] <self.vim_text_object_range> <self.vim_text_object_select>$')
 def vim_text_objects(m) -> str:
     return "".join(list(m))
 
 # when speaking adding in the object ranges a little bit annoying, so it's a
-# little bit and more natural to just assume that you mean around if you didn't 
+# little bit and more natural to just assume that you mean around if you didn't
 # say anything
 @ctx.capture(rule='[<self.vim_text_object_count>] <self.vim_text_object_select>$')
 def vim_unranged_surround_text_objects(m) -> str:
@@ -457,9 +461,11 @@ def vim_unranged_surround_text_objects(m) -> str:
 def vim_normal_counted_command(m) -> str:
     return("".join(list(m)))
 
+
 @ctx.capture(rule='[<self.number>] <self.vim_counted_action_verbs>$')
 def vim_normal_counted_action(m) -> str:
     return "".join(list(m))
+
 
 @ctx.capture(rule='[<self.number>] (<self.vim_motion_verbs> | <self.vim_text_objects> | <self.vim_jump_targets>)$')
 def vim_select_motion(m) -> str:
@@ -468,17 +474,73 @@ def vim_select_motion(m) -> str:
 
 @mod.action_class
 class Actions:
-    def vim_cmd(words: list):
-        "Insert an abbreviation"
-        for word in words:
-            actions.insert(word)
+    def run_vim_cmd(words: list):
+        """Insert an abbreviation"""
+#        for word in words:
+#            actions.insert(word)
         print(words)
+        vim_mode = VimMode()
+        mode = vim_mode.get_active_mode()
+        rpc_path = vim_mode.get_active_rpc()
+        if mode is not None:
+            print(mode)
+        if rpc_path is not None:
+            print(rpc_path)
 
 
 class VimMode:
-    def get_mode(self):
-        print("Get vim mode")
+    vim_modes = {
+            "n": "Normal",
+            "no": "N Operator Pending",
+            "v": "Visual",
+            "V": "V Line",
+            "^V": "V-Block",
+            's': 'Select',
+            'S': 'S·Line',
+            'i': 'Insert',
+            'R': 'Replace',
+            'Rv': 'V·Replace',
+            'c': 'Command',
+            'cv': 'Vim Ex',
+            'ce': 'Ex',
+            'r': 'Prompt',
+            'rm': 'More',
+            'r?': 'Confirm',
+            '!': 'Shell',
+            }
 
+    def __init__(self):
+        # list of all vim instances talon is aware of
+        self.vim_instances = []
+        self.current_mode = None
+        self.current_rpc = None
+
+    def is_normal_mode(self, mode):
+        return (mode == "n" or mode == "no")
+
+    def is_visual_mode(self, mode):
+        return (mode == "v" or mode == "V" or mode == "^V")
+
+    def get_active_mode(self):
+        title = ui.active_window().title
+        mode = None
+        if "MODE:" in title:
+            mode = title.split("MODE:")[1].split(' ')[0]
+            if mode not in self.vim_modes.keys():
+                return None
+            self.current_mode = mode
+        return mode
+
+    # XXX - currently only support UDS named pipes
+    def get_active_rpc(self):
+        title = ui.active_window().title
+        if "RPC" in title:
+            named_pipe = title.split("RPC:")[1].split(' ')[0]
+            return named_pipe
+        return None
+
+    # if neovim RPC is supported we use it
+    # otherwise we simply use keyboard binding combinations
     def set_mode(self, mode):
         print("Set vim mode")
 
