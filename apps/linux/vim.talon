@@ -116,6 +116,9 @@ reload [vim] config:
     insert("{number}")
     key(enter)
 
+list current directory: ":pwd\n"
+change buffer directory: ":lcd %:p:h\n"
+
 # editing
 format line: "=="
 # XXX - this doesn't work with numbers below nine, because the nine will
@@ -477,7 +480,7 @@ surround <user.vim_unranged_surround_text_objects> with <user.vim_surround_targe
 (change|replace|swap) (surrounding|those) <user.vim_surround_targets> (to|with) <user.vim_surround_targets>:
     insert("cs{vim_surround_targets_1}{vim_surround_targets_2}")
 
-# 
+# XXX - the gap above doesn't actually work at the moment
 [add] gap above: ":pu _\n:'[+1\n"
 [add] gap below: ":pu _\n:'[-1\n"
 
