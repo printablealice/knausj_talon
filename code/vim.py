@@ -74,6 +74,7 @@ ctx.lists['self.vim_counted_action_verbs'] = {
     "substitute line": "S",
     "undo": "u",
     "undo line": "U",
+    # XXX - fix this control char
     "redo": "<C r>",
     "erase": "x",
     "erase reversed": "X", "erase back": "X",
