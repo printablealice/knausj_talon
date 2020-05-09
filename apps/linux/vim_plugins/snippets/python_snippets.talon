@@ -10,11 +10,11 @@ code.language: python
 # Private snippets
 ###
 
-print success:
+snippet print success:
     insert("psuccess")
     key(tab)
 
-print fail:
+snippet print fail:
     insert("pfail")
     key(tab)
 
