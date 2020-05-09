@@ -23,7 +23,7 @@ enable all break points: "enable br\n"
 enable break [point] <number>: "enable br {number}\n"
 break [on] clipboard: 
     insert("break ")
-    key(ctrl-shift-c)
+    key(ctrl-shift-v)
     key(enter)
 
 # disable
