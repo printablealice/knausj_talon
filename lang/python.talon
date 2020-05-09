@@ -32,6 +32,29 @@ class <phrase>:
     insert("class ")
     insert(user.formatted_text(phrase, "hammer"))
     insert("():\n")
+comment py: insert("# ")
+dunder in it: insert("__init__")
+self taught:
+	insert("self.")
+from import:
+	insert("from import ")
+	key(left)
+	edit.word_left()
+	key(space)
+	edit.left()
+for in:
+	insert("for in ")
+	key(left)
+	edit.word_left()
+	key(space)
+	edit.left()
+dock string:
+    insert("\"\"\"")
+    insert("\"\"\"")
+    edit.left()
+    edit.left()
+    edit.left()
+pie test: insert("pytest")
 
 ####
 # Keywords
@@ -109,3 +132,4 @@ snippet add arg parser:
 snippet try block:
     insert("try")
     key(tab)
+

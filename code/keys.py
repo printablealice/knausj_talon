@@ -192,6 +192,7 @@ simple_keys = [
     "pageup",
     "pagedown",
     "end",
+    "insert",
 ]
 alternate_keys = {
     #'delete': 'delete',
