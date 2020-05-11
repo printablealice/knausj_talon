@@ -100,10 +100,10 @@ top:
 bottom:
     user.vimvixen_key("G")
 
-mark <user.letters>:
-    insert("m%(letters)s")
-go to mark <letters>':
-    insert("%(letters)s")
+mark <user.letter>:
+    insert("m%({letter})s")
+go to mark <user.letter>':
+    insert("%({letter})s")
 #  Searching
 find <phrase>:
     user.vimvixen_key("/")
