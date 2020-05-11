@@ -384,6 +384,11 @@ search (reversed|reverse) sensitive:
 select <user.vim_select_motion>:
     insert("v{vim_select_motion}")
 
+select lines <number> through <number>:
+    insert("{number_1}G")
+    key(V)
+    insert("{number_2}G")
+
 spider man:
     user.run_vim_cmd("beep")
 
