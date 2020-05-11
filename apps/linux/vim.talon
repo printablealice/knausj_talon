@@ -304,9 +304,9 @@ extra file info:
     key(ctrl-g)
 
 # motions:
-(shift|indent) right: key(>)
+(shift|indent) right: ">>"
 indent [line] <number> through <number>$: ":{number_1},{number_2}>\n"
-(shift|indent) left: key(<)
+(shift|indent) left: "<<"
 unindent [line] <number> through <number>$: ":{number_1},{number_2}>\n"
 
 # insert mode tricks
