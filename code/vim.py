@@ -7,28 +7,24 @@
 # XXX - add visual to upper and lower commands
 # XXX - Add support for ordinal motions: "delete 5th word","find second <char>"
 
-from talon import Module, Context, actions, ui
+from talon import Context, Module, actions, ui
 
 mod = Module()
-mod.tag("vim", desc='a tag to load various vim plugins')
 ctx = Context()
 
-ctx.lists['self.vim_surround_targets'] = {
+ctx.lists["self.vim_surround_targets"] = {
     "stars": "*",
     "asterisks": "*",
     "word": "w",
     "big word": "W",
     "block": "b",
     "big block": "B",
-
     # Match Talon naming
-    "dubquotes": "\"",
-    "double quotes": "\"",
-
+    "dubquotes": '"',
+    "double quotes": '"',
     # Match Talon naming
-    "quotes": "\'",
+    "quotes": "'",
     "single quotes": "'",
-
     "loose parens": "(",
     "loose parenthesis": "(",
     "loose angle brackets": "<",
@@ -62,11 +58,14 @@ ctx.lists['self.vim_surround_targets'] = {
     "bold tags": "<b>",
 }
 
-ctx.lists['self.vim_counted_action_verbs'] = {
-    "after": "a", "append": "a",
-    "after line": "A", "append line": "A",
+ctx.lists["self.vim_counted_action_verbs"] = {
+    "after": "a",
+    "append": "a",
+    "after line": "A",
+    "append line": "A",
     "insert": "i",
-    "insert before line": "I", "insert line": "I",
+    "insert before line": "I",
+    "insert line": "I",
     "insert column zero": "gI",
     # "open": "o",  # conflicts too much with other commands
     "open below": "o",
@@ -78,10 +77,15 @@ ctx.lists['self.vim_counted_action_verbs'] = {
     # XXX - fix this control char
     "redo": "<C r>",
     "erase": "x",
-    "erase reversed": "X", "erase back": "X",
-    "put": "p", "put below": "p", "paste below": "p",
-    "put before": "P", "paste before": "P",
-    "put above": "P", "paste above": "P",
+    "erase reversed": "X",
+    "erase back": "X",
+    "put": "p",
+    "put below": "p",
+    "paste below": "p",
+    "put before": "P",
+    "paste before": "P",
+    "put above": "P",
+    "paste above": "P",
     "repeat": ".",
     # XXX - fix these control characters
     "scroll up": "<C-y>",
@@ -106,48 +110,57 @@ ctx.lists['self.vim_counted_action_verbs'] = {
     "play again": "@@",
 }
 
-ctx.lists['self.vim_jump_range'] = {
+ctx.lists["self.vim_jump_range"] = {
     "jump to line of": "'",
     "jump to character of": "`",
 }
 
-ctx.lists['self.vim_jump_verbs'] = {
+ctx.lists["self.vim_jump_verbs"] = {
     "start of last selection": "<",
     "end of last selection": ">",
     "latest jump": "'",
-    "last exit": "\"",
+    "last exit": '"',
     "last insert": "^",
     "last change": ".",
 }
 
 # XXX see about replacing the play word eth something that doesn't conflict
 # with an existing grammar
-ctx.lists['self.vim_counted_actions_args'] = {
+ctx.lists["self.vim_counted_actions_args"] = {
     "play macro": "@",  # takes char arg
 }
 
-ctx.lists['self.vim_command_verbs'] = {
+ctx.lists["self.vim_command_verbs"] = {
     "change": "c",
     "delete": "d",
     "indent": ">",
-    "unindent": "<", "an indent": "<", "un indent": "<",
+    "unindent": "<",
+    "an indent": "<",
+    "un indent": "<",
     "join": "J",
     "filter": "=",
-    "put": "p", "paste": "p",
+    "put": "p",
+    "paste": "p",
     "undo": "u",
-    "yank": "y", "copy": "y",
+    "yank": "y",
+    "copy": "y",
     "fold": "zf",
     "format": "gq",
 }
 
-ctx.lists['self.vim_motion_verbs'] = {
-    "back": "b", "back word": "b",
-    "big back": "B", "big back word": "B",
+ctx.lists["self.vim_motion_verbs"] = {
+    "back": "b",
+    "back word": "b",
+    "big back": "B",
+    "big back word": "B",
     "end": "e",
     "big end": "E",
-    "word": "w", "words": "w",
-    "big word": "W", "big words": "W",
-    "back end": "ge", "back end": "ge",
+    "word": "w",
+    "words": "w",
+    "big word": "W",
+    "big words": "W",
+    "back end": "ge",
+    "back end": "ge",
     "back big end": "gE",
     # XXX - see if there's a way to replaces with normal arrow keys
     "left": "h",
@@ -155,7 +168,8 @@ ctx.lists['self.vim_motion_verbs'] = {
     "up": "k",
     "right": "l",
     "next": "n",
-    "next reversed": "N", "previous": "N",
+    "next reversed": "N",
+    "previous": "N",
     "column zero": "0",
     "column": "|",
     "start of line": "^",
@@ -164,9 +178,11 @@ ctx.lists['self.vim_motion_verbs'] = {
     "search under cursor reversed": "#",
     "again": ";",
     "again reversed": ",",
-    "down sentence": ")", "sentence": ")",
+    "down sentence": ")",
+    "sentence": ")",
     "up sentence": "(",
-    "down paragraph": "}", "paragraph": "}",
+    "down paragraph": "}",
+    "paragraph": "}",
     "up paragraph": "{",
     "start of next section": "]]",
     "start of previous section": "[[",
@@ -179,17 +195,19 @@ ctx.lists['self.vim_motion_verbs'] = {
     "cursor home": "H",
     "cursor middle": "M",
     "cursor last": "L",
-    "start of document": "gg", "start of file": "gg",
-    "top of document": "gg", "top of file": "gg",
-    "end of document": "G", "end of file": "G",
-
+    "start of document": "gg",
+    "start of file": "gg",
+    "top of document": "gg",
+    "top of file": "gg",
+    "end of document": "G",
+    "end of file": "G",
     # XXX - these need to be keys
     "retrace movements": "ctrl-o",
     "retrace movements forward": "ctrl-i",
 }
 
 # all of these motions take a character argument
-ctx.lists['self.vim_motion_verbs_with_character'] = {
+ctx.lists["self.vim_motion_verbs_with_character"] = {
     "jump to mark": "'",
     "find": "f",
     "find reversed": "F",
@@ -198,12 +216,12 @@ ctx.lists['self.vim_motion_verbs_with_character'] = {
 }
 
 # all of these motions take a phrase argument
-ctx.lists['self.vim_motion_verbs_with_phrase'] = {
+ctx.lists["self.vim_motion_verbs_with_phrase"] = {
     "search": "/",
     "search reversed": "?",
 }
 
-ctx.lists['self.vim_text_object_count'] = {
+ctx.lists["self.vim_text_object_count"] = {
     "two": "2",
     "three": "3",
     "four": "4",
@@ -214,13 +232,13 @@ ctx.lists['self.vim_text_object_count'] = {
     "nine": "9",
 }
 
-ctx.lists['self.vim_text_object_range'] = {
+ctx.lists["self.vim_text_object_range"] = {
     "inner": "i",
     "around": "a",
     "this": "a",
 }
 
-ctx.lists['self.vim_text_object_select'] = {
+ctx.lists["self.vim_text_object_select"] = {
     "word": "w",
     "words": "w",
     "big word": "W",
@@ -229,25 +247,20 @@ ctx.lists['self.vim_text_object_select'] = {
     "blocks": "b",
     "big block": "B",
     "big blocks": "B",
-
     # Match talon naming (vimspeak used 'quote' for ")
-    "dubquote": "\"",
-    "double quotes": "\"",
-
+    "dubquote": '"',
+    "double quotes": '"',
     # Match talon naming
-    "quote": "\'",
+    "quote": "'",
     "single quotes": "'",
     "ticks": "'",
-
     "parens": "(",
     "parenthesis": "(",
     "angle brackets": "<",
-
     # These are pluralized because of how you speak vim grammars
     # ex: yank inside braces
     "curly braces": "{",
     "braces": "{",
-
     "square brackets": "[",
     "brackets": "[",
     "backticks": "`",
@@ -258,24 +271,25 @@ ctx.lists['self.vim_text_object_select'] = {
     "tag block": "t",
 }
 
-mod.list('vim_command_verbs',    desc='Common VIM commands')
-mod.list('vim_counted_motion_verbs',    desc='Common VIM motions')
-mod.list('vim_counted_action_verbs',    desc='Common VIM motions')
-mod.list('vim_normal_counted_action',    desc='Common VIM motions')
-mod.list('vim_motion_verbs',    desc='Common VIM motions')
-mod.list('vim_motion_verbs_with_character',    desc='Common VIM motions')
-mod.list('vim_motion_verbs_with_phrase',    desc='Common VIM motions')
-mod.list('vim_motion_verbs_all',    desc='Common VIM motions')
-mod.list('vim_text_object_count',    desc='Common VIM motions')
-mod.list('vim_text_object_range',    desc='Common VIM motions')
-mod.list('vim_text_object_select',    desc='Common VIM motions')
-mod.list('vim_jump_range',    desc='Common VIM motions')
-mod.list('vim_jump_verbs',    desc='Common VIM motions')
-mod.list('vim_jump_targets',    desc='Common VIM motions')
-mod.list('vim_normal_counted_command',    desc='Common VIM motions')
-mod.list('vim_select_motion',    desc='Common VIM motions')
-mod.list('vim_surround_targets',    desc='Common VIM motions')
-mod.list('vim_any',    desc='Common VIM motions')
+mod.tag("vim", desc="a tag to load various vim plugins")
+mod.list("vim_command_verbs", desc="VIM commands")
+mod.list("vim_counted_motion_verbs", desc="Common VIM motions")
+mod.list("vim_counted_action_verbs", desc="Common VIM motions")
+mod.list("vim_normal_counted_action", desc="Common VIM motions")
+mod.list("vim_motion_verbs", desc="Common VIM motions")
+mod.list("vim_motion_verbs_with_character", desc="Common VIM motions")
+mod.list("vim_motion_verbs_with_phrase", desc="Common VIM motions")
+mod.list("vim_motion_verbs_all", desc="Common VIM motions")
+mod.list("vim_text_object_count", desc="Common VIM motions")
+mod.list("vim_text_object_range", desc="Common VIM motions")
+mod.list("vim_text_object_select", desc="Common VIM motions")
+mod.list("vim_jump_range", desc="Common VIM motions")
+mod.list("vim_jump_verbs", desc="Common VIM motions")
+mod.list("vim_jump_targets", desc="Common VIM motions")
+mod.list("vim_normal_counted_command", desc="Common VIM motions")
+mod.list("vim_select_motion", desc="Common VIM motions")
+mod.list("vim_surround_targets", desc="Common VIM motions")
+mod.list("vim_any", desc="Common VIM motions")
 
 
 @mod.capture
@@ -378,80 +392,95 @@ def vim_normal_counted_command(m) -> str:
     "Returns a string"
 
 
-@ctx.capture(rule='{self.vim_text_object_select}')
+@ctx.capture(rule="{self.vim_text_object_select}")
 def vim_text_object_select(m) -> str:
     "Returns a string"
     return m.vim_text_object_select
 
-@ctx.capture(rule='{self.vim_text_object_range}')
+
+@ctx.capture(rule="{self.vim_text_object_range}")
 def vim_text_object_range(m) -> str:
     "Returns a string"
     return m.vim_text_object_range
 
-@ctx.capture(rule='{self.vim_text_object_count}')
-def vim_text_object_count(m) -> str:
-     "Returns a string"
-     return m.vim_text_object_count
 
-@ctx.capture(rule='{self.vim_command_verbs}')
+@ctx.capture(rule="{self.vim_text_object_count}")
+def vim_text_object_count(m) -> str:
+    "Returns a string"
+    return m.vim_text_object_count
+
+
+@ctx.capture(rule="{self.vim_command_verbs}")
 def vim_command_verbs(m) -> str:
     return m.vim_command_verbs
 
-@ctx.capture(rule='{self.vim_motion_verbs}')
+
+@ctx.capture(rule="{self.vim_motion_verbs}")
 def vim_motion_verbs(m) -> str:
     return m.vim_motion_verbs
 
-@ctx.capture(rule='{self.vim_motion_verbs_with_character} (<user.letter>|<user.number>|<user.symbol>)')
-#@ctx.capture(rule='{self.vim_motion_verbs_with_character} <user.any>')
+
+@ctx.capture(
+    rule="{self.vim_motion_verbs_with_character} (<user.letter>|<user.number>|<user.symbol>)"
+)
+# @ctx.capture(rule='{self.vim_motion_verbs_with_character} <user.any>')
 def vim_motion_verbs_with_character(m) -> str:
     return m.vim_motion_verbs_with_character + "".join(list(m)[1:])
 
-@ctx.capture(rule='{self.vim_motion_verbs_with_phrase} <phrase>')
+
+@ctx.capture(rule="{self.vim_motion_verbs_with_phrase} <phrase>")
 def vim_motion_verbs_with_phrase(m) -> str:
     return "".join(list(m.vim_motion_verbs_with_phrase + m.phrase))
 
-@ctx.capture(rule='(<self.vim_motion_verbs>|<self.vim_motion_verbs_with_character>|<self.vim_motion_verbs_with_phrase>)$')
+
+@ctx.capture(
+    rule="(<self.vim_motion_verbs>|<self.vim_motion_verbs_with_character>|<self.vim_motion_verbs_with_phrase>)$"
+)
 def vim_motion_verbs_all(m) -> str:
     return "".join(list(m))
 
-@ctx.capture(rule='{self.vim_counted_action_verbs}')
+
+@ctx.capture(rule="{self.vim_counted_action_verbs}")
 def vim_counted_action_verbs(m) -> str:
     return m.vim_counted_action_verbs
 
 
-@ctx.capture(rule='[<self.number>] <self.vim_motion_verbs_all>$')
+@ctx.capture(rule="[<self.number>] <self.vim_motion_verbs_all>$")
 def vim_counted_motion_verbs(m) -> str:
     return "".join(list(m))
 
 
-@ctx.capture(rule='{self.vim_jump_range}')
+@ctx.capture(rule="{self.vim_jump_range}")
 def vim_jump_range(m) -> str:
     return m.vim_jump_range
 
 
-@ctx.capture(rule='{self.vim_jump_verbs}')
+@ctx.capture(rule="{self.vim_jump_verbs}")
 def vim_jump_verbs(m) -> str:
     return m.vim_jump_verbs
 
 
-@ctx.capture(rule='{self.vim_surround_targets}')
+@ctx.capture(rule="{self.vim_surround_targets}")
 def vim_surround_targets(m) -> str:
     return m.vim_surround_targets
 
 
-@ctx.capture(rule='<self.vim_jump_range> <self.vim_jump_verbs>$')
+@ctx.capture(rule="<self.vim_jump_range> <self.vim_jump_verbs>$")
 def vim_jump_targets(m) -> str:
     return "".join(list(m))
 
 
-@ctx.capture(rule='[<self.vim_text_object_count>] <self.vim_text_object_range> <self.vim_text_object_select>$')
+@ctx.capture(
+    rule="[<self.vim_text_object_count>] <self.vim_text_object_range> <self.vim_text_object_select>$"
+)
 def vim_text_objects(m) -> str:
     return "".join(list(m))
+
 
 # when speaking adding in the object ranges a little bit annoying, so it's a
 # little bit and more natural to just assume that you mean around if you didn't
 # say anything
-@ctx.capture(rule='[<self.vim_text_object_count>] <self.vim_text_object_select>$')
+@ctx.capture(rule="[<self.vim_text_object_count>] <self.vim_text_object_select>$")
 def vim_unranged_surround_text_objects(m) -> str:
     if len(list(m)) == 1:
         return "a" + "".join(list(m))
@@ -459,17 +488,21 @@ def vim_unranged_surround_text_objects(m) -> str:
         return "".join(list(m)[0:1]) + "a" + "".join(list(m)[1:])
 
 
-@ctx.capture(rule='[<self.number>] <self.vim_command_verbs> (<self.vim_motion_verbs_all> | <self.vim_text_objects> | <self.vim_jump_targets>)$')
+@ctx.capture(
+    rule="[<self.number>] <self.vim_command_verbs> (<self.vim_motion_verbs_all> | <self.vim_text_objects> | <self.vim_jump_targets>)$"
+)
 def vim_normal_counted_command(m) -> str:
-    return("".join(list(m)))
+    return "".join(list(m))
 
 
-@ctx.capture(rule='[<self.number>] <self.vim_counted_action_verbs>$')
+@ctx.capture(rule="[<self.number>] <self.vim_counted_action_verbs>$")
 def vim_normal_counted_action(m) -> str:
     return "".join(list(m))
 
 
-@ctx.capture(rule='[<self.number>] (<self.vim_motion_verbs> | <self.vim_text_objects> | <self.vim_jump_targets>)$')
+@ctx.capture(
+    rule="[<self.number>] (<self.vim_motion_verbs> | <self.vim_text_objects> | <self.vim_jump_targets>)$"
+)
 def vim_select_motion(m) -> str:
     return "".join(list(m))
 
@@ -478,8 +511,8 @@ def vim_select_motion(m) -> str:
 class Actions:
     def run_vim_cmd(words: list):
         """Insert an abbreviation"""
-#        for word in words:
-#            actions.insert(word)
+        #        for word in words:
+        #            actions.insert(word)
         print(words)
         vim_mode = VimMode()
         mode = vim_mode.get_active_mode()
@@ -492,24 +525,24 @@ class Actions:
 
 class VimMode:
     vim_modes = {
-            "n": "Normal",
-            "no": "N Operator Pending",
-            "v": "Visual",
-            "V": "V Line",
-            "^V": "V-Block",
-            's': 'Select',
-            'S': 'S·Line',
-            'i': 'Insert',
-            'R': 'Replace',
-            'Rv': 'V·Replace',
-            'c': 'Command',
-            'cv': 'Vim Ex',
-            'ce': 'Ex',
-            'r': 'Prompt',
-            'rm': 'More',
-            'r?': 'Confirm',
-            '!': 'Shell',
-            }
+        "n": "Normal",
+        "no": "N Operator Pending",
+        "v": "Visual",
+        "V": "V Line",
+        "^V": "V-Block",
+        "s": "Select",
+        "S": "S·Line",
+        "i": "Insert",
+        "R": "Replace",
+        "Rv": "V·Replace",
+        "c": "Command",
+        "cv": "Vim Ex",
+        "ce": "Ex",
+        "r": "Prompt",
+        "rm": "More",
+        "r?": "Confirm",
+        "!": "Shell",
+    }
 
     def __init__(self):
         # list of all vim instances talon is aware of
@@ -518,16 +551,16 @@ class VimMode:
         self.current_rpc = None
 
     def is_normal_mode(self, mode):
-        return (mode == "n" or mode == "no")
+        return mode == "n" or mode == "no"
 
     def is_visual_mode(self, mode):
-        return (mode == "v" or mode == "V" or mode == "^V")
+        return mode == "v" or mode == "V" or mode == "^V"
 
     def get_active_mode(self):
         title = ui.active_window().title
         mode = None
         if "MODE:" in title:
-            mode = title.split("MODE:")[1].split(' ')[0]
+            mode = title.split("MODE:")[1].split(" ")[0]
             if mode not in self.vim_modes.keys():
                 return None
             self.current_mode = mode
@@ -537,7 +570,7 @@ class VimMode:
     def get_active_rpc(self):
         title = ui.active_window().title
         if "RPC" in title:
-            named_pipe = title.split("RPC:")[1].split(' ')[0]
+            named_pipe = title.split("RPC:")[1].split(" ")[0]
             return named_pipe
         return None
 
@@ -551,4 +584,3 @@ class LinuxVimMode(VimMode):
     def get_mode(self):
         # query win.title for mode based on having specific vim config
         print("linux mode")
-
