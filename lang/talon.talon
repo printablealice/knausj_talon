@@ -12,7 +12,6 @@ call key:
 
 call tab key:
 	insert('key(tab)')
-
 call control key:
 	insert('key(ctrl-)')
 	edit.left()
@@ -46,11 +45,11 @@ os mac:
 os lunix:
 	insert("os: linux")
 	
-app:
+new app:
 	insert("app: ")
 	
-tags:
-	insert("tags: ")
+new tag:
+	insert("tag: ")
 
 user:
 	insert("user.")
