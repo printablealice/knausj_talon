@@ -1,5 +1,3 @@
-app: Firefox
-app: firefox
+tag: browser
 win.title: /yammer.com/
 -
-

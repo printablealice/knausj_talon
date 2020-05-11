@@ -1,6 +1,5 @@
 os: linux
-app: Firefox
-app: firefox
+tag: firefox
 -
 (page|tab) (previous|left):
     user.vimvixen_key("K")

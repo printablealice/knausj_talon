@@ -1,5 +1,5 @@
 os: linux
-app: /term/
+tag: terminal
 not win.title: /VIM/
 -
 action(app.tab_open):
@@ -30,7 +30,7 @@ action(edit.page_down):
   key(shift-pagedown)
 action(edit.page_up):
   key(shift-pageup)
-scroll up: 
+scroll up:
   key(shift-pageup)
 scroll down:
   key(shift-pagedown)

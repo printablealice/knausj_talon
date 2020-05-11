@@ -1,8 +1,8 @@
 # NOTE: these are command line commands, not shell-specific bindings
 # see shell.talon for shell-specific keybindings
 os: linux
-app: /term/
-not win.title: /VIM/ 
+tag: terminal
+not win.title: /VIM/
 -
 (list|lisa): "ls\n"
 (list|lisa) long: "ls -al\n"
@@ -68,7 +68,7 @@ see tags: "ctags --recurse *\n"
 generate see scope database:
     insert('find . -name "*.c"')
     insert('-o -name "*.cpp"')
-    insert('-o -name "*.h"') 
+    insert('-o -name "*.h"')
     insert('-o -name "*.hpp"')
     insert('-o -name "*.py"')
     insert('-o -name "*.s"')

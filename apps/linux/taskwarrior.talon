@@ -1,5 +1,5 @@
 os: linux
-app: /term/
+tag: terminal
 not win.title: /VIM/
 -
 

@@ -1,5 +1,5 @@
 os: linux
-app: /term/
+tag: terminal
 not win.title: /VIM/
 -
 (rerun|run) last command: "!!\n\n"
@@ -9,7 +9,7 @@ damn (it|that): key("ctrl-d")
 # fzf keybindings
 search history: key(ctrl-r)
 fuzzy (dir|dear|dur): key(alt-c)
-fuzzy (dir|dear|dur) <phrase>: 
+fuzzy (dir|dear|dur) <phrase>:
     key(alt-c)
     insert("{phrase}")
 

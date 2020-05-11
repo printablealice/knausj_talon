@@ -1,5 +1,5 @@
 os: linux
-app: /term/
+tag: terminal
 -
 yogurt: "yaourt "
 yogurt search: "yaourt -sS "

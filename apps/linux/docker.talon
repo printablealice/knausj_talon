@@ -1,20 +1,20 @@
 os: linux
-app: /term/
+tag: terminal
 not win.title: /VIM/
 -
 
 (docker|darker|doctor): "sudo docker "
-(docker|darker|doctor) build: 
+(docker|darker|doctor) build:
     insert("sudo docker build .")
     key("enter")
-(docker|darker|doctor) build (tag|tagged): 
-    insert("sudo docker build -t \"\" .") 
+(docker|darker|doctor) build (tag|tagged):
+    insert("sudo docker build -t \"\" .")
     key("left:3")
-(docker|darker|doctor) list images: 
-    insert("sudo docker images") 
+(docker|darker|doctor) list images:
+    insert("sudo docker images")
     key("enter")
-(docker|darker|doctor) list containers: 
-    insert("sudo docker ps -a") 
+(docker|darker|doctor) list containers:
+    insert("sudo docker ps -a")
     key("enter")
 (docker|darker|doctor) stop: "sudo docker stop "
 (docker|darker|doctor) (remove|delete) image: "sudo docker rmi "
