@@ -194,6 +194,7 @@ simple_keys = [
     "end",
     "insert",
 ]
+
 alternate_keys = {
     #'delete': 'delete',
     "nuke": "delete",

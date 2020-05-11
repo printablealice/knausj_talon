@@ -5,11 +5,6 @@ dragon dictation: "<phrase>"
 #	edit.line_end()
 #key(enter)
 cd: "cd "
-#cd talon home: "cd {}\n".format(TALON_HOME),
-#cd talon user: "cd {}\n".format(TALON_USER),
-#cd talon [user] emily: "cd {}/emily\n".format(TALON_USER),
-#cd talon plugins: "cd {}\n".format(TALON_PLUGINS),
-#talon logs: "cd {} && tail -f talon.log\n".format(TALON_HOME),
 grep: "grep "
 elle less: "ls "
 run L S: "ls\n"

@@ -1,12 +1,4 @@
-app: Google Chrome
-app: /irefox/
-app: Microsoft Edge
-app: MicrosoftEdge.exe
-app: chrome.exe
-app: Safari
-
-#todo: use tags, remove apps
-#tags: browser
+tag: browser
 -
 (address bar | go address | go url): browser.focus_address()
 go home: browser.go_home()
