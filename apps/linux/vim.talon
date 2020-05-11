@@ -457,7 +457,7 @@ swap characters: "xp"
 swap words: "dwwP"
 swap lines: "ddp"
 replace <user.any>: "r{any}"
-replace [ship|upper|upper case] <user.letters>:
+replace (ship|upper|upper case) <user.letters>:
     "r"
     user.keys_uppercase_letters(letters)
 replace mode: key(R)
