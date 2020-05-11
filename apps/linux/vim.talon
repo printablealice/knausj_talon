@@ -12,96 +12,96 @@ tag(): vim
 
 ###
 # Actions - Talon generic_editor.talon implementation
-# 
+#
 # NOTE: You can disable generic_editor.talon by renaming it, and still fully
 # control vim. These are more for people that are used to the official talon
 # editor commands that want to trial vim a bit.
-# 
+#
 # If you prefer to work from INSERT mode, you may want to add the ctrl-o key
 # prior to most of these
-# 
+#
 # Note that I don't use any of the below, so they have not been thoroughly
 # tested and the VISUAL mode selection stuff will almost certainly not work as
 # expected.
-### 
-action(edit.find): 
+###
+action(edit.find):
     key(/)
-action(edit.find_next): 
+action(edit.find_next):
     key(n)
-action(edit.word_left): 
+action(edit.word_left):
     key(b)
-action(edit.word_right): 
+action(edit.word_right):
     key(w)
-action(edit.left): 
+action(edit.left):
     #key(ctrl-o)
     key(h)
-action(edit.right): 
+action(edit.right):
     key(l)
-action(edit.up): 
+action(edit.up):
     key(k)
-action(edit.down): 
+action(edit.down):
     key(j)
-action(edit.line_start): 
+action(edit.line_start):
     key(^)
-action(edit.line_end): 
+action(edit.line_end):
     key($)
-action(edit.file_end): 
+action(edit.file_end):
     key(G)
-action(edit.file_start): 
+action(edit.file_start):
     "gg"
-action(edit.page_down): 
+action(edit.page_down):
     key(ctrl-f)
-action(edit.page_up): 
+action(edit.page_up):
     key(ctrl-b)
-action(edit.extend_line_end): 
+action(edit.extend_line_end):
     "v$"
-action(edit.extend_left): 
+action(edit.extend_left):
     "vh"
-action(edit.extend_right): 
+action(edit.extend_right):
     "vl"
-action(edit.extend_line_up): 
+action(edit.extend_line_up):
     "vk"
-action(edit.extend_line_down): 
+action(edit.extend_line_down):
     "vj"
-action(edit.extend_word_left): 
+action(edit.extend_word_left):
     "vb"
-action(edit.extend_word_right): 
+action(edit.extend_word_right):
     "vw"
-action(edit.extend_line_start): 
+action(edit.extend_line_start):
     "v^"
-action(edit.extend_file_start): 
+action(edit.extend_file_start):
     "vgg"
-action(edit.extend_file_end): 
+action(edit.extend_file_end):
     "vG"
-action(edit.indent_more): 
+action(edit.indent_more):
     ">>"
-action(edit.indent_less): 
+action(edit.indent_less):
     "<<"
-action(edit.delete_line): 
+action(edit.delete_line):
     "dd"
-action(edit.delete): 
+action(edit.delete):
     key(x)
 
 ###
 # File editing
 ###
 # save alone conflicts too much with say
-save file: 
+save file:
     key(escape)
     insert(":w\n")
-save [file] as: 
+save [file] as:
     key(escape)
     insert(":w ")
-save all: 
+save all:
     key(escape)
     insert(":wa\n")
-save and (quit|close): 
+save and (quit|close):
     key(escape)
     insert(":wq\n")
-(close|quit) file:  
+(close|quit) file:
     key(escape)
     insert(":q\n")
-force (close|quit): 
+force (close|quit):
     key(escape)
     insert(":q!\n")
 refresh file:
@@ -141,10 +141,10 @@ delete line: "dd"
 
 open [this] link: "gx"
 open this file: "gf"
-open this file in [split|window]: 
+open this file in [split|window]:
     key(ctrl-w)
     key(f)
-open this file in vertical [split|window]: 
+open this file in vertical [split|window]:
     insert(":vertical wincmd f\n")
 
 ###
@@ -208,18 +208,18 @@ push file:
     key(escape)
     insert("Go")
 
-(dup|duplicate) line: "Yp" 
+(dup|duplicate) line: "Yp"
 
 # helpful for fixing typos or bad lexicons that miss a character
 inject <user.any> [before]:
     insert("i{any}")
     key(escape)
 
-inject <user.any> after: 
+inject <user.any> after:
     insert("a{any}")
     key(escape)
 
-### 
+###
 # Settings
 ###
 highlight off: ":nohl\n"
@@ -229,7 +229,7 @@ set no highlight search: ":set nohls\n"
 (show|set) line numbers: ":set nu\n"
 (hide|set no) line numbers: ":set nonu\n"
 
-redo: 
+redo:
     key(escape)
     key(ctrl-r)
 undo:
@@ -300,7 +300,7 @@ clear jump list: ":clearjumps\n"
 file info: key(ctrl-g)
 extra file info:
 # show buffer number by pressing 2
-    key(2) 
+    key(2)
     key(ctrl-g)
 
 # motions:
@@ -396,7 +396,7 @@ nerd tree: insert(":NERDTree\n")
 nerd find [current] file: insert(":NERDTreeFind\n")
 
 # Personalized stuff
-run as python: 
+run as python:
     insert(":w\n")
     insert(":exec '!python' shellescape(@%, 1)\n")
 
@@ -410,7 +410,7 @@ reselect: "gv"
 swap (selected|highlighted):
     insert(":")
     # leave time for vim to populate '<,'>
-    sleep(50ms) 
+    sleep(50ms)
     insert("s///g")
     key(left)
     key(left)
@@ -419,7 +419,7 @@ swap (selected|highlighted):
 deleted selected empty lines:
     insert(":")
     # leave time for vim to populate '<,'>
-    sleep(50ms) 
+    sleep(50ms)
     insert("g/^$/d\j")
 
 swap global:
@@ -428,7 +428,7 @@ swap global:
     key(left)
     key(left)
 
-# noncounted action erbs 
+# noncounted action verbs
 # not in vim.py because we don't need any special handling
 # note not all of them are listed below, because some are grouped more logically above. for instance marks
 #Sequence [commentary; motion]
@@ -452,7 +452,7 @@ swap characters: "xp"
 swap words: "dwwP"
 swap lines: "ddp"
 replace <user.any>: "r{any}"
-replace [ship|upper|upper case] <user.letters>: 
+replace [ship|upper|upper case] <user.letters>:
     "r"
     user.keys_uppercase_letters(letters)
 replace mode: key(R)
@@ -507,5 +507,3 @@ close all folds: "zM"
 
 # run commands
 run as python: ":!python %\n"
-
-
