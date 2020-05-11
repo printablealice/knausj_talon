@@ -120,7 +120,7 @@ tar ball extract [zip]: "tar -xvzf "
 tar ball extract bee zip: "tar -xvjf "
 
 curl: "curl "
-double u get: "wget 
+double u get: "wget "
 
 # because talent doesn't seem to like me saying ./
 run script: "./"
