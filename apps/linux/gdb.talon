@@ -3,6 +3,7 @@ app: /term/
 # XXX - this matches .gdb files atm
 win.title: /gdb/
 -
+tag(): gdb
 
 # information
 list [source]: "list\n"

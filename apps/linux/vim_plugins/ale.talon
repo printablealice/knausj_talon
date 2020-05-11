@@ -1,6 +1,5 @@
 os: linux
-app: /term/
-win.title: /VIM/
+tag: vim
 -
 
 ale help: ":help ale\n"

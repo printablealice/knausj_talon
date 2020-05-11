@@ -1,6 +1,5 @@
 os: linux
-app: /term/
-win.title: /VIM/
+tag: vim
 -
 
 fuzzy files: insert(":Files\n")

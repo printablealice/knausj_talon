@@ -1,6 +1,4 @@
-os: linux
-app: /term/
-win.title: /gdb/
+tag: gdb
 -
 
 (p t|pee tea) help: "pthelp\n"

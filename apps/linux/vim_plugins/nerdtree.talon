@@ -1,5 +1,5 @@
 os: linux
-app: /term/
+tag: vim
 win.title: /NERD_tree/
 -
 

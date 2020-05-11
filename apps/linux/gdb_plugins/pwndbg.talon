@@ -1,6 +1,5 @@
 os: linux
-app: /term/
-win.title: /gdb/
+tag: gdb
 -
 
 pound bag: "pwndbg\n"

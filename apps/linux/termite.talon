@@ -2,6 +2,7 @@ os: linux
 app: /termite/
 not win.title: /VIM/
 -
+tag(): terminal
 
 # Selection mode
 shell yank: key("y")

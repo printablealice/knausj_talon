@@ -10,6 +10,7 @@
 from talon import Module, Context, actions, ui
 
 mod = Module()
+mod.tag("vim", desc='a tag to load various vim plugins')
 ctx = Context()
 
 ctx.lists['self.vim_surround_targets'] = {

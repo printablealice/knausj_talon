@@ -1,5 +1,3 @@
-app: gvim
-app: /term/
-win.title: /VIM/
+tag: vim
 -
 (reload|refresh) snippets: ":call UltiSnips#RefreshSnippets()\n"

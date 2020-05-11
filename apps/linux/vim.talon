@@ -8,6 +8,8 @@ app:/term/
 and win.title:/VIM/
 -
 
+tag(): vim
+
 ###
 # Actions - Talon generic_editor.talon implementation
 # 
