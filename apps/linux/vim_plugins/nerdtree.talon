@@ -6,6 +6,8 @@ win.title: /NERD_tree/
 change root: key(C)
 close parent: key(x)
 close all children: key(X)
+refresh [directory]: key(r)
+refresh root [directory]: key(R)
 
 # file node mappings
 open (line|file|node) <number>$:
