@@ -1,9 +1,4 @@
-app: /term/
-app: cmd.exe
-app: iTerm2
-app: Terminal
-app: Windows Command Processor
-not win.title: /VIM/
+tag: terminal
 -
 
 # Standard commands
@@ -11,8 +6,12 @@ git add patch: insert("git add . -p\n")
 git add: insert("git add ")
 git add everything: insert("git add -u\n")
 git bisect: insert("git bisect ")
+git blame: insert("git alame ")
 git branch: insert("git branch ")
+git branch <phrase>: insert("git branch {phrase}")
 git checkout: insert("git checkout ")
+git checkout master: insert("git checkout master\n")
+git checkout <phrase>: insert("git checkout {phrase}")
 git cherry pick: insert("git cherry-pick ")
 git clone: insert("git clone ")
 git clone clipboard:
