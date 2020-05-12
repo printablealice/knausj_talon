@@ -2,6 +2,7 @@
 # the shortcuts below our based half of the bill in short cut menu, but the
 # link above has significantly more that could so be added
 
+os: linux
 tag: browser
 win.title: /Outlook/
 -
