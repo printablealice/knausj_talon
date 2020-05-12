@@ -29,7 +29,7 @@ arrow: "->"
 dub arrow: "=>"
 op dub: " => "
 (op | pad) colon: " : "
-indirect: "&"
+(address of|indirect): "&"
 dereference: "*"
 new line: "\\n"
 carriage return: "\\r"
@@ -68,6 +68,6 @@ op or: " || "
 empty dubstring:
     '""'
     key(left)
-empty string: 
+empty string:
     "''"
     key(left)
