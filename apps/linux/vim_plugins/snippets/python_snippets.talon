@@ -1,4 +1,4 @@
-app: /VIM/
+tag: vim
 code.language: python
 -
 ###

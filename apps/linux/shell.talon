@@ -1,6 +1,5 @@
 os: linux
 tag: terminal
-not win.title: /VIM/
 -
 (rerun|run) last command: "!!\n\n"
 (chuck|cancel) (it|that): key("ctrl-c")

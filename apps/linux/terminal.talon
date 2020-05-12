@@ -1,6 +1,5 @@
 os: linux
 tag: terminal
-not win.title: /VIM/
 -
 action(app.tab_open):
   key(ctrl-shift-t)

@@ -1,6 +1,5 @@
 os: linux
 tag: terminal
-not win.title: /VIM/
 -
 
 (docker|darker|doctor): "sudo docker "

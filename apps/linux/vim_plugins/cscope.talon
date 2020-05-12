@@ -1,6 +1,6 @@
 os: linux
 app: /term/
-win.title: /VIM/
+tag: vim
 -
 
 see scope: ":cs "
