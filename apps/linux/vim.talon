@@ -421,6 +421,15 @@ swap (selected|highlighted):
     key(left)
     key(left)
 
+swap [word] on [this] line:
+    key(V)
+    insert(":")
+    sleep(50ms)
+    insert("s///g")
+    key(left)
+    key(left)
+    key(left)
+
 deleted selected empty lines:
     insert(":")
     # leave time for vim to populate '<,'>
