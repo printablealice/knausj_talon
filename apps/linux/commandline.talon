@@ -2,7 +2,6 @@
 # see shell.talon for shell-specific keybindings
 os: linux
 tag: terminal
-not win.title: /VIM/
 -
 (list|lisa): "ls\n"
 (list|lisa) long: "ls -al\n"
@@ -64,7 +63,7 @@ rip (exact|precise): "rg "
 # networking
 show eye pee: "ip addr\n"
 show route: "ip route\n"
-see tags: "ctags --recurse *\n"
+generate see tags: "ctags --recurse *\n"
 generate see scope database:
     insert('find . -name "*.c"')
     insert('-o -name "*.cpp"')
@@ -95,14 +94,14 @@ edit session:
 
 lazy edit:
     insert("vim ")
-    insert("$(find . -name \"**\")")
+    insert("$(find . -not -path '*/\.git/*' -name \"**\")")
     key("left")
     key("left")
     key("left")
 
 lazy edit <phrase>:
     insert("vim ")
-    insert("$(find . -name \"*{phrase}*\")\n")
+    insert("$(find . -not -path '*/\.git/*' -name \"*{phrase}*\")\n")
 
 find <phrase> inside (python|pie) files:
     insert('$(find . -name \"*.py\") | xargs rg -i "{phrase}"\n')
