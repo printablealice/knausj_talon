@@ -13,6 +13,14 @@ print: "p "
 print [variable] <phrase>: "p {phrase}"
 print hex: "p/x "
 print hex [variable] <phrase>: "p/x {phrase}"
+print string: "p/s "
+
+# hexdumping
+# XXX - switch the sizes to a list in python
+hex dump <number> bytes: "x/{number}bx "
+hex dump <number> (half|short) words: "x/{number}hx "
+hex dump <number> (d|long) words: "x/{number}dx "
+hex dump <number> quad words: "x/{number}gx "
 
 ### Breakpoints ###
 
@@ -22,7 +30,7 @@ break [point] [on]: "break "
 break [point] here: "break\n"
 enable all break points: "enable br\n"
 enable break [point] <number>: "enable br {number}\n"
-break [on] clipboard: 
+break [on] clipboard:
     insert("break ")
     key(ctrl-shift-v)
     key(enter)
@@ -33,7 +41,7 @@ disable break [point] <number>: "disable br {number}\n"
 
 # delete
 delete all break points: "d br\n"
-force delete all break points: 
+force delete all break points:
     insert("d br\n")
     insert("y\n")
 delete break [point] <number>: "d br {number}"
@@ -76,7 +84,7 @@ restart [program]: "r\n"
 continue: "c\n"
 back trace: "bt\n"
 quit: "quit\n"
-# more quickly quit when there are inferiors 
+# more quickly quit when there are inferiors
 force quit: "quit\ny\n"
 (show|info) (inf|inferiors): "info inferiors\n"
 inferior <number>$: "inferior {number}\n"
@@ -84,7 +92,7 @@ inferior: "inferior "
 resume main (inf|inferior):
     insert("inferior 1\n")
     insert("c\n")
-resume [from] (inf|inferior) <number>$: 
+resume [from] (inf|inferior) <number>$:
     insert("inferior {number}\n")
     insert("c\n")
 
@@ -106,4 +114,3 @@ set list size <number>: "set listsize {number}\n"
 
 # misc
 clear screen: "shell clear\n"
-
