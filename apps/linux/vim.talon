@@ -289,6 +289,10 @@ modify [register|macro] <user.letter>:
     insert("{letter}")
     key(')
 
+paste from register <user.any>: '"{any}p'
+yank to register <user.any>: '"{any}y'
+
+
 # jump list
 show jump list: ":jumps\n"
 clear jump list: ":clearjumps\n"
