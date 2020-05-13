@@ -520,6 +520,8 @@ def vim_select_motion(m) -> str:
     return "".join(list(m))
 
 
+# XXX - this doesn't work yet, but all eventually final everything through here
+# so that we can detect/change the mode
 @mod.action_class
 class Actions:
     def run_vim_cmd(words: list):
@@ -564,7 +566,7 @@ class VimMode:
         self.current_rpc = None
 
     def is_normal_mode(self, mode):
-        return mode == "n" or mode == "no"
+        return mode[0] == "n"
 
     def is_visual_mode(self, mode):
         return mode == "v" or mode == "V" or mode == "^V"
@@ -591,9 +593,3 @@ class VimMode:
     # otherwise we simply use keyboard binding combinations
     def set_mode(self, mode):
         print("Set vim mode")
-
-
-class LinuxVimMode(VimMode):
-    def get_mode(self):
-        # query win.title for mode based on having specific vim config
-        print("linux mode")
