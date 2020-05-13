@@ -248,15 +248,14 @@ Here you can try out some basic commands to get a feel for the flow of using
 the VIM voice commands. Most of the commands should be fairly intuitive.
 
 ```
-The quick fox jumps over the lazy brown dog.
+The fox slow jumps under the lazy brown dog.
 ```
 
-With the cursor starting on the letter `T` above, try saying the following
-commands:
+With the cursor starting on the letter `T` above, try practicing with the
+following commands:
 
 * `normal mode`
 * `set line numbers`
-* `go line 100` (or whatever number the sentence is on)
 * `scroll middle`
 * `end of line`
 * `start of line`
@@ -270,21 +269,22 @@ commands:
 * `inject space`
 * `back`
 * `two delete word`
-* `find reversed zip`
-* `replace drum`
-* `search fox`
+* `find reversed quench`
 * `change word`
-* `say lion`
+* `say slow`
+* `back`
+* `swap words`
+* `two back`
+* `replace bat`
 
 ### Intermediate Usage
 
 Now we will experiment with some more complicated edits
-
-```
-The quick fox jumps over the lazy brown dog.
-```
+XXX - to do
 
 ### Advanced Usage
+
+XXX - to do
 
 # Frequently Asked Questions
 

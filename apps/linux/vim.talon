@@ -132,7 +132,6 @@ open this file in [split|window]:
 open this file in vertical [split|window]:
     insert(":vertical wincmd f\n")
 
-
 list current directory: ":pwd\n"
 change buffer directory: ":lcd %:p:h\n"
 

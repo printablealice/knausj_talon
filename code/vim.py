@@ -82,7 +82,7 @@ ctx.lists["self.vim_counted_action_verbs"] = {
     "undo": "u",
     "undo line": "U",
     # XXX - fix this control char
-    "redo": "<C r>",
+    "redo": "<C-r>",
     "erase": "x",
     "erase reversed": "X",
     "erase back": "X",
@@ -149,6 +149,7 @@ ctx.lists["self.vim_command_verbs"] = {
     "put": "p",
     "paste": "p",
     "undo": "u",
+    # XXX - this conflicts with default talon 'yank' alphabet for 'y' key
     "yank": "y",
     "copy": "y",
     "fold": "zf",
@@ -160,6 +161,7 @@ ctx.lists["self.vim_motion_verbs"] = {
     "back word": "b",
     "big back": "B",
     "big back word": "B",
+    # XXX - this conflicts with default talon 'end' key pressing
     "end": "e",
     "end word": "e",
     "big end": "E",
