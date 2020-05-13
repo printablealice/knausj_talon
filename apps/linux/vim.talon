@@ -1,6 +1,6 @@
-# XXX - globalReplace
-# XXX - need to add some of the motion verbs to the text objects
-# XXX - pipe everything through something that can detect the vim mode
+# Usage:
+#  - See doc/vim.md
+#  - See code/vim.py
 
 os:linux
 app:gvim
@@ -12,6 +12,7 @@ tag(): vim
 
 ###
 # Actions - Talon generic_editor.talon implementation
+###
 #
 # NOTE: You can disable generic_editor.talon by renaming it, and still fully
 # control vim. These are more for people that are used to the official talon
@@ -83,9 +84,19 @@ action(edit.delete):
     key(x)
 
 ###
-# File editing
+# `code/vim.py` actions based on vimspeak
 ###
-# save alone conflicts too much with say
+<user.vim_normal_counted_command>:
+    insert("{vim_normal_counted_command}")
+<user.vim_motion_verbs_all>:
+    insert("{vim_motion_verbs_all}")
+<user.vim_normal_counted_action>:
+    insert("{vim_normal_counted_action}")
+
+###
+# File editing and management
+###
+# NOTE: using `save` alone conflicts too much with the `say`
 save file:
     key(escape)
     insert(":w\n")
@@ -112,33 +123,7 @@ edit [file|new]:
 reload [vim] config:
     insert(":so $MYVIMRC\n")
 
-[(go|jump)] [to] line <number>:
-    key(escape)
-    key(:)
-    insert("{number}")
-    key(enter)
-
-list current directory: ":pwd\n"
-change buffer directory: ":lcd %:p:h\n"
-
-# editing
-format line: "=="
-# XXX - this doesn't work with numbers below nine, because the nine will
-# trigger its own discrete command in the first part of the command will
-# trigger the dd below. we probably need to come up with different trigger for
-# the one were you specify the line
-delete line <number>$: ":{number}d\n"
-delete line <number> through <number>$: ":{number_1},{number_2}d\n"
-delete line: "dd"
-(copy|yank) line <number>$: ":{number}y\n"
-(copy|yank) line <number> through <number>: ":{number_1},{number_2}y\n"
-(copy|yank) line: "Y"
-
-# duplicating line
-(duplicate|paste) line <number> on line <number>$: ":{number_1}y\n:{number_2}\np"
-(duplicate|paste) line <number> through <number>$: ":{number_1},{number_2}y\np"
-(duplicate|paste) line <number>$: ":{number}y\np"
-
+# For when the VIM cursor is hovering on a path
 open [this] link: "gx"
 open this file: "gf"
 open this file in [split|window]:
@@ -147,10 +132,167 @@ open this file in [split|window]:
 open this file in vertical [split|window]:
     insert(":vertical wincmd f\n")
 
+
+list current directory: ":pwd\n"
+change buffer directory: ":lcd %:p:h\n"
+
+###
+# Standard commands
+###
+redo:
+    key(escape)
+    key(ctrl-r)
+undo:
+    key(escape)
+    key(u)
+
+###
+# Navigation, movement and jumping
+#
+# NOTE: Majority of more core movement verbs are in code/vim.py
+###
+[(go|jump)] [to] line <number>:
+    key(escape)
+    key(:)
+    insert("{number}")
+    key(enter)
+
+matching: key(%)
+
+# jump list
+show jump list: ":jumps\n"
+clear jump list: ":clearjumps\n"
+(prev|previous|older) jump [entry]: key(ctrl-o)
+(next|newer) jump [entry]: key(ctrl-i)
+
+# ctags/symbol
+(jump|dive) [to] (symbol|tag): key(ctrl-])
+(pop|leave) (symbol|tag): key(ctrl-t)
+
+# scrolling and page position
+(focus|orient) [on] line <number>: ":{number}\nzt"
+center [on] line <number>: ":{number}\nz."
+scroll top: "zt"
+scroll (center|middle): "zz"
+scroll bottom: "zb"
+scroll top reset cursor: "z\n"
+scroll middle reset cursor: "z."
+scroll bottom reset cursor: "z "
+scroll up: key(ctrl-y)
+scroll down: key(ctrl-e)
+page down: key(ctrl-f)
+page up: key(ctrl-b)
+half [page] down: key(ctrl-d)
+half [page] up: key(ctrl-u)
+
+###
+# Text editing, copying, and manipulation
+###
+
+change remaining line: key(C)
+change line: "cc"
+swap characters: "xp"
+swap words: "dwwP"
+swap lines: "ddp"
+replace <user.any>: "r{any}"
+replace (ship|upper|upper case) <user.letters>:
+    "r"
+    user.keys_uppercase_letters(letters)
+
+# indenting
+(shift|indent) right: ">>"
+indent [line] <number> through <number>$: ":{number_1},{number_2}>\n"
+(shift|indent) left: "<<"
+unindent [line] <number> through <number>$: ":{number_1},{number_2}>\n"
+
+
+# XXX - this doesn't work with numbers below nine, because the nine will
+# trigger its own discrete command in the first part of the command will
+# trigger the dd below. we probably need to come up with different trigger for
+# the one were you specify the line
+
+# deleting
+delete remaining line: key(D)
+delete line <number>$: ":{number}d\n"
+delete line <number> through <number>$: ":{number_1},{number_2}d\n"
+delete line: "dd"
+
+# insert mode only
+clear line: key(ctrl-u)
+
+# copying
+(copy|yank) line <number>$: ":{number}y\n"
+(copy|yank) line <number> through <number>: ":{number_1},{number_2}y\n"
+(copy|yank) line: "Y"
+
+# duplicating
+(duplicate|paste) line <number> on line <number>$: ":{number_1}y\n:{number_2}\np"
+(duplicate|paste) line <number> through <number>$: ":{number_1},{number_2}y\np"
+(duplicate|paste) line <number>$: ":{number}y\np"
+
+(dup|duplicate) line: "Yp"
+
+# start ending at end of line
+push line:
+    key(escape)
+    key(A)
+
+# start ending at end of file
+push file:
+    key(escape)
+    insert("Go")
+
+# helpful for fixing typos or bad lexicons that miss a character
+inject <user.any> [before]:
+    insert("i{any}")
+    key(escape)
+
+inject <user.any> after:
+    insert("a{any}")
+    key(escape)
+
+filter line: "=="
+
+[add] gap above: ":pu! _\n:'[+1\n"
+[add] gap below: ":pu _\n:'[-1\n"
+
+# XXX - This should be a callable function so we can do things like:
+#       'swap on this <highlight motion>'
+#       'swap between line x, y'
+swap (selected|highlighted):
+    insert(":")
+    # leave time for vim to populate '<,'>
+    sleep(50ms)
+    insert("s///g")
+    key(left)
+    key(left)
+    key(left)
+
+# Selects current line in visual mode and triggers a word swap
+swap [word] on [this] line:
+    key(V)
+    insert(":")
+    sleep(50ms)
+    insert("s///g")
+    key(left)
+    key(left)
+    key(left)
+
+deleted selected empty lines:
+    insert(":")
+    # leave time for vim to populate '<,'>
+    sleep(50ms)
+    insert("g/^$/d\j")
+
+swap global:
+    insert(":%s///g")
+    key(left)
+    key(left)
+    key(left)
+
 ###
 # Buffers
 ###
-# (buf|buffer)ing
 ((buf|buffer) list|list (buf|buffer)s): ":ls\n"
 (buf|buffer) (close|delete) <number>: ":bd {number} "
 (close|delete) (buf|buffer) <number>: ":bd {number} "
@@ -167,26 +309,90 @@ close (bufs|buffers): ":bd "
 [(go|jump|open)] (buf|buffer) <number>: ":b {number}\n"
 
 ###
-# Splits and Tabs
-###
-
 # Splits
+###
+# creating splits
+new split:
+    key("ctrl-w")
+    key(s)
+new vertical split:
+    key("ctrl-w")
+    key(v)
+split (close|quit):
+    key(ctrl-w)
+    key(q)
+
+# navigating splits
 split <user.vim_arrow>:
-    key("ctrl-w")
+    key(ctrl-w)
     key("{vim_arrow}")
+split last:
+    key(ctrl-w)
+    key(p)
+split top left:
+    key(ctrl-w)
+    key(t)
+split next:
+    key(ctrl-w)
+    key(w)
+split (previous|prev):
+    key(ctrl-w)
+    key(W)
+split bottom right:
+    key(ctrl-w)
+    key(b)
+split preview:
+    key(ctrl-w)
+    key(P)
+
+# moving windows
 split (only|exclusive):
-    key("ctrl-w")
-    key("o")
+    key(ctrl-w)
+    key(o)
 split rotate [right]:
     key(ctrl-w)
     key(r)
+split rotate left:
+    key(ctrl-w)
+    key(R)
+move split top:
+    key(ctrl-w)
+    key(K)
+move split bottom:
+    key(ctrl-w)
+    key(J)
+move split right:
+    key(ctrl-w)
+    key(H)
+move split left:
+    key(ctrl-w)
+    key(L)
+move split to tab:
+    key(ctrl-w)
+    key(T)
 
-## window resizing
+# window resizing
 split (balance|equalize):
-    key("ctrl-w")
-    key("=")
-[new] vertical split: insert(":vsplit\n")
-[new] split: insert(":split\n")
+    key(ctrl-w)
+    key(=)
+split taller:
+    key(ctrl-w)
+    key(+)
+split shorter:
+    key(ctrl-w)
+    key(-)
+split fatter:
+    key(ctrl-w)
+    key(>)
+split skinnier:
+    key(ctrl-w)
+    key(<)
+set split width:
+    key(escape)
+    insert(":resize ")
+set split height:
+    key(escape)
+    insert(":vertical resize ")
 
 ###
 # Tabs
@@ -197,27 +403,6 @@ tab next: ":tabnext\n"
 tab (prev|previous): ":tabprevious\n"
 tab first: ":tabfirst\n"
 tab last: ":tablast\n"
-
-## Non-standard helper commands
-
-push [line]:
-    key(escape)
-    key(A)
-
-push file:
-    key(escape)
-    insert("Go")
-
-(dup|duplicate) line: "Yp"
-
-# helpful for fixing typos or bad lexicons that miss a character
-inject <user.any> [before]:
-    insert("i{any}")
-    key(escape)
-
-inject <user.any> after:
-    insert("a{any}")
-    key(escape)
 
 ###
 # Settings
@@ -230,24 +415,6 @@ set no highlight search: ":set nohls\n"
 (hide|set no) line numbers: ":set nonu\n"
 show [current] settings: ":set\n"
 unset paste: ":set nopaste\n"
-
-redo:
-    key(escape)
-    key(ctrl-r)
-undo:
-    key(escape)
-    key(u)
-
-# tags/symbol
-(jump|dive) [to] (symbol|tag): key(ctrl-])
-(pop|leave) (symbol|tag): key(ctrl-t)
-
-###
-# Movement
-#
-# Majority of movement is handled in code/vim.py
-###
-matching: key(%)
 
 ###
 # Marks
@@ -273,11 +440,15 @@ new mark <user.letter>:
 (go|jump) [to] [last] edit: "`."
 (go|jump) [to] [last] (cursor|location): "``"
 
-# sessions
+###
+# Sessions
+###
 (make|save) session: ":mksession "
 force (make|save) session: ":mksession! "
 
-# macros and registers
+###
+# Macros and registers
+###
 show registers: ":reg\n"
 show register <user.letter>: ":reg {letter}\n"
 play macro <user.letter>: "@{letter}"
@@ -294,58 +465,35 @@ modify [register|macro] <user.letter>:
 paste from register <user.any>: '"{any}p'
 yank to register <user.any>: '"{any}y'
 
-
-# jump list
-show jump list: ":jumps\n"
-clear jump list: ":clearjumps\n"
-(prev|previous|older) jump [entry]: key(ctrl-o)
-(next|newer) jump [entry]: key(ctrl-i)
-
-# misc
-
+###
+# Informational
+###
+display current line number: key(ctrl-g)
 file info: key(ctrl-g)
+# shows buffer number by pressing 2
 extra file info:
-# show buffer number by pressing 2
     key(2)
     key(ctrl-g)
-
-# motions:
-(shift|indent) right: ">>"
-indent [line] <number> through <number>$: ":{number_1},{number_2}>\n"
-(shift|indent) left: "<<"
-unindent [line] <number> through <number>$: ":{number_1},{number_2}>\n"
-
-# insert mode tricks
-# XXX - need make this have mode-specific properties
-clear line: key(ctrl-u)
-
-
 vim help: ":help "
 
 ###
-# Scrolling and page position
+# Mode Switching
 ###
-(focus|orient) [on] line <number>: ":{number}\nzt"
-center [on] line <number>: ":{number}\nz."
-scroll top: "zt"
-scroll (center|middle): "zz"
-scroll bottom: "zb"
-scroll top reset cursor: "z\n"
-scroll middle reset cursor: "z."
-scroll bottom reset cursor: "z "
-scroll up: key(ctrl-y)
-scroll down: key(ctrl-e)
-page down: key(ctrl-f)
-page up: key(ctrl-b)
-half [page] down: key(ctrl-d)
-half [page] up: key(ctrl-u)
-
-visual mode: key(v)
 normal mode: key(escape)
 insert mode: key(i)
-visual block: key(ctrl-v)
+replace mode: key(R)
+overwrite: key(R)
 
+visual mode: key(v)
+(visual|select|highlight): key(v)
+(visual|select|highlight) line: key(V)
 
+visual block mode: key(ctrl-v)
+(visual|select|highlight) block: key(ctrl-v)
+
+###
+# Searching
+###
 search:
     key(escape)
     insert("/\c")
@@ -378,15 +526,9 @@ search (reversed|reverse) sensitive:
     key(escape)
     insert("?\C")
 
-# More complicated grammar comboing. Based on vimspeak. See vim.py
-<user.vim_normal_counted_command>:
-    insert("{vim_normal_counted_command}")
-<user.vim_motion_verbs_all>:
-    insert("{vim_motion_verbs_all}")
-<user.vim_normal_counted_action>:
-    insert("{vim_normal_counted_action}")
-
-
+###
+# Text Selection
+###
 select <user.vim_select_motion>:
     insert("v{vim_select_motion}")
 
@@ -395,18 +537,9 @@ select lines <number> through <number>:
     key(V)
     insert("{number_2}G")
 
-spider man:
-    user.run_vim_cmd("beep")
-
-# Plugins
-
-# NOTE: These are here rather than nerdtree.talon to allow it to load the
-# split buffer, which in turn loads nerdtree.talon when focused. Don't move
-# these into nerdtree.talon
-nerd tree: insert(":NERDTree\n")
-nerd find [current] file: insert(":NERDTreeFind\n")
-
-# Personalized stuff
+###
+# Convenience
+###
 run as python:
     insert(":w\n")
     insert(":exec '!python' shellescape(@%, 1)\n")
@@ -414,102 +547,28 @@ run as python:
 remove trailing white space: insert(":%s/\s\+$//e\n")
 remove all tabs: insert(":%s/\t/    /eg\n")
 
-reselect: "gv"
-# XXX - This should be a callable function so we can do things like:
-#       'swap on this <highlight motion>'
-#       'swap between line x, y'
-swap (selected|highlighted):
-    insert(":")
-    # leave time for vim to populate '<,'>
-    sleep(50ms)
-    insert("s///g")
-    key(left)
-    key(left)
-    key(left)
+# XXX - Just for testing run_vim_cmd. To be deleted
+spider man:
+    user.run_vim_cmd("beep")
 
-swap [word] on [this] line:
-    key(V)
-    insert(":")
-    sleep(50ms)
-    insert("s///g")
-    key(left)
-    key(left)
-    key(left)
-
-deleted selected empty lines:
-    insert(":")
-    # leave time for vim to populate '<,'>
-    sleep(50ms)
-    insert("g/^$/d\j")
-
-swap global:
-    insert(":%s///g")
-    key(left)
-    key(left)
-    key(left)
-
-# noncounted action verbs
-# not in vim.py because we don't need any special handling
-# note not all of them are listed below, because some are grouped more logically above. for instance marks
-#Sequence [commentary; motion]
-
-# Tabular
-# XXX - finished tabular support
-# not just letter
-(a line|align) on <user.letter>: ":Tab/{letter}"
-
-# auto completion
+###
+# Auto completion
+###
 complete: key(ctrl-n)
 complete next: key(ctrl-n)
 complete previous: key(ctrl-n)
 
-# XXX sort into more suitable spot
-display current line number: key(ctrl-g)
-delete remaining line: key(D)
-change remaining line: key(C)
-change line: "cc"
-swap characters: "xp"
-swap words: "dwwP"
-swap lines: "ddp"
-replace <user.any>: "r{any}"
-replace (ship|upper|upper case) <user.letters>:
-    "r"
-    user.keys_uppercase_letters(letters)
-replace mode: key(R)
-overwrite: key(R)
-(visual|select|highlight): key(v)
-(visual|select|highlight) line: key(V)
+###
+# Visual Mode
+###
 (visual|select|highlight) all: "ggVG"
-(visual|select|highlight) block: key(ctrl-v)
+reselect: "gv"
 
-# Surround plugin
-# XXX - switch to a separate file with mode
-surround <user.vim_text_objects> with <user.vim_surround_targets>:
-    insert("ys{vim_text_objects}{vim_surround_targets}")
-
-surround <user.vim_motion_verbs_all> with <user.vim_surround_targets>:
-    insert("ys{vim_motion_verbs_all}{vim_surround_targets}")
-
-surround <user.vim_unranged_surround_text_objects> with <user.vim_surround_targets>:
-    insert("ys{vim_unranged_surround_text_objects}{vim_surround_targets}")
-
-[you] surround line with <user.vim_surround_targets>:
-    insert("yss{vim_surround_targets}")
-
-[you] surround and indent line with <user.vim_surround_targets>:
-    insert("ySS{vim_surround_targets}")
-
-(delete|remove) (surrounding|those) <user.vim_surround_targets>:
-    insert("ds{vim_surround_targets}")
-
-(change|replace|swap) (surrounding|those) <user.vim_surround_targets> (to|with) <user.vim_surround_targets>:
-    insert("cs{vim_surround_targets_1}{vim_surround_targets_2}")
-
-# XXX - the gap above doesn't actually work at the moment
-[add] gap above: ":pu _\n:'[+1\n"
-[add] gap below: ":pu _\n:'[-1\n"
-
+###
 # Terminal mode
+#
+# NOTE: Only applicable to newer vim and neovim
+###
 (escape|pop) terminal:
     key(ctrl-\)
     key(ctrl-n)
@@ -524,6 +583,12 @@ fold line <number> through <number>$: ":{number_1},{number_2}fo\n"
 open all folds: "zR"
 close all folds: "zM"
 
+###
+# Plugins
+###
 
-# run commands
-run as python: ":!python %\n"
+# NOTE: These are here rather than nerdtree.talon to allow it to load the
+# split buffer, which in turn loads nerdtree.talon when focused. Don't move
+# these into nerdtree.talon for now
+nerd tree: insert(":NERDTree\n")
+nerd find [current] file: insert(":NERDTreeFind\n")
