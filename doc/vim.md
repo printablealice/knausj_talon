@@ -49,8 +49,8 @@ Linux) is the terminal. This takes some manual intervention to fix.
 The current fix for this is to modify the `~/.vimrc` configuration file, so
 that talon is able to differentiate between vim running in the terminal and the
 terminal itself. For instance I add `VIM` in the `titlestring` and this allows
-me to set the `vim` talon mode by using `win.title: /VIM/`. It also lets me
-descriminate terminal vs vim mode in terminal talon files by using
+me to set the `vim` talon tag by using `win.title: /VIM/`. It also lets me
+descriminate terminal vs vim tags in terminal talon files by using
 `not win.title: /VIM/`.
 
 To set your titlestring to include `VIM`, use something like the following:
@@ -61,7 +61,7 @@ set title " required for neovim
 ```
 
 Talon will search the active terminal window title and look for `VIM`, at which
-point it will correctly trigger vim mode and disable terminal mode.
+point it will correctly trigger the vim tag and disable the terminal tag.
 
 ## Detecting current vim mode
 
