@@ -6,6 +6,7 @@
 #       commands for visual mode
 # XXX - add visual to upper and lower commands
 # XXX - Add support for ordinal motions: "delete 5th word","find second <char>"
+# XXX - Support more complext yanking into registers
 
 from talon import Context, Module, actions, ui
 
@@ -20,10 +21,14 @@ ctx.lists["self.vim_surround_targets"] = {
     "block": "b",
     "big block": "B",
     # Match Talon naming
+    "dubstring": '"',
+    "dub string": '"',
     "dubquotes": '"',
+    "dub quotes": '"',
     "double quotes": '"',
     # Match Talon naming
     "quotes": "'",
+    "string": "'",
     "single quotes": "'",
     "loose parens": "(",
     "loose parenthesis": "(",
@@ -42,9 +47,11 @@ ctx.lists["self.vim_surround_targets"] = {
     "parens": ")",
     "parenthesis": ")",
     "angle brackets": ">",
+    "angles": ">",
     "curly braces": "}",
     "braces": "}",
     "square brackets": "]",
+    "squares": "]",
     "brackets": "]",
     "backticks": "`",
     "sentence": "s",
@@ -124,8 +131,8 @@ ctx.lists["self.vim_jump_verbs"] = {
     "last change": ".",
 }
 
-# XXX see about replacing the play word eth something that doesn't conflict
-# with an existing grammar
+# XXX see about replacing the play word with something that doesn't conflict
+# with an existing talon grammar
 ctx.lists["self.vim_counted_actions_args"] = {
     "play macro": "@",  # takes char arg
 }
@@ -154,6 +161,7 @@ ctx.lists["self.vim_motion_verbs"] = {
     "big back": "B",
     "big back word": "B",
     "end": "e",
+    "end word": "e",
     "big end": "E",
     "word": "w",
     "words": "w",
@@ -234,6 +242,7 @@ ctx.lists["self.vim_text_object_count"] = {
 
 ctx.lists["self.vim_text_object_range"] = {
     "inner": "i",
+    "inside": "i",
     "around": "a",
     "this": "a",
 }
@@ -249,6 +258,7 @@ ctx.lists["self.vim_text_object_select"] = {
     "big blocks": "B",
     # Match talon naming (vimspeak used 'quote' for ")
     "dubquote": '"',
+    "dub quote": '"',
     "double quotes": '"',
     # Match talon naming
     "quote": "'",
@@ -262,6 +272,7 @@ ctx.lists["self.vim_text_object_select"] = {
     "curly braces": "{",
     "braces": "{",
     "square brackets": "[",
+    "squares ": "[",
     "brackets": "[",
     "backticks": "`",
     "sentence": "s",
@@ -273,23 +284,23 @@ ctx.lists["self.vim_text_object_select"] = {
 
 mod.tag("vim", desc="a tag to load various vim plugins")
 mod.list("vim_command_verbs", desc="VIM commands")
-mod.list("vim_counted_motion_verbs", desc="Common VIM motions")
-mod.list("vim_counted_action_verbs", desc="Common VIM motions")
-mod.list("vim_normal_counted_action", desc="Common VIM motions")
-mod.list("vim_motion_verbs", desc="Common VIM motions")
-mod.list("vim_motion_verbs_with_character", desc="Common VIM motions")
-mod.list("vim_motion_verbs_with_phrase", desc="Common VIM motions")
-mod.list("vim_motion_verbs_all", desc="Common VIM motions")
-mod.list("vim_text_object_count", desc="Common VIM motions")
-mod.list("vim_text_object_range", desc="Common VIM motions")
-mod.list("vim_text_object_select", desc="Common VIM motions")
-mod.list("vim_jump_range", desc="Common VIM motions")
-mod.list("vim_jump_verbs", desc="Common VIM motions")
-mod.list("vim_jump_targets", desc="Common VIM motions")
-mod.list("vim_normal_counted_command", desc="Common VIM motions")
-mod.list("vim_select_motion", desc="Common VIM motions")
-mod.list("vim_surround_targets", desc="Common VIM motions")
-mod.list("vim_any", desc="Common VIM motions")
+mod.list("vim_counted_motion_verbs", desc="Counted VIM motion verbs")
+mod.list("vim_counted_action_verbs", desc="Counted VIM action verbs")
+mod.list("vim_normal_counted_action", desc="Normal counted VIM actions")
+mod.list("vim_motion_verbs", desc="Non-counted VIM motions")
+mod.list("vim_motion_verbs_with_character", desc="VIM motion verbs with char arg")
+mod.list("vim_motion_verbs_with_phrase", desc="VIM motion verbs with phrase arg")
+mod.list("vim_motion_verbs_all", desc="All VIM motion verbs")
+mod.list("vim_text_object_count", desc="VIM text object counting")
+mod.list("vim_text_object_range", desc="VIM text object ranges")
+mod.list("vim_text_object_select", desc="VIM text object selections")
+mod.list("vim_jump_range", desc="VIM jump ranges")
+mod.list("vim_jump_verbs", desc="VIM jump verbs")
+mod.list("vim_jump_targets", desc="VIM jump targets")
+mod.list("vim_normal_counted_command", desc="Counted normal VIM commands")
+mod.list("vim_select_motion", desc="VIM visual mode selection motions")
+mod.list("vim_surround_targets", desc="VIM surround plugin targets")
+mod.list("vim_any", desc="All vim commands")
 
 
 @mod.capture
