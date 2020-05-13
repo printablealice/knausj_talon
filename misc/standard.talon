@@ -51,7 +51,7 @@ self taught: "self."
 (in | inside) percent:
 	insert("%%")
 	key(left)
-(index|list in it):
+(new index|list in it):
 	insert("[]")
 	key(left)
 string U T F eight:
