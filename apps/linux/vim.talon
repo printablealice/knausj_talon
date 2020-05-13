@@ -228,6 +228,8 @@ set highlight search: ":set hls\n"
 set no highlight search: ":set nohls\n"
 (show|set) line numbers: ":set nu\n"
 (hide|set no) line numbers: ":set nonu\n"
+show [current] settings: ":set\n"
+unset paste: ":set nopaste\n"
 
 redo:
     key(escape)
@@ -250,7 +252,7 @@ matching: key(%)
 ###
 # Marks
 ###
-mark <user.letter>:
+new mark <user.letter>:
     key(m)
     key(letter)
 (go|jump) [to] mark <user.letter>:
