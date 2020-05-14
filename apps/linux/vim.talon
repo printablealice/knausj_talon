@@ -394,6 +394,25 @@ set split height:
     insert(":vertical resize ")
 
 ###
+# Diffing
+###
+(split|window) start diff:
+    key(escape)
+    insert(":windo diffthis\n")
+
+(split|window) end diff:
+    key(escape)
+    insert(":windo diffoff\n")
+
+buffer start diff:
+    key(escape)
+    insert(":bufdo diffthis\n")
+
+buffer end diff:
+    key(escape)
+    insert(":bufdo diffoff\n")
+
+###
 # Tabs
 ###
 [show] tabs: ":tabs\n"
