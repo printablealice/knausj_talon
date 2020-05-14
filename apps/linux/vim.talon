@@ -212,21 +212,21 @@ unindent [line] <number> through <number>$: ":{number_1},{number_2}>\n"
 
 # deleting
 delete remaining line: key(D)
-delete line <number>$: ":{number}d\n"
-delete line <number> through <number>$: ":{number_1},{number_2}d\n"
+delete line (at|number) <number>$: ":{number}d\n"
+delete line (at|number) <number> through <number>$: ":{number_1},{number_2}d\n"
 delete line: "dd"
 
 # insert mode only
 clear line: key(ctrl-u)
 
 # copying
-(copy|yank) line <number>$: ":{number}y\n"
-(copy|yank) line <number> through <number>: ":{number_1},{number_2}y\n"
+(copy|yank) line (at|number) <number>$: ":{number}y\n"
+(copy|yank) line (at|number) <number> through <number>: ":{number_1},{number_2}y\n"
 (copy|yank) line: "Y"
 
 # duplicating
 (duplicate|paste) line <number> on line <number>$: ":{number_1}y\n:{number_2}\np"
-(duplicate|paste) line <number> through <number>$: ":{number_1},{number_2}y\np"
+(duplicate|paste) line (at|number) <number> through <number>$: ":{number_1},{number_2}y\np"
 (duplicate|paste) line <number>$: ":{number}y\np"
 
 (dup|duplicate) line: "Yp"
@@ -414,6 +414,10 @@ set no highlight search: ":set nohls\n"
 (hide|set no) line numbers: ":set nonu\n"
 show [current] settings: ":set\n"
 unset paste: ":set nopaste\n"
+# very useful for reviewing code you don't want to accidintally edit if talon
+# mishears commands
+set modifiable: ":set modifiable\n"
+unset modifiable: ":set nomodifiable\n"
 
 ###
 # Marks
