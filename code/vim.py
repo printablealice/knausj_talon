@@ -371,6 +371,11 @@ def vim_motion_verbs(m) -> str:
 
 
 @mod.capture
+def vim_motion_verbs_with_upper_character(m) -> str:
+    "Returns a list of verbs"
+
+
+@mod.capture
 def vim_motion_verbs_with_character(m) -> str:
     "Returns a list of verbs"
 
@@ -434,7 +439,14 @@ def vim_motion_verbs(m) -> str:
 
 
 @ctx.capture(
-    rule="{self.vim_motion_verbs_with_character} (<user.letter>|<user.number>|<user.symbol>)"
+    rule="{self.vim_motion_verbs_with_character} (ship|upper|uppercase) <user.letter>$"
+)
+def vim_motion_verbs_with_upper_character(m) -> str:
+    return m.vim_motion_verbs_with_character + "".join(list(m)[2:]).upper()
+
+
+@ctx.capture(
+    rule="{self.vim_motion_verbs_with_character} (<user.letter>|<user.number>|<user.symbol>)$"
 )
 # @ctx.capture(rule='{self.vim_motion_verbs_with_character} <user.any>')
 def vim_motion_verbs_with_character(m) -> str:
@@ -447,7 +459,7 @@ def vim_motion_verbs_with_phrase(m) -> str:
 
 
 @ctx.capture(
-    rule="(<self.vim_motion_verbs>|<self.vim_motion_verbs_with_character>|<self.vim_motion_verbs_with_phrase>)$"
+    rule="(<self.vim_motion_verbs>|<self.vim_motion_verbs_with_character>|<self.vim_motion_verbs_with_upper_character>|<self.vim_motion_verbs_with_phrase>)$"
 )
 def vim_motion_verbs_all(m) -> str:
     return "".join(list(m))
