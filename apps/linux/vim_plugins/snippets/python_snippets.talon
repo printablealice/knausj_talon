@@ -64,10 +64,10 @@ code.language: python
 # use
 ###
 
-snippet print success:
+(snip|snippet) print success:
     insert("psuccess")
     key(tab)
 
-snippet print fail:
+(snip|snippet) print fail:
     insert("pfail")
     key(tab)
