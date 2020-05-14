@@ -248,7 +248,7 @@ Here you can try out some basic commands to get a feel for the flow of using
 the VIM voice commands. Most of the commands should be fairly intuitive.
 
 ```
-The fox slow jumps under the lazy brown dog.
+The quick brown fox jumps over the lazy dog
 ```
 
 With the cursor starting on the letter `T` above, try practicing with the
