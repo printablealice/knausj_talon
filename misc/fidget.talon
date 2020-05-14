@@ -2,7 +2,7 @@ os: linux
 -
 # Stuff that no one else will ever want/need to use
 
-### 
+###
 # Convenience
 ###
 edit (vim|them) config: "vim ~/.vimrc\n"
@@ -10,9 +10,13 @@ jump to (vim|them): "cd ~/.vim\n"
 edit shell config: "vim ~/.zshrc\n"
 jump to shell: "cd ~/.ohmyzsh\n"
 jump to dotfiles: "cd ~/dotfiles\n"
+# config
 edit (secure shell| S S H) config: "vim ~/.ssh/config\n"
 edit eye three config: "vim ~/.i3/config\n"
+# snippets
 edit custom snippets: "vim ~/.vim/custom-snippets\n"
+edit markdown snippets: "vim ~/.vim/plugged/vim-snippets/UltiSnips/markdown.snippets"
+edit python snippets: "vim ~/.vim/plugged/vim-snippets/UltiSnips/python.snippets"
 jump to work: "cd ~/src/edg/ && ls\n"
 talon source: "cd  ~/src/talon\n"
 public source: "cd  ~/pub/src/\n"
@@ -25,16 +29,16 @@ edit sue do config: "sudo visudo\n"
 # Work
 ###
 edit work config: "vim ~/.talon/user/fidget/misc/edg.talon\n"
-(go|jump) [to] (current|active) [work] project: 
+(go|jump) [to] (current|active) [work] project:
     insert("source ~/projects/current &&")
     insert(" cd $ACTIVE_PROJECT\n")
 edit [to] (current|active) [work] project: "vim ~/projects/current\n"
 edge (dur|dir): "cd ~/src/edg\n"
 run debug: "./debug.sh\n"
-run project: 
+run project:
     insert("run_active_project\n")
 super kill g d b: "sudo pkill gdb\n"
-resource config: 
+resource config:
     insert("delete br\ny\n")
     insert("source debug_scripts/4.90.gdb\n")
 
@@ -50,9 +54,8 @@ jiff smiley: ">\\o"
 ###
 
 # special case for fixing vim wrapping when editing outside of vim
-hookah: 
+hookah:
     key(end)
     key(delete)
     key(space)
     key(down)
-
