@@ -24,6 +24,10 @@ edit talon lexicon: "vim ~/.talon/w2l/en_US/lexicon.txt && rm ~/.talon/w2l/en_US
 x him: "exim"
 add to do: "# XXX - "
 edit sue do config: "sudo visudo\n"
+edit find results:
+    insert("vim $(find . -name \"\")")
+    edit.left()
+    edit.left()
 
 ###
 # Work
