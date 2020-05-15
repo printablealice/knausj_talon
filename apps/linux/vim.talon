@@ -83,6 +83,13 @@ action(edit.delete_line):
 action(edit.delete):
     key(x)
 
+# note these are for mouse highlighted copy/paste. shouldn't be used for actual
+# vim commands
+action(edit.copy):
+    key(ctrl-shift-c)
+action(edit.paste):
+    key(ctrl-shift-v)
+
 ###
 # `code/vim.py` actions based on vimspeak
 ###
