@@ -1,5 +1,5 @@
 # see `code/vim.py` for more implementation
-mode: vim
+tag: vim
 -
 
 surround <user.vim_text_objects> with <user.vim_surround_targets>:
@@ -11,7 +11,7 @@ surround <user.vim_motion_verbs_all> with <user.vim_surround_targets>:
 surround <user.vim_unranged_surround_text_objects> with <user.vim_surround_targets>:
     insert("ys{vim_unranged_surround_text_objects}{vim_surround_targets}")
 
-# XXX - this should have a vim motion target rather than line?
+# XXX - this should have a vim target rather than line
 surround line with <user.vim_surround_targets>:
     insert("yss{vim_surround_targets}")
 
