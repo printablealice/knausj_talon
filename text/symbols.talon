@@ -68,6 +68,14 @@ op or: " || "
 empty dubstring:
     '""'
     key(left)
+empty escaped dubstring:
+    '\\"\\"'
+    key(left)
+    key(left)
 empty string:
     "''"
+    key(left)
+empty escaped string:
+    "\\'\\'"
+    key(left)
     key(left)
