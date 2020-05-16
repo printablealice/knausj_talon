@@ -13,3 +13,5 @@ tag: vim
 (fugitive|git) add (current|this) file: ":G add %\n"
 (fugitive|git) add everything: ":G add -u\n"
 (fugitive|git) reset (current|reset) file: ":G reset HEAD %\n"
+(fugitive|git) rename: ":GRename "
+(fugitive|git) move: ":Gmove "
