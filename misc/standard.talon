@@ -85,4 +85,4 @@ play previous: key(prev)
 #menu: key(alt)
 
 local host: "127.0.0.1"
-hex <number>: "0x{number}"
+hex (num|number) <number>: "0x{number}"
