@@ -1,17 +1,20 @@
+import sys
 from typing import Set
 
-from talon import Module, Context, actions
-import sys
+from talon import Context, Module, actions
 
 mod = Module()
-mod.list('abbreviation',    desc='Common abbreviation')
+mod.list("abbreviation", desc="Common abbreviation")
+
+
 @mod.capture
 def abbreviation(m) -> str:
     "One abbreviation"
 
+
 ctx = Context()
 # List taken from an aenea grammar
-ctx.lists['user.abbreviation'] = {
+ctx.lists["user.abbreviation"] = {
     "administrator": "admin",
     "administrators": "admins",
     "application": "app",
@@ -68,6 +71,7 @@ ctx.lists['user.abbreviation'] = {
     "length": "len",
     "markdown": "md",
     "message": "msg",
+    "miscellaneous": "misc",
     "mount": "mnt",
     "number": "num",
     "object": "obj",
@@ -116,6 +120,7 @@ ctx.lists['user.abbreviation'] = {
     "window": "win",
 }
 
-@ctx.capture(rule='{user.abbreviation}')
+
+@ctx.capture(rule="{user.abbreviation}")
 def abbreviation(m):
     return m.abbreviation
