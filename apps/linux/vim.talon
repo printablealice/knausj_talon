@@ -197,9 +197,11 @@ half [page] up: key(ctrl-u)
 
 change remaining line: key(C)
 change line: "cc"
+# XXX - this might be suited for some automatic motion thing in vim.py
 swap characters: "xp"
 swap words: "dwwP"
 swap lines: "ddp"
+swap paragraph: "d}}p"
 replace <user.any>: "r{any}"
 replace (ship|upper|upper case) <user.letters>:
     "r"
@@ -328,6 +330,13 @@ split (close|quit):
     key(ctrl-w)
     key(q)
 
+new empty split:
+    key(escape)
+    insert(":new\n")
+new empty vertical split:
+    key(escape)
+    insert(":vnew\n")
+
 # navigating splits
 split <user.vim_arrow>:
     key(ctrl-w)
@@ -432,8 +441,7 @@ tab last: ":tablast\n"
 ###
 # Settings
 ###
-highlight off: ":nohl\n"
-hide (highlight|hightlights): ":nohl\n"
+(hide|unset) (highlight|hightlights): ":nohl\n"
 set highlight search: ":set hls\n"
 set no highlight search: ":set nohls\n"
 (show|set) line numbers: ":set nu\n"
