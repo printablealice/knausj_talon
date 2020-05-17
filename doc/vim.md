@@ -34,9 +34,10 @@ downside to this approach aside from it being somewhat cumbersome.
 
 ## The `generic_editor.talon` commands
 
-The default actions defined in `generic_editor.talon` are too simple for use
-with vim. If you run into problems with overlapping commands you can just
-rename this file to `generic_editor.talon_` to disable it from loading.
+The default actions defined in `generic_editor.talon` are too simple for more
+complicated use with vim. If you run into problems with overlapping commands
+you can just rename this file to `generic_editor.talon_` to disable it from
+loading. That said, all generic editor actions are defined in `vim.talon`.
 
 ## Detecting VIM running inside terminals from Talon
 
@@ -68,33 +69,29 @@ point it will correctly trigger the vim tag and disable the terminal tag.
 The longer term plan is for talon to be able to intelligently determine the
 mode that vim is currently running in, and automatically switch to different
 modes depending on the commands that are issue. In theory you could do this
-using RPC, but vim and neo vim both use a different method so for now we
+using RPC, but vim and neovim both use a different method so for now we
 simply rely on advertising it in the `titlestring`, similar to solving the
 previous problem.
 
 ```
-let g:currentmode={
-            \ 'n'  : 'Normal',
-            \ 'no' : 'N·Operator Pending',
-            \ 'v'  : 'Visual',
-            \ 'V'  : 'V·Line',
-            \ '^V' : 'V-Block',
-            \ 's'  : 'Select',
-            \ 'S'  : 'S·Line',
-            \ 'i'  : 'Insert',
-            \ 'R'  : 'Replace',
-            \ 'Rv' : 'V·Replace',
-            \ 'c'  : 'Command',
-            \ 'cv' : 'Vim Ex',
-            \ 'ce' : 'Ex',
-            \ 'r'  : 'Prompt',
-            \ 'rm' : 'More',
-            \ 'r?' : 'Confirm',
-            \ '!'  : 'Shell',
-            \}
 let &titlestring ='%t (%f) - VIM MODE:%{mode()}'
 set title
 ```
+
+## Automatically switching neovim using RPC
+
+Once again we can rely on the `titlestring` to tell talon where to look to
+access the current neovim RPC interface.
+.
+
+```
+let &titlestring ='%t (%f) - VIM MODE:%{mode()} RPC:%{v:servername}'
+set title
+```
+
+With this enableb talon will be able (XXX - not done yet) to directly modify
+the mode of the current neovim window over RPC.
+
 
 ## Using VIM as your terminal
 
@@ -117,68 +114,18 @@ title string, similar to the previous section. The following example can be
 placed into your vim config file.
 
 ```
-let g:currentmode={
-            \ 'n'  : 'Normal',
-            \ 'no' : 'N·Operator Pending',
-            \ 'v'  : 'Visual',
-            \ 'V'  : 'V·Line',
-            \ '^V' : 'V-Block',
-            \ 's'  : 'Select',
-            \ 'S'  : 'S·Line',
-            \ 'i'  : 'Insert',
-            \ 'R'  : 'Replace',
-            \ 'Rv' : 'V·Replace',
-            \ 'c'  : 'Command',
-            \ 'cv' : 'Vim Ex',
-            \ 'ce' : 'Ex',
-            \ 'r'  : 'Prompt',
-            \ 'rm' : 'More',
-            \ 'r?' : 'Confirm',
-            \ '!'  : 'Shell',
-            \}
-let &titlestring ='%t (%f) - VIM MODE:%{mode()}'
-set title
-```
-
-The `vim_terminal.talon` files should be able to match based off of the titles
-string above, in which case it will trigger terminal mode despite being inside
-of vim.
-
-NOTE: There seems to be a bug where neovim does not properly advertise the
-mode being in terminal mode, or it's not actually possible to do this matching
-yet.
-
-## Automatically switching neovim using RPC
-
-Once again we can rely on the `titlestring` to tell talon where to look to
-access the current neovim instances' RPC Unix Domain Socket (UDS).
-
-```
-let g:currentmode={
-            \ 'n'  : 'Normal',
-            \ 'no' : 'N·Operator Pending',
-            \ 'v'  : 'Visual',
-            \ 'V'  : 'V·Line',
-            \ '^V' : 'V-Block',
-            \ 's'  : 'Select',
-            \ 'S'  : 'S·Line',
-            \ 'i'  : 'Insert',
-            \ 'R'  : 'Replace',
-            \ 'Rv' : 'V·Replace',
-            \ 'c'  : 'Command',
-            \ 'cv' : 'Vim Ex',
-            \ 'ce' : 'Ex',
-            \ 'r'  : 'Prompt',
-            \ 'rm' : 'More',
-            \ 'r?' : 'Confirm',
-            \ '!'  : 'Shell',
-            \}
 let &titlestring ='%t (%f) - VIM MODE:%{mode()} RPC:%{v:servername}'
 set title
+if has ('autocmd')
+    autocmd TermEnter * let &titlestring='%t (%f) - VIM MODE:%{mode()} RPC:%{v:servername}'|redraw
+endif
+
 ```
 
-With this enable talon is able to directly modify the mode of the current
-neovim window over RPC.
+The `vim_terminal.talon` file can then match based off of the titles string
+above, in which case it will trigger `terminal` mode despite being inside of
+vim.
+
 
 ### Installing neovim python package
 
@@ -187,18 +134,18 @@ XXX - this isn't done/documented yet
 # Supported VIM Features
 
 * motions
-* settings
 * registers
 * macros
-* folding
+* folds
 * tabs
 * splits
 * plugins
+* settings
 
 # VIM Plugins
 
 Right now plugins are sorted into their own section under
-`apps/linux/vim_plugins`. The below is a quick summary of the more heavily
+`apps/linux/vim_plugins/`. The below is a quick summary of the more heavily
 tested plugins.
 
 ## fugitive.vim
@@ -223,13 +170,6 @@ tested plugins.
 ## surround.vim
 `vim_plugins/surround.talon`
 
-# Miscellaneous Recommendations
-
-Use ultisnips and vim-snippets to speed up your development and vim voice usage
-in general.
-
-XXX - provide examples of why this is useful
-
 # VIM Examples and Tutorial
 
 This section provides an interactive section where you can test certain
@@ -248,15 +188,38 @@ Here you can try out some basic commands to get a feel for the flow of using
 the VIM voice commands. Most of the commands should be fairly intuitive.
 
 ```
-The quick brown fox jumps over the lazy dog
+The quick brown fox jumps over the lazy dog.
 ```
 
 With the cursor starting on the letter `T` above, try practicing with the
-following commands:
+following commands. Note that the instructions assume you are viewing this file
+from inside vim and it is the only open buffer and split.
+
+Next let's create a little sandbox to work inside.
 
 * `normal mode`
+* `new empty vertical split`
+* `split rotate`
+* `split left`
+
+Next we will set this `vim.md` file to read-only, to help prevent you
+accidentally deleting things while experimenting.
+
+* `unset modifiable`
+
+You should now have a new empty vertical split containing on the right side of
+your vim screen, and our cursor should be back in the split with the tutorial.
+
+* `search reversed lazy  dog` (extra space is on purpose to simplify search)
+* `enter`
+* `yank line`
+* `split right`
+* `paste above`
+* `unset highlights`
 * `set line numbers`
-* `scroll middle`
+
+Now you should have a new line in the buffer on the right on line number 1.
+
 * `end of line`
 * `start of line`
 * `word`
@@ -272,10 +235,45 @@ following commands:
 * `find reversed quench`
 * `change word`
 * `say slow`
+* `normal mode`
 * `back`
 * `swap words`
 * `two back`
-* `replace bat`
+* `replace gust`
+* `yank line`
+* `paste below`
+* `repeat that twentyieth`
+* `top of file`
+* `go line ten`
+* `gap below`
+* `two down`
+* `select line`
+* `go down`
+* `delete`
+* `select paragraph`
+* `swap selected`
+* `say lazy`
+* `go right`
+* `say hyper`
+* `enter` (this might be mapped differently for you. however you press enter)
+* `reselect`
+* `swap selected`
+* `space`
+* `go right`
+* `dash`
+* `swap global`
+* `backslash dot`
+* `go right`
+* `bang`
+* `enter` (this might be mapped differently for you. however you press enter)
+
+All done for now. You can close the sandbox buffer:
+
+* `force close this buffer`
+
+This really only touches the surface of the commands supported. You will need
+to spend time reading `vim.talon`, `vim.py`, and experimenting to get a feel
+for everything.
 
 ### Intermediate Usage
 
