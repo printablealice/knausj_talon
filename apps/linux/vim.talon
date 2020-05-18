@@ -1,6 +1,8 @@
 # Usage:
 #  - See doc/vim.md
 #  - See code/vim.py
+# ToDo:
+#  - new terminal buffer command
 
 os:linux
 app:gvim
@@ -9,6 +11,11 @@ and win.title:/VIM/
 -
 
 tag(): vim
+settings():
+    # Whether or not to always revert back to the previous mode
+    user.vim_preserve_insert_mode = 1
+    user.vim_adjust_modes = 1
+    user.vim_notify_mode_changes = 0
 
 ###
 # Actions - Talon generic_editor.talon implementation
@@ -105,8 +112,7 @@ action(edit.paste):
 ###
 # NOTE: using `save` alone conflicts too much with the `say`
 save file:
-    key(escape)
-    insert(":w\n")
+    user.vim_normal_mode(":w\n")
 save [file] as:
     key(escape)
     insert(":w ")
@@ -301,7 +307,8 @@ swap global:
 ###
 # Buffers
 ###
-((buf|buffer) list|list (buf|buffer)s): ":ls\n"
+((buf|buffer) list|list (buf|buffer)s):
+    user.vim_normal_mode(":ls\n")
 (buf|buffer) (close|delete) <number>: ":bd {number} "
 (close|delete) (buf|buffer) <number>: ":bd {number} "
 (buf|buffer) close current: ":bd\n"

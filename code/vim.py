@@ -8,11 +8,20 @@
 # XXX - Add support for ordinal motions: "delete 5th word","find second <char>"
 # XXX - Support more complext yanking into registers
 
-from talon import Context, Module, actions, ui
+import time
+
+from talon import Context, Module, actions, settings, ui
 
 mod = Module()
 ctx = Context()
 
+# mode ids - more convenient for user reference
+NORMAL = 1
+VISUAL = 2
+INSERT = 3
+TERMINAL = 4
+
+# Specific to the vim-sorround plugin
 ctx.lists["self.vim_surround_targets"] = {
     "stars": "*",
     "asterisks": "*",
@@ -65,14 +74,13 @@ ctx.lists["self.vim_surround_targets"] = {
     "bold tags": "<b>",
 }
 
+# XXX - need to break into normal, visual, etc
 ctx.lists["self.vim_counted_action_verbs"] = {
     "after": "a",
     "append": "a",
     "after line": "A",
     "append line": "A",
     "insert": "i",
-    "insert before line": "I",
-    "insert line": "I",
     "insert column zero": "gI",
     # "open": "o",  # conflicts too much with other commands
     "open below": "o",
@@ -101,9 +109,9 @@ ctx.lists["self.vim_counted_action_verbs"] = {
     "page up": "<C-b>",
     "half page down": "<C-d>",
     "half page up": "<C-u>",
+    # XXX - works from visual mode, but with a single >
     "indent line": ">>",
     "unindent line": "<<",
-    "toggle case": "~",
     #    "comment line",             @"\\\",
     #    "comment lines",            @"\\\",
     #    "uncomment line",           @"\\\",
@@ -114,7 +122,11 @@ ctx.lists["self.vim_counted_action_verbs"] = {
     "scroll half screen right": "zL",
     "scroll start": "zs",
     "scroll end": "ze",
+    # XXX - these work from visual mode and normal mode
+    "insert before line": "I",
+    "insert line": "I",
     "play again": "@@",
+    "toggle case": "~",
 }
 
 ctx.lists["self.vim_jump_range"] = {
@@ -137,24 +149,59 @@ ctx.lists["self.vim_counted_actions_args"] = {
     "play macro": "@",  # takes char arg
 }
 
-ctx.lists["self.vim_command_verbs"] = {
-    "change": "c",
-    "delete": "d",
-    "indent": ">",
-    "unindent": "<",
-    "an indent": "<",
-    "un indent": "<",
-    "join": "J",
-    "filter": "=",
-    "put": "p",
-    "paste": "p",
-    "undo": "u",
-    # XXX - this conflicts with default talon 'yank' alphabet for 'y' key
-    "yank": "y",
-    "copy": "y",
-    "fold": "zf",
-    "format": "gq",
+command_verbs = {
+    "modes": [NORMAL, VISUAL],
+    "verbs": {
+        "change": "c",
+        "delete": "d",
+        "indent": ">",
+        "unindent": "<",
+        "an indent": "<",
+        "un indent": "<",
+        "join": "J",
+        "filter": "=",
+        "put": "p",
+        "paste": "p",
+        "undo": "u",
+        # XXX - this conflicts with default talon 'yank' alphabet for 'y' key
+        "yank": "y",
+        "copy": "y",
+        "fold": "zf",
+        "format": "gq",
+    },
 }
+
+# Valid from both normal and visual
+ctx.lists["self.vim_command_verbs"] = command_verbs["verbs"].keys()
+# ctx.lists["self.vim_command_verbs"] = {
+#    "change": "c",
+#    "delete": "d",
+#    "indent": ">",
+#    "unindent": "<",
+#    "an indent": "<",
+#    "un indent": "<",
+#    "join": "J",
+#    "filter": "=",
+#    "put": "p",
+#    "paste": "p",
+#    "undo": "u",
+#    # XXX - this conflicts with default talon 'yank' alphabet for 'y' key
+#    "yank": "y",
+#    "copy": "y",
+#    "fold": "zf",
+#    "format": "gq",
+# }
+
+# command_verbs = {
+#    "change": {"cmd": "c", "modes": [NORMAL, VISUAL]},
+#    "delete": {"cmd": "d", "modes": [NORMAL, VISUAL]},
+#    "indent": {"cmd": ">", "modes": [NORMAL, VISUAL]},
+#    "unindent": {"cmd": "<", "modes": [NORMAL, VISUAL]},
+#    "an indent": {"cmd": "<", "modes": [NORMAL, VISUAL]},
+#    "un indent": {"cmd": "<", "modes": [NORMAL, VISUAL]},
+#    "join": {"cmd": "J", "modes": [NORMAL, VISUAL]},
+# }
+
 
 ctx.lists["self.vim_motion_verbs"] = {
     "back": "b",
@@ -285,6 +332,24 @@ ctx.lists["self.vim_text_object_select"] = {
 }
 
 mod.tag("vim", desc="a tag to load various vim plugins")
+mod.setting(
+    "vim_preserve_insert_mode",
+    type=int,
+    default=1,
+    desc="If normal mode actions are called from insert mode, stay in insert",
+)
+mod.setting(
+    "vim_adjust_modes",
+    type=int,
+    default=1,
+    desc="User wants talon to automatically adjust modes for commands",
+)
+mod.setting(
+    "vim_notify_mode_changes",
+    type=int,
+    default=0,
+    desc="Notify user about vim mode changes as they occur",
+)
 mod.list("vim_command_verbs", desc="VIM commands")
 mod.list("vim_counted_motion_verbs", desc="Counted VIM motion verbs")
 mod.list("vim_counted_action_verbs", desc="Counted VIM action verbs")
@@ -430,7 +495,14 @@ def vim_text_object_count(m) -> str:
 
 @ctx.capture(rule="{self.vim_command_verbs}")
 def vim_command_verbs(m) -> str:
-    return m.vim_command_verbs
+    v = VimMode()
+    v.adjust_mode([NORMAL, VISUAL])
+    #    if str(m) in command_verbs.keys():
+    #        v.adjust_mode(command_verbs[str(m)])
+    #        print("active mode {}".format(v.get_active_mode()))
+    #        print(m)
+    return command_verbs["verbs"][str(m)]
+    # return m.vim_command_verbs
 
 
 @ctx.capture(rule="{self.vim_motion_verbs}")
@@ -532,22 +604,25 @@ def vim_select_motion(m) -> str:
     return "".join(list(m))
 
 
-# XXX - this doesn't work yet, but all eventually final everything through here
-# so that we can detect/change the mode
 @mod.action_class
 class Actions:
-    def run_vim_cmd(words: list):
-        """Insert an abbreviation"""
-        #        for word in words:
-        #            actions.insert(word)
-        print(words)
-        vim_mode = VimMode()
-        mode = vim_mode.get_active_mode()
-        rpc_path = vim_mode.get_active_rpc()
-        if mode is not None:
-            print(mode)
-        if rpc_path is not None:
-            print(rpc_path)
+    def vim_normal_mode(cmd: str):
+        """run a given list of commands in normal mode"""
+        v = VimMode()
+        v.set_normal_mode()
+        actions.insert(cmd)
+
+    def vim_visual_mode(cmd: str):
+        """run a given list of commands in visual mode"""
+        v = VimMode()
+        v.set_visual_mode()
+        actions.insert(cmd)
+
+    def vim_insert_mode(cmd: str):
+        """run a given list of commands in insert mode"""
+        v = VimMode()
+        v.set_insert_mode()
+        actions.insert(cmd)
 
 
 class VimMode:
@@ -569,6 +644,7 @@ class VimMode:
         "rm": "More",
         "r?": "Confirm",
         "!": "Shell",
+        "t": "Terminal",
     }
 
     def __init__(self):
@@ -576,12 +652,20 @@ class VimMode:
         self.vim_instances = []
         self.current_mode = None
         self.current_rpc = None
+        self.normal_modes = ["n"]
+        self.visual_modes = ["v", "V", "^V"]
 
-    def is_normal_mode(self, mode):
-        return mode[0] == "n"
+    def is_normal_mode(self):
+        return self.current_mode == "n"
 
-    def is_visual_mode(self, mode):
-        return mode == "v" or mode == "V" or mode == "^V"
+    def is_visual_mode(self):
+        return self.current_mode in ["v", "V", "^V"]
+
+    def is_insert_mode(self):
+        return self.current_mode == "i"
+
+    def is_terminal_mode(self):
+        return self.current_mode == "t"
 
     def get_active_mode(self):
         title = ui.active_window().title
@@ -601,7 +685,87 @@ class VimMode:
             return named_pipe
         return None
 
-    # if neovim RPC is supported we use it
-    # otherwise we simply use keyboard binding combinations
-    def set_mode(self, mode):
-        print("Set vim mode")
+    def current_mode_id(self):
+        if self.is_normal_mode():
+            return NORMAL
+        elif self.is_visual_mode():
+            return VISUAL
+        elif self.is_insert_mode():
+            return INSERT
+        elif self.is_terminal_mode():
+            return TERMINAL
+
+    def set_normal_mode(self):
+        self.adjust_mode(NORMAL)
+
+    def set_visual_mode(self):
+        self.adjust_mode(VISUAL)
+
+    def set_insert_mode(self):
+        self.adjust_mode(INSERT)
+
+    def set_terminal_mode(self):
+        self.adjust_mode(TERMINAL)
+
+    def adjust_mode(self, valid_mode_ids, preserve_override=False):
+        if settings.get("user.vim_adjust_modes") == 0:
+            return
+
+        cur = self.current_mode_id()
+        if type(valid_mode_ids) != list:
+            valid_mode_ids = [valid_mode_ids]
+        if cur not in valid_mode_ids:
+            # Just favor the first mode
+            self.set_mode(valid_mode_ids[0])
+
+    # XXX - we need to switch this to neovim RPC, etc
+    # for we simply use keyboard binding combinations
+    def set_mode(self, wanted_mode, preserve_override=False):
+        print("Setting mode to {}".format(wanted_mode))
+        current_mode = self.get_active_mode()
+
+        if current_mode == wanted_mode or (
+            self.is_terminal_mode() and wanted_mode == INSERT
+        ):
+            print("already in wanted mode")
+            return
+
+        # enter normal mode where necessary
+        if self.is_terminal_mode():
+            # break out of terminal mode
+            actions.key("ctrl-\\")
+            actions.key("ctrl-n")
+        elif self.is_insert_mode():
+            # XXX - is the user is explicitly setting the mode to normal mode,
+            # this will cause a problem
+            if (
+                wanted_mode == NORMAL
+                and preserve_override is False
+                and settings.get("user.vim_preserve_insert_mode") >= 1
+            ):
+                print("preserving insert mode")
+                actions.key("ctrl-o")
+            else:
+                print("entering normal mode")
+                actions.key("right")
+                actions.key("escape")
+                time.sleep(0.2)
+                #
+        elif self.is_visual_mode():
+            print("entering normal mode")
+            actions.key("escape")
+            time.sleep(0.2)
+
+        # switch to explicit mode if necessary
+        if wanted_mode == INSERT:
+            actions.key("i")
+        # XXX - need to support other mode changes
+        # or just let the original 'mode' command run from this point
+        elif wanted_mode == VISUAL:
+            actions.key("v")
+
+        # Here we assume we are now in some normalized state:
+        # need to make the notify command configurable
+        if settings.get("user.vim_notify_mode_changes") >= 1:
+            # user.system_command("notify-send.sh -t 3000 \"{} mode\").format()
+            ...
