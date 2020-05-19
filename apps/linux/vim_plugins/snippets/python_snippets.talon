@@ -6,55 +6,55 @@ code.language: python
 ###
 
 (snip|snippet) header:
-    insert("#!")
+    user.vim_insert_mode("#!")
     key(tab)
 
 (snip|snippet) if main:
-    insert("ifmain")
+    user.vim_insert_mode("ifmain")
     key(tab)
 
 (snip|snippet) for loop:
-    insert("for")
+    user.vim_insert_mode("for")
     key(tab)
 
 (snip|snippet) (dark|dock) string class:
-    insert("class")
+    user.vim_insert_mode("class")
     key(tab)
 
 (snip|snippet) (dark|dock) string function:
-    insert("def")
+    user.vim_insert_mode("def")
     key(tab)
 
 (snip|snippet) (dark|dock) string method$:
-    insert("defc")
+    user.vim_insert_mode("defc")
     key(tab)
 
 (snip|snippet) (dark|dock) string static method$:
-    insert("defs")
+    user.vim_insert_mode("defs")
     key(tab)
 
 (snip|snippet) from import:
-    insert("from")
+    user.vim_insert_mode("from")
     key(tab)
 
 (snip|snippet) if:
-    insert("if")
+    user.vim_insert_mode("if")
     key(tab)
 
 (snip|snippet) if else$:
-    insert("ife")
+    user.vim_insert_mode("ife")
     key(tab)
 
 (snip|snippet) if if else$:
-    insert("ifee")
+    user.vim_insert_mode("ifee")
     key(tab)
 
 (snip|snippet) try:
-    insert("try")
+    user.vim_insert_mode("try")
     key(tab)
 
 (snip|snippet) if if else$:
-    insert("ifee")
+    user.vim_insert_mode("ifee")
     key(tab)
 
 ###
@@ -65,9 +65,9 @@ code.language: python
 ###
 
 (snip|snippet) print success:
-    insert("psuccess")
+    user.vim_insert_mode("psuccess")
     key(tab)
 
 (snip|snippet) print fail:
-    insert("pfail")
+    user.vim_insert_mode("pfail")
     key(tab)

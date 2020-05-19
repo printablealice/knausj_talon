@@ -3,5 +3,5 @@ code.language: markdown
 -
 
 snip code block:
-    insert("cbl")
+    user.vim_insert_mode("cbl")
     key(tab)

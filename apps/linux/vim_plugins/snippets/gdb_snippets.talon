@@ -10,6 +10,6 @@ code.language: gdb
 ###
 # Private snippets
 ###
-new big break: 
-    insert("bigbr")
+new big break:
+    user.vim_insert_mode("bigbr")
     key(tab)
