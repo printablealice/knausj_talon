@@ -5,6 +5,10 @@ os: linux
 ###
 # Convenience
 ###
+
+dev talon:
+    insert("cd ~/.talon/user/fidget\n")
+    insert("ls\n")
 edit (vim|them) config: "vim ~/.vimrc\n"
 jump to (vim|them): "cd ~/.vim\n"
 edit shell config: "vim ~/.zshrc\n"
@@ -19,6 +23,8 @@ edit markdown snippets: "vim ~/.vim/plugged/vim-snippets/UltiSnips/markdown.snip
 edit python snippets: "vim ~/.vim/plugged/vim-snippets/UltiSnips/python.snippets"
 jump to work: "cd ~/src/edg/ && ls\n"
 talon source: "cd  ~/src/talon\n"
+talon pulls: "cd  ~/src/talon_pull/fidget\n"
+new talon pull branch: "new_talon_pull_repo.sh "
 public source: "cd  ~/pub/src/\n"
 edit talon lexicon: "vim ~/.talon/w2l/en_US/lexicon.txt && rm ~/.talon/w2l/en_US/lexicon_flat.bin\n"
 x him: "exim"
