@@ -115,38 +115,33 @@ save file:
     user.vim_normal_mode(":w\n")
 save [file] as:
     key(escape)
-    insert(":w ")
+    user.vim_normal_mode(":w ")
 save all:
-    key(escape)
-    insert(":wa\n")
+    user.vim_normal_mode(":wa\n")
 save and (quit|close):
-    key(escape)
-    insert(":wq\n")
+    user.vim_normal_mode(":wq\n")
 (close|quit) file:
-    key(escape)
-    insert(":q\n")
+    user.vim_normal_mode(":q\n")
 force (close|quit):
-    key(escape)
-    insert(":q!\n")
+    user.vim_normal_mode(":q!\n")
 refresh file:
-    key(escape)
-    insert(":e!\n")
+    user.vim_normal_mode(":e!\n")
 edit [file|new]:
-    insert(":e ")
+    user.vim_normal_mode(":e ")
 reload [vim] config:
-    insert(":so $MYVIMRC\n")
+    user.vim_normal_mode(":so $MYVIMRC\n")
 
 # For when the VIM cursor is hovering on a path
-open [this] link: "gx"
-open this file: "gf"
+open [this] link: user.vim_normal_mode("gx")
+open this file: user.vim_normal_mode("gf")
 open this file in [split|window]:
     key(ctrl-w)
     key(f)
 open this file in vertical [split|window]:
     insert(":vertical wincmd f\n")
 
-list current directory: ":pwd\n"
-change buffer directory: ":lcd %:p:h\n"
+list current directory: user.vim_normal_mode(":pwd\n")
+change buffer directory: user.vim_normal_mode(":lcd %:p:h\n")
 
 ###
 # Standard commands
@@ -155,8 +150,7 @@ redo:
     key(escape)
     key(ctrl-r)
 undo:
-    key(escape)
-    key(u)
+    user.vim_normal_mode("u")
 
 ###
 # Navigation, movement and jumping
@@ -164,12 +158,9 @@ undo:
 # NOTE: Majority of more core movement verbs are in code/vim.py
 ###
 [(go|jump)] [to] line <number>:
-    key(escape)
-    key(:)
-    insert("{number}")
-    key(enter)
+    user.vim_normal_mode(":{number}\n")
 
-matching: key(%)
+matching: user.vim_normal_mode("%")
 
 # jump list
 show jump list: ":jumps\n"
@@ -318,8 +309,8 @@ force (buf|buffer) close: ":bd!\n"
 (buf|buffer) (first|rewind): ":br\n"
 (buf|buffer) (left|prev): ":bprev\n"
 (buf|buffer) (right|next): ":bnext\n"
-# XXX - conflicts with actual :bl command.. maybe use flip?
-(buf|buffer) last: ":b#\n"
+(buf|buffer) flip: ":b#\n"
+(buf|buffer) last: ":bl\n"
 close (bufs|buffers): ":bd "
 [(go|jump|open)] (buf|buffer) <number>: ":b {number}\n"
 
@@ -438,12 +429,19 @@ buffer end diff:
 ###
 # Tabs
 ###
-[show] tabs: ":tabs\n"
-tab close: ":tabclose\n"
-tab next: ":tabnext\n"
-tab (prev|previous): ":tabprevious\n"
-tab first: ":tabfirst\n"
-tab last: ":tablast\n"
+[show] tabs: user.vim_normal_mode(":tabs\n")
+tab close: user.vim_normal_mode(":tabclose\n")
+tab (next|right): user.vim_normal_mode(":tabnext\n")
+tab (left|prev|previous): user.vim_normal_mode(":tabprevious\n")
+tab first: user.vim_normal_mode(":tabfirst\n")
+tab last: user.vim_normal_mode(":tablast\n")
+tab flip: user.vim_normal_mode("g\t")
+tab new: user.vim_normal_mode(":tabnew\n")
+tab edit: user.vim_normal_mode(":tabedit ")
+[(go|jump|open)] tab <number>: user.vim_normal_mode("{number}gt")
+tab terminal: user.vim_normal_mode(":tab term://bash")
+
+# XXX - add tab moving
 
 ###
 # Settings
@@ -506,8 +504,8 @@ modify [register|macro] <user.letter>:
     insert("{letter}")
     key(')
 
-paste from register <user.any>: '"{any}p'
-yank to register <user.any>: '"{any}y'
+paste from register <user.any>: user.vim_normal_mode('"{any}p')
+yank to register <user.any>: user.vim_normal_mode('"{any}y')
 
 ###
 # Informational
@@ -616,6 +614,14 @@ reselect: "gv"
 (escape|pop) terminal:
     key(ctrl-\)
     key(ctrl-n)
+
+split (term|terminal):
+    # NOTE: if your using zsh you might have to switch this, though depending
+    # on your setup it will still work (this loads zsh on mine)
+    user.vim_normal_mode(":split term://bash\n")
+
+vertical split (term|terminal):
+    user.vim_normal_mode(":vsplit term://bash\n")
 
 ###
 # Folding
