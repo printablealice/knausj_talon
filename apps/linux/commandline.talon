@@ -123,3 +123,7 @@ double u get: "wget "
 
 # because talent doesn't seem to like me saying ./
 run script: "./"
+
+# bash convenience stuff
+for file loop:
+    insert("for FILE in $(ls \"*\"); do \$FILE; done")
