@@ -42,13 +42,13 @@ action(edit.word_right):
     key(w)
 action(edit.left):
     #key(ctrl-o)
-    key(h)
+    key(left)
 action(edit.right):
-    key(l)
+    key(right)
 action(edit.up):
-    key(k)
+    key(up)
 action(edit.down):
-    key(j)
+    key(down)
 action(edit.line_start):
     key(^)
 action(edit.line_end):
