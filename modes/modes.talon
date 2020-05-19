@@ -36,4 +36,4 @@ debug mode:
     user.system_command('notify-send.sh -t 3000 -f -u low "Debug Mode Enabled"')
 disable debug mode:
     mode.disable("user.gdb")
-    user.system_command('notify-send.sh -t 3000 -f -u low "Debug Mode Disabled')
+    user.system_command('notify-send.sh -t 3000 -f -u low "Debug Mode Disabled"')
