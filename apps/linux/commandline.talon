@@ -66,12 +66,12 @@ show route: "ip route\n"
 generate see tags: "ctags --recurse *\n"
 generate see scope database:
     insert('find . -name "*.c"')
-    insert('-o -name "*.cpp"')
-    insert('-o -name "*.h"')
-    insert('-o -name "*.hpp"')
-    insert('-o -name "*.py"')
-    insert('-o -name "*.s"')
-    insert('-o -name "*.asm"')
+    insert(' -o -name "*.cpp"')
+    insert(' -o -name "*.h"')
+    insert(' -o -name "*.hpp"')
+    insert(' -o -name "*.py"')
+    insert(' -o -name "*.s"')
+    insert(' -o -name "*.asm"')
     insert('> cscope.files\n')
     insert("cscope -q -R -b -i cscope.files\n")
 
