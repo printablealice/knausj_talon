@@ -1,7 +1,8 @@
 os: linux
 app: /term/
 # XXX - this matches .gdb files atm
-win.title: /gdb/
+#win.title: /gdb/
+mode: user.gdb
 -
 tag(): gdb
 
