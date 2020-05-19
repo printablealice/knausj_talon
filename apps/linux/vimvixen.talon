@@ -1,6 +1,9 @@
 os: linux
 tag: firefox
 -
+settings():
+    user.vimvixen_auto_focus = 1
+
 (page|tab) (previous|left):
     user.vimvixen_key("K")
 (page|tab) (next|right):
@@ -32,7 +35,7 @@ last (page|tab):
     insert(":open ")
     key(tab)
 (page|tab) open <phrase>:
-    user.focus_vimvixen()
+    user.vimvixen_focus()
     insert(":open {phrase}")
     key(tab)
 [(page|tab)] back:
@@ -66,7 +69,7 @@ zoom reset:
     user.vimvixen_key("z")
     key(z)
 focus:
-    user.focus_vimvixen()
+    user.vimvixen_focus()
 search :
     user.vimvixen_key("ctrl-k")
 search for <phrase>:
