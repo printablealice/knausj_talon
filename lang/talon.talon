@@ -1,10 +1,10 @@
 code.language: talon
 -
-call insert: 
+call insert:
 	insert('insert("")')
 	edit.left()
 	edit.left()
-	
+
 
 call key:
 	insert('key()')
@@ -28,6 +28,10 @@ call alt key:
 	insert('key(alt-)')
 	edit.left()
 
+call shift key:
+	insert('key(shift-)')
+	edit.left()
+
 call alt shift key:
 	insert('key(alt-shift-)')
 	edit.left()
@@ -38,22 +42,22 @@ call action:
 
 os win:
 	insert("os: windows")
-	
+
 os mac:
 	insert("os: mac")
-	
+
 os lunix:
 	insert("os: linux")
-	
+
 new app:
 	insert("app: ")
-	
+
 new tag:
 	insert("tag: ")
 
 user:
 	insert("user.")
-	
-comment: 
+
+comment:
 	edit.line_start()
 	insert("#")
