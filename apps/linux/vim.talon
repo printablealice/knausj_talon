@@ -41,7 +41,6 @@ action(edit.word_left):
 action(edit.word_right):
     key(w)
 action(edit.left):
-    #key(ctrl-o)
     key(left)
 action(edit.right):
     key(right)
@@ -78,6 +77,7 @@ action(edit.extend_word_right):
 action(edit.extend_line_start):
     "v^"
 action(edit.extend_file_start):
+# creating splits
     "vgg"
 action(edit.extend_file_end):
     "vG"
@@ -132,6 +132,7 @@ reload [vim] config:
     user.vim_normal_mode(":so $MYVIMRC\n")
 
 # For when the VIM cursor is hovering on a path
+# XXX - need to test if technically these work in visual
 open [this] link: user.vim_normal_mode("gx")
 open this file: user.vim_normal_mode("gf")
 open this file in [split|window]:
@@ -146,11 +147,11 @@ change buffer directory: user.vim_normal_mode(":lcd %:p:h\n")
 ###
 # Standard commands
 ###
+# XXX - are technically handled by vim.py
 redo:
-    key(escape)
-    key(ctrl-r)
+    user.vim_normal_mode_key("ctrl-r")
 undo:
-    user.vim_normal_mode("u")
+    user.vim_normal_mode_key("u")
 
 ###
 # Navigation, movement and jumping
@@ -160,28 +161,29 @@ undo:
 [(go|jump)] [to] line <number>:
     user.vim_normal_mode(":{number}\n")
 
-matching: user.vim_normal_mode("%")
+# XXX - could be multiple modes
+matching: key(%)
 
 # jump list
-show jump list: ":jumps\n"
-clear jump list: ":clearjumps\n"
-(prev|previous|older) jump [entry]: key(ctrl-o)
-(next|newer) jump [entry]: key(ctrl-i)
+show jump list: user.vim_normal_mode(":jumps\n")
+clear jump list: user.vim_normal_mode(":clearjumps\n")
+(prev|previous|older) jump [entry]: user.vim_normal_mode_key("ctrl-o")
+(next|newer) jump [entry]: user.vim_normal_mode_key("ctrl-i")
 
 # ctags/symbol
-(jump|dive) [to] (symbol|tag): key(ctrl-])
-(pop|leave) (symbol|tag): key(ctrl-t)
+(jump|dive) [to] (symbol|tag): user.vim_normal_mode_key("ctrl-]")
+(pop|leave) (symbol|tag): user.vim_normal_mode_key("ctrl-t")
 
 # scrolling and page position
 (focus|orient) [on] line <number>: ":{number}\nzt"
 center [on] line <number>: ":{number}\nz."
-scroll top: "zt"
+scroll top: user.vim_normal_mode("zt")
 scroll (center|middle): "zz"
 scroll bottom: "zb"
 scroll top reset cursor: "z\n"
 scroll middle reset cursor: "z."
 scroll bottom reset cursor: "z "
-scroll up: key(ctrl-y)
+scroll up: user.vim_normal_mode_key("ctrl-y")
 scroll down: key(ctrl-e)
 page down: key(ctrl-f)
 page up: key(ctrl-b)
@@ -273,6 +275,12 @@ swap (selected|highlighted):
     key(left)
     key(left)
 
+reswap (selected|highlighted):
+    insert(":")
+    # leave time for vim to populate '<,'>
+    sleep(50ms)
+    key(up)
+
 # Selects current line in visual mode and triggers a word swap
 swap [word] on [this] line:
     key(V)
@@ -300,19 +308,19 @@ swap global:
 ###
 ((buf|buffer) list|list (buf|buffer)s):
     user.vim_normal_mode(":ls\n")
-(buf|buffer) (close|delete) <number>: ":bd {number} "
-(close|delete) (buf|buffer) <number>: ":bd {number} "
-(buf|buffer) close current: ":bd\n"
-(delete|close) (current|this) buffer: ":bd\n"
-force (buf|buffer) close: ":bd!\n"
-(buf|buffer) open: ":b "
-(buf|buffer) (first|rewind): ":br\n"
-(buf|buffer) (left|prev): ":bprev\n"
-(buf|buffer) (right|next): ":bnext\n"
-(buf|buffer) flip: ":b#\n"
-(buf|buffer) last: ":bl\n"
-close (bufs|buffers): ":bd "
-[(go|jump|open)] (buf|buffer) <number>: ":b {number}\n"
+(buf|buffer) (close|delete) <number>: user.vim_normal_mode(":bd {number} ")
+(close|delete) (buf|buffer) <number>: user.vim_normal_mode(":bd {number} ")
+(buf|buffer) close current: user.vim_normal_mode(":bd\n")
+(delete|close) (current|this) buffer: user.vim_normal_mode(":bd\n")
+force (buf|buffer) close: user.vim_normal_mode(":bd!\n")
+(buf|buffer) open: user.vim_normal_mode(":b ")
+(buf|buffer) (first|rewind): user.vim_normal_mode(":br\n")
+(buf|buffer) (left|prev): user.vim_normal_mode(":bprev\n")
+(buf|buffer) (right|next): user.vim_normal_mode(":bnext\n")
+(buf|buffer) flip: user.vim_normal_mode(":b#\n")
+(buf|buffer) last: user.vim_normal_mode(":bl\n")
+close (bufs|buffers): user.vim_normal_mode(":bd ")
+[(go|jump|open)] (buf|buffer) <number>: user.vim_normal_mode(":b {number}\n")
 
 ###
 # Splits
@@ -427,9 +435,9 @@ buffer end diff:
     insert(":bufdo diffoff\n")
 
 ###
-# Tabs
+# Tab
 ###
-[show] tabs: user.vim_normal_mode(":tabs\n")
+(list|show) tabs: user.vim_normal_mode(":tabs\n")
 tab close: user.vim_normal_mode(":tabclose\n")
 tab (next|right): user.vim_normal_mode(":tabnext\n")
 tab (left|prev|previous): user.vim_normal_mode(":tabprevious\n")
@@ -439,24 +447,24 @@ tab flip: user.vim_normal_mode("g\t")
 tab new: user.vim_normal_mode(":tabnew\n")
 tab edit: user.vim_normal_mode(":tabedit ")
 [(go|jump|open)] tab <number>: user.vim_normal_mode("{number}gt")
-tab terminal: user.vim_normal_mode(":tab term://bash")
+[new] tab terminal: user.vim_normal_mode(":tab term://bash")
 
 # XXX - add tab moving
 
 ###
 # Settings
 ###
-(hide|unset) (highlight|hightlights): ":nohl\n"
-set highlight search: ":set hls\n"
-set no highlight search: ":set nohls\n"
-(show|set) line numbers: ":set nu\n"
-(hide|set no) line numbers: ":set nonu\n"
-show [current] settings: ":set\n"
-unset paste: ":set nopaste\n"
+(hide|unset) (highlight|hightlights): user.vim_normal_mode(":nohl\n")
+set highlight search: user.vim_normal_mode(":set hls\n")
+set no highlight search: user.vim_normal_mode(":set nohls\n")
+(show|set) line numbers: user.vim_normal_mode(":set nu\n")
+(hide|set no) line numbers: user.vim_normal_mode(":set nonu\n")
+show [current] settings: user.vim_normal_mode(":set\n")
+unset paste: user.vim_normal_mode(":set nopaste\n")
 # very useful for reviewing code you don't want to accidintally edit if talon
 # mishears commands
-set modifiable: ":set modifiable\n"
-unset modifiable: ":set nomodifiable\n"
+set modifiable: user.vim_normal_mode(":set modifiable\n")
+unset modifiable: user.vim_normal_mode(":set nomodifiable\n")
 
 ###
 # Marks
@@ -489,11 +497,11 @@ new mark <user.letter>:
 force (make|save) session: ":mksession! "
 
 ###
-# Macros and registers
+# Macros and registers ''
 ###
-show registers: ":reg\n"
-show register <user.letter>: ":reg {letter}\n"
-play macro <user.letter>: "@{letter}"
+show (registers|macros): user.vim_normal_mode(":reg\n")
+show (register|macro) <user.letter>: user.vim_normal_mode(":reg {letter}\n")
+play macro <user.letter>: user.vim_any_motion_mode("@{letter}")
 repeat macro: "@@"
 record macro <user.letter>: "q{letter}"
 stop recording: key(q)
@@ -504,30 +512,30 @@ modify [register|macro] <user.letter>:
     insert("{letter}")
     key(')
 
-paste from register <user.any>: user.vim_normal_mode('"{any}p')
-yank to register <user.any>: user.vim_normal_mode('"{any}y')
+# XXX - these could be valid in normal or visual
+paste from register <user.any>: insert('"{any}p')
+yank to register <user.any>: insert('"{any}y')
 
 ###
 # Informational
 ###
-display current line number: key(ctrl-g)
-file info: key(ctrl-g)
+display current line number: user.vim_normal_mode_key(ctrl-g)
+file info: user.vim_normal_mode_key(ctrl-g)
 # shows buffer number by pressing 2
 extra file info:
     key(2)
     key(ctrl-g)
-vim help: ":help "
+vim help: user.vim_normal_mode(":help ")
 
 ###
 # Mode Switching
 ###
-normal mode: key(escape)
-insert mode: key(i)
+normal mode: user.vim_set_normal_mode()
+insert mode: user.vim_set_insert_mode()
 replace mode: key(R)
 overwrite: key(R)
 
-visual mode: key(v)
-(visual|select|highlight): key(v)
+visual mode: user.vim_set_visual_mode()
 (visual|select|highlight) line: key(V)
 
 visual block mode: key(ctrl-v)
@@ -537,8 +545,7 @@ visual block mode: key(ctrl-v)
 # Searching
 ###
 search:
-    key(escape)
-    insert("/\c")
+    user.vim_any_motion_mode("/\c")
 
 search sensitive:
     key(escape)

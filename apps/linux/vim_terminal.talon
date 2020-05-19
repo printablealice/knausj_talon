@@ -2,7 +2,7 @@ win.title: /VIM MODE:t/
 -
 tag(): terminal
 
-(pop terminal|vim mode):
+(shimmy|pop terminal|vim mode):
     key(ctrl-\)
     key(ctrl-n)
 

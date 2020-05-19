@@ -606,11 +606,37 @@ def vim_select_motion(m) -> str:
 
 @mod.action_class
 class Actions:
+    def vim_set_normal_mode():
+        """set normal mode"""
+        v = VimMode()
+        v.set_normal_mode()
+
+    def vim_set_visual_mode():
+        """set visual mode"""
+        v = VimMode()
+        v.set_visual_mode()
+
+    def vim_set_insert_mode():
+        """set insert mode"""
+        v = VimMode()
+        v.set_insert_mode()
+
+    def vim_set_terminal_mode():
+        """set terminal mode"""
+        v = VimMode()
+        v.set_terminal_mode()
+
     def vim_normal_mode(cmd: str):
         """run a given list of commands in normal mode"""
         v = VimMode()
         v.set_normal_mode()
         actions.insert(cmd)
+
+    def vim_normal_mode_key(cmd: str):
+        """run a given list of commands in normal mode"""
+        v = VimMode()
+        v.set_normal_mode()
+        actions.key(cmd)
 
     def vim_visual_mode(cmd: str):
         """run a given list of commands in visual mode"""
@@ -622,6 +648,17 @@ class Actions:
         """run a given list of commands in insert mode"""
         v = VimMode()
         v.set_insert_mode()
+        actions.insert(cmd)
+
+    # This is where things get a little weird... sometimes the .talon file
+    # won't know what mode to run something in, just that it needs to be one of
+    # the set of 'editing' modes, like normal and visual. Thus I call this
+    # vim_any_motion_mode() for now. This might change, as I'm not sure I like
+    # it but I needed something to get the ball rolling...
+    def vim_any_motion_mode(cmd: str):
+        """run a given list of commands in normal mode"""
+        v = VimMode()
+        v.set_any_motion_mode()
         actions.insert(cmd)
 
 
@@ -650,10 +687,10 @@ class VimMode:
     def __init__(self):
         # list of all vim instances talon is aware of
         self.vim_instances = []
-        self.current_mode = None
         self.current_rpc = None
         self.normal_modes = ["n"]
         self.visual_modes = ["v", "V", "^V"]
+        self.current_mode = self.get_active_mode()
 
     def is_normal_mode(self):
         return self.current_mode == "n"
@@ -707,11 +744,15 @@ class VimMode:
     def set_terminal_mode(self):
         self.adjust_mode(TERMINAL)
 
+    def set_any_motion_mode(self):
+        self.adjust_mode([NORMAL, VISUAL])
+
     def adjust_mode(self, valid_mode_ids, preserve_override=False):
         if settings.get("user.vim_adjust_modes") == 0:
             return
 
         cur = self.current_mode_id()
+        print("Current mode is {}".format(cur))
         if type(valid_mode_ids) != list:
             valid_mode_ids = [valid_mode_ids]
         if cur not in valid_mode_ids:
