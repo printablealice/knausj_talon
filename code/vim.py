@@ -6,7 +6,13 @@
 #       commands for visual mode
 # XXX - add visual to upper and lower commands
 # XXX - Add support for ordinal motions: "delete 5th word","find second <char>"
-# XXX - Support more complext yanking into registers
+# XXX - Support more complex yanking into registers
+# XXX - add fugitive mode mapping stuff. See :help fugitive
+#       most of the vim cmds should be disabled while in there? longer term
+#       solution for fugitive should be just adding in win.title changes
+#       directly into the project and sending tpope a PR
+# XXX - make context swapping commands non-insert-perserving: ex: buffer/tab
+#       swaps
 
 import time
 
@@ -15,7 +21,7 @@ from talon import Context, Module, actions, settings, ui
 mod = Module()
 ctx = Context()
 
-# mode ids - more convenient for user reference
+# mode ids represent more generic statusline mode() values. see :help mode()
 NORMAL = 1
 VISUAL = 2
 INSERT = 3
@@ -96,6 +102,7 @@ ctx.lists["self.vim_counted_action_verbs"] = {
     "erase back": "X",
     "put": "p",
     "put below": "p",
+    "paste": "p",
     "paste below": "p",
     "put before": "P",
     "paste before": "P",
@@ -223,7 +230,6 @@ ctx.lists["self.vim_motion_verbs"] = {
     "left": "h",
     "down": "j",
     "up": "k",
-    "right": "l",
     "next": "n",
     "next reversed": "N",
     "previous": "N",
@@ -350,6 +356,8 @@ mod.setting(
     default=0,
     desc="Notify user about vim mode changes as they occur",
 )
+
+# Standard lists
 mod.list("vim_command_verbs", desc="VIM commands")
 mod.list("vim_counted_motion_verbs", desc="Counted VIM motion verbs")
 mod.list("vim_counted_action_verbs", desc="Counted VIM action verbs")
@@ -366,8 +374,13 @@ mod.list("vim_jump_verbs", desc="VIM jump verbs")
 mod.list("vim_jump_targets", desc="VIM jump targets")
 mod.list("vim_normal_counted_command", desc="Counted normal VIM commands")
 mod.list("vim_select_motion", desc="VIM visual mode selection motions")
-mod.list("vim_surround_targets", desc="VIM surround plugin targets")
 mod.list("vim_any", desc="All vim commands")
+
+# Plugin lists
+mod.list("vim_surround_targets", desc="VIM surround plugin targets")
+
+# Plugin modes
+mod.mode("vim_fugitive", desc="A fugitive mode that exposes git mappings")
 
 
 @mod.capture
@@ -456,6 +469,11 @@ def vim_motion_verbs_all(m) -> str:
 
 
 @mod.capture
+def vim_motion_verbs_all_adjust(m) -> str:
+    "Returns a list of verbs"
+
+
+@mod.capture
 def vim_any(m) -> str:
     "Any one key"
 
@@ -497,10 +515,6 @@ def vim_text_object_count(m) -> str:
 def vim_command_verbs(m) -> str:
     v = VimMode()
     v.adjust_mode([NORMAL, VISUAL])
-    #    if str(m) in command_verbs.keys():
-    #        v.adjust_mode(command_verbs[str(m)])
-    #        print("active mode {}".format(v.get_active_mode()))
-    #        print(m)
     return command_verbs["verbs"][str(m)]
     # return m.vim_command_verbs
 
@@ -534,6 +548,15 @@ def vim_motion_verbs_with_phrase(m) -> str:
     rule="(<self.vim_motion_verbs>|<self.vim_motion_verbs_with_character>|<self.vim_motion_verbs_with_upper_character>|<self.vim_motion_verbs_with_phrase>)$"
 )
 def vim_motion_verbs_all(m) -> str:
+    return "".join(list(m))
+
+
+@ctx.capture(
+    rule="(<self.vim_motion_verbs>|<self.vim_motion_verbs_with_character>|<self.vim_motion_verbs_with_upper_character>|<self.vim_motion_verbs_with_phrase>)$"
+)
+def vim_motion_verbs_all_adjust(m) -> str:
+    v = VimMode()
+    v.adjust_mode([NORMAL, VISUAL])
     return "".join(list(m))
 
 
@@ -594,6 +617,9 @@ def vim_normal_counted_command(m) -> str:
 
 @ctx.capture(rule="[<self.number>] <self.vim_counted_action_verbs>$")
 def vim_normal_counted_action(m) -> str:
+    # XXX - may need to do action-specific mode checking
+    v = VimMode()
+    v.adjust_mode([NORMAL, VISUAL])
     return "".join(list(m))
 
 
@@ -627,7 +653,13 @@ class Actions:
         v.set_terminal_mode()
 
     def vim_normal_mode(cmd: str):
-        """run a given list of commands in normal mode"""
+        """run a given list of commands in normal mode, preserve INSERT"""
+        v = VimMode()
+        v.set_normal_mode()
+        actions.insert(cmd)
+
+    def vim_normal_mode_np(cmd: str):
+        """run a given list of commands in normal mode, don't preserve INSERT"""
         v = VimMode()
         v.set_normal_mode()
         actions.insert(cmd)
@@ -663,6 +695,8 @@ class Actions:
 
 
 class VimMode:
+    # XXX - not really necessary here, but just used to sanity check
+    # MODE:<mode()> is actually right for now.
     vim_modes = {
         "n": "Normal",
         "no": "N Operator Pending",
@@ -735,8 +769,14 @@ class VimMode:
     def set_normal_mode(self):
         self.adjust_mode(NORMAL)
 
+    def set_normal_mode_np(self):
+        self.adjust_mode(NORMAL, no_preserve=True)
+
     def set_visual_mode(self):
         self.adjust_mode(VISUAL)
+
+    def set_visual_mode_np(self):
+        self.adjust_mode(VISUAL, no_preserve=True)
 
     def set_insert_mode(self):
         self.adjust_mode(INSERT)
@@ -747,7 +787,10 @@ class VimMode:
     def set_any_motion_mode(self):
         self.adjust_mode([NORMAL, VISUAL])
 
-    def adjust_mode(self, valid_mode_ids, preserve_override=False):
+    def set_any_motion_mode_np(self):
+        self.adjust_mode(NORMAL, no_preserve=True)
+
+    def adjust_mode(self, valid_mode_ids, no_preserve=False):
         if settings.get("user.vim_adjust_modes") == 0:
             return
 
@@ -761,8 +804,7 @@ class VimMode:
 
     # XXX - we need to switch this to neovim RPC, etc
     # for we simply use keyboard binding combinations
-    def set_mode(self, wanted_mode, preserve_override=False):
-        print("Setting mode to {}".format(wanted_mode))
+    def set_mode(self, wanted_mode, no_preserve=False):
         current_mode = self.get_active_mode()
 
         if current_mode == wanted_mode or (
@@ -771,6 +813,7 @@ class VimMode:
             print("already in wanted mode")
             return
 
+        print("Setting mode to {}".format(wanted_mode))
         # enter normal mode where necessary
         if self.is_terminal_mode():
             # break out of terminal mode
@@ -781,7 +824,7 @@ class VimMode:
             # this will cause a problem
             if (
                 wanted_mode == NORMAL
-                and preserve_override is False
+                and no_preserve is False
                 and settings.get("user.vim_preserve_insert_mode") >= 1
             ):
                 print("preserving insert mode")

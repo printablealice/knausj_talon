@@ -102,10 +102,12 @@ action(edit.paste):
 ###
 <user.vim_normal_counted_command>:
     insert("{vim_normal_counted_command}")
-<user.vim_motion_verbs_all>:
-    insert("{vim_motion_verbs_all}")
+<user.vim_motion_verbs_all_adjust>:
+    insert("{vim_motion_verbs_all_adjust}")
 <user.vim_normal_counted_action>:
     insert("{vim_normal_counted_action}")
+
+# XXX YYY ZZZ
 
 ###
 # File editing and management
@@ -141,7 +143,7 @@ open this file in [split|window]:
 open this file in vertical [split|window]:
     insert(":vertical wincmd f\n")
 
-list current directory: user.vim_normal_mode(":pwd\n")
+(show|list) current directory: user.vim_normal_mode(":pwd\n")
 change buffer directory: user.vim_normal_mode(":lcd %:p:h\n")
 
 ###
