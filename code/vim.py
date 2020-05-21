@@ -116,13 +116,8 @@ ctx.lists["self.vim_counted_action_verbs"] = {
     "page up": "<C-b>",
     "half page down": "<C-d>",
     "half page up": "<C-u>",
-    # XXX - works from visual mode, but with a single >
     "indent line": ">>",
     "unindent line": "<<",
-    #    "comment line",             @"\\\",
-    #    "comment lines",            @"\\\",
-    #    "uncomment line",           @"\\\",
-    #    "uncomment lines",          @"\\\",
     "scroll left": "zh",
     "scroll right": "zl",
     "scroll half screen left": "zH",
@@ -660,6 +655,11 @@ class Actions:
         v = VimMode()
         v.set_normal_mode()
 
+    def vim_set_normal_mode_np():
+        """set normal mode"""
+        v = VimMode()
+        v.set_normal_mode_np()
+
     def vim_set_visual_mode():
         """set visual mode"""
         v = VimMode()
@@ -684,7 +684,7 @@ class Actions:
     def vim_normal_mode_np(cmd: str):
         """run a given list of commands in normal mode, don't preserve INSERT"""
         v = VimMode()
-        v.set_normal_mode()
+        v.set_normal_mode_np()
         actions.insert(cmd)
 
     def vim_normal_mode_key(cmd: str):
@@ -810,8 +810,8 @@ class VimMode:
     def set_any_motion_mode_np(self):
         self.adjust_mode(NORMAL, no_preserve=True)
 
-    def adjust_mode(self, valid_mode_ids, no_preserve=False):
-        if settings.get("user.vim_adjust_modes") == 0:
+    def adjust_mode(self, valid_mode_ids, no_preserve=False, auto=True):
+        if auto is True and settings.get("user.vim_adjust_modes") == 0:
             return
 
         cur = self.current_mode_id()
@@ -820,7 +820,7 @@ class VimMode:
             valid_mode_ids = [valid_mode_ids]
         if cur not in valid_mode_ids:
             # Just favor the first mode
-            self.set_mode(valid_mode_ids[0])
+            self.set_mode(valid_mode_ids[0], no_preserve=no_preserve)
 
     # XXX - we need to switch this to neovim RPC, etc
     # for we simply use keyboard binding combinations
