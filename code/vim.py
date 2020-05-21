@@ -263,6 +263,11 @@ ctx.lists["self.vim_motion_verbs"] = {
     # XXX - these need to be keys
     "retrace movements": "ctrl-o",
     "retrace movements forward": "ctrl-i",
+    # XXX - convenience
+    "function start": "[[",
+    "funk start": "[[",
+    "next function": "]]",
+    "next funk": "]]",
 }
 
 # all of these motions take a character argument
