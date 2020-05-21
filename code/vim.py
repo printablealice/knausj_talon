@@ -2,9 +2,6 @@
 # XXX - probably a lot of the captures could be cleaned up?
 # XXX - the old vim speak special characters needs to be replaced to a the
 #       existing talon ones
-# XXX - finish adding the visual commands, for instance the surround
-#       commands for visual mode
-# XXX - add visual to upper and lower commands
 # XXX - Add support for ordinal motions: "delete 5th word","find second <char>"
 # XXX - Support more complex yanking into registers
 # XXX - add fugitive mode mapping stuff. See :help fugitive
@@ -13,6 +10,8 @@
 #       directly into the project and sending tpope a PR
 # XXX - make context swapping commands non-insert-perserving: ex: buffer/tab
 #       swaps
+# XXX - move certain commands inside of vim.py so that they can be disabled in
+#       terminal mode.
 
 import time
 
@@ -22,6 +21,7 @@ mod = Module()
 ctx = Context()
 
 # mode ids represent more generic statusline mode() values. see :help mode()
+# XXX - put these in the class only at some point
 NORMAL = 1
 VISUAL = 2
 INSERT = 3
@@ -156,58 +156,59 @@ ctx.lists["self.vim_counted_actions_args"] = {
     "play macro": "@",  # takes char arg
 }
 
-command_verbs = {
-    "modes": [NORMAL, VISUAL],
-    "verbs": {
-        "change": "c",
-        "delete": "d",
-        "indent": ">",
-        "unindent": "<",
-        "an indent": "<",
-        "un indent": "<",
-        "join": "J",
-        "filter": "=",
-        "put": "p",
-        "paste": "p",
-        "undo": "u",
-        # XXX - this conflicts with default talon 'yank' alphabet for 'y' key
-        "yank": "y",
-        "copy": "y",
-        "fold": "zf",
-        "format": "gq",
-    },
+# normal mode commands that require motion, and that are counted
+# includes motions and no motions :|
+command_verbs_with_motion = {
+    # no motions
+    "join": "J",
+    "filter": "=",  # XXX - not sure about how to use this
+    "put": "p",
+    "paste": "p",
+    "undo": "u",
+    "swap case": "~",
+    # motions
+    "change": "c",
+    "delete": "d",
+    "indent": ">",
+    "unindent": "<",
+    "an indent": "<",
+    "un indent": "<",
+    "yank": "y",  # XXX - conflicts with talon 'yank' alphabet for 'y' key
+    "copy": "y",
+    "fold": "zf",
+    "format": "gq",
+    "to upper": "gU",
+    "to lower": "gu",
 }
 
-# Valid from both normal and visual
-ctx.lists["self.vim_command_verbs"] = command_verbs["verbs"].keys()
-# ctx.lists["self.vim_command_verbs"] = {
-#    "change": "c",
-#    "delete": "d",
-#    "indent": ">",
-#    "unindent": "<",
-#    "an indent": "<",
-#    "un indent": "<",
-#    "join": "J",
-#    "filter": "=",
-#    "put": "p",
-#    "paste": "p",
-#    "undo": "u",
-#    # XXX - this conflicts with default talon 'yank' alphabet for 'y' key
-#    "yank": "y",
-#    "copy": "y",
-#    "fold": "zf",
-#    "format": "gq",
-# }
+# only relevant when in visual mode. these will have some overlap with
+# command_verbs  and command_verbs_with_motion above. this is mostly because
+# some characters differ, and also in visual mode they don't have motions
+visual_command_verbs = {
+    # normal overlap
+    "change": "c",
+    "join": "J",
+    "delete": "d",
+    "yank": "Y",  # XXX - conflicts with talon 'yank' alphabet for 'y' key
+    "copy": "Y",
+    "format": "gq",
+    "fold": "zf",
+    # some visual differences
+    "to upper": "U",
+    "to lower": "u",
+    "swap case": "~",
+    "opposite": "o",
+    # counted
+    "indent": ">",
+    "unindent": "<",
+    "an indent": "<",
+    "un indent": "<",
+}
 
-# command_verbs = {
-#    "change": {"cmd": "c", "modes": [NORMAL, VISUAL]},
-#    "delete": {"cmd": "d", "modes": [NORMAL, VISUAL]},
-#    "indent": {"cmd": ">", "modes": [NORMAL, VISUAL]},
-#    "unindent": {"cmd": "<", "modes": [NORMAL, VISUAL]},
-#    "an indent": {"cmd": "<", "modes": [NORMAL, VISUAL]},
-#    "un indent": {"cmd": "<", "modes": [NORMAL, VISUAL]},
-#    "join": {"cmd": "J", "modes": [NORMAL, VISUAL]},
-# }
+
+ctx.lists["self.vim_motion_command_verbs"] = list(
+    set().union(command_verbs_with_motion.keys(), visual_command_verbs.keys())
+)
 
 
 ctx.lists["self.vim_motion_verbs"] = {
@@ -358,7 +359,8 @@ mod.setting(
 )
 
 # Standard lists
-mod.list("vim_command_verbs", desc="VIM commands")
+# XXX - remove verbs to save space
+mod.list("vim_motion_command_verbs", desc="Counted VIM commands with motions")
 mod.list("vim_counted_motion_verbs", desc="Counted VIM motion verbs")
 mod.list("vim_counted_action_verbs", desc="Counted VIM action verbs")
 mod.list("vim_normal_counted_action", desc="Normal counted VIM actions")
@@ -372,7 +374,7 @@ mod.list("vim_text_object_select", desc="VIM text object selections")
 mod.list("vim_jump_range", desc="VIM jump ranges")
 mod.list("vim_jump_verbs", desc="VIM jump verbs")
 mod.list("vim_jump_targets", desc="VIM jump targets")
-mod.list("vim_normal_counted_command", desc="Counted normal VIM commands")
+mod.list("vim_normal_counted_motion_command", desc="Counted normal VIM commands")
 mod.list("vim_select_motion", desc="VIM visual mode selection motions")
 mod.list("vim_any", desc="All vim commands")
 
@@ -434,8 +436,18 @@ def vim_text_object_select(m) -> str:
 
 
 @mod.capture
-def vim_command_verbs(m) -> str:
+def vim_motion_command_verbs(m) -> str:
     "Returns a list of verbs"
+
+
+@mod.capture
+def vim_motion_command(m) -> str:
+    "Returns a list of verbs"
+
+
+#
+# XXX
+# XXX
 
 
 @mod.capture
@@ -489,7 +501,7 @@ def vim_unranged_surround_text_objects(m) -> str:
 
 
 @mod.capture
-def vim_normal_counted_command(m) -> str:
+def vim_normal_counted_motion_command(m) -> str:
     "Returns a string"
 
 
@@ -509,14 +521,6 @@ def vim_text_object_range(m) -> str:
 def vim_text_object_count(m) -> str:
     "Returns a string"
     return m.vim_text_object_count
-
-
-@ctx.capture(rule="{self.vim_command_verbs}")
-def vim_command_verbs(m) -> str:
-    v = VimMode()
-    v.adjust_mode([NORMAL, VISUAL])
-    return command_verbs["verbs"][str(m)]
-    # return m.vim_command_verbs
 
 
 @ctx.capture(rule="{self.vim_motion_verbs}")
@@ -597,6 +601,7 @@ def vim_text_objects(m) -> str:
     return "".join(list(m))
 
 
+# XXX - clarify this comment
 # when speaking adding in the object ranges a little bit annoying, so it's a
 # little bit and more natural to just assume that you mean around if you didn't
 # say anything
@@ -608,10 +613,28 @@ def vim_unranged_surround_text_objects(m) -> str:
         return "".join(list(m)[0:1]) + "a" + "".join(list(m)[1:])
 
 
+@ctx.capture(rule="{self.vim_motion_command_verbs}$")
+def vim_motion_command_verbs(m) -> str:
+    v = VimMode()
+    if v.is_visual_mode():
+        if str(m) in visual_command_verbs:
+            print("issuing visual mode command")
+            return visual_command_verbs[str(m)]
+    # Note this throws away commands that matched visual mode only stuff,
+    # because if not in visual mode already, there is no selection anyway so
+    # the command is moot
+    elif str(m) not in command_verbs_with_motion:
+        print("no match for {}".format(str(m)))
+        return None
+
+    v.set_normal_mode()
+    return command_verbs_with_motion[str(m)]
+
+
 @ctx.capture(
-    rule="[<self.number>] <self.vim_command_verbs> (<self.vim_motion_verbs_all> | <self.vim_text_objects> | <self.vim_jump_targets>)$"
+    rule="[<self.number>] <self.vim_motion_command_verbs> [(<self.vim_motion_verbs_all> | <self.vim_text_objects> | <self.vim_jump_targets>)]$"
 )
-def vim_normal_counted_command(m) -> str:
+def vim_normal_counted_motion_command(m) -> str:
     return "".join(list(m))
 
 
@@ -682,11 +705,8 @@ class Actions:
         v.set_insert_mode()
         actions.insert(cmd)
 
-    # This is where things get a little weird... sometimes the .talon file
-    # won't know what mode to run something in, just that it needs to be one of
-    # the set of 'editing' modes, like normal and visual. Thus I call this
-    # vim_any_motion_mode() for now. This might change, as I'm not sure I like
-    # it but I needed something to get the ball rolling...
+    # Sometimes the .talon file won't know what mode to run something in, just
+    # that it needs to be a mode that supports motions like normal and visual.
     def vim_any_motion_mode(cmd: str):
         """run a given list of commands in normal mode"""
         v = VimMode()
@@ -820,8 +840,6 @@ class VimMode:
             actions.key("ctrl-\\")
             actions.key("ctrl-n")
         elif self.is_insert_mode():
-            # XXX - is the user is explicitly setting the mode to normal mode,
-            # this will cause a problem
             if (
                 wanted_mode == NORMAL
                 and no_preserve is False

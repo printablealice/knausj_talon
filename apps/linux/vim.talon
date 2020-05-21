@@ -100,8 +100,12 @@ action(edit.paste):
 ###
 # `code/vim.py` actions based on vimspeak
 ###
-<user.vim_normal_counted_command>:
-    insert("{vim_normal_counted_command}")
+# commands that can be triggered in visual or normal mode, and generally don't
+# have counting, etc
+<user.vim_normal_counted_motion_command>:
+    insert("{vim_normal_counted_motion_command}")
+#<user.vim_counted_command>:
+#    insert("{vim_counted_command}")
 <user.vim_motion_verbs_all_adjust>:
     insert("{vim_motion_verbs_all_adjust}")
 <user.vim_normal_counted_action>:
@@ -612,7 +616,7 @@ complete previous: key(ctrl-n)
 ###
 # Visual Mode
 ###
-(visual|select|highlight) all: "ggVG"
+(select|highlight) all: "ggVG"
 reselect: "gv"
 
 ###
