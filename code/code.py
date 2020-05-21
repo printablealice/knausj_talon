@@ -1,5 +1,6 @@
-from talon import Context, actions, ui, Module
 import re
+
+from talon import Context, Module, actions, ui
 
 ctx = Context()
 key = actions.key
@@ -13,6 +14,7 @@ extension_lang_map = {
     "gdb": "gdb",
     "md": "markdown",
     "sh": "bash",
+    "snippets": "snippets",
 }
 
 # The [^\\\/] is specifically to avoid matching something like a .talon folder
@@ -23,7 +25,8 @@ extension_lang_map = {
 # followed by non doot characters and then a space or end of line
 regex_ext = re.compile("\.([^.]*)[ \$]")
 
-@ctx.action_class('code')
+
+@ctx.action_class("code")
 class CodeActions:
     def language():
         title = ui.active_window().title
