@@ -351,6 +351,8 @@ new empty vertical split:
 
 # navigating splits
 split <user.vim_arrow>:
+    # XXX - until we have key combo support
+    user.vim_set_normal_mode()
     key(ctrl-w)
     key("{vim_arrow}")
 split last:
