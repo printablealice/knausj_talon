@@ -21,7 +21,7 @@ talon wake:
     user.system_command('notify-send.sh -t 3000 -f -u low "Talon Awake"')
 dragon mode: speech.disable()
 talon mode: speech.enable()
-^dictation mode$:
+^(dictation mode|dictate)$:
     mode.disable("sleep")
     mode.disable("command")
     mode.enable("dictation")
