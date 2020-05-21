@@ -658,7 +658,7 @@ class Actions:
     def vim_set_normal_mode_np():
         """set normal mode"""
         v = VimMode()
-        v.set_normal_mode_np()
+        v.set_normal_mode_np(auto=True)
 
     def vim_set_visual_mode():
         """set visual mode"""
@@ -789,8 +789,9 @@ class VimMode:
     def set_normal_mode(self):
         self.adjust_mode(NORMAL)
 
-    def set_normal_mode_np(self):
-        self.adjust_mode(NORMAL, no_preserve=True)
+    # XXX - fix the auto stuff
+    def set_normal_mode_np(self, auto=True):
+        self.adjust_mode(NORMAL, no_preserve=True, auto=auto)
 
     def set_visual_mode(self):
         self.adjust_mode(VISUAL)
