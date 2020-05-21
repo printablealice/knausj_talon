@@ -453,9 +453,9 @@ tab flip: user.vim_normal_mode("g\t")
 tab new: user.vim_normal_mode(":tabnew\n")
 tab edit: user.vim_normal_mode(":tabedit ")
 [(go|jump|open)] tab <number>: user.vim_normal_mode("{number}gt")
-[new] tab terminal: user.vim_normal_mode(":tab term://bash")
-
-# XXX - add tab moving
+[new] tab terminal: user.vim_normal_mode(":tab term://bash\n")
+move tab right: user.vim_normal_mode(":tabm +\n")
+move tab left: user.vim_normal_mode(":tabm -\n")
 
 ###
 # Settings
@@ -501,6 +501,7 @@ new mark <user.letter>:
 ###
 (make|save) session: ":mksession "
 force (make|save) session: ":mksession! "
+(load|open) session: user.vim_normal_mode(":source ")
 
 ###
 # Macros and registers ''
@@ -536,7 +537,7 @@ vim help: user.vim_normal_mode(":help ")
 ###
 # Mode Switching
 ###
-normal mode: user.vim_set_normal_mode()
+normal mode: user.vim_set_normal_mode_np()
 insert mode: user.vim_set_insert_mode()
 replace mode: key(R)
 overwrite: key(R)
