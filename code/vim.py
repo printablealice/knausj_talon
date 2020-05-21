@@ -448,11 +448,6 @@ def vim_motion_command(m) -> str:
     "Returns a list of verbs"
 
 
-#
-# XXX
-# XXX
-
-
 @mod.capture
 def vim_counted_motions(m) -> str:
     "Returns a list of verbs"
@@ -723,7 +718,7 @@ class Actions:
 
 
 class VimMode:
-    # XXX - not really necessary here, but just used to sanity check
+    # XXX - not really necessary here, but just used to sanity check for now
     # MODE:<mode()> is actually right for now.
     vim_modes = {
         "n": "Normal",
@@ -776,7 +771,7 @@ class VimMode:
             self.current_mode = mode
         return mode
 
-    # XXX - currently only support UDS named pipes
+    # XXX - not used currently
     def get_active_rpc(self):
         title = ui.active_window().title
         if "RPC" in title:
@@ -797,7 +792,7 @@ class VimMode:
     def set_normal_mode(self):
         self.adjust_mode(NORMAL)
 
-    # XXX - fix the auto stuff
+    # XXX - fix the auto stuff, maybe have separate method version or something
     def set_normal_mode_np(self, auto=True):
         self.adjust_mode(NORMAL, no_preserve=True, auto=auto)
 
