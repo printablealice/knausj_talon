@@ -7,7 +7,11 @@ code.language: talon
     key(tab)
 
 (snip|snippet) insert [action]:
-    user.vim_insert_mode("ti")
+    user.vim_insert_mode("tsi")
+    key(tab)
+
+(snip|snippet) big insert [action]:
+    user.vim_insert_mode("tmi")
     key(tab)
 
 (snip|snippet) key [action]:
