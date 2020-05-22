@@ -31,6 +31,13 @@ VISUAL = 2
 INSERT = 3
 TERMINAL = 4
 
+ctx.lists["self.vim_arrow"] = {
+    "left": "h",
+    "right": "l",
+    "up": "k",
+    "down": "j",
+}
+
 # Specific to the vim-sorround plugin
 ctx.lists["self.vim_surround_targets"] = {
     "stars": "*",
@@ -362,7 +369,8 @@ mod.setting(
     desc="Notify user about vim mode changes as they occur",
 )
 
-# Standard VIM action lists
+# Standard VIM motions and action
+mod.list("vim_arrow", desc="All vim direction keys")
 mod.list("vim_motion_commands", desc="Counted VIM commands with motions")
 mod.list("vim_counted_motions", desc="Counted VIM motion verbs")
 mod.list("vim_counted_actions", desc="Counted VIM action verbs")
@@ -386,6 +394,11 @@ mod.list("vim_surround_targets", desc="VIM surround plugin targets")
 
 # Plugin modes
 mod.mode("vim_fugitive", desc="A fugitive mode that exposes git mappings")
+
+
+@mod.capture
+def vim_arrow(m) -> str:
+    "An arrow to be converted to vim direction"
 
 
 @mod.capture
@@ -501,6 +514,11 @@ def vim_unranged_surround_text_objects(m) -> str:
 @mod.capture
 def vim_normal_counted_motion_command(m) -> str:
     "Returns a string"
+
+
+@ctx.capture(rule="{self.vim_arrow}")
+def vim_arrow(m):
+    return m.vim_arrow
 
 
 @ctx.capture(rule="{self.vim_text_object_select}")

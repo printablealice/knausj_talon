@@ -22,7 +22,6 @@ mod.list("number", desc="All number keys")
 mod.list("modifier", desc="All modifier keys")
 mod.list("function", desc="All function keys")
 mod.list("special", desc="All special keys")
-mod.list("vim_arrow", desc="All vim direction keys")
 
 
 @mod.capture
@@ -78,11 +77,6 @@ def any(m) -> str:
 @mod.capture
 def key(m) -> str:
     "A single key with optional modifiers"
-
-
-@mod.capture
-def vim_arrow(m) -> str:
-    "An arrow to be converted to vim direction"
 
 
 ctx = Context()
@@ -176,12 +170,6 @@ ctx.lists["self.arrow"] = {
     "down": "down",
 }
 
-ctx.lists["self.vim_arrow"] = {
-    "left": "h",
-    "right": "l",
-    "up": "k",
-    "down": "j",
-}
 
 simple_keys = [
     #    'tab', 'escape', 'enter', 'space',
@@ -252,11 +240,6 @@ def symbol(m):
 @ctx.capture(rule="{self.function}")
 def function(m):
     return m.function
-
-
-@ctx.capture(rule="{self.vim_arrow}")
-def vim_arrow(m):
-    return m.vim_arrow
 
 
 @ctx.capture(
