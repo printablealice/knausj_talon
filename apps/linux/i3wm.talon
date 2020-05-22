@@ -35,17 +35,17 @@ focus child: key(super-shift-a)
 lock screen: key(super-shift-x)
 
 launch (shell|terminal): key(super-enter)
-horizontal (shell|terminal): 
+horizontal (shell|terminal):
     key(super-;)
     key(super-enter)
 
-vertical (shell|terminal): 
+vertical (shell|terminal):
     key(super-v)
     key(super-enter)
 
-move [window] [to] workspace <number>: key("super-shift-{number}")
-move [window] [to] last workspace: key(super-shift-b) 
-move [window] <user.vim_arrow>: key("super-shift-{vim_arrow}")
+move (window) [to] workspace <number>: key("super-shift-{number}")
+move (window) [to] last workspace: key(super-shift-b)
+move (window) <user.vim_arrow>: key("super-shift-{vim_arrow}")
 
 (win|window) horizontal: key(super-;)
 (win|window) vertical: key(super-v)
