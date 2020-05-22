@@ -106,8 +106,8 @@ action(edit.paste):
     insert("{vim_normal_counted_motion_command}")
 #<user.vim_counted_command>:
 #    insert("{vim_counted_command}")
-<user.vim_motion_verbs_all_adjust>:
-    insert("{vim_motion_verbs_all_adjust}")
+<user.vim_motions_all_adjust>:
+    insert("{vim_motions_all_adjust}")
 <user.vim_normal_counted_action>:
     insert("{vim_normal_counted_action}")
 
@@ -150,6 +150,7 @@ open this file in vertical [split|window]:
 (show|list) current directory: user.vim_normal_mode(":pwd\n")
 change buffer directory: user.vim_normal_mode(":lcd %:p:h\n")
 
+^#
 ###
 # Standard commands
 ###
