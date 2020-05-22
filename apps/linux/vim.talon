@@ -157,8 +157,8 @@ change buffer directory: user.vim_normal_mode(":lcd %:p:h\n")
 # XXX - are technically handled by vim.py
 redo:
     user.vim_normal_mode_key("ctrl-r")
-undo:
-    user.vim_normal_mode_key("u")
+#undo:
+#    user.vim_normal_mode_key("u")
 
 ###
 # Navigation, movement and jumping
@@ -310,6 +310,8 @@ swap global:
     key(left)
     key(left)
 
+# XXX - these should not retain insert mode across jumps
+# XXX - should explicitly call terminal-escaping method
 ###
 # Buffers
 ###
@@ -329,26 +331,34 @@ force (buf|buffer) close: user.vim_normal_mode(":bd!\n")
 close (bufs|buffers): user.vim_normal_mode(":bd ")
 [(go|jump|open)] (buf|buffer) <number>: user.vim_normal_mode(":b {number}\n")
 
+# XXX - these should not retain insert mode across jumps
+# XXX - should explicitly call terminal-escaping method
 ###
 # Splits
 ###
 # creating splits
 new split:
+    # XXX - until we have key combo support
+    user.vim_set_normal_mode()
     key("ctrl-w")
     key(s)
 new vertical split:
+    # XXX - until we have key combo support
+    user.vim_set_normal_mode()
     key("ctrl-w")
     key(v)
 split (close|quit):
+    # XXX - until we have key combo support
+    user.vim_set_normal_mode()
     key(ctrl-w)
     key(q)
 
 new empty split:
     key(escape)
-    insert(":new\n")
+    user.vim_normal_mode(":new\n")
 new empty vertical split:
     key(escape)
-    insert(":vnew\n")
+    user.vim_normal_mode(":vnew\n")
 
 # navigating splits
 split <user.vim_arrow>:
@@ -357,18 +367,28 @@ split <user.vim_arrow>:
     key(ctrl-w)
     key("{vim_arrow}")
 split last:
+    # XXX - until we have key combo support
+    user.vim_set_normal_mode()
     key(ctrl-w)
     key(p)
 split top left:
+    # XXX - until we have key combo support
+    user.vim_set_normal_mode()
     key(ctrl-w)
     key(t)
 split next:
+    # XXX - until we have key combo support
+    user.vim_set_normal_mode()
     key(ctrl-w)
     key(w)
 split (previous|prev):
+    # XXX - until we have key combo support
+    user.vim_set_normal_mode()
     key(ctrl-w)
     key(W)
 split bottom right:
+    # XXX - until we have key combo support
+    user.vim_set_normal_mode()
     key(ctrl-w)
     key(b)
 split preview:
@@ -446,6 +466,9 @@ buffer end diff:
 ###
 # Tab
 ###
+# XXX - these should not retain insert mode across jumps
+# XXX - should explicitly call terminal-escaping method
+
 (list|show) tabs: user.vim_normal_mode(":tabs\n")
 tab close: user.vim_normal_mode(":tabclose\n")
 tab (next|right): user.vim_normal_mode(":tabnext\n")

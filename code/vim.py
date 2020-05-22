@@ -140,7 +140,10 @@ ctx.lists["self.vim_counted_actions"] = {
     "insert line": "I",
     "play again": "@@",
     "toggle case": "~",
+    # XXX - custom
+    "panic": "u",
 }
+
 
 ctx.lists["self.vim_jump_range"] = {
     "jump to line of": "'",
@@ -659,6 +662,14 @@ def vim_normal_counted_action(m) -> str:
     # XXX - may need to do action-specific mode checking
     v = VimMode()
     v.adjust_mode([NORMAL, VISUAL])
+
+    # XXX - This is to save me from myself. Often I will say `delete line` and
+    # it will trigger `@delete` and `@nine`. This then keys 9. I then say
+    # `undo` to fix the bad delete, which does 9 undos. Chaos ensues.. the
+    # caveat is you can't do counted undoes, unless you use ordinals
+    if m.vim_counted_actions == "u":
+        actions.key("escape")
+        time.sleep(0.2)
     return "".join(list(m))
 
 
