@@ -1,4 +1,3 @@
-os: linux
 tag: vim
 win.title: /NERD_tree/
 -

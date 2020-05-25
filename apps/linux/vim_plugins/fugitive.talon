@@ -1,10 +1,10 @@
-os: linux
 tag: vim
 -
 
 # XXX - technically these are using the old fugitive commands
 (fugitive|git) status: user.vim_normal_mode(":Gstatus\n")
 (fugitive|git) diff: user.vim_normal_mode(":Gdiff\n")
+(fugitive|git) diff staged: user.vim_normal_mode(":Git! diff --staged\n")
 (fugitive|git) (delete|remove): user.vim_normal_mode(":Gdelete")
 (fugitive|git) split diff: user.vim_normal_mode(":Gsplitdiff!")
 (fugitive|git) write: user.vim_normal_mode(":Gwrite")
@@ -17,3 +17,4 @@ tag: vim
 (fugitive|git) rename: user.vim_normal_mode(":GRename ")
 (fugitive|git) move: user.vim_normal_mode(":Gmove ")
 (fugitive|git) push: user.vim_normal_mode(":Gpush ")
+(fugitive|git) log: user.vim_normal_mode(":Git log")
