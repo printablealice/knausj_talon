@@ -9,7 +9,7 @@ os: linux
 dev talon:
     insert("cd ~/.talon/user/fidget\n")
     insert("ls\n")
-edit (edit|them) config: "edit ~/.editrc\n"
+edit (edit|them) config: "edit ~/.vimrc\n"
 jump to (edit|them): "cd ~/.edit\n"
 edit shell config: "edit ~/.zshrc\n"
 resource shell: "source ~/.zshrc"
