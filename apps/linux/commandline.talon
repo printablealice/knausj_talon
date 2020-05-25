@@ -80,27 +80,27 @@ process top: "htop\n"
 locate: "locate "
 (where am I|print working directory): "pwd\n"
 
-edit here: insert("vim .\n")
+edit here: insert("edit .\n")
 
 edit <phrase>$:
-    insert("vim {phrase}")
+    insert("edit {phrase}")
 
 edit:
-    insert("vim ")
+    insert("edit ")
 
-# XXX - ~/.vim/sessions/<tab>
+# XXX - ~/.edit/sessions/<tab>
 edit session:
-    insert("vim -S ")
+    insert("edit -S ")
 
 lazy edit:
-    insert("vim ")
+    insert("edit ")
     insert("$(find . -not -path '*/\.git/*' -name \"**\")")
     key("left")
     key("left")
     key("left")
 
 lazy edit <phrase>:
-    insert("vim ")
+    insert("edit ")
     insert("$(find . -not -path '*/\.git/*' -name \"*{phrase}*\")\n")
 
 find <phrase> inside (python|pie) files:
