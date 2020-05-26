@@ -2,7 +2,7 @@ os: linux
 tag: firefox
 -
 settings():
-    user.vimvixen_auto_focus = 1
+    user.vimvixen_auto_focus = 0
 
 (page|tab) (previous|left):
     user.vimvixen_key("K")
