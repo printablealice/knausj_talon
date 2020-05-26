@@ -3,6 +3,9 @@
 #  - See code/vim.py
 # ToDo:
 #  - new terminal buffer command
+#  - specify specific buffer into split
+#  - add support for moving buffer to tabs
+#  - support more clearing of queued vim commands, ex: go to line, etc
 
 os:linux
 app:gvim
@@ -16,6 +19,7 @@ settings():
     user.vim_preserve_insert_mode = 1
     user.vim_adjust_modes = 1
     user.vim_notify_mode_changes = 0
+    user.vim_enforce_terminal_mode = 1
 
 ###
 # Actions - Talon generic_editor.talon implementation
@@ -23,23 +27,17 @@ settings():
 #
 # NOTE: You can disable generic_editor.talon by renaming it, and still fully
 # control vim. These are more for people that are used to the official talon
-# editor commands that want to trial vim a bit.
-#
-# If you prefer to work from INSERT mode, you may want to add the ctrl-o key
-# prior to most of these
-#
-# Note that I don't use any of the below, so they have not been thoroughly
-# tested and the VISUAL mode selection stuff will almost certainly not work as
-# expected.
+# editor commands that want to trial vim a bit. I don't personally use most of
+# the actions here, so they have not been thoroughly tested
 ###
 action(edit.find):
-    key(/)
+    user.vim_normal_mode_key("/")
 action(edit.find_next):
-    key(n)
+    user.vim_normal_mode_key(n)
 action(edit.word_left):
-    key(b)
+    user.vim_normal_mode_key(b)
 action(edit.word_right):
-    key(w)
+    user.vim_normal_mode_key(w)
 action(edit.left):
     key(left)
 action(edit.right):
@@ -49,46 +47,47 @@ action(edit.up):
 action(edit.down):
     key(down)
 action(edit.line_start):
-    key(^)
+    user.vim_normal_mode_key("^")
 action(edit.line_end):
-    key($)
+    user.vim_normal_mode_key("$")
 action(edit.file_end):
-    key(G)
+    user.vim_normal_mode_key(G)
 action(edit.file_start):
-    "gg"
+    user.vim_normal_mode("gg")
 action(edit.page_down):
-    key(ctrl-f)
+    user.vim_normal_mode_key(ctrl-f)
 action(edit.page_up):
-    key(ctrl-b)
+    user.vim_normal_mode_key(ctrl-b)
+
 action(edit.extend_line_end):
-    "v$"
+    user.vim_visual_mode("$")
 action(edit.extend_left):
-    "vh"
+    user.vim_visual_mode("h")
 action(edit.extend_right):
-    "vl"
+    user.vim_visual_mode("l")
 action(edit.extend_line_up):
-    "vk"
+    user.vim_visual_mode("k")
 action(edit.extend_line_down):
-    "vj"
+    user.vim_visual_mode("j")
 action(edit.extend_word_left):
-    "vb"
+    user.vim_visual_mode("b")
 action(edit.extend_word_right):
-    "vw"
+    user.vim_visual_mode("w")
 action(edit.extend_line_start):
-    "v^"
+    user.vim_visual_mode("^")
 action(edit.extend_file_start):
-# creating splits
-    "vgg"
+    user.vim_visual_mode("gg")
 action(edit.extend_file_end):
-    "vG"
+    user.vim_visual_mode("G")
+
 action(edit.indent_more):
-    ">>"
+    user.vim_normal_mode(">>")
 action(edit.indent_less):
-    "<<"
+    user.vim_normal_mode("<<")
 action(edit.delete_line):
-    "dd"
+    user.vim_normal_mode("dd")
 action(edit.delete):
-    key(x)
+    user.vim_normal_mode_key(x)
 
 # note these are for mouse highlighted copy/paste. shouldn't be used for actual
 # vim commands
@@ -155,7 +154,6 @@ open this file in vertical [split|window]:
 (show|list) current directory: user.vim_normal_mode(":pwd\n")
 change buffer directory: user.vim_normal_mode(":lcd %:p:h\n")
 
-^#
 ###
 # Standard commands
 ###
@@ -186,6 +184,7 @@ clear jump list: user.vim_normal_mode(":clearjumps\n")
 (jump|dive) [to] (symbol|tag): user.vim_normal_mode_key("ctrl-]")
 (pop|leave) (symbol|tag): user.vim_normal_mode_key("ctrl-t")
 
+# XXX - these should call terminal escaping function
 # scrolling and page position
 (focus|orient) [on] line <number>: ":{number}\nzt"
 center [on] line <number>: ":{number}\nz."
@@ -196,11 +195,11 @@ scroll top reset cursor: "z\n"
 scroll middle reset cursor: "z."
 scroll bottom reset cursor: "z "
 scroll up: user.vim_normal_mode_key("ctrl-y")
-scroll down: key(ctrl-e)
-page down: key(ctrl-f)
-page up: key(ctrl-b)
-half [page] down: key(ctrl-d)
-half [page] up: key(ctrl-u)
+scroll down: user.vim_normal_mode_key(ctrl-e)
+page down: user.vim_normal_mode_key(ctrl-f)
+page up: user.vim_normal_mode_key(ctrl-b)
+half [page] down: user.vim_normal_mode_key(ctrl-d)
+half [page] up: user.vim_normal_mode_key(ctrl-u)
 
 ###
 # Text editing, copying, and manipulation
@@ -471,7 +470,7 @@ buffer end diff:
 # Tab
 ###
 # XXX - these should not retain insert mode across jumps
-# XXX - should explicitly call terminal-escaping method
+# XXX - should explicitly call a terminal-escaping method
 
 (list|show) tabs: user.vim_normal_mode(":tabs\n")
 tab close: user.vim_normal_mode_np(":tabclose\n")
@@ -483,9 +482,10 @@ tab flip: user.vim_normal_mode_np("g\t")
 tab new: user.vim_normal_mode_np(":tabnew\n")
 tab edit: user.vim_normal_mode_np(":tabedit ")
 [(go|jump|open)] tab <number>: user.vim_normal_mode_np("{number}gt")
-[new] tab terminal: user.vim_normal_mode_np(":tab term://bash\n")
 move tab right: user.vim_normal_mode_np(":tabm +\n")
 move tab left: user.vim_normal_mode_np(":tabm -\n")
+
+[new] tab terminal: user.vim_normal_mode_np(":tabe term://bash\n")
 
 ###
 # Settings
@@ -633,7 +633,7 @@ run as python:
     insert(":exec '!python' shellescape(@%, 1)\n")
 
 remove trailing white space: insert(":%s/\s\+$//e\n")
-remove all tabs: insert(":%s/\t/    /eg\n")
+(remove all|normalize) tabs: insert(":%s/\t/    /eg\n")
 
 # XXX - Just for testing run_vim_cmd. To be deleted
 spider man:
