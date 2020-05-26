@@ -9,13 +9,11 @@
 #       most of the vim cmds should be disabled while in there? longer term
 #       solution for fugitive should be just adding in win.title changes
 #       directly into the project and sending tpope a PR
-# XXX - make context swapping commands non-insert-perserving: ex: buffer/tab
-#       swaps
-# XXX - move certain commands inside of vim.py so that they can be disabled in
-#       terminal mode.
 # XXX - have two version of most lists. "standard" and then "custom", and
 #       combine them into the context lists. this should allow people to
 #       maintain custom lists without merge conflicts
+# XXX - define all the lists separately and then update ctx.lists only once
+# XXX - add custom lists of commands for terminal mode enforcement
 
 import time
 
@@ -30,6 +28,7 @@ NORMAL = 1
 VISUAL = 2
 INSERT = 3
 TERMINAL = 4
+
 
 ctx.lists["self.vim_arrow"] = {
     "left": "h",
@@ -370,6 +369,12 @@ mod.setting(
     type=int,
     default=0,
     desc="Notify user about vim mode changes as they occur",
+)
+mod.setting(
+    "vim_enforce_terminal_mode",
+    type=int,
+    default=0,
+    desc="Limits what motions and commands will pop out of terminal mode",
 )
 
 # Standard VIM motions and action
@@ -720,10 +725,18 @@ class Actions:
         actions.insert(cmd)
 
     def vim_normal_mode_key(cmd: str):
-        """run a given list of commands in normal mode"""
+        """press a given key in normal mode"""
         v = VimMode()
         v.set_normal_mode()
         actions.key(cmd)
+
+    def vim_normal_mode_keys(keys: str):
+        """press a given list of keys in normal mode"""
+        v = VimMode()
+        v.set_normal_mode()
+        for key in keys:
+            print(key)
+            actions.key(key)
 
     def vim_visual_mode(cmd: str):
         """run a given list of commands in visual mode"""
