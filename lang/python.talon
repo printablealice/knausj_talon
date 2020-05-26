@@ -15,12 +15,12 @@ state (def | deaf | deft): "def "
 state else if:
     insert("elif :")
     edit.left()
-state if: 
+state if:
     insert("if :")
     edit.left()
 state else: "else:"
 state self: "self"
-state while: 
+state while:
     insert("while ()")
     edit.left()
 state for: "for "
@@ -29,44 +29,44 @@ class <phrase>:
     insert(user.formatted_text(phrase, "hammer"))
     insert("():\n")
 state switch:
-	insert("switch ()")
-	edit.left()
+    insert("switch ()")
+wedit.left()
 state case:
-	insert("case \nbreak;")
-	edit.up()
+    insert("case \nbreak;")
+    edit.up()
 state goto:
-	insert("goto ")
+    insert("goto ")
 state import:
-	insert("import ")
+    insert("import ")
 state class: "class "
 state include: "#include "
 state include system:
-	insert("#include <>")
-	edit.left()
+    insert("#include <>")
+    edit.left()
 state include local:
-	insert('#include ""')
-	edit.left()
+    insert('#include ""')
+    edit.left()
 state type deaf: "typedef "
 state type deaf struct:
-	insert("typedef struct")
-	insert("{{\n\n}}")
-	edit.up()
-	key(tab)
+    insert("typedef struct")
+    insert("{{\n\n}}")
+    edit.up()
+    key(tab)
 comment py: "# "
 dunder in it: "__init__"
 self taught: "self."
 from import:
-	insert("from import ")
-	key(left)
-	edit.word_left()
-	key(space)
-	edit.left()
+    insert("from import ")
+    key(left)
+    edit.word_left()
+    key(space)
+    edit.left()
 for in:
-	insert("for in ")
-	key(left)
-	edit.word_left()
-	key(space)
-	edit.left()
+    insert("for in ")
+    key(left)
+    edit.word_left()
+    key(space)
+    edit.left()
 dock string:
     insert("\"\"\"")
     insert("\"\"\"")
@@ -85,7 +85,7 @@ pass: "pass"
 self: "self"
 
 ####
-# Miscellaneous 
+# Miscellaneous
 ####
 define private (method|function) <phrase>:
     insert("def _")
