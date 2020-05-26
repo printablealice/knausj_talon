@@ -31,7 +31,7 @@ talon mode: speech.enable()
     mode.disable("dictation")
     mode.enable("command")
     user.system_command('notify-send.sh -t 3000 -f -u low "Command Mode"')
-debug mode:
+[enable] debug mode:
     mode.enable("user.gdb")
     user.system_command('notify-send.sh -t 3000 -f -u low "Debug Mode Enabled"')
 disable debug mode:
