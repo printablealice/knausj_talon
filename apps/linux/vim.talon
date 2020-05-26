@@ -128,6 +128,11 @@ save and (quit|close):
     user.vim_normal_mode(":wq\n")
 (close|quit) file:
     user.vim_normal_mode(":q\n")
+
+# no \n as a saftey measure
+(close|quit) all:
+    user.vim_normal_mode(":qa")
+
 force (close|quit):
     user.vim_normal_mode(":q!\n")
 refresh file:
@@ -310,26 +315,24 @@ swap global:
     key(left)
     key(left)
 
-# XXX - these should not retain insert mode across jumps
 # XXX - should explicitly call terminal-escaping method
 ###
 # Buffers
 ###
-((buf|buffer) list|list (buf|buffer)s):
-    user.vim_normal_mode(":ls\n")
-(buf|buffer) (close|delete) <number>: user.vim_normal_mode(":bd {number} ")
-(close|delete) (buf|buffer) <number>: user.vim_normal_mode(":bd {number} ")
+((buf|buffer) list|list (buf|buffer)s): user.vim_normal_mode(":ls\n")
+(buf|buffer) (close|delete) <number>: user.vim_normal_mode_np(":bd {number} ")
+(close|delete) (buf|buffer) <number>: user.vim_normal_mode_np(":bd {number} ")
 (buf|buffer) close current: user.vim_normal_mode(":bd\n")
-(delete|close) (current|this) buffer: user.vim_normal_mode(":bd\n")
-force (buf|buffer) close: user.vim_normal_mode(":bd!\n")
-(buf|buffer) open: user.vim_normal_mode(":b ")
-(buf|buffer) (first|rewind): user.vim_normal_mode(":br\n")
-(buf|buffer) (left|prev): user.vim_normal_mode(":bprev\n")
-(buf|buffer) (right|next): user.vim_normal_mode(":bnext\n")
-(buf|buffer) flip: user.vim_normal_mode(":b#\n")
-(buf|buffer) last: user.vim_normal_mode(":bl\n")
-close (bufs|buffers): user.vim_normal_mode(":bd ")
-[(go|jump|open)] (buf|buffer) <number>: user.vim_normal_mode(":b {number}\n")
+(delete|close) (current|this) buffer: user.vim_normal_mode_np(":bd\n")
+force (buf|buffer) close: user.vim_normal_mode_np(":bd!\n")
+(buf|buffer) open: user.vim_normal_mode_np(":b ")
+(buf|buffer) (first|rewind): user.vim_normal_mode_np(":br\n")
+(buf|buffer) (left|prev): user.vim_normal_mode_np(":bprev\n")
+(buf|buffer) (right|next): user.vim_normal_mode_np(":bnext\n")
+(buf|buffer) flip: user.vim_normal_mode_np(":b#\n")
+(buf|buffer) last: user.vim_normal_mode_np(":bl\n")
+close (bufs|buffers): user.vim_normal_mode_np(":bd ")
+[(go|jump|open)] (buf|buffer) <number>: user.vim_normal_mode_np(":b {number}\n")
 
 # XXX - these should not retain insert mode across jumps
 # XXX - should explicitly call terminal-escaping method
@@ -337,12 +340,12 @@ close (bufs|buffers): user.vim_normal_mode(":bd ")
 # Splits
 ###
 # creating splits
-new split:
+new [horizontal] split:
     # XXX - until we have key combo support
     user.vim_set_normal_mode()
     key("ctrl-w")
     key(s)
-new vertical split:
+new (vertical|v) split:
     # XXX - until we have key combo support
     user.vim_set_normal_mode()
     key("ctrl-w")
@@ -353,10 +356,10 @@ split (close|quit):
     key(ctrl-w)
     key(q)
 
-new empty split:
+new empty [horizontal] split:
     key(escape)
     user.vim_normal_mode(":new\n")
-new empty vertical split:
+new empty (vertical|v) split:
     key(escape)
     user.vim_normal_mode(":vnew\n")
 
@@ -400,6 +403,7 @@ split (only|exclusive):
     key(ctrl-w)
     key(o)
 split rotate [right]:
+    user.vim_set_normal_mode()
     key(ctrl-w)
     key(r)
 split rotate left:
@@ -470,18 +474,18 @@ buffer end diff:
 # XXX - should explicitly call terminal-escaping method
 
 (list|show) tabs: user.vim_normal_mode(":tabs\n")
-tab close: user.vim_normal_mode(":tabclose\n")
-tab (next|right): user.vim_normal_mode(":tabnext\n")
-tab (left|prev|previous): user.vim_normal_mode(":tabprevious\n")
-tab first: user.vim_normal_mode(":tabfirst\n")
-tab last: user.vim_normal_mode(":tablast\n")
-tab flip: user.vim_normal_mode("g\t")
-tab new: user.vim_normal_mode(":tabnew\n")
-tab edit: user.vim_normal_mode(":tabedit ")
-[(go|jump|open)] tab <number>: user.vim_normal_mode("{number}gt")
-[new] tab terminal: user.vim_normal_mode(":tab term://bash\n")
-move tab right: user.vim_normal_mode(":tabm +\n")
-move tab left: user.vim_normal_mode(":tabm -\n")
+tab close: user.vim_normal_mode_np(":tabclose\n")
+tab (next|right): user.vim_normal_mode_np(":tabnext\n")
+tab (left|prev|previous): user.vim_normal_mode_np(":tabprevious\n")
+tab first: user.vim_normal_mode_np(":tabfirst\n")
+tab last: user.vim_normal_mode_np(":tablast\n")
+tab flip: user.vim_normal_mode_np("g\t")
+tab new: user.vim_normal_mode_np(":tabnew\n")
+tab edit: user.vim_normal_mode_np(":tabedit ")
+[(go|jump|open)] tab <number>: user.vim_normal_mode_np("{number}gt")
+[new] tab terminal: user.vim_normal_mode_np(":tab term://bash\n")
+move tab right: user.vim_normal_mode_np(":tabm +\n")
+move tab left: user.vim_normal_mode_np(":tabm -\n")
 
 ###
 # Settings
@@ -501,6 +505,7 @@ unset modifiable: user.vim_normal_mode(":set nomodifiable\n")
 ###
 # Marks
 ###
+# XXX - to be made mode-aware
 new mark <user.letter>:
     key(m)
     key(letter)
@@ -525,6 +530,7 @@ new mark <user.letter>:
 ###
 # Sessions
 ###
+# XXX - to be made mode-aware
 (make|save) session: ":mksession "
 force (make|save) session: ":mksession! "
 (load|open) session: user.vim_normal_mode(":source ")
@@ -631,7 +637,7 @@ remove all tabs: insert(":%s/\t/    /eg\n")
 
 # XXX - Just for testing run_vim_cmd. To be deleted
 spider man:
-    user.run_vim_cmd("beep")
+    user.vim_normal_mode_keys("c")
 
 ###
 # Auto completion
