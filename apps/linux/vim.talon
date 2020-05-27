@@ -1,6 +1,12 @@
 # Usage:
 #  - See doc/vim.md
 #  - See code/vim.py
+#
+# Where applicable I try to explicitly select appropriate API for terminal
+# escaping, etc. However in cases where it is unlikely you will say a command
+# from terminal mode, I don't bother. Example "save file" doesn't have
+# explicit terminal escaping.
+
 # ToDo:
 #  - new terminal buffer command
 #  - specify specific buffer into split
@@ -15,11 +21,26 @@ and win.title:/VIM/
 
 tag(): vim
 settings():
-    # Whether or not to always revert back to the previous mode
+    # Whether or not to always revert back to the previous mode. Example, if
+    # you are in insert mode and say 'delete word' it will delete one word and
+    # keep you in insert mode. Same as ctrl-o in VIM.
     user.vim_preserve_insert_mode = 1
+
+    # Whether or not to automatically adjust modes when using commands. Example
+    # saying "go line 50" will first switch you out of INSERT into NORMAL and
+    # then jump to the line. Disabling this setting would put :50\n into your
+    # file if called from INSERT.
     user.vim_adjust_modes = 1
+
+    # Select whether or not talon should dispatch notifications on mode changes
+    # that are made. Not yet completed, as notifications are kind of wonky on
+    # Linux
     user.vim_notify_mode_changes = 0
-    user.vim_enforce_terminal_mode = 1
+
+    # Whether or not all commands that transfer out of insert mode should
+    # automatically escape out of terminal mode. Turning this on is quite
+    # troublesome.
+    user.vim_escape_terminal_mode = 0
 
 ###
 # Actions - Talon generic_editor.talon implementation
@@ -31,13 +52,13 @@ settings():
 # the actions here, so they have not been thoroughly tested
 ###
 action(edit.find):
-    user.vim_normal_mode_key("/")
+    user.vim_normal_mode_exterm_key("/")
 action(edit.find_next):
-    user.vim_normal_mode_key(n)
+    user.vim_normal_mode_key("n")
 action(edit.word_left):
-    user.vim_normal_mode_key(b)
+    user.vim_normal_mode_key("b")
 action(edit.word_right):
-    user.vim_normal_mode_key(w)
+    user.vim_normal_mode_key("w")
 action(edit.left):
     key(left)
 action(edit.right):
@@ -55,9 +76,9 @@ action(edit.file_end):
 action(edit.file_start):
     user.vim_normal_mode("gg")
 action(edit.page_down):
-    user.vim_normal_mode_key(ctrl-f)
+    user.vim_normal_mode_exterm_key("ctrl-f")
 action(edit.page_up):
-    user.vim_normal_mode_key(ctrl-b)
+    user.vim_normal_mode_exterm_key("ctrl-b")
 
 action(edit.extend_line_end):
     user.vim_visual_mode("$")
@@ -122,7 +143,7 @@ save [file] as:
     key(escape)
     user.vim_normal_mode(":w ")
 save all:
-    user.vim_normal_mode(":wa\n")
+    user.vim_normal_mode_exterm(":wa\n")
 save and (quit|close):
     user.vim_normal_mode(":wq\n")
 (close|quit) file:
@@ -130,26 +151,26 @@ save and (quit|close):
 
 # no \n as a saftey measure
 (close|quit) all:
-    user.vim_normal_mode(":qa")
+    user.vim_normal_mode_exterm(":qa")
 
 force (close|quit):
-    user.vim_normal_mode(":q!\n")
+    user.vim_normal_mode_exterm(":q!\n")
 refresh file:
     user.vim_normal_mode(":e!\n")
 edit [file|new]:
-    user.vim_normal_mode(":e ")
+    user.vim_normal_mode_exterm(":e ")
 reload [vim] config:
-    user.vim_normal_mode(":so $MYVIMRC\n")
+    user.vim_normal_mode_exterm(":so $MYVIMRC\n")
 
 # For when the VIM cursor is hovering on a path
-# XXX - need to test if technically these work in visual
 open [this] link: user.vim_normal_mode("gx")
 open this file: user.vim_normal_mode("gf")
 open this file in [split|window]:
+    user.vim_set_normal_mode()
     key(ctrl-w)
     key(f)
 open this file in vertical [split|window]:
-    insert(":vertical wincmd f\n")
+    user.vim_normal_mode(":vertical wincmd f\n")
 
 (show|list) current directory: user.vim_normal_mode(":pwd\n")
 change buffer directory: user.vim_normal_mode(":lcd %:p:h\n")
@@ -157,7 +178,7 @@ change buffer directory: user.vim_normal_mode(":lcd %:p:h\n")
 ###
 # Standard commands
 ###
-# XXX - are technically handled by vim.py
+# XXX - technically should be handled by vim.py
 redo:
     user.vim_normal_mode_key("ctrl-r")
 #undo:
@@ -169,59 +190,58 @@ redo:
 # NOTE: Majority of more core movement verbs are in code/vim.py
 ###
 [(go|jump)] [to] line <number>:
-    user.vim_normal_mode(":{number}\n")
+    user.vim_normal_mode_exterm(":{number}\n")
 
-# XXX - could be multiple modes
-matching: key(%)
+matching: user.vim_any_motion_mode_key("%")
 
 # jump list
-show jump list: user.vim_normal_mode(":jumps\n")
-clear jump list: user.vim_normal_mode(":clearjumps\n")
-(prev|previous|older) jump [entry]: user.vim_normal_mode_key("ctrl-o")
-(next|newer) jump [entry]: user.vim_normal_mode_key("ctrl-i")
+show jump list: user.vim_normal_mode_exterm(":jumps\n")
+clear jump list: user.vim_normal_mode_exterm(":clearjumps\n")
+(prev|previous|older) jump [entry]: user.vim_normal_mode_exterm_key("ctrl-o")
+(next|newer) jump [entry]: user.vim_normal_mode_exterm_key("ctrl-i")
+# XXX - add jump to <id>
 
 # ctags/symbol
 (jump|dive) [to] (symbol|tag): user.vim_normal_mode_key("ctrl-]")
 (pop|leave) (symbol|tag): user.vim_normal_mode_key("ctrl-t")
 
-# XXX - these should call terminal escaping function
 # scrolling and page position
-(focus|orient) [on] line <number>: ":{number}\nzt"
-center [on] line <number>: ":{number}\nz."
-scroll top: user.vim_normal_mode("zt")
-scroll (center|middle): "zz"
-scroll bottom: "zb"
-scroll top reset cursor: "z\n"
-scroll middle reset cursor: "z."
-scroll bottom reset cursor: "z "
-scroll up: user.vim_normal_mode_key("ctrl-y")
-scroll down: user.vim_normal_mode_key(ctrl-e)
-page down: user.vim_normal_mode_key(ctrl-f)
-page up: user.vim_normal_mode_key(ctrl-b)
-half [page] down: user.vim_normal_mode_key(ctrl-d)
-half [page] up: user.vim_normal_mode_key(ctrl-u)
+(focus|orient) [on] line <number>: user.vim_normal_mode_exterm(":{number}\nzt")
+center [on] line <number>: user.vim_normal_mode_exterm(":{number}\nz.")
+scroll top: user.vim_normal_mode_exterm("zt")
+scroll (center|middle): user.vim_normal_mode_exterm("zz")
+scroll bottom: user.vim_normal_mode_exterm("zb")
+scroll top reset cursor: user.vim_normal_mode_exterm("z\n")
+scroll middle reset cursor: user.vim_normal_mode_exterm("z.")
+scroll bottom reset cursor: user.vim_normal_mode_exterm("z ")
+scroll up: user.vim_normal_mode_exterm_key("ctrl-y")
+scroll down: user.vim_normal_mode_exterm_key("ctrl-e")
+page down: user.vim_normal_mode_exterm_key("ctrl-f")
+page up: user.vim_normal_mode_exterm_key("ctrl-b")
+half [page] down: user.vim_normal_mode_exterm_key("ctrl-d")
+half [page] up: user.vim_normal_mode_exterm_key("ctrl-u")
 
 ###
 # Text editing, copying, and manipulation
 ###
 
-change remaining line: key(C)
-change line: "cc"
+change remaining line: user.vim_normal_mode_key("C")
+change line: user.vim_normal_mode("cc")
 # XXX - this might be suited for some automatic motion thing in vim.py
-swap characters: "xp"
-swap words: "dwwP"
-swap lines: "ddp"
-swap paragraph: "d}}p"
+swap characters: user.vim_normal_mode("xp")
+swap words: user.vim_normal_mode("dwwP")
+swap lines: user.vim_normal_mode("ddp")
+swap paragraph: user.vim_normal_mode("d}}p")
 replace <user.any>: "r{any}"
 replace (ship|upper|upper case) <user.letters>:
-    "r"
+    user.vim_normal_mode_key("r")
     user.keys_uppercase_letters(letters)
 
 # indenting
-(shift|indent) right: ">>"
-indent [line] <number> through <number>$: ":{number_1},{number_2}>\n"
-(shift|indent) left: "<<"
-unindent [line] <number> through <number>$: ":{number_1},{number_2}>\n"
+(shift|indent) right: user.vim_normal_mode(">>")
+indent [line] <number> through <number>$: user.vim_normal_mode(":{number_1},{number_2}>\n")
+(shift|indent) left: user.vim_normal_mode("<<")
+unindent [line] <number> through <number>$: user.vim_normal_mode(":{number_1},{number_2}>\n")
 
 
 # XXX - this doesn't work with numbers below nine, because the nine will
@@ -230,53 +250,57 @@ unindent [line] <number> through <number>$: ":{number_1},{number_2}>\n"
 # the one were you specify the line
 
 # deleting
-delete remaining line: key(D)
-delete line (at|number) <number>$: ":{number}d\n"
-delete line (at|number) <number> through <number>$: ":{number_1},{number_2}d\n"
-delete line: "dd"
+delete remaining [line]: user.vim_normal_mode_key("D")
+delete line (at|number) <number>$: user.vim_normal_mode(":{number}d\n")
+delete line (at|number) <number> through <number>$: user.vim_normal_mode(":{number_1},{number_2}d\n")
+delete line: user.vim_normal_mode("dd")
 
 # insert mode only
 clear line: key(ctrl-u)
 
 # copying
-(copy|yank) line (at|number) <number>$: ":{number}y\n"
-(copy|yank) line (at|number) <number> through <number>: ":{number_1},{number_2}y\n"
-(copy|yank) line: "Y"
+(copy|yank) line (at|number) <number>$: user.vim_normal_mode_exterm(":{number}y\n")
+(copy|yank) line (at|number) <number> through <number>: user.vim_normal_mode_exterm(":{number_1},{number_2}y\n")
+(copy|yank) line: user.vim_normal_mode_exterm("Y")
 
 # duplicating
-(duplicate|paste) line <number> on line <number>$: ":{number_1}y\n:{number_2}\np"
-(duplicate|paste) line (at|number) <number> through <number>$: ":{number_1},{number_2}y\np"
-(duplicate|paste) line <number>$: ":{number}y\np"
+# XXX - these don't preserve INSERT, because they use multiple commands
+(duplicate|paste) line <number> on line <number>$: user.vim_normal_mode_np(":{number_1}y\n:{number_2}\np")
+(duplicate|paste) line (at|number) <number> through <number>$: user.vim_normal_mode_np(":{number_1},{number_2}y\np")
+(duplicate|paste) line <number>$: user.vim_normal_mode_np(":{number}y\np")
 
-(dup|duplicate) line: "Yp"
+(dup|duplicate) line: user.vim_normal_mode_np("Yp")
 
 # start ending at end of line
 push line:
-    key(escape)
-    key(A)
+    user.vim_normal_mode_key("A")
 
 # start ending at end of file
 push file:
-    key(escape)
-    insert("Go")
+    user.vim_normal_mode_np("Go")
 
 # helpful for fixing typos or bad lexicons that miss a character
 inject <user.any> [before]:
-    insert("i{any}")
+    user.vim_insert_mode("{any}")
     key(escape)
 
 inject <user.any> after:
-    insert("a{any}")
+    user.vim_normal_mode("a{any}")
     key(escape)
 
+# XXX - look into how this works
 filter line: "=="
 
-[add] gap above: ":pu! _\n:'[+1\n"
-[add] gap below: ":pu _\n:'[-1\n"
+# XXX - could preserve if swapped into two calls
+[add] gap above:
+    user.vim_normal_mode_np(":pu! _\n:'[+1\n")
+[add] gap below:
+    user.vim_normal_mode_np(":pu _\n:'[-1\n")
 
 # XXX - This should be a callable function so we can do things like:
 #       'swap on this <highlight motion>'
 #       'swap between line x, y'
+# assumes visual mode
 swap (selected|highlighted):
     insert(":")
     # leave time for vim to populate '<,'>
@@ -286,6 +310,7 @@ swap (selected|highlighted):
     key(left)
     key(left)
 
+# assumes visual mode
 reswap (selected|highlighted):
     insert(":")
     # leave time for vim to populate '<,'>
@@ -302,6 +327,7 @@ swap [word] on [this] line:
     key(left)
     key(left)
 
+# assumes visual mode
 deleted selected empty lines:
     insert(":")
     # leave time for vim to populate '<,'>
@@ -309,7 +335,7 @@ deleted selected empty lines:
     insert("g/^$/d\j")
 
 swap global:
-    insert(":%s///g")
+    user.vim_normal_mode(":%s///g")
     key(left)
     key(left)
     key(left)
@@ -319,216 +345,217 @@ swap global:
 # Buffers
 ###
 ((buf|buffer) list|list (buf|buffer)s): user.vim_normal_mode(":ls\n")
-(buf|buffer) (close|delete) <number>: user.vim_normal_mode_np(":bd {number} ")
-(close|delete) (buf|buffer) <number>: user.vim_normal_mode_np(":bd {number} ")
+(buf|buffer) (close|delete) <number>: user.vim_normal_mode_exterm(":bd {number} ")
+(close|delete) (buf|buffer) <number>: user.vim_normal_mode_exterm(":bd {number} ")
 (buf|buffer) close current: user.vim_normal_mode(":bd\n")
-(delete|close) (current|this) buffer: user.vim_normal_mode_np(":bd\n")
-force (buf|buffer) close: user.vim_normal_mode_np(":bd!\n")
-(buf|buffer) open: user.vim_normal_mode_np(":b ")
-(buf|buffer) (first|rewind): user.vim_normal_mode_np(":br\n")
-(buf|buffer) (left|prev): user.vim_normal_mode_np(":bprev\n")
-(buf|buffer) (right|next): user.vim_normal_mode_np(":bnext\n")
-(buf|buffer) flip: user.vim_normal_mode_np(":b#\n")
-(buf|buffer) last: user.vim_normal_mode_np(":bl\n")
-close (bufs|buffers): user.vim_normal_mode_np(":bd ")
-[(go|jump|open)] (buf|buffer) <number>: user.vim_normal_mode_np(":b {number}\n")
+(delete|close) (current|this) buffer: user.vim_normal_mode_exterm(":bd\n")
+force (buf|buffer) close: user.vim_normal_mode_exterm(":bd!\n")
+(buf|buffer) open: user.vim_normal_mode_exterm(":b ")
+(buf|buffer) (first|rewind): user.vim_normal_mode_exterm(":br\n")
+(buf|buffer) (left|prev): user.vim_normal_mode_exterm(":bprev\n")
+(buf|buffer) (right|next): user.vim_normal_mode_exterm(":bnext\n")
+(buf|buffer) flip: user.vim_normal_mode_exterm(":b#\n")
+(buf|buffer) last: user.vim_normal_mode_exterm(":bl\n")
+close (bufs|buffers): user.vim_normal_mode_exterm(":bd ")
+[(go|jump|open)] (buf|buffer) <number>: user.vim_normal_mode_exterm(":b {number}\n")
 
-# XXX - these should not retain insert mode across jumps
-# XXX - should explicitly call terminal-escaping method
 ###
 # Splits
 ###
 # creating splits
 new [horizontal] split:
     # XXX - until we have key combo support
-    user.vim_set_normal_mode()
+    user.vim_set_normal_mode_exterm()
     key("ctrl-w")
     key(s)
 new (vertical|v) split:
     # XXX - until we have key combo support
-    user.vim_set_normal_mode()
+    user.vim_set_normal_mode_exterm()
     key("ctrl-w")
     key(v)
 split (close|quit):
     # XXX - until we have key combo support
-    user.vim_set_normal_mode()
+    user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(q)
 
 new empty [horizontal] split:
-    key(escape)
-    user.vim_normal_mode(":new\n")
+    user.vim_normal_mode_exterm(":new\n")
 new empty (vertical|v) split:
-    key(escape)
-    user.vim_normal_mode(":vnew\n")
+    user.vim_normal_mode_exterm(":vnew\n")
 
 # navigating splits
 split <user.vim_arrow>:
     # XXX - until we have key combo support
-    user.vim_set_normal_mode()
+    user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key("{vim_arrow}")
 split last:
     # XXX - until we have key combo support
-    user.vim_set_normal_mode()
+    user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(p)
 split top left:
     # XXX - until we have key combo support
-    user.vim_set_normal_mode()
+    user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(t)
 split next:
     # XXX - until we have key combo support
-    user.vim_set_normal_mode()
+    user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(w)
 split (previous|prev):
     # XXX - until we have key combo support
-    user.vim_set_normal_mode()
+    user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(W)
 split bottom right:
     # XXX - until we have key combo support
-    user.vim_set_normal_mode()
+    user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(b)
 split preview:
+    user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(P)
 
 # moving windows
 split (only|exclusive):
+    user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(o)
 split rotate [right]:
-    user.vim_set_normal_mode()
+    user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(r)
 split rotate left:
+    user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(R)
 move split top:
+    user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(K)
 move split bottom:
+    user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(J)
 move split right:
+    user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(H)
 move split left:
+    user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(L)
 move split to tab:
+    user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(T)
 
 # window resizing
 split (balance|equalize):
+    user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(=)
 split taller:
+    user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(+)
+    user.vim_set_normal_mode_exterm()
 split shorter:
+    user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(-)
+    user.vim_set_normal_mode_exterm()
 split fatter:
     key(ctrl-w)
     key(>)
+    user.vim_set_normal_mode_exterm()
 split skinnier:
     key(ctrl-w)
     key(<)
 set split width:
-    key(escape)
-    insert(":resize ")
+    user.vim_normal_mode_exterm(":resize ")
 set split height:
-    key(escape)
+    user.vim_set_normal_mode_exterm(":vertical resize ")
     insert(":vertical resize ")
 
 ###
 # Diffing
 ###
 (split|window) start diff:
-    key(escape)
-    insert(":windo diffthis\n")
+    user.vim_set_normal_mode_exterm(":windo diffthis\n")
 
 (split|window) end diff:
-    key(escape)
-    insert(":windo diffoff\n")
+    user.vim_set_normal_mode_exterm(":windo diffoff\n")
 
 buffer start diff:
-    key(escape)
-    insert(":bufdo diffthis\n")
+    user.vim_set_normal_mode_exterm(":bufdo diffthis\n")
 
 buffer end diff:
-    key(escape)
-    insert(":bufdo diffoff\n")
+    user.vim_set_normal_mode_exterm(":bufdo diffthis\n")
 
 ###
 # Tab
 ###
-# XXX - these should not retain insert mode across jumps
-# XXX - should explicitly call a terminal-escaping method
-
 (list|show) tabs: user.vim_normal_mode(":tabs\n")
-tab close: user.vim_normal_mode_np(":tabclose\n")
-tab (next|right): user.vim_normal_mode_np(":tabnext\n")
-tab (left|prev|previous): user.vim_normal_mode_np(":tabprevious\n")
-tab first: user.vim_normal_mode_np(":tabfirst\n")
-tab last: user.vim_normal_mode_np(":tablast\n")
-tab flip: user.vim_normal_mode_np("g\t")
-tab new: user.vim_normal_mode_np(":tabnew\n")
-tab edit: user.vim_normal_mode_np(":tabedit ")
-[(go|jump|open)] tab <number>: user.vim_normal_mode_np("{number}gt")
-move tab right: user.vim_normal_mode_np(":tabm +\n")
-move tab left: user.vim_normal_mode_np(":tabm -\n")
+(close this tab|tab close): user.vim_normal_mode_exterm(":tabclose\n")
+tab (next|right): user.vim_normal_mode_exterm(":tabnext\n")
+tab (left|prev|previous): user.vim_normal_mode_exterm(":tabprevious\n")
+tab first: user.vim_normal_mode_exterm(":tabfirst\n")
+tab last: user.vim_normal_mode_exterm(":tablast\n")
+tab flip: user.vim_normal_mode_exterm("g\t")
+tab new: user.vim_normal_mode_exterm(":tabnew\n")
+tab edit: user.vim_normal_mode_exterm(":tabedit ")
+[(go|jump|open)] tab <number>: user.vim_normal_mode_exterm("{number}gt")
+move tab right: user.vim_normal_mode_exterm(":tabm +\n")
+move tab left: user.vim_normal_mode_exterm(":tabm -\n")
 
-[new] tab terminal: user.vim_normal_mode_np(":tabe term://bash\n")
+[new] tab terminal: user.vim_normal_mode_exterm(":tabe term://bash\n")
 
 ###
 # Settings
 ###
-(hide|unset) (highlight|hightlights): user.vim_normal_mode(":nohl\n")
-set highlight search: user.vim_normal_mode(":set hls\n")
-set no highlight search: user.vim_normal_mode(":set nohls\n")
-(show|set) line numbers: user.vim_normal_mode(":set nu\n")
-(hide|set no) line numbers: user.vim_normal_mode(":set nonu\n")
-show [current] settings: user.vim_normal_mode(":set\n")
-unset paste: user.vim_normal_mode(":set nopaste\n")
+# XXX - this is a weird edge he because we actually probably want to slip back
+# to the terminal mode after setting options, but atm
+# user.vim_normal_mode_exterm() implies no preservation
+(show|set) highlight [search]: user.vim_normal_mode_exterm(":set hls\n")
+(unset|set no|hide) highlight [search]: user.vim_normal_mode_exterm(":set nohls\n")
+(show|set) line numbers: user.vim_normal_mode_exterm(":set nu\n")
+(unset|set no|hide) line numbers: user.vim_normal_mode_exterm(":set nonu\n")
+show [current] settings: user.vim_normal_mode_exterm(":set\n")
+unset paste: user.vim_normal_mode_exterm(":set nopaste\n")
 # very useful for reviewing code you don't want to accidintally edit if talon
 # mishears commands
-set modifiable: user.vim_normal_mode(":set modifiable\n")
-unset modifiable: user.vim_normal_mode(":set nomodifiable\n")
+set modifiable: user.vim_normal_mode_exterm(":set modifiable\n")
+unset modifiable: user.vim_normal_mode_exterm(":set nomodifiable\n")
 
 ###
 # Marks
 ###
-# XXX - to be made mode-aware
 new mark <user.letter>:
+    user.vim_set_normal_mode_exterm()
     key(m)
     key(letter)
 (go|jump) [to] mark <user.letter>:
+    user.vim_set_normal_mode_exterm()
     key(`)
     key(letter)
 (del|delete) (mark|marks):
-    key(escape)
-    insert(":delmarks ")
+    user.vim_set_normal_mode(":delmarks ")
 (del|delete) all (mark|marks):
-    key(escape)
-    insert(":delmarks! ")
+    user.vim_set_normal_mode(":delmarks! ")
 (list|show) [all] marks:
-    key(escape)
-    insert(":marks\n")
+    user.vim_set_normal_mode(":marks\n")
 (list|show) specific marks:
-    key(escape)
-    insert(":marks ")
-(go|jump) [to] [last] edit: "`."
-(go|jump) [to] [last] (cursor|location): "``"
+    user.vim_set_normal_mode(":marks ")
+(go|jump) [to] [last] edit: user.vim_set_normal_mode("`.")
+(go|jump) [to] [last] (cursor|location): user.vim_set_normal_mode("``")
 
 ###
-# Sessions
+# Session
 ###
 # XXX - to be made mode-aware
 (make|save) session: ":mksession "
@@ -588,60 +615,52 @@ search:
 
 search sensitive:
     key(escape)
-    insert("/\C")
+    user.vim_any_motion_mode("/\C")
 
 search <phrase>$:
-    key(escape)
-    insert("/\c{phrase}\n")
+    user.vim_any_motion_mode("/\c{phrase}\n")
 
 search <phrase> sensitive$:
-    key(escape)
-    insert("/\C{phrase}\n")
+    user.vim_any_motion_mode("/\C{phrase}\n")
 
 search <user.ordinals> <phrase>$:
-    key(escape)
-    insert("{ordinals}/\c{phrase}\n")
+    user.vim_any_motion_mode("{ordinals}/\c{phrase}\n")
 
 search (reversed|reverse) <phrase>$:
-    key(escape)
-    insert("?\c{phrase}\n")
+    user.vim_any_motion_mode("?\c{phrase}\n")
 
 search (reversed|reverse):
-    key(escape)
-    insert("?\c")
+    user.vim_any_motion_mode("?\c")
 
 search (reversed|reverse) sensitive:
-    key(escape)
-    insert("?\C")
+    user.vim_any_motion_mode("?\C")
 
 ###
 # Text Selection
 ###
 select <user.vim_select_motion>:
-    insert("v{vim_select_motion}")
+    user.vim_visual_mode("{vim_select_motion}")
 
 select lines <number> through <number>:
-    insert("{number_1}G")
-    key(V)
+    user.vim_insert_mode_np("{number_1}G")
+    user.vim_set_visual_mode()
     insert("{number_2}G")
 
 ###
 # Convenience
 ###
 run as python:
-    insert(":w\n")
+    user.vim_normal_mode_np(":w\n")
     insert(":exec '!python' shellescape(@%, 1)\n")
 
-remove trailing white space: insert(":%s/\s\+$//e\n")
-(remove all|normalize) tabs: insert(":%s/\t/    /eg\n")
+remove trailing white space: vim.vim_normal_mode(":%s/\s\+$//e\n")
+(remove all|normalize) tabs: vim.vim_normal_mode(":%s/\t/    /eg\n")
 
-# XXX - Just for testing run_vim_cmd. To be deleted
-spider man:
-    user.vim_normal_mode_keys("c")
 
 ###
 # Auto completion
 ###
+# XXX - revisit these
 complete: key(ctrl-n)
 complete next: key(ctrl-n)
 complete previous: key(ctrl-n)
@@ -649,8 +668,8 @@ complete previous: key(ctrl-n)
 ###
 # Visual Mode
 ###
-(select|highlight) all: "ggVG"
-reselect: "gv"
+(select|highlight) all: user.vim_normal_mode_np("ggVG")
+reselect: user.vim_normal_mode_np("gv")
 
 ###
 # Terminal mode
@@ -672,12 +691,12 @@ vertical split (term|terminal):
 ###
 # Folding
 ###
-fold (lines|line): "fZ"
-fold line <number> through <number>$: ":{number_1},{number_2}fo\n"
-(unfold|open fold|fold open): "zo"
-(close fold|fold close): "zc"
-open all folds: "zR"
-close all folds: "zM"
+fold (lines|line): user.vim_normal_mode("fZ")
+fold line <number> through <number>$: user.vim_normal_mode(":{number_1},{number_2}fo\n")
+(unfold|open fold|fold open): user.vim_normal_mode("zo")
+(close fold|fold close): user.vim_normal_mode("zc")
+open all folds: user.vim_normal_mode("zR")
+close all folds: user.vim_normal_mode("zM")
 
 ###
 # Plugins
@@ -686,5 +705,12 @@ close all folds: "zM"
 # NOTE: These are here rather than nerdtree.talon to allow it to load the
 # split buffer, which in turn loads nerdtree.talon when focused. Don't move
 # these into nerdtree.talon for now
-nerd tree: insert(":NERDTree\n")
-nerd find [current] file: insert(":NERDTreeFind\n")
+nerd tree: vim.vim_normal_mode(":NERDTree\n")
+nerd find [current] file: vim.vim_normal_mode(":NERDTreeFind\n")
+
+###
+# Testing
+###
+# XXX - Just for testing random stuff. To be deleted
+spider man:
+    user.vim_normal_mode_keys("c")

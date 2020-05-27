@@ -14,6 +14,9 @@
 #       maintain custom lists without merge conflicts
 # XXX - define all the lists separately and then update ctx.lists only once
 # XXX - add custom lists of commands for terminal mode enforcement
+# XXX - document that visual selection mode implies terminal escape
+# XXX - some surround stuff stopped working
+# XXX - undo usage is awful, possibly a bug, or possibly just detection
 
 import time
 
@@ -371,10 +374,10 @@ mod.setting(
     desc="Notify user about vim mode changes as they occur",
 )
 mod.setting(
-    "vim_enforce_terminal_mode",
+    "vim_escape_terminal_mode",
     type=int,
     default=0,
-    desc="Limits what motions and commands will pop out of terminal mode",
+    desc="When set won't limit what motions and commands will pop out of terminal mode",
 )
 
 # Standard VIM motions and action
@@ -685,17 +688,24 @@ def vim_select_motion(m) -> str:
     return "".join(list(m))
 
 
+# These are actions you can call from vim.talon via `user.method_name()` in
+# order to modify modes, run commands in specific modes, etc
 @mod.action_class
 class Actions:
     def vim_set_normal_mode():
         """set normal mode"""
         v = VimMode()
-        v.set_normal_mode()
+        v.set_normal_mode(auto=False)
+
+    def vim_set_normal_mode_exterm():
+        """set normal mode and don't preserve the previous mode"""
+        v = VimMode()
+        v.set_normal_mode_exterm()
 
     def vim_set_normal_mode_np():
-        """set normal mode"""
+        """set normal mode and don't preserve the previous mode"""
         v = VimMode()
-        v.set_normal_mode_np(auto=True)
+        v.set_normal_mode_np(auto=False)
 
     def vim_set_visual_mode():
         """set visual mode"""
@@ -719,15 +729,29 @@ class Actions:
         actions.insert(cmd)
 
     def vim_normal_mode_np(cmd: str):
-        """run a given list of commands in normal mode, don't preserve INSERT"""
+        """run a given list of commands in normal mode, don't preserve
+        INSERT"""
         v = VimMode()
         v.set_normal_mode_np()
+        actions.insert(cmd)
+
+    def vim_normal_mode_exterm(cmd: str):
+        """run a given list of commands in normal mode, don't preserve INSERT,
+        escape from terminal mode"""
+        v = VimMode()
+        v.set_normal_mode_exterm()
         actions.insert(cmd)
 
     def vim_normal_mode_key(cmd: str):
         """press a given key in normal mode"""
         v = VimMode()
         v.set_normal_mode()
+        actions.key(cmd)
+
+    def vim_normal_mode_exterm_key(cmd: str):
+        """press a given key in normal mode, and escape terminal"""
+        v = VimMode()
+        v.set_normal_mode_exterm()
         actions.key(cmd)
 
     def vim_normal_mode_keys(keys: str):
@@ -757,6 +781,12 @@ class Actions:
         v = VimMode()
         v.set_any_motion_mode()
         actions.insert(cmd)
+
+    def vim_any_motion_mode_key(cmd: str):
+        """run a given list of commands in normal mode"""
+        v = VimMode()
+        v.set_any_motion_mode()
+        actions.key(cmd)
 
 
 class VimMode:
@@ -831,10 +861,16 @@ class VimMode:
         elif self.is_terminal_mode():
             return TERMINAL
 
-    def set_normal_mode(self):
-        self.adjust_mode(NORMAL)
+    def set_normal_mode(self, auto=True):
+        self.adjust_mode(NORMAL, auto=auto)
+
+    def set_normal_mode_exterm(self):
+        self.adjust_mode(NORMAL, escape_terminal=True)
 
     # XXX - fix the auto stuff, maybe have separate method version or something
+
+    # XXX - should np imply exterm? as not preserving is a fairly big
+    # operation?
     def set_normal_mode_np(self, auto=True):
         self.adjust_mode(NORMAL, no_preserve=True, auto=auto)
 
@@ -856,7 +892,9 @@ class VimMode:
     def set_any_motion_mode_np(self):
         self.adjust_mode(NORMAL, no_preserve=True)
 
-    def adjust_mode(self, valid_mode_ids, no_preserve=False, auto=True):
+    def adjust_mode(
+        self, valid_mode_ids, no_preserve=False, escape_terminal=False, auto=True
+    ):
         if auto is True and settings.get("user.vim_adjust_modes") == 0:
             return
 
@@ -866,11 +904,15 @@ class VimMode:
             valid_mode_ids = [valid_mode_ids]
         if cur not in valid_mode_ids:
             # Just favor the first mode
-            self.set_mode(valid_mode_ids[0], no_preserve=no_preserve)
+            self.set_mode(
+                valid_mode_ids[0],
+                no_preserve=no_preserve,
+                escape_terminal=escape_terminal,
+            )
 
-    # XXX - we need to switch this to neovim RPC, etc
-    # for we simply use keyboard binding combinations
-    def set_mode(self, wanted_mode, no_preserve=False):
+    # XXX - should switch this to neovim RPC when available
+    # for now we simply use keyboard binding combinations
+    def set_mode(self, wanted_mode, no_preserve=False, escape_terminal=False):
         current_mode = self.get_active_mode()
 
         if current_mode == wanted_mode or (
@@ -882,9 +924,27 @@ class VimMode:
         print("Setting mode to {}".format(wanted_mode))
         # enter normal mode where necessary
         if self.is_terminal_mode():
-            # break out of terminal mode
-            actions.key("ctrl-\\")
-            actions.key("ctrl-n")
+            if (
+                settings.get("user.vim_escape_terminal_mode") is True
+                or escape_terminal is True
+            ):
+                # break out of terminal mode
+                print("escaping terminal")
+                actions.key("ctrl-\\")
+                actions.key("ctrl-n")
+            else:
+                # Imagine you have a vim terminal and inside you're running a
+                # terminal that is using vim mode rather than emacs mode. This
+                # means you will want to be able to use some amount of vim
+                # commands to edit the shells command line itself without
+                # actually being inside the encapsulating vim instance.
+                # The use of escape here tries to compensate for those
+                # scenerios, where you won't break into the encapsulating vim
+                # instance. Needs to be tested. If you don't like this, you can
+                # set vim_escape_terminal_mode to 1
+                print("skipping terminal escape")
+                actions.key("escape")
+                time.sleep(0.2)
         elif self.is_insert_mode():
             if (
                 wanted_mode == NORMAL
@@ -895,6 +955,8 @@ class VimMode:
                 actions.key("ctrl-o")
             else:
                 print("entering normal mode")
+                # We press right because enter normal mode via escape puts the
+                # cursor back one position, so otherwise misaligns on words.
                 actions.key("right")
                 actions.key("escape")
                 time.sleep(0.2)
