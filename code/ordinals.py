@@ -83,7 +83,7 @@ def ordinal_word(n):
     return result
 
 
-for n in range(2, 100):
+for n in range(1, 100):
     # This was initially minus one to compensate for its only use as a command
     # repeater, however ordinals themselves have other uses, so accommodating
     # the negative one in the command repeaters done in the actual talon file
