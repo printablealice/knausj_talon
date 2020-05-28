@@ -11,13 +11,13 @@ task help: "task help\n"
 task list: "task list\n"
 task list orphans: "task project: list\n"
 task list untagged: "task tags.none: list\n"
-task list <phrase>: "task list {phrase}\n"
+task list <user.text>: "task list {text}\n"
 task list project: "task list project: "
-task list project <phrase>: "task list project:{phrase}\n"
+task list project <user.text>: "task list project:{text}\n"
 
 # task add
 task add: "task add "
-task add <phrase>: "task add {phrase}\n"
+task add <user.text>: "task add {text}\n"
 task undo: "task undo\n"
 
 (tasks|task next): "task next\n"

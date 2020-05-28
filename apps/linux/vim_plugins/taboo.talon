@@ -3,7 +3,7 @@ tag: vim
 -
 
 tab rename: user.vim_normal_mode(":TabooRename ")
-tab rename <phrase>: user.vim_normal_mode(":TabooRename {phrase}")
+tab rename <user.text>: user.vim_normal_mode(":TabooRename {text}")
 new tab named: user.vim_normal_mode(":TabooOpen ")
-new tab named <phrase>: user.vim_normal_mode(":TabooOpen {phrase}")
+new tab named <user.text>: user.vim_normal_mode(":TabooOpen {text}")
 tab reset: user.vim_normal_mode(":TabooReset\n")

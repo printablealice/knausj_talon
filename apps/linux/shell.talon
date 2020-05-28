@@ -8,9 +8,9 @@ damn (it|that): key("ctrl-d")
 # fzf keybindings
 search history: key(ctrl-r)
 fuzzy (dir|dear|dur): key(alt-c)
-fuzzy (dir|dear|dur) <phrase>:
+fuzzy (dir|dear|dur) <user.text>:
     key(alt-c)
-    insert("{phrase}")
+    insert("{text}")
 
 # zsh commands
 reload shell config: "source ~/.zshrc\n"

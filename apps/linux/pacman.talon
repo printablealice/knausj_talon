@@ -3,6 +3,6 @@ tag: terminal
 -
 yogurt: "yaourt "
 yogurt search: "yaourt -sS "
-yogurt search <phrase>: "yaourt -sS {phrase}"
+yogurt search <user.text>: "yaourt -sS {text}"
 yogurt install: "yaourt -S "
-yogurt install <phrase>: "yaourt -S {phrase}"
+yogurt install <user.text>: "yaourt -S {text}"

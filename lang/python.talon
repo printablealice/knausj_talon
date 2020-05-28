@@ -24,9 +24,9 @@ state while:
     insert("while ()")
     edit.left()
 state for: "for "
-class <phrase>:
+class <user.text>:
     insert("class ")
-    insert(user.formatted_text(phrase, "hammer"))
+    insert(user.formatted_text(text, "hammer"))
     insert("():\n")
 state switch:
     insert("switch ()")
@@ -87,47 +87,47 @@ self: "self"
 ####
 # Miscellaneous
 ####
-define private (method|function) <phrase>:
+define private (method|function) <user.text>:
     insert("def _")
-    insert(user.formatted_text(phrase, "snake"))
+    insert(user.formatted_text(text, "snake"))
     insert("(self):")
     key(left)
     key(left)
 
-define public (method|function) <phrase>:
+define public (method|function) <user.text>:
     insert("def ")
-    insert(user.formatted_text(phrase, "snake"))
+    insert(user.formatted_text(text, "snake"))
     insert("(self):")
     key(left)
     key(left)
 
-define (method|function) <phrase>$:
+define (method|function) <user.text>$:
     insert("def ")
-    insert(user.formatted_text(phrase, "snake"))
+    insert(user.formatted_text(text, "snake"))
     insert("():")
     key(left)
     key(left)
 
-call method <phrase>:
+call method <user.text>:
     key(.)
-    insert(user.formatted_text(phrase, "snake"))
+    insert(user.formatted_text(text, "snake"))
     insert("()")
     key(left)
 
-call [function] <phrase>:
-    insert(user.formatted_text(phrase, "snake"))
+call [function] <user.text>:
+    insert(user.formatted_text(text, "snake"))
     insert("()")
     key(left)
 
-capture <phrase>:
+capture <user.text>:
     insert("@mod.capture\ndef ")
-    insert(user.formatted_text(phrase, "snake"))
+    insert(user.formatted_text(text, "snake"))
     insert("(m) -> str:\n")
     insert('    "Returns a string"\n\n')
     insert("@ctx.capture(rule='{self.")
-    insert(user.formatted_text(phrase, "snake"))
+    insert(user.formatted_text(text, "snake"))
     insert("}')\ndef ")
-    insert(user.formatted_text(phrase, "snake"))
+    insert(user.formatted_text(text, "snake"))
     insert("(m) -> str:\n")
     insert('    "Returns a string"\n')
 

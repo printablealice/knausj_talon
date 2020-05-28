@@ -11,9 +11,9 @@ list [source]: "list\n"
 info source: "info source\n"
 
 print: "p "
-print [variable] <phrase>: "p {phrase}"
+print [variable] <user.text>: "p {text}"
 print hex: "p/x "
-print hex [variable] <phrase>: "p/x {phrase}"
+print hex [variable] <user.text>: "p/x {text}"
 print string: "p/s "
 
 # hexdumping

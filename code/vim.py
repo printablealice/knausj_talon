@@ -570,9 +570,9 @@ def vim_motions_with_character(m) -> str:
     return m.vim_motions_with_character + "".join(list(m)[1:])
 
 
-@ctx.capture(rule="{self.vim_motions_with_phrase} <phrase>")
+@ctx.capture(rule="{self.vim_motions_with_phrase} <user.text>")
 def vim_motions_with_phrase(m) -> str:
-    return "".join(list(m.vim_motions_with_phrase + m.phrase))
+    return "".join(list(m.vim_motions_with_phrase + m.text))
 
 
 @ctx.capture(

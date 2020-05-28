@@ -5,7 +5,7 @@ tag: terminal
 -
 (list|lisa): "ls\n"
 (list|lisa) long: "ls -al\n"
-(list|lisa) <phrase>: "ls {phrase}"
+(list|lisa) <user.text>: "ls {text}"
 (list|lisa) (deer|dir): "ls "
 
 # directory and files
@@ -41,7 +41,7 @@ touch: "touch "
 # file management
 move file: "mv "
 copy file: "cp "
-show me <phrase>: "cat {phrase}"
+show me <user.text>: "cat {text}"
 show me: "cat "
 less: "less "
 
@@ -82,8 +82,8 @@ locate: "locate "
 
 edit here: insert("edit .\n")
 
-edit <phrase>$:
-    insert("edit {phrase}")
+edit <user.text>$:
+    insert("edit {text}")
 
 edit:
     insert("edit ")
@@ -99,15 +99,15 @@ lazy edit:
     key("left")
     key("left")
 
-lazy edit <phrase>:
+lazy edit <user.text>:
     insert("edit ")
-    insert("$(find . -not -path '*/\.git/*' -name \"*{phrase}*\")\n")
+    insert("$(find . -not -path '*/\.git/*' -name \"*{text}*\")\n")
 
-find <phrase> inside (python|pie) files:
-    insert('$(find . -name \"*.py\") | xargs rg -i "{phrase}"\n')
+find <user.text> inside (python|pie) files:
+    insert('$(find . -name \"*.py\") | xargs rg -i "{text}"\n')
 
-find <phrase> inside (python|pie) files less:
-    insert('$(find . -name \"*.py\") | xargs rg -i "{phrase}\" | less\n')
+find <user.text> inside (python|pie) files less:
+    insert('$(find . -name \"*.py\") | xargs rg -i "{text}\" | less\n')
 
 man: "man "
 so do: "sudo "

@@ -27,16 +27,16 @@ last (page|tab):
 (page|tab) find:
     user.vimvixen_key("b")
     key(tab)
-(page|tab) find <phrase>:
+(page|tab) find <user.text>:
     user.vimvixen_key("b")
-    insert("{phrase}")
+    insert("{text}")
 (page|tab) open:
     user.vimvixen_key("escape")
     insert(":open ")
     key(tab)
-(page|tab) open <phrase>:
+(page|tab) open <user.text>:
     user.vimvixen_focus()
-    insert(":open {phrase}")
+    insert(":open {text}")
     key(tab)
 [(page|tab)] back:
     user.vimvixen_key("H")
@@ -72,21 +72,21 @@ focus:
     user.vimvixen_focus()
 search :
     user.vimvixen_key("ctrl-k")
-search for <phrase>:
+search for <user.text>:
     user.vimvixen_key("ctrl-k")
     sleep(100ms)
-    insert("{phrase}")
+    insert("{text}")
 # If you use ddg by default
 # duckduckgo google mode
-google <phrase>:
+google <user.text>:
     user.vimvixen_key("ctrl-k")
     sleep(100ms)
-    insert("!g {phrase}")
+    insert("!g {text}")
 # duckduckgo
-duck duck <phrase>:
+duck duck <user.text>:
     user.vimvixen_key("ctrl-k")
     sleep(100ms)
-    insert("{phrase}")
+    insert("{text}")
 
 #  Moving around
 (page|screen|scroll) down:
@@ -108,9 +108,9 @@ mark <user.letter>:
 go to mark <user.letter>':
     insert("%({letter})s")
 #  Searching
-find <phrase>:
+find <user.text>:
     user.vimvixen_key("/")
-    insert("{phrase}")
+    insert("{text}")
     user.vimvixen_key("enter")
 find:
     user.vimvixen_key("/")

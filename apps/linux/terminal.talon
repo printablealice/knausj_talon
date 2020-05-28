@@ -18,9 +18,9 @@ scroll down:
 run last:
   key(up)
   key(enter)
-rerun <phrase>:
+rerun <user.text>:
   key(ctrl-r)
-  insert(phrase)
+  insert(text)
 rerun search:
   key(ctrl-r)
 kill all:

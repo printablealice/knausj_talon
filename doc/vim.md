@@ -106,7 +106,7 @@ to termite, however the selection mode has serious drawbacks such as no line
 numbers, limited motion verbs, etc.
 
 If you choose to use them as your terminal than you have to make certain
-modifcations again to the talon configuration files, and the vim configuration
+modifications again to the talon configuration files, and the vim configuration
 in order for it to differentiate between terminal mode and wiimote
 
 First you'll have to ensure that the vim mode is correctly advertised in your
@@ -125,6 +125,25 @@ endif
 The `vim_terminal.talon` file can then match based off of the titles string
 above, in which case it will trigger `terminal` mode despite being inside of
 vim.
+
+### Neovim Terminal Quirks
+
+I try to document some potential problems you will encounter when moving your
+workflow into vim terminal for everything.
+
+https://gist.github.com/DrSpeedy/9022d3bee63a7029570c7d3d43054329
+
+### Working directory
+
+```
+# This function calls the script below when loaded by
+# the shell inside of neovim. It must be placed somewhere in
+# your default shell's rc file e.g. ~/.zshrc
+neovim_autocd() {
+    [[ $NVIM_LISTEN_ADDRESS ]] && ${HOME}/.ohmyzsh/custom/functions/neovim-autocd.py
+}
+chpwd_functions+=( neovim_autocd )
+```
 
 
 ### Installing neovim python package
