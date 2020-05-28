@@ -36,6 +36,7 @@ edit find results:
     insert("edit $(find . -name \"\")")
     edit.left()
     edit.left()
+run talon update: "~/.talon/bin/update\n"
 
 fuzzy vimdiff:
     insert("edit -d $(find . -name \"**\")")
