@@ -200,8 +200,8 @@ visual_commands = {
     "change": "c",
     "join": "J",
     "delete": "d",
-    "yank": "Y",  # XXX - conflicts with talon 'yank' alphabet for 'y' key
-    "copy": "Y",
+    "yank": "y",  # XXX - conflicts with talon 'yank' alphabet for 'y' key
+    "copy": "y",
     "format": "gq",
     "fold": "zf",
     # some visual differences

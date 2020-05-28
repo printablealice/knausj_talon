@@ -553,23 +553,23 @@ new mark <user.letter>:
     key(`)
     key(letter)
 (del|delete) (mark|marks):
-    user.vim_normal_mode(":delmarks ")
+    user.vim_normal_mode_exterm(":delmarks ")
 (del|delete) all (mark|marks):
-    user.vim_normal_mode(":delmarks! ")
+    user.vim_normal_mode_exterm(":delmarks! ")
 (list|show) [all] marks:
-    user.vim_normal_mode(":marks\n")
+    user.vim_normal_mode_exterm(":marks\n")
 (list|show) specific marks:
-    user.vim_normal_mode(":marks ")
+    user.vim_normal_mode_exterm(":marks ")
 (go|jump) [to] [last] edit: user.vim_normal_mode("`.")
-(go|jump) [to] [last] (cursor|location): user.vim_normal_mode("``")
+(go|jump) [to] [last] (cursor|location): user.vim_normal_mode_exterm("``")
 
 ###
 # Session
 ###
 # XXX - to be made mode-aware
-(make|save) session: ":mksession "
-force (make|save) session: ":mksession! "
-(load|open) session: user.vim_normal_mode(":source ")
+(make|save) session: user.vim_normal_mode_exterm(":mksession ")
+force (make|save) session: user.vim_normal_mode_exterm(":mksession! ")
+(load|open) session: user.vim_normal_mode_exterm(":source ")
 
 ###
 # Macros and registers ''
@@ -600,7 +600,7 @@ file info: user.vim_normal_mode_key(ctrl-g)
 extra file info:
     key(2)
     key(ctrl-g)
-vim help: user.vim_normal_mode(":help ")
+vim help: user.vim_normal_mode_exterm(":help ")
 
 ###
 # Mode Switching
@@ -613,12 +613,14 @@ overwrite: key(R)
 visual mode: user.vim_set_visual_mode()
 (visual|select|highlight) line: key(V)
 
+# XXX - need exterm
 visual block mode: key(ctrl-v)
 (visual|select|highlight) block: key(ctrl-v)
 
 ###
 # Searching
 ###
+# XXX - need exterm
 search:
     user.vim_any_motion_mode("/\c")
 
@@ -714,8 +716,8 @@ close all folds: user.vim_normal_mode("zM")
 # NOTE: These are here rather than nerdtree.talon to allow it to load the
 # split buffer, which in turn loads nerdtree.talon when focused. Don't move
 # these into nerdtree.talon for now
-nerd tree: vim.vim_normal_mode(":NERDTree\n")
-nerd find [current] file: vim.vim_normal_mode(":NERDTreeFind\n")
+nerd tree: user.vim_normal_mode_exterm(":NERDTree\n")
+nerd find [current] file: user.vim_normal_mode_exterm(":NERDTreeFind\n")
 
 ###
 # Testing
