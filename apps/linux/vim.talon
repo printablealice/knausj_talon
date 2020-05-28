@@ -153,6 +153,9 @@ save and (quit|close):
 (close|quit) all:
     user.vim_normal_mode_exterm(":qa")
 
+force (close|quit) all:
+    user.vim_normal_mode_exterm(":qa!")
+
 force (close|quit):
     user.vim_normal_mode_exterm(":q!\n")
 refresh file:
@@ -310,6 +313,12 @@ swap (selected|highlighted):
     key(left)
     key(left)
 
+sort (selected|highlighted):
+    insert(":")
+    # leave time for vim to populate '<,'>
+    sleep(50ms)
+    insert("sort\n")
+
 # assumes visual mode
 reswap (selected|highlighted):
     insert(":")
@@ -344,7 +353,7 @@ swap global:
 ###
 # Buffers
 ###
-((buf|buffer) list|list (buf|buffer)s): user.vim_normal_mode(":ls\n")
+((buf|buffer) list|list (buf|buffer)s): user.vim_normal_mode_exterm(":ls\n")
 (buf|buffer) (close|delete) <number>: user.vim_normal_mode_exterm(":bd {number} ")
 (close|delete) (buf|buffer) <number>: user.vim_normal_mode_exterm(":bd {number} ")
 (buf|buffer) close current: user.vim_normal_mode(":bd\n")
@@ -544,15 +553,15 @@ new mark <user.letter>:
     key(`)
     key(letter)
 (del|delete) (mark|marks):
-    user.vim_set_normal_mode(":delmarks ")
+    user.vim_normal_mode(":delmarks ")
 (del|delete) all (mark|marks):
-    user.vim_set_normal_mode(":delmarks! ")
+    user.vim_normal_mode(":delmarks! ")
 (list|show) [all] marks:
-    user.vim_set_normal_mode(":marks\n")
+    user.vim_normal_mode(":marks\n")
 (list|show) specific marks:
-    user.vim_set_normal_mode(":marks ")
-(go|jump) [to] [last] edit: user.vim_set_normal_mode("`.")
-(go|jump) [to] [last] (cursor|location): user.vim_set_normal_mode("``")
+    user.vim_normal_mode(":marks ")
+(go|jump) [to] [last] edit: user.vim_normal_mode("`.")
+(go|jump) [to] [last] (cursor|location): user.vim_normal_mode("``")
 
 ###
 # Session

@@ -65,10 +65,10 @@ op or: " || "
 (op | logical | bitwise) (ex | exclusive) or equals: " ^= "
 (op | logical | bitwise) (left shift | shift left) equals: " <<= "
 (op | logical | bitwise) (right shift | shift right) equals: " >>= "
-empty dubstring:
+empty (dubstring|dub quotes):
     '""'
     key(left)
-empty escaped dubstring:
+empty escaped (dubstring|dub quotes):
     '\\"\\"'
     key(left)
     key(left)
