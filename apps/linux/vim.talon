@@ -626,17 +626,17 @@ search sensitive:
     key(escape)
     user.vim_any_motion_mode("/\C")
 
-search <phrase>$:
-    user.vim_any_motion_mode("/\c{phrase}\n")
+search <user.text>$:
+    user.vim_any_motion_mode("/\c{text}\n")
 
-search <phrase> sensitive$:
-    user.vim_any_motion_mode("/\C{phrase}\n")
+search <user.text> sensitive$:
+    user.vim_any_motion_mode("/\C{text}\n")
 
-search <user.ordinals> <phrase>$:
-    user.vim_any_motion_mode("{ordinals}/\c{phrase}\n")
+search <user.ordinals> <user.text>$:
+    user.vim_any_motion_mode("{ordinals}/\c{text}\n")
 
-search (reversed|reverse) <phrase>$:
-    user.vim_any_motion_mode("?\c{phrase}\n")
+search (reversed|reverse) <user.text>$:
+    user.vim_any_motion_mode("?\c{text}\n")
 
 search (reversed|reverse):
     user.vim_any_motion_mode("?\c")
