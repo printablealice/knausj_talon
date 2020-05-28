@@ -2,7 +2,7 @@
 
 os:linux
 tag: browser
-win.title: /Gitlab/
+win.title: /GitLab/
 -
 
 # global shortcuts
