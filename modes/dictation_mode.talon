@@ -1,8 +1,8 @@
 mode: dictation
 -
-<phrase>:
+<user.text>:
     user.system_command('notify-send.sh -t 3000 -f -u low "Dictation Mode"')
-    dictate.natural(phrase)
+    insert(user.text)
     insert(" ")
 enter: key(enter)
 period: key(backspace . space)
