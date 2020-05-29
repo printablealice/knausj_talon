@@ -269,8 +269,8 @@ unindent [line] <number> through <number>$: user.vim_normal_mode(":{number_1},{n
 
 # deleting
 delete remaining [line]: user.vim_normal_mode_key("D")
-delete line (at|number) <number>$: user.vim_normal_mode(":{number}d\n")
-delete line (at|number) <number> through <number>$: user.vim_normal_mode(":{number_1},{number_2}d\n")
+delete line [at|number] <number>$: user.vim_normal_mode(":{number}d\n")
+delete (line|lines) [at|number] <number> through <number>$: user.vim_normal_mode(":{number_1},{number_2}d\n")
 
 # insert mode only
 clear line: key(ctrl-u)
@@ -280,7 +280,7 @@ clear line: key(ctrl-u)
 (copy|yank) line (at|number) <number> through <number>: user.vim_normal_mode_exterm(":{number_1},{number_2}y\n")
 
 # duplicating
-# XXX - these don't preserve INSERT, because they use multiple commands
+# XXX - these don't preserve INSERT atm because they use multiple commands
 (duplicate|paste) line <number> on line <number>$: user.vim_normal_mode_np(":{number_1}y\n:{number_2}\np")
 (duplicate|paste) line (at|number) <number> through <number>$: user.vim_normal_mode_np(":{number_1},{number_2}y\np")
 (duplicate|paste) line <number>$: user.vim_normal_mode_np(":{number}y\np")
@@ -307,7 +307,7 @@ inject <user.any> after:
 # XXX - look into how this works
 filter line: "=="
 
-# XXX - could preserve if swapped into two calls
+# XXX - could preserve INSERT if swapped into two calls
 [add] gap above:
     user.vim_normal_mode_np(":pu! _\n:'[+1\n")
 [add] gap below:
