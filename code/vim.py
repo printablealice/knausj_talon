@@ -16,7 +16,6 @@
 # XXX - add custom lists of commands for terminal mode enforcement
 # XXX - document that visual selection mode implies terminal escape
 # XXX - some surround stuff stopped working
-# XXX - undo usage is awful, possibly a bug, or possibly just detection
 
 import time
 
@@ -24,13 +23,6 @@ from talon import Context, Module, actions, settings, ui
 
 mod = Module()
 ctx = Context()
-
-# mode ids represent more generic statusline mode() values. see :help mode()
-# XXX - put these in the class only at some point
-NORMAL = 1
-VISUAL = 2
-INSERT = 3
-TERMINAL = 4
 
 
 ctx.lists["self.vim_arrow"] = {
@@ -131,6 +123,9 @@ ctx.lists["self.vim_counted_actions"] = {
     "half page up": "<C-u>",
     "indent line": ">>",
     "unindent line": "<<",
+    "delete line": "dd",
+    "yank line": "Y",
+    "copy line": "Y",
     "scroll left": "zh",
     "scroll right": "zl",
     "scroll half screen left": "zH",
@@ -145,6 +140,10 @@ ctx.lists["self.vim_counted_actions"] = {
     # XXX - custom
     "panic": "u",
 }
+
+standard_counted_action = {"panic": "u"}
+custom_counted_action = {"panic": "u"}
+# XXX - merge list above into standard motion actions
 
 
 ctx.lists["self.vim_jump_range"] = {
@@ -291,8 +290,10 @@ ctx.lists["self.vim_motions_with_character"] = {
     "jump to mark": "'",
     "find": "f",
     "find reversed": "F",
+    "find previous": "F",
     "till": "t",
     "till reversed": "T",
+    "till previous": "T",
 }
 
 # all of these motions take a phrase argument
@@ -361,23 +362,39 @@ mod.setting(
     default=1,
     desc="If normal mode actions are called from insert mode, stay in insert",
 )
+
 mod.setting(
     "vim_adjust_modes",
     type=int,
     default=1,
     desc="User wants talon to automatically adjust modes for commands",
 )
+
 mod.setting(
     "vim_notify_mode_changes",
     type=int,
     default=0,
     desc="Notify user about vim mode changes as they occur",
 )
+
 mod.setting(
     "vim_escape_terminal_mode",
     type=int,
     default=0,
     desc="When set won't limit what motions and commands will pop out of terminal mode",
+)
+mod.setting(
+    "vim_cancel_queued_commands",
+    type=int,
+    default=1,
+    desc="Press escape before issuing commands, to cancel previously queued command that might have been in error",
+)
+
+mod.setting(
+    "vim_cancel_queued_commands_timeout",
+    type=float,
+    default=0.3,
+    desc="How long to wait in seconds before issuing the real command after canceling",
 )
 
 # Standard VIM motions and action
@@ -587,7 +604,7 @@ def vim_motions_all(m) -> str:
 )
 def vim_motions_all_adjust(m) -> str:
     v = VimMode()
-    v.adjust_mode([NORMAL, VISUAL])
+    v.set_any_motion_mode()
     return "".join(list(m))
 
 
@@ -645,7 +662,7 @@ def vim_motion_commands(m) -> str:
     v = VimMode()
     if v.is_visual_mode():
         if str(m) in visual_commands:
-            print("issuing visual mode command")
+            # print("issuing visual mode command")
             return visual_commands[str(m)]
     # Note this throws away commands that matched visual mode only stuff,
     # because if not in visual mode already, there is no selection anyway so
@@ -669,15 +686,8 @@ def vim_normal_counted_motion_command(m) -> str:
 def vim_normal_counted_action(m) -> str:
     # XXX - may need to do action-specific mode checking
     v = VimMode()
-    v.adjust_mode([NORMAL, VISUAL])
-
-    # XXX - This is to save me from myself. Often I will say `delete line` and
-    # it will trigger `@delete` and `@nine`. This then keys 9. I then say
-    # `undo` to fix the bad delete, which does 9 undos. Chaos ensues.. the
-    # caveat is you can't do counted undoes, unless you use ordinals
-    if m.vim_counted_actions == "u":
-        actions.key("escape")
-        time.sleep(0.2)
+    v.cancel_queued_commands()
+    v.set_any_motion_mode()
     return "".join(list(m))
 
 
@@ -759,7 +769,7 @@ class Actions:
         v = VimMode()
         v.set_normal_mode()
         for key in keys:
-            print(key)
+            # print(key)
             actions.key(key)
 
     def vim_visual_mode(cmd: str):
@@ -790,6 +800,12 @@ class Actions:
 
 
 class VimMode:
+    # mode ids represent more generic statusline mode() values. see :help mode()
+    NORMAL = 1
+    VISUAL = 2
+    INSERT = 3
+    TERMINAL = 4
+
     # XXX - not really necessary here, but just used to sanity check for now
     # MODE:<mode()> is actually right for now.
     vim_modes = {
@@ -853,44 +869,44 @@ class VimMode:
 
     def current_mode_id(self):
         if self.is_normal_mode():
-            return NORMAL
+            return self.NORMAL
         elif self.is_visual_mode():
-            return VISUAL
+            return self.VISUAL
         elif self.is_insert_mode():
-            return INSERT
+            return self.INSERT
         elif self.is_terminal_mode():
-            return TERMINAL
+            return self.TERMINAL
 
     def set_normal_mode(self, auto=True):
-        self.adjust_mode(NORMAL, auto=auto)
+        self.adjust_mode(self.NORMAL, auto=auto)
 
     def set_normal_mode_exterm(self):
-        self.adjust_mode(NORMAL, escape_terminal=True)
+        self.adjust_mode(self.NORMAL, escape_terminal=True)
 
     # XXX - fix the auto stuff, maybe have separate method version or something
 
     # XXX - should np imply exterm? as not preserving is a fairly big
     # operation?
     def set_normal_mode_np(self, auto=True):
-        self.adjust_mode(NORMAL, no_preserve=True, auto=auto)
+        self.adjust_mode(self.NORMAL, no_preserve=True, auto=auto)
 
     def set_visual_mode(self):
-        self.adjust_mode(VISUAL)
+        self.adjust_mode(self.VISUAL)
 
     def set_visual_mode_np(self):
-        self.adjust_mode(VISUAL, no_preserve=True)
+        self.adjust_mode(self.VISUAL, no_preserve=True)
 
     def set_insert_mode(self):
-        self.adjust_mode(INSERT)
+        self.adjust_mode(self.INSERT)
 
     def set_terminal_mode(self):
-        self.adjust_mode(TERMINAL)
+        self.adjust_mode(self.TERMINAL)
 
     def set_any_motion_mode(self):
-        self.adjust_mode([NORMAL, VISUAL])
+        self.adjust_mode([self.NORMAL, self.VISUAL])
 
     def set_any_motion_mode_np(self):
-        self.adjust_mode(NORMAL, no_preserve=True)
+        self.adjust_mode(self.NORMAL, no_preserve=True)
 
     def adjust_mode(
         self, valid_mode_ids, no_preserve=False, escape_terminal=False, auto=True
@@ -899,7 +915,7 @@ class VimMode:
             return
 
         cur = self.current_mode_id()
-        print("Current mode is {}".format(cur))
+        # print("Current mode is {}".format(cur))
         if type(valid_mode_ids) != list:
             valid_mode_ids = [valid_mode_ids]
         if cur not in valid_mode_ids:
@@ -910,18 +926,31 @@ class VimMode:
                 escape_terminal=escape_terminal,
             )
 
+    # Often I will say `delete line` and it will trigger `@delete` and `@nine`.
+    # This then keys 9. I then say `undo` to fix the bad delete, which does 9
+    # undos. Chaos ensues... the seeks to fix that
+    def cancel_queued_commands(self):
+        if (
+            settings.get("user.vim_cancel_queued_commands") == 1
+            and self.is_normal_mode()
+        ):
+            print("escaping queued cmd")
+            actions.key("escape")
+            timeout = settings.get("user.vim_cancel_queued_commands_timeout")
+            time.sleep(timeout)
+
     # XXX - should switch this to neovim RPC when available
     # for now we simply use keyboard binding combinations
     def set_mode(self, wanted_mode, no_preserve=False, escape_terminal=False):
         current_mode = self.get_active_mode()
 
         if current_mode == wanted_mode or (
-            self.is_terminal_mode() and wanted_mode == INSERT
+            self.is_terminal_mode() and wanted_mode == self.INSERT
         ):
-            print("already in wanted mode")
+            # print("already in wanted mode")
             return
 
-        print("Setting mode to {}".format(wanted_mode))
+        # print("Setting mode to {}".format(wanted_mode))
         # enter normal mode where necessary
         if self.is_terminal_mode():
             if (
@@ -929,7 +958,7 @@ class VimMode:
                 or escape_terminal is True
             ):
                 # break out of terminal mode
-                print("escaping terminal")
+                # print("escaping terminal")
                 actions.key("ctrl-\\")
                 actions.key("ctrl-n")
             else:
@@ -942,19 +971,19 @@ class VimMode:
                 # scenerios, where you won't break into the encapsulating vim
                 # instance. Needs to be tested. If you don't like this, you can
                 # set vim_escape_terminal_mode to 1
-                print("skipping terminal escape")
+                # print("skipping terminal escape")
                 actions.key("escape")
                 time.sleep(0.2)
         elif self.is_insert_mode():
             if (
-                wanted_mode == NORMAL
+                wanted_mode == self.NORMAL
                 and no_preserve is False
                 and settings.get("user.vim_preserve_insert_mode") >= 1
             ):
-                print("preserving insert mode")
+                # print("preserving insert mode")
                 actions.key("ctrl-o")
             else:
-                print("entering normal mode")
+                # print("entering normal mode")
                 # We press right because enter normal mode via escape puts the
                 # cursor back one position, so otherwise misaligns on words.
                 actions.key("right")
@@ -962,20 +991,30 @@ class VimMode:
                 time.sleep(0.2)
                 #
         elif self.is_visual_mode():
-            print("entering normal mode")
+            # print("entering normal mode")
             actions.key("escape")
             time.sleep(0.2)
 
-        # switch to explicit mode if necessary
-        if wanted_mode == INSERT:
-            actions.key("i")
         # XXX - need to support other mode changes
+
+        # switch to explicit mode if necessary
+        if wanted_mode == self.INSERT:
+            actions.key("i")
         # or just let the original 'mode' command run from this point
-        elif wanted_mode == VISUAL:
+        elif wanted_mode == self.VISUAL:
+            # first we cancel queued normal commands that might mess with 'v'
+            # ex: normal mode press 5, then press v to switch to visual
+            actions.key("escape")
             actions.key("v")
 
         # Here we assume we are now in some normalized state:
         # need to make the notify command configurable
         if settings.get("user.vim_notify_mode_changes") >= 1:
-            # user.system_command("notify-send.sh -t 3000 \"{} mode\").format()
+            self.notify_mode_change(wanted_mode)
             ...
+
+    def notify_mode_change(self, mode):
+        """Function to be customized by talon user to determine how they want
+        notifications on mode changes"""
+        # .system_command('notify-send.sh -t 3000 "{} mode"'.format(mode))
+        pass
