@@ -32,59 +32,6 @@ ctx.lists["self.vim_arrow"] = {
     "down": "j",
 }
 
-# Specific to the vim-sorround plugin
-ctx.lists["self.vim_surround_targets"] = {
-    "stars": "*",
-    "asterisks": "*",
-    "word": "w",
-    "big word": "W",
-    "block": "b",
-    "big block": "B",
-    # Match Talon naming
-    "dubstring": '"',
-    "dub string": '"',
-    "dubquotes": '"',
-    "dub quotes": '"',
-    "double quotes": '"',
-    # Match Talon naming
-    "quotes": "'",
-    "string": "'",
-    "single quotes": "'",
-    "loose parens": "(",
-    "loose parenthesis": "(",
-    "loose angle brackets": "<",
-    "loose curly braces": "{",
-    "loose braces": "{",
-    "loose square brackets": "[",
-    "loose brackets": "[",
-    "tight parens": ")",
-    "tight parenthesis": ")",
-    "tight angle brackets": ">",
-    "tight curly braces": "}",
-    "tight braces": "}",
-    "tight square brackets": "]",
-    "tight brackets": "]",
-    "parens": ")",
-    "parenthesis": ")",
-    "angle brackets": ">",
-    "angles": ">",
-    "curly braces": "}",
-    "braces": "}",
-    "square brackets": "]",
-    "squares": "]",
-    "brackets": "]",
-    "backticks": "`",
-    "sentence": "s",
-    "paragraph": "p",
-    "space": "  ",  # double spaces is required because surround gets confused
-    "spaces": "  ",
-    "tags": "t",
-    "h1 tags": "<h1>",
-    "h2 tags": "<h2>",
-    "div tags": "<div>",
-    "bold tags": "<b>",
-}
-
 # XXX - need to break into normal, visual, etc
 ctx.lists["self.vim_counted_actions"] = {
     "after": "a",
@@ -323,6 +270,7 @@ ctx.lists["self.vim_text_object_range"] = {
     "this": "a",
 }
 
+# XXX - Should match more wording in vim_surround_targets
 ctx.lists["self.vim_text_object_select"] = {
     "word": "w",
     "words": "w",
@@ -357,6 +305,60 @@ ctx.lists["self.vim_text_object_select"] = {
     "paragraphs": "p",
     "tag block": "t",
 }
+
+# Specific to the vim-surround plugin
+ctx.lists["self.vim_surround_targets"] = {
+    "stars": "*",
+    "asterisks": "*",
+    "word": "w",
+    "big word": "W",
+    "block": "b",
+    "big block": "B",
+    # Match Talon naming
+    "dubstring": '"',
+    "dub string": '"',
+    "dubquotes": '"',
+    "dub quotes": '"',
+    "double quotes": '"',
+    # Match Talon naming
+    "quotes": "'",
+    "string": "'",
+    "single quotes": "'",
+    "loose parens": "(",
+    "loose parenthesis": "(",
+    "loose angle brackets": "<",
+    "loose curly braces": "{",
+    "loose braces": "{",
+    "loose square brackets": "[",
+    "loose brackets": "[",
+    "tight parens": ")",
+    "tight parenthesis": ")",
+    "tight angle brackets": ">",
+    "tight curly braces": "}",
+    "tight braces": "}",
+    "tight square brackets": "]",
+    "tight brackets": "]",
+    "parens": ")",
+    "parenthesis": ")",
+    "angle brackets": ">",
+    "angles": ">",
+    "curly braces": "}",
+    "braces": "}",
+    "square brackets": "]",
+    "squares": "]",
+    "brackets": "]",
+    "backticks": "`",
+    "sentence": "s",
+    "paragraph": "p",
+    "space": "  ",  # double spaces is required because surround gets confused
+    "spaces": "  ",
+    "tags": "t",
+    "h1 tags": "<h1>",
+    "h2 tags": "<h2>",
+    "div tags": "<div>",
+    "bold tags": "<b>",
+}
+
 
 mod.tag("vim", desc="a tag to load various vim plugins")
 mod.setting(
