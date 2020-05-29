@@ -125,7 +125,7 @@ ctx.lists["self.vim_counted_actions"] = {
     "unindent line": "<<",
     "delete line": "dd",
     "yank line": "Y",
-    "copy line": "Y",
+    # "copy line": "Y",
     "scroll left": "zh",
     "scroll right": "zl",
     "scroll half screen left": "zH",
@@ -184,6 +184,9 @@ commands_with_motion = {
     "an indent": "<",
     "un indent": "<",
     "yank": "y",  # XXX - conflicts with talon 'yank' alphabet for 'y' key
+    # NOTE: If you enable this and yank at the same time, some convenience
+    # commands you might setup for automatic copying might get swallowed by
+    # vim.py grammars
     "copy": "y",
     "fold": "zf",
     "format": "gq",

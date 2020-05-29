@@ -704,13 +704,13 @@ reselect: user.vim_normal_mode_np("gv")
     key(ctrl-\)
     key(ctrl-n)
 
-split (term|terminal):
+[new] split (term|terminal):
     # NOTE: if your using zsh you might have to switch this, though depending
     # on your setup it will still work (this loads zsh on mine)
-    user.vim_normal_mode(":split term://bash\n")
+    user.vim_normal_mode_exterm(":split term://bash\n")
 
-vertical split (term|terminal):
-    user.vim_normal_mode(":vsplit term://bash\n")
+[new] vertical split (term|terminal):
+    user.vim_normal_mode_exterm(":vsplit term://bash\n")
 
 ###
 # Folding
