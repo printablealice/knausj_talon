@@ -34,6 +34,7 @@ ctx.lists["user.abbreviation"] = {
     "context": "ctx",
     "control": "ctrl",
     "database": "db",
+    "debug": "dbg",
     "define": "def",
     "definition": "def",
     "description": "desc",
