@@ -60,6 +60,11 @@ settings():
     # in seconds
     user.vim_cancel_queued_commands_timeout = 0.3
 
+    # It how long to wait before issuing commands after a mode change. You
+    # want adjust this if when you say things like undo from INSERT mode, an
+    # "u" gets inserted into INSERT mode
+    user.vim_mode_change_timeout = 0.3
+
 ###
 # Actions - Talon generic_editor.talon implementation
 ###
@@ -541,7 +546,7 @@ move tab left: user.vim_normal_mode_exterm(":tabm -\n")
 ###
 # Settings
 ###
-# XXX - this is a weird edge he because we actually probably want to slip back
+# XXX - this is a weird edge case because we actually probably want to slip back
 # to the terminal mode after setting options, but atm
 # user.vim_normal_mode_exterm() implies no preservation
 (show|set) highlight [search]: user.vim_normal_mode_exterm(":set hls\n")
@@ -678,8 +683,8 @@ run as python:
     user.vim_normal_mode_np(":w\n")
     insert(":exec '!python' shellescape(@%, 1)\n")
 
-remove trailing white space: vim.vim_normal_mode(":%s/\s\+$//e\n")
-(remove all|normalize) tabs: vim.vim_normal_mode(":%s/\t/    /eg\n")
+remove trailing white space: user.vim_normal_mode(":%s/\s\+$//e\n")
+(remove all|normalize) tabs: user.vim_normal_mode(":%s/\t/    /eg\n")
 
 
 ###
@@ -699,7 +704,9 @@ reselect: user.vim_normal_mode_np("gv")
 ###
 # Terminal mode
 #
-# NOTE: Only applicable to newer vim and neovim
+# NOTE: Only applicable to newer vim and neovim. Duplicate command with
+# vim_terminal.talon, but included in case user doesn't have `VIM mode:t` in
+# titlestring
 ###
 (escape|pop) terminal:
     key(ctrl-\)

@@ -16,6 +16,12 @@
 # XXX - add custom lists of commands for terminal mode enforcement
 # XXX - document that visual selection mode implies terminal escape
 # XXX - some surround stuff stopped working
+# XXX - eventually use nvim RPC to confirm mode changes vs relying on a time
+#       delay that is buggy depending on your cpu consumption
+# XXX - add setting for disabling local terminal escape when running inside
+#       remote vim sessions via ssh, etc
+# XXX - make all existing sleep times configurable settings via .talon
+# XXX - need to support other mode changes (command, replace, etc)
 
 import time
 
@@ -400,6 +406,13 @@ mod.setting(
     type=float,
     default=0.3,
     desc="How long to wait in seconds before issuing the real command after canceling",
+)
+
+mod.setting(
+    "vim_mode_change_timeout",
+    type=float,
+    default=0.2,
+    desc="It how long to wait before issuing commands after a mode change",
 )
 
 # Standard VIM motions and action
@@ -955,6 +968,7 @@ class VimMode:
             # print("already in wanted mode")
             return
 
+        timeout = settings.get("user.vim_mode_change_timeout")
         # print("Setting mode to {}".format(wanted_mode))
         # enter normal mode where necessary
         if self.is_terminal_mode():
@@ -978,7 +992,7 @@ class VimMode:
                 # set vim_escape_terminal_mode to 1
                 # print("skipping terminal escape")
                 actions.key("escape")
-                time.sleep(0.2)
+                time.sleep(timeout)
         elif self.is_insert_mode():
             if (
                 wanted_mode == self.NORMAL
@@ -993,14 +1007,11 @@ class VimMode:
                 # cursor back one position, so otherwise misaligns on words.
                 actions.key("right")
                 actions.key("escape")
-                time.sleep(0.2)
-                #
+                time.sleep(timeout)
         elif self.is_visual_mode():
             # print("entering normal mode")
             actions.key("escape")
-            time.sleep(0.2)
-
-        # XXX - need to support other mode changes
+            time.sleep(timeout)
 
         # switch to explicit mode if necessary
         if wanted_mode == self.INSERT:
