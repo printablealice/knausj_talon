@@ -30,7 +30,7 @@ class <user.text>:
     insert("():\n")
 state switch:
     insert("switch ()")
-wedit.left()
+    edit.left()
 state case:
     insert("case \nbreak;")
     edit.up()

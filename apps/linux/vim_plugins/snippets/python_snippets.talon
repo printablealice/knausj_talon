@@ -53,10 +53,6 @@ code.language: python
     user.vim_insert_mode("try")
     key(tab)
 
-(snip|snippet) if if else$:
-    user.vim_insert_mode("ifee")
-    key(tab)
-
 ###
 # Private snippets
 #

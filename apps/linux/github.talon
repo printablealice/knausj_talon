@@ -56,9 +56,5 @@ other parent commit: key(o)
 mark as read: key(y)
 mute thread: key(shift-m)
 
-# dashboards
-go to issues: insert("gi")
-go to pull requests: insert("gp")
-
 # pull request list
 open issue: key(o)
