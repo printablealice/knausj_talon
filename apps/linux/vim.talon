@@ -12,6 +12,7 @@
 #  - specify specific buffer into split
 #  - add support for moving buffer to tabs
 #  - support more clearing of queued vim commands, ex: go to line, etc
+#  - add an insert command for just saying text and force to insert mode
 
 os:linux
 app:gvim
@@ -455,23 +456,23 @@ split rotate left:
     user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(R)
-move split top:
+split move top:
     user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(K)
-move split bottom:
+split move bottom:
     user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(J)
-move split right:
+split move right:
     user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(H)
-move split left:
+split move left:
     user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(L)
-move split to tab:
+split move to tab:
     user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(T)
@@ -684,7 +685,7 @@ remove trailing white space: vim.vim_normal_mode(":%s/\s\+$//e\n")
 ###
 # Auto completion
 ###
-# XXX - revisit these
+# XXX - revisit these you complete me plug in
 complete: key(ctrl-n)
 complete next: key(ctrl-n)
 complete previous: key(ctrl-n)
@@ -704,7 +705,8 @@ reselect: user.vim_normal_mode_np("gv")
     key(ctrl-\)
     key(ctrl-n)
 
-[new] split (term|terminal):
+# XXX - this may conflict with i3wm shell spawning
+[new] (split|horizontal) (term|terminal):
     # NOTE: if your using zsh you might have to switch this, though depending
     # on your setup it will still work (this loads zsh on mine)
     user.vim_normal_mode_exterm(":split term://bash\n")
