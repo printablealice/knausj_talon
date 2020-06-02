@@ -11,7 +11,7 @@ surround <user.vim_text_objects> with <user.vim_surround_targets>:
     user.vim_normal_mode("ys{vim_text_objects}{vim_surround_targets}")
 
 surround <user.vim_motions_all_adjust> with <user.vim_surround_targets>:
-    user.vim_normal_mode("ys{vim_motion_all_adjust}{vim_surround_targets}")
+    user.vim_normal_mode("ys{vim_motions_all_adjust}{vim_surround_targets}")
 
 surround <user.vim_unranged_surround_text_objects> with <user.vim_surround_targets>:
     user.vim_normal_mode("ys{vim_unranged_surround_text_objects}{vim_surround_targets}")
