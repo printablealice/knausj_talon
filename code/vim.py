@@ -1,6 +1,6 @@
-# Talon VIM - ported from vimspeak: https://github.com/AshleyF/VimSpeak
+# Talon VIM - inspired by vimspeak: https://github.com/AshleyF/VimSpeak
+# see doc/vim.md
 #
-# XXX - probably a lot of the captures could be cleaned up
 # XXX - the old vim speak special characters needs to be replaced to a the
 #       existing talon ones
 # XXX - Add support for ordinal motions: "delete 5th word","find second <char>"
@@ -20,8 +20,9 @@
 #       delay that is buggy depending on your cpu consumption
 # XXX - add setting for disabling local terminal escape when running inside
 #       remote vim sessions via ssh, etc
-# XXX - make all existing sleep times configurable settings via .talon
 # XXX - need to support other mode changes (command, replace, etc)
+# XXX - import and test scenario where the mode isn't listed at all
+# XXX - add test cases
 
 import time
 
@@ -34,8 +35,9 @@ ctx.matches = r"""
 win.title:/VIM/
 """
 
-# This will be based on you using a custom title string like this:
+# Based on you using a custom title string like this:
 # let &titlestring ='VIM MODE:%{mode()} (%f) %t'
+# see doc/vim.md
 @ctx.action_class("win")
 class win_actions:
     def filename():
@@ -431,7 +433,7 @@ mod.setting(
 mod.setting(
     "vim_mode_change_timeout",
     type=float,
-    default=0.2,
+    default=0.3,
     desc="It how long to wait before issuing commands after a mode change",
 )
 
@@ -620,7 +622,6 @@ def vim_motions_with_upper_character(m) -> str:
 @ctx.capture(
     rule="{self.vim_motions_with_character} (<user.letter>|<user.number>|<user.symbol>)$"
 )
-# @ctx.capture(rule='{self.vim_motions_with_character} <user.any>')
 def vim_motions_with_character(m) -> str:
     return m.vim_motions_with_character + "".join(list(m)[1:])
 
@@ -700,7 +701,6 @@ def vim_motion_commands(m) -> str:
     v = VimMode()
     if v.is_visual_mode():
         if str(m) in visual_commands:
-            # print("issuing visual mode command")
             return visual_commands[str(m)]
     # Note this throws away commands that matched visual mode only stuff,
     # because if not in visual mode already, there is no selection anyway so
@@ -816,7 +816,6 @@ class Actions:
         v.set_visual_mode()
         actions.insert(cmd)
 
-    def vim_insert_mode(cmd: str):
         """run a given list of commands in insert mode"""
         v = VimMode()
         v.set_insert_mode()
@@ -845,7 +844,6 @@ class VimMode:
     TERMINAL = 4
 
     # XXX - not really necessary here, but just used to sanity check for now
-    # MODE:<mode()> is actually right for now.
     vim_modes = {
         "n": "Normal",
         "no": "N Operator Pending",
