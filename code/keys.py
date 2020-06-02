@@ -3,7 +3,11 @@ from typing import Set
 
 from talon import Context, Module, actions
 
-default_alphabet = "air bat cap drum each fine gust harp sit jury crunch look made near odd peck quench red sun trap urge vest whale plex yell zip".split(
+# My experience:
+#   fine - conflicts with find
+#   pit  - conflicts with page
+#   yank - conflicts with vim
+default_alphabet = "air bat cap drum each fin gust harp sit jury crunch look made near odd peck quench red sun trap urge vest whale plex yell zip".split(
     " "
 )
 letters_string = "abcdefghijklmnopqrstuvwxyz"
