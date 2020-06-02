@@ -305,10 +305,12 @@ push file:
 # helpful for fixing typos or bad lexicons that miss a character
 inject <user.any> [before]:
     user.vim_insert_mode("{any}")
+    # since there is no ctrl-o equiv coming from normal
     key(escape)
 
 inject <user.any> after:
     user.vim_normal_mode("a{any}")
+    # since we can't perserve mode with ctrl-o
     key(escape)
 
 # XXX - look into how this works

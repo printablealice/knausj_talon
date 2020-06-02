@@ -725,7 +725,11 @@ def vim_normal_counted_action(m) -> str:
     # XXX - may need to do action-specific mode checking
     v = VimMode()
     v.cancel_queued_commands()
-    v.set_any_motion_mode()
+    if m.vim_counted_actions == "u":
+        # undo doesn't work with ctrl-o it seems
+        v.set_any_motion_mode_np()
+    else:
+        v.set_any_motion_mode()
     return "".join(list(m))
 
 
@@ -769,6 +773,18 @@ class Actions:
         """set terminal mode"""
         v = VimMode()
         v.set_terminal_mode()
+
+    def vim_insert_mode(cmd: str):
+        """run a given list of commands in normal mode, preserve mode"""
+        v = VimMode()
+        v.set_insert_mode()
+        actions.insert(cmd)
+
+    def vim_insert_mode_np(cmd: str):
+        """run a given list of commands in normal mode, don't preserve"""
+        v = VimMode()
+        v.set_insert_mode_np()
+        actions.insert(cmd)
 
     def vim_normal_mode(cmd: str):
         """run a given list of commands in normal mode, preserve INSERT"""
@@ -983,7 +999,6 @@ class VimMode:
         if current_mode == wanted_mode or (
             self.is_terminal_mode() and wanted_mode == self.INSERT
         ):
-            # print("already in wanted mode")
             return
 
         timeout = settings.get("user.vim_mode_change_timeout")
@@ -1015,6 +1030,8 @@ class VimMode:
                 and no_preserve is False
                 and settings.get("user.vim_preserve_insert_mode") >= 1
             ):
+                # XXX - make this a configurable option
+                actions.key("ctrl-\\")  # don't move the cursor on mode switch
                 actions.key("ctrl-o")
             else:
                 # Presses right because entering normal mode via escape puts
@@ -1022,6 +1039,7 @@ class VimMode:
                 # Exception is `2 delete big-back` from INSERT mode.
                 actions.key("right")
                 actions.key("escape")
+
             time.sleep(timeout)
         elif self.is_visual_mode():
             actions.key("escape")
