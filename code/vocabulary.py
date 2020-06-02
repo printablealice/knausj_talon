@@ -66,6 +66,7 @@ simple_vocabulary = [
     "lambda",
     "daemon",
     "poc",
+    "byte",
 ]
 
 mapping_vocabulary = {
@@ -79,11 +80,16 @@ mapping_vocabulary = {
     "parky": "poccy",
     "i low": "ilo",
     "win thirty two k": "win32k",
-    "win two k three": "win2k3",
-    "win two k eight": "win2k8",
-    "win two k twelve": "win2k12",
-    "win two k sixteen": "win2k16",
-    "win two k nineteen": "win2k19",
+    "win two key three": "win2k3",
+    "win two key eight": "win2k8",
+    "win two key twelve": "win2k12",
+    "win two key sixteen": "win2k16",
+    "win two key nineteen": "win2k19",
+    "two key three": "2k3",
+    "two key eight": "2k8",
+    "two key twelve": "2k12",
+    "two key sixteen": "2k16",
+    "two key nineteen": "2k19",
     "as p three": "sp3",
     "as p to": "sp2",
     "as p one": "sp1",
@@ -126,6 +132,10 @@ mapping_vocabulary = {
     "he low": "helo",
     "damon": "daemon",
     "frack": "phrack",
+    "no prob": "np",
+    "higher key": "heirarchy",
+    "ex ease": "exes",
+    "ex ee": "exe",
 }
 
 mapping_vocabulary.update(dict(zip(simple_vocabulary, simple_vocabulary)))
