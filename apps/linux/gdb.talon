@@ -58,8 +58,9 @@ finish [function]: "finish\n"
 source: "source \t\t"
 
 # stepping
-step line: "step\n"
+step line: "stepi\n"
 (step over|next) line: "next\n"
+(step over|next) instruction: "nexti\n"
 
 # displays
 # XXX - move thee invoke command into a python script
