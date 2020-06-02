@@ -30,6 +30,26 @@ from talon import Context, Module, actions, settings, ui
 mod = Module()
 ctx = Context()
 
+ctx.matches = r"""
+win.title:/VIM/
+"""
+
+# This will be based on you using a custom title string like this:
+# let &titlestring ='VIM MODE:%{mode()} (%f) %t'
+@ctx.action_class("win")
+class win_actions:
+    def filename():
+        title = actions.win.title()
+        result = title.split(")")
+        if len(result) > 1:
+            result = result[1]
+        if "." in result:
+            return result
+        return ""
+
+    def file_ext():
+        return actions.win.filename().split(".")[-1]
+
 
 ctx.lists["self.vim_arrow"] = {
     "left": "h",
@@ -977,7 +997,6 @@ class VimMode:
                 or escape_terminal is True
             ):
                 # break out of terminal mode
-                # print("escaping terminal")
                 actions.key("ctrl-\\")
                 actions.key("ctrl-n")
             else:
@@ -990,7 +1009,6 @@ class VimMode:
                 # scenerios, where you won't break into the encapsulating vim
                 # instance. Needs to be tested. If you don't like this, you can
                 # set vim_escape_terminal_mode to 1
-                # print("skipping terminal escape")
                 actions.key("escape")
                 time.sleep(timeout)
         elif self.is_insert_mode():
@@ -999,17 +1017,15 @@ class VimMode:
                 and no_preserve is False
                 and settings.get("user.vim_preserve_insert_mode") >= 1
             ):
-                # print("preserving insert mode")
                 actions.key("ctrl-o")
             else:
-                # print("entering normal mode")
-                # We press right because enter normal mode via escape puts the
-                # cursor back one position, so otherwise misaligns on words.
+                # Presses right because entering normal mode via escape puts
+                # the cursor back one position, otherwise misaligns on words.
+                # Exception is `2 delete big-back` from INSERT mode.
                 actions.key("right")
                 actions.key("escape")
-                time.sleep(timeout)
+            time.sleep(timeout)
         elif self.is_visual_mode():
-            # print("entering normal mode")
             actions.key("escape")
             time.sleep(timeout)
 

@@ -13,6 +13,7 @@
 #  - add support for moving buffer to tabs
 #  - support more clearing of queued vim commands, ex: go to line, etc
 #  - add an insert command for just saying text and force to insert mode
+#  - consider making go mandatory for buffer and tab switching
 
 os:linux
 app:gvim
@@ -379,13 +380,13 @@ swap global:
 (delete|close) (current|this) buffer: user.vim_normal_mode_exterm(":bd\n")
 force (buf|buffer) close: user.vim_normal_mode_exterm(":bd!\n")
 (buf|buffer) open: user.vim_normal_mode_exterm(":b ")
-(buf|buffer) (first|rewind): user.vim_normal_mode_exterm(":br\n")
-(buf|buffer) (left|prev): user.vim_normal_mode_exterm(":bprev\n")
-(buf|buffer) (right|next): user.vim_normal_mode_exterm(":bnext\n")
-(buf|buffer) flip: user.vim_normal_mode_exterm(":b#\n")
-(buf|buffer) last: user.vim_normal_mode_exterm(":bl\n")
+[go] (buf|buffer) (first|rewind): user.vim_normal_mode_exterm(":br\n")
+[go] (buf|buffer) (left|prev): user.vim_normal_mode_exterm(":bprev\n")
+[go] (buf|buffer) (right|next): user.vim_normal_mode_exterm(":bnext\n")
+[go] (buf|buffer) flip: user.vim_normal_mode_exterm(":b#\n")
+[go] (buf|buffer) last: user.vim_normal_mode_exterm(":bl\n")
 close (bufs|buffers): user.vim_normal_mode_exterm(":bd ")
-[(go|jump|open)] (buf|buffer) <number>: user.vim_normal_mode_exterm(":b {number}\n")
+[go] (buf|buffer) <number>: user.vim_normal_mode_exterm(":b {number}\n")
 
 ###
 # Splits
@@ -530,14 +531,14 @@ buffer end diff:
 ###
 (list|show) tabs: user.vim_normal_mode(":tabs\n")
 (close this tab|tab close): user.vim_normal_mode_exterm(":tabclose\n")
-tab (next|right): user.vim_normal_mode_exterm(":tabnext\n")
-tab (left|prev|previous): user.vim_normal_mode_exterm(":tabprevious\n")
-tab first: user.vim_normal_mode_exterm(":tabfirst\n")
-tab last: user.vim_normal_mode_exterm(":tablast\n")
-tab flip: user.vim_normal_mode_exterm("g\t")
+[go] tab (next|right): user.vim_normal_mode_exterm(":tabnext\n")
+[go] tab (left|prev|previous): user.vim_normal_mode_exterm(":tabprevious\n")
+[go] tab first: user.vim_normal_mode_exterm(":tabfirst\n")
+[go] tab last: user.vim_normal_mode_exterm(":tablast\n")
+[go] tab flip: user.vim_normal_mode_exterm("g\t")
+[go] tab <number>: user.vim_normal_mode_exterm("{number}gt")
 tab new: user.vim_normal_mode_exterm(":tabnew\n")
 tab edit: user.vim_normal_mode_exterm(":tabedit ")
-[(go|jump|open)] tab <number>: user.vim_normal_mode_exterm("{number}gt")
 move tab right: user.vim_normal_mode_exterm(":tabm +\n")
 move tab left: user.vim_normal_mode_exterm(":tabm -\n")
 

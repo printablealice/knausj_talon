@@ -1,5 +1,6 @@
-#app: python
-code.language: python
+mode: user.python
+mode: command
+and code.language: python
 -
 ####
 # Operators
