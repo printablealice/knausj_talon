@@ -1,5 +1,6 @@
 os: linux
-app: /irefox/
+app: Firefox
+app: firefox
 -
 tag(): browser
 tag(): firefox
