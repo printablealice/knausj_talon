@@ -40,8 +40,8 @@ go <user.ordinals> (hex value|address):
     insert(":set nohls\n")
 
 # XXX - the following have a lot of duplication so it may be worth making
-python function eventually where the majority of the none unique stuff can just
-be called once
+# python function eventually where the majority of the none unique stuff can
+# just be called once
 
 (hexdump|matrix) [this] address:
     insert("yiw")
