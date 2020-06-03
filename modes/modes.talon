@@ -36,8 +36,7 @@ talon mode: speech.enable()
     user.system_command('notify-send.sh -t 3000 -f -u low "Debug Mode Enabled"')
 disable debug mode:
     mode.disable("user.gdb")
-    user.system_command('notify-send.sh -t 3000 -f -u low "Debug Mode Disabled"')
-	mode.enable("command")
+    #user.system_command('notify-send.sh -t 3000 -f -u low "Debug Mode Disabled"')
 
 ^force see sharp$: user.code_set_language_mode("csharp")
 ^force see plus plus$: user.code_set_language_mode("cplusplus")
