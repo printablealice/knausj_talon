@@ -1,7 +1,18 @@
 mode: user.talon
-mode: command 
+mode: command
 and code.language: talon
 -
+tag(): user.code_operators
+tag(): user.code_comment
+action(user.code_operator_and): " and "
+action(user.code_operator_or): " or "
+action(user.code_operator_subtraction): " - "
+action(user.code_operator_addition): " + "
+action(user.code_operator_multiplication): " * "
+action(user.code_operator_division): " / "
+action(user.code_operator_assignment): " = "
+action(user.code_comment): "#"
+
 call insert:
 	insert('insert("")')
 	edit.left()
@@ -39,9 +50,9 @@ call alt shift key:
 	edit.left()
 
 call action:
+
 	insert("action()")
 	edit.left()
-
 os win:
 	insert("os: windows")
 
@@ -63,3 +74,12 @@ user:
 comment:
 	edit.line_start()
 	insert("#")
+
+call settings:
+	insert("settings():\n")
+tag set:
+	insert("tag(): ")
+tag require:
+	insert("tag: ")
+user:
+	insert("user.")
