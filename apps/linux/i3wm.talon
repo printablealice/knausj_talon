@@ -6,7 +6,7 @@ os: linux
 
 (works|screen) <number>: key("super-{number}")
 (works|screen) ten: key(super-0)
-(works|screen) (last|back): key(super-u)
+(works|screen) (last|back|flip): key(super-u)
 (works|screen) (right|next): key(super-o)
 (works|screen) (prev|previous|left): key(super-y)
 
