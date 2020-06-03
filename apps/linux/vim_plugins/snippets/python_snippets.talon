@@ -67,3 +67,7 @@ code.language: python
 (snip|snippet) print fail:
     user.vim_insert_mode("pfail")
     key(tab)
+
+(snip|snippet) dick string:
+    user.vim_insert_mode("dstr")
+    key(tab)

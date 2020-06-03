@@ -67,6 +67,9 @@ simple_vocabulary = [
     "daemon",
     "poc",
     "byte",
+    "bytes",
+    "patreon",
+    "blah",
 ]
 
 mapping_vocabulary = {
@@ -136,6 +139,7 @@ mapping_vocabulary = {
     "higher key": "heirarchy",
     "ex ease": "exes",
     "ex ee": "exe",
+    "fast bin": "fastbin",
 }
 
 mapping_vocabulary.update(dict(zip(simple_vocabulary, simple_vocabulary)))
