@@ -14,6 +14,14 @@
 #  - support more clearing of queued vim commands, ex: go to line, etc
 #  - add an insert command for just saying text and force to insert mode
 #  - consider making go mandatory for buffer and tab switching
+#  - add support for relative line jumping
+#  - more automatic highlighting, for example:
+#     `highlight 2 above` should visual line select two lines above current.
+#     especially useful when inside vim terminal using gdb, etc
+#     `highlight X lines @ [line] NNNN`
+#     `yank X lines @ [line] NNNN`
+#     `yank last X lines` (relative reverse copy)
+#     `yank next X lines` (relative forward copy)
 
 os:linux
 app:gvim
@@ -216,6 +224,12 @@ redo:
 ###
 [(go|jump)] [to] line <number>:
     user.vim_normal_mode_exterm(":{number}\n")
+
+[go] relative up [line] <number>:
+    user.vim_normal_mode_exterm("{number}k\n")
+
+[go] relative down [line] <number>:
+    user.vim_normal_mode_exterm("{number}j\n")
 
 matching: user.vim_any_motion_mode_key("%")
 
@@ -451,6 +465,25 @@ split preview:
     key(ctrl-w)
     key(P)
 
+# personal convenience shortcuts
+# split right
+sprite:
+    user.vim_set_normal_mode_exterm()
+    key(ctrl-w)
+    key(l)
+
+# split left
+speff:
+    user.vim_set_normal_mode_exterm()
+    key(ctrl-w)
+    key(h)
+
+# split top left
+splot:
+    user.vim_set_normal_mode_exterm()
+    key(ctrl-w)
+    key(t)
+
 # moving windows
 split (only|exclusive):
     user.vim_set_normal_mode_exterm()
@@ -475,11 +508,11 @@ split move bottom:
 split move right:
     user.vim_set_normal_mode_exterm()
     key(ctrl-w)
-    key(H)
+    key(L)
 split move left:
     user.vim_set_normal_mode_exterm()
     key(ctrl-w)
-    key(L)
+    key(H)
 split move to tab:
     user.vim_set_normal_mode_exterm()
     key(ctrl-w)
@@ -541,8 +574,8 @@ buffer end diff:
 [go] tab <number>: user.vim_normal_mode_exterm("{number}gt")
 tab new: user.vim_normal_mode_exterm(":tabnew\n")
 tab edit: user.vim_normal_mode_exterm(":tabedit ")
-move tab right: user.vim_normal_mode_exterm(":tabm +\n")
-move tab left: user.vim_normal_mode_exterm(":tabm -\n")
+tab move right: user.vim_normal_mode_exterm(":tabm +\n")
+tab move left: user.vim_normal_mode_exterm(":tabm -\n")
 
 [new] tab terminal: user.vim_normal_mode_exterm(":tabe term://bash\n")
 
@@ -555,13 +588,19 @@ move tab left: user.vim_normal_mode_exterm(":tabm -\n")
 (show|set) highlight [search]: user.vim_normal_mode_exterm(":set hls\n")
 (unset|set no|hide) highlight [search]: user.vim_normal_mode_exterm(":set nohls\n")
 (show|set) line numbers: user.vim_normal_mode_exterm(":set nu\n")
+(show|set) absolute line numbers:
+    user.vim_normal_mode_exterm(":set norelativenumber\n")
+    user.vim_normal_mode_exterm(":set number\n")
+(show|set) relative line numbers:
+    user.vim_normal_mode_exterm(":set nonumber\n")
+    user.vim_normal_mode_exterm(":set relativenumber\n")
 (unset|set no|hide) line numbers: user.vim_normal_mode_exterm(":set nonu\n")
 show [current] settings: user.vim_normal_mode_exterm(":set\n")
-unset paste: user.vim_normal_mode_exterm(":set nopaste\n")
+(unset paste|set no paste): user.vim_normal_mode_exterm(":set nopaste\n")
 # very useful for reviewing code you don't want to accidintally edit if talon
 # mishears commands
 set modifiable: user.vim_normal_mode_exterm(":set modifiable\n")
-unset modifiable: user.vim_normal_mode_exterm(":set nomodifiable\n")
+(unset modifiable|set no modifiable): user.vim_normal_mode_exterm(":set nomodifiable\n")
 
 ###
 # Marks
