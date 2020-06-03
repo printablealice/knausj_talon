@@ -86,3 +86,6 @@ play previous: key(prev)
 
 local host: "127.0.0.1"
 hex (num|number) <number>: "0x{number}"
+hyper:
+    edit.copy()
+    edit.paste()
