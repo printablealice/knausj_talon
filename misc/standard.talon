@@ -89,3 +89,6 @@ hex (num|number) <number>: "0x{number}"
 hyper:
     edit.copy()
     edit.paste()
+pucker:
+    edit.paste()
+    key(enter)
