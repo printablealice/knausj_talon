@@ -22,9 +22,11 @@
 #     `yank X lines @ [line] NNNN`
 #     `yank last X lines` (relative reverse copy)
 #     `yank next X lines` (relative forward copy)
-#  - Move ':' stuff to use command mode funcs
+#  - Move rest of ':' stuff to use command mode funcs
 #  - Copy N lines into scratch buffer, for when wanting to annotate terminal
 #    stuff (ex: gdb output)
+#  - add custom surround with markdown command for when i forget to use snip
+#    first
 
 os:linux
 app:gvim
