@@ -23,8 +23,16 @@ task undo: "task undo\n"
 (tasks|task next): "task next\n"
 
 # task editing
-task <number> edit$: "task {number} edit"
+task <number> (edit|at it)$: "task {number} edit"
+task <number> modify: "task {number} modify "
 
-# task completion
-task <number> done$: "task {number} done"
-task <number> delete$: "task {number} delete"
+
+# task starting and stopping
+task (<number> start|start <number>)$: "task {number} start"
+task (<number> stop|stop <number>)$: "task {number} stop"
+task stop active: "task +ACTIVE stop\n"
+task (<number> done|done <number>)$: "task {number} done"
+task done <number>$: "task {number} done"
+task (<number> delete|delete <number>)$: "task {number} delete"
+
+task <number>$: "task {number} "
