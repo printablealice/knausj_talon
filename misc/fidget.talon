@@ -9,7 +9,7 @@ os: linux
 dev talon:
     insert("cd ~/.talon/user/fidget\n")
     insert("ls\n")
-edit (edit|them) config: "edit ~/.vimrc\n"
+edit (vim|them) config: "edit ~/.vimrc\n"
 jump to (edit|them): "cd ~/.edit\n"
 edit shell config: "edit ~/.zshrc\n"
 resource shell: "source ~/.zshrc"
@@ -17,8 +17,9 @@ jump to shell: "cd ~/.ohmyzsh\n"
 jump to shell functions: "cd ~/.ohmyzsh/custom/functions/\n"
 jump to dotfiles: "cd ~/dotfiles\n"
 # config
-edit (secure shell| S S H) config: "edit ~/.ssh/config\n"
-edit eye three config: "edit ~/.i3/config\n"
+(edit|at it) (secure shell| S S H) config: "edit ~/.ssh/config\n"
+(edit|at it) (eye three|window manager) config: "edit ~/.i3/config\n"
+(edit|at it) window manager config: "edit ~/.i3/config\n"
 # snippets
 edit custom snippets: "edit ~/.edit/custom-snippets\n"
 edit markdown snippets: "edit ~/.edit/plugged/edit-snippets/UltiSnips/markdown.snippets"
