@@ -27,12 +27,20 @@ import time
 
 from talon import Context, Module, actions, settings, ui
 
+try:
+    import pynvim
+
+    has_pynvim = True
+except Exception:
+    has_pynvim = False
+
 mod = Module()
 ctx = Context()
 
 ctx.matches = r"""
 win.title:/VIM/
 """
+
 
 # Based on you using a custom title string like this:
 # let &titlestring ='VIM MODE:%{mode()} (%f) %t'
@@ -60,52 +68,7 @@ ctx.lists["self.vim_arrow"] = {
 }
 
 # XXX - need to break into normal, visual, etc
-# ctx.lists["self.vim_counted_actions"] = {
-#    "after": "a",
-#    "append": "a",
-#    "after line": "A",
-#    "append line": "A",
-#    "insert": "i",
-#    "insert column zero": "gI",
-#    # "open": "o",  # conflicts too much with other commands
-#    "open below": "o",
-#    "open above": "O",
-#    "substitute": "s",
-#    "substitute line": "S",
-#    "undo": "u",
-#    "undo line": "U",
-#    "erase": "x",
-#    "erase reversed": "X",
-#    "erase back": "X",
-#    "put": "p",
-#    "put below": "p",
-#    "paste": "p",
-#    "paste below": "p",
-#    "put before": "P",
-#    "paste before": "P",
-#    "put above": "P",
-#    "paste above": "P",
-#    "repeat": ".",
-#    "indent line": ">>",
-#    "unindent line": "<<",
-#    "delete line": "dd",
-#    "yank line": "Y",
-#    # "copy line": "Y",
-#    "scroll left": "zh",
-#    "scroll right": "zl",
-#    "scroll half screen left": "zH",
-#    "scroll half screen right": "zL",
-#    "scroll start": "zs",
-#    "scroll end": "ze",
-#    # XXX - these work from visual mode and normal mode
-#    "insert before line": "I",
-#    "insert line": "I",
-#    "play again": "@@",
-#    "toggle case": "~",
-#    # XXX - custom
-#    "panic": "u",
-# }
-
+# Standard self.vim_counted_actions insertable entries
 standard_counted_actions = {
     "after": "a",
     "append": "a",
@@ -150,6 +113,7 @@ standard_counted_actions = {
     "toggle case": "~",
 }
 
+# Standard self.vim_counted_actions key() entries
 standard_counted_actions_control_keys = {
     "redo": "ctrl-r",
     "scroll up": "ctrl-y",
@@ -160,15 +124,22 @@ standard_counted_actions_control_keys = {
     "half page up": "ctrl-u",
 }
 
-# You can put custom shortcuts here to make it easier to manage
+# Custom self.vim_counted_actions insertable entries
+# You can put custom aliases here to make it easier to manage. The idea is to
+# alias commands from standard_counted_actions above, without replacing them
+# there to prevent merge conflicts.
 custom_counted_action = {"panic": "u"}
+
+# Custom self.vim_counted_actions insertable entries
+# You can put custom shortcuts requiring key() here to make it easier to manage
+custom_counted_action_control_keys = {}
 
 ctx.lists["self.vim_counted_actions"] = {
     **standard_counted_actions,
     **standard_counted_actions_control_keys,
     **custom_counted_action,
+    #    **custom_counted_action_control_keys,
 }
-
 
 ctx.lists["self.vim_jump_range"] = {
     "jump to line of": "'",
@@ -865,6 +836,13 @@ class Actions:
         v.set_normal_mode_exterm()
         actions.insert(cmd)
 
+    def vim_normal_mode_exterm_preserve(cmd: str):
+        """run a given list of commands in normal mode, escape from terminal 
+        mode, but return to terminal mode after. Special case for settings"""
+        v = VimMode()
+        v.set_normal_mode_exterm()
+        actions.insert(cmd)
+
     def vim_normal_mode_key(cmd: str):
         """press a given key in normal mode"""
         v = VimMode()
@@ -934,9 +912,51 @@ class Actions:
         v.set_any_motion_mode()
         actions.key(cmd)
 
+    def vim_any_motion_mode_exterm_key(cmd: str):
+        """run a given list of commands in normal mode"""
+        v = VimMode()
+        v.set_any_motion_mode_exterm()
+        actions.key(cmd)
+
+
+class NeoVimRPC:
+    """For setting/pulling the modes using RPC"""
+
+    def __init__(self):
+        self.init_ok = False
+        self.rpc_path = self.get_active_rpc()
+        self.nvim = None
+        if self.rpc_path is not None:
+            try:
+                self.nvim = pynvim.attach("socket", path=self.rpc_path)
+            except RuntimeError:
+                print("balls")
+                return
+            self.init_ok = True
+        else:
+            return
+
+    def get_active_rpc(self):
+        title = ui.active_window().title
+        if "RPC" in title:
+            named_pipe = title.split("RPC:")[1].split(" ")[0]
+            return named_pipe
+        return None
+
+    def get_active_mode(self):
+        mode = self.nvim.request("nvim_get_mode")
+        return mode
+
+
+class VimNonRpc:
+    """For pulling the modes out of the title string, if RPC isn't
+    available. Is generally slower.."""
+
+    pass
+
 
 class VimMode:
-    # mode ids represent more generic statusline mode() values. see :help mode()
+    # mode ids represent generic statusline mode() values. see :help mode()
     NORMAL = 1
     VISUAL = 2
     INSERT = 3
@@ -996,15 +1016,12 @@ class VimMode:
             if mode not in self.vim_modes.keys():
                 return None
             self.current_mode = mode
+        nvrpc = NeoVimRPC()
+        if nvrpc.init_ok is False:
+            print("fuck")
+        else:
+            print(nvrpc.get_active_mode())
         return mode
-
-    # XXX - not used currently
-    def get_active_rpc(self):
-        title = ui.active_window().title
-        if "RPC" in title:
-            named_pipe = title.split("RPC:")[1].split(" ")[0]
-            return named_pipe
-        return None
 
     def current_mode_id(self):
         if self.is_normal_mode():

@@ -1,17 +1,16 @@
-# Usage:
-#  - See doc/vim.md
-#  - See code/vim.py
+#  Usage:
+#  - See doc/vim."md
+#  - See code/vim== .py
 #
 # Where applicable I try to explicitly select appropriate API for terminal
 # escaping, etc. However in cases where it is unlikely you will say a command
 # from terminal mode, I don't bother. Example "save file" doesn't have
-# explicit terminal escaping.
+# explicit terminal escaping. This also helps vim running inside of them
+# terminal work properly.
+
 
 # ToDo:
-#  - new terminal buffer command
-#  - specify specific buffer into split
-#  - add support for moving buffer to tabs
-#  - support more clearing of queued vim commands, ex: go to line, etc
+#  - new terminal buffer command (not in split)
 #  - add an insert command for just saying text and force to insert mode
 #  - consider making go mandatory for buffer and tab switching
 #  - add support for relative line jumping
@@ -27,11 +26,12 @@
 #    stuff (ex: gdb output)
 #  - add custom surround with markdown command for when i forget to use snip
 #    first
+#  - sprite is closing my terminal for some reason
 
 os:linux
 app:gvim
 app:/term/
-and win.title:/VIM/
+win.title: /VIM/
 -
 
 tag(): vim
@@ -213,7 +213,7 @@ open this file in vertical [split|window]:
     user.vim_command_mode(":vertical wincmd f\n")
 
 (show|list) current directory: user.vim_command_mode(":pwd\n")
-change buffer directory: user.vim_command_mode(":lcd %:p:h\n")
+change (buffer|current) directory: user.vim_command_mode(":lcd %:p:h\n")
 
 ###
 # Standard commands
@@ -272,10 +272,18 @@ half [page] up: user.vim_normal_mode_exterm_key("ctrl-u")
 change remaining line: user.vim_normal_mode_key("C")
 change line: user.vim_normal_mode("cc")
 # XXX - this might be suited for some automatic motion thing in vim.py
-swap characters: user.vim_normal_mode("xp")
-swap words: user.vim_normal_mode("dwwP")
-swap lines: user.vim_normal_mode("ddp")
-swap paragraph: user.vim_normal_mode("d}}p")
+swap characters:
+    user.vim_normal_mode("x")
+    user.vim_normal_mode("p")
+swap words:
+    user.vim_normal_mode("dww")
+    user.vim_normal_mode("P")
+swap lines:
+    user.vim_normal_mode("dd")
+    user.vim_normal_mode("p")
+swap paragraph:
+    user.vim_normal_mode("d}}")
+    user.vim_normal_mode("p")
 replace <user.any>: "r{any}"
 replace (ship|upper|upper case) <user.letters>:
     user.vim_normal_mode_key("r")
@@ -286,12 +294,6 @@ replace (ship|upper|upper case) <user.letters>:
 indent [line] <number> through <number>$: user.vim_command_mode(":{number_1},{number_2}>\n")
 (shift|indent) left: user.vim_normal_mode("<<")
 unindent [line] <number> through <number>$: user.vim_command_mode(":{number_1},{number_2}>\n")
-
-
-# XXX - this doesn't work with numbers below nine, because the nine will
-# trigger its own discrete command in the first part of the command will
-# trigger the dd below. we probably need to come up with different trigger for
-# the one were you specify the line
 
 # deleting
 delete remaining [line]: user.vim_normal_mode_key("D")
@@ -306,10 +308,17 @@ clear line: key(ctrl-u)
 (copy|yank) line (at|number) <number> through <number>: user.vim_command_mode_exterm(":{number_1},{number_2}y\n")
 
 # duplicating
-# XXX - these don't preserve INSERT atm because they use multiple commands
-(duplicate|paste) line <number> on line <number>$: user.vim_command_mode_np(":{number_1}y\n:{number_2}\np")
-(duplicate|paste) line (at|number) <number> through <number>$: user.vim_command_mode_np(":{number_1},{number_2}y\np")
-(duplicate|paste) line <number>$: user.vim_command_mode_np(":{number}y\np")
+# These are multi-line like this to perserve INSERT.
+(duplicate|paste) line <number> on line <number>$:
+    user.vim_command_mode(":{number_1}y\n")
+    user.vim_command_mode(":{number_2}\n")
+    user.vim_command_mode("p")
+(duplicate|paste) line (at|number) <number> through <number>$:
+    user.vim_command_mode(":{number_1},{number_2}y\n")
+    user.vim_command_mode("p")
+(duplicate|paste) line <number>$:
+    user.vim_command_mode(":{number}y\n")
+    user.vim_command_mode("p")
 
 (dup|duplicate) line: user.vim_normal_mode_np("Yp")
 
@@ -322,11 +331,13 @@ push file:
     user.vim_normal_mode_np("Go")
 
 # helpful for fixing typos or bad lexicons that miss a character
+# assumes your in NORMAL mode
 inject <user.any> [before]:
     user.vim_insert_mode("{any}")
     # since there is no ctrl-o equiv coming from normal
     key(escape)
 
+# assumes your in NORMAL mode
 inject <user.any> after:
     user.vim_normal_mode("a{any}")
     # since we can't perserve mode with ctrl-o
@@ -335,17 +346,17 @@ inject <user.any> after:
 # XXX - look into how this works
 filter line: "=="
 
-# XXX - could preserve INSERT if swapped into two calls
 [add] gap above:
-    user.vim_command_mode_np(":pu! _\n:'[+1\n")
+    user.vim_command_mode(":pu! _\n")
+    user.vim_command_mode(":'[+1\n")
 [add] gap below:
-    user.vim_command_mode_np(":pu _\n:'[-1\n")
+    user.vim_command_mode(":pu _\n")
+    user.vim_command_mode(":'[-1\n")
 
 # XXX - This should be a callable function so we can do things like:
 #       'swap on this <highlight motion>'
 #       'swap between line x, y'
 # assumes visual mode
-# XXX - These should use command mode for the initial insert
 swap (selected|highlighted):
     insert(":")
     # leave time for vim to populate '<,'>
@@ -408,23 +419,54 @@ force (buf|buffer) close: user.vim_command_mode_exterm(":bd!\n")
 [go] (buf|buffer) last: user.vim_command_mode_exterm(":bl\n")
 close (bufs|buffers): user.vim_command_mode_exterm(":bd ")
 [go] (buf|buffer) <number>: user.vim_command_mode_exterm(":b {number}\n")
+# creates a split and then moves the split to a tab. required for when the
+# current tab has only one split
+(buf|buffer) (move to|make) tab:
+    user.vim_normal_mode_exterm(":split\n")
+    key(ctrl-w)
+    key(T)
+
 
 ###
 # Splits
+#
+# XXX - these use explict key calls until we have key combo support
 ###
 # creating splits
 new [horizontal] split:
-    # XXX - until we have key combo support
     user.vim_set_normal_mode_exterm()
     key("ctrl-w")
     key(s)
+split new [horizontal]:
+    user.vim_set_normal_mode_exterm()
+    key("ctrl-w")
+    key(s)
+
 new (vertical|v) split:
-    # XXX - until we have key combo support
     user.vim_set_normal_mode_exterm()
     key("ctrl-w")
     key(v)
+
+split new vertical:
+    user.vim_set_normal_mode_exterm()
+    key("ctrl-w")
+    key(v)
+
+# open specified buffer in new split
+split (buf|buffer) <number>:
+    user.vim_set_normal_mode_exterm()
+    key("{number}")
+    key("ctrl-w")
+    key("ctrl-^")
+
+# open specified buffer in new vertical split
+vertical split (buf|buffer) <number>:
+    user.vim_set_normal_mode_exterm()
+    key(":vsplit {number}")
+
+# creating and auto-entering splits
+
 split (close|quit):
-    # XXX - until we have key combo support
     user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(q)
@@ -436,32 +478,26 @@ new empty (vertical|v) split:
 
 # navigating splits
 split <user.vim_arrow>:
-    # XXX - until we have key combo support
     user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key("{vim_arrow}")
 split last:
-    # XXX - until we have key combo support
     user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(p)
 split top left:
-    # XXX - until we have key combo support
     user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(t)
 split next:
-    # XXX - until we have key combo support
     user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(w)
 split (previous|prev):
-    # XXX - until we have key combo support
     user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(W)
 split bottom right:
-    # XXX - until we have key combo support
     user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(b)
@@ -589,6 +625,7 @@ tab new: user.vim_command_mode_exterm(":tabnew\n")
 tab edit: user.vim_command_mode_exterm(":tabedit ")
 tab move right: user.vim_command_mode_exterm(":tabm +\n")
 tab move left: user.vim_command_mode_exterm(":tabm -\n")
+edit (buf|buffer) <number> [in] new tab: user.vim_command_mode_exterm(":tabnew #{number}\n")
 
 [new] tab terminal: user.vim_command_mode_exterm(":tabe term://bash\n")
 
@@ -661,9 +698,8 @@ modify [register|macro] <user.letter>:
     insert("{letter}")
     key(')
 
-# XXX - these could be valid in normal or visual
-paste from register <user.any>: insert('"{any}p')
-yank to register <user.any>: insert('"{any}y')
+paste from register <user.any>:  user.vim_any_motion_mode('"{any}p')
+yank to register <user.any>: user.vim_any_motion_mode('"{any}y')
 
 ###
 # Informational
@@ -681,18 +717,16 @@ vim help: user.vim_command_mode_exterm(":help ")
 ###
 normal mode: user.vim_set_normal_mode_np()
 insert mode: user.vim_set_insert_mode()
-# XXX - technically this doesn't work atm, as i don't inject : or use RPC
+# XXX - need to set these to actual mode switch functions via RPC
 # command mode: user.vim_set_command_mode()
-command mode: key(:)
-replace mode: key(R)
-overwrite: key(R)
-
+command mode: user.vim_any_motion_mode_exterm_key(":")
+# replace mode: user.vim_set_replace_mode()
+(replace mode|overwrite): user.vim_any_motion_mode_exterm_key("R")
 visual mode: user.vim_set_visual_mode()
-(visual|select|highlight) line: key(V)
+# visual block mode: user.vim_set_vblock_mode()
+# XXX - This will perserve INSERT atm, so not really a proper mode switch
+visual block mode: user.vim_any_motion_mode_exterm_key("ctrl-v")
 
-# XXX - need exterm
-visual block mode: key(ctrl-v)
-(visual|select|highlight) block: key(ctrl-v)
 
 ###
 # Searching
@@ -725,6 +759,9 @@ search (reversed|reverse) sensitive:
 ###
 # Text Selection
 ###
+(visual|select|highlight) line: user.vim_visual_mode("V")
+(visual|select|highlight) block: user.vim_any_motion_mode_exterm_key("ctrl-v")
+
 select <user.vim_select_motion>:
     user.vim_visual_mode("{vim_select_motion}")
 
@@ -769,7 +806,6 @@ reselect: user.vim_normal_mode_np("gv")
     key(ctrl-\)
     key(ctrl-n)
 
-# XXX - this may conflict with i3wm shell spawning
 [new] (split|horizontal) (term|terminal):
     # NOTE: if your using zsh you might have to switch this, though depending
     # on your setup it will still work (this loads zsh on mine)
@@ -797,10 +833,3 @@ close all folds: user.vim_normal_mode("zM")
 # these into nerdtree.talon for now
 nerd tree: user.vim_normal_mode_exterm(":NERDTree\n")
 nerd find [current] file: user.vim_normal_mode_exterm(":NERDTreeFind\n")
-
-###
-# Testing
-###
-# XXX - Just for testing random stuff. To be deleted
-spider man:
-    user.vim_normal_mode_keys("c")
