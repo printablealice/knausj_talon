@@ -20,6 +20,10 @@ kill (win|window): key(super-shift-q)
 (win|window) default: key(super-e)
 (win|window) tabbed: key(super-w)
 launch: key(super-d)
+launch <phrase>:
+        key(super-d)
+        sleep(100ms)
+        insert("{phrase}")
 reload i three config: key(super-shift-c)
 restart i three: key(super-shift-r)
 
@@ -45,7 +49,11 @@ vertical (shell|terminal):
 
 move (win|window) [to] workspace <number>: key("super-shift-{number}")
 move (win|window) [to] last workspace: key(super-shift-b)
-move (win|window) <user.vim_arrow>: key("super-shift-{vim_arrow}")
+#move (win|window) <user.vim_arrow>: key("super-shift-{vim_arrow}")
+move (win|window) left: key("super-shift-h")
+move (win|window) right: key("super-shift-l")
+move (win|window) up: key("super-shift-k")
+move (win|window) down: key("super-shift-j")
 
 (win|window) horizontal: key(super-;)
 (win|window) vertical: key(super-v)
