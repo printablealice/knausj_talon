@@ -71,6 +71,7 @@ simple_vocabulary = [
     "vim",
     "vimrc",
     "vmware",
+    "vimium",
 ]
 
 mapping_vocabulary = {
@@ -141,6 +142,8 @@ mapping_vocabulary = {
     "x eighty six": "x86",
     "x sixty four": "x64",
     "key pass": "keepass",
+    "eye three": "i3",
+    "an am cli": "nmcli",
 }
 
 mapping_vocabulary.update(dict(zip(simple_vocabulary, simple_vocabulary)))
