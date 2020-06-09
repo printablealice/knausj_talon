@@ -37,7 +37,7 @@ empty escaped (dubstring|dub quotes):
     '\\"\\"'
     key(left)
     key(left)
-empty string:
+empty (string|quotes):
     "''"
     key(left)
 empty escaped string:
