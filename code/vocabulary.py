@@ -140,6 +140,7 @@ mapping_vocabulary = {
     "wind bag": "windbg",
     "x eighty six": "x86",
     "x sixty four": "x64",
+    "key pass": "keepass",
 }
 
 mapping_vocabulary.update(dict(zip(simple_vocabulary, simple_vocabulary)))
