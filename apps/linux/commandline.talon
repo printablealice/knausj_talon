@@ -127,3 +127,5 @@ run script: "./"
 # bash convenience stuff
 for file loop:
     insert("for FILE in $(ls \"*\"); do \$FILE; done")
+
+network manager log: "sudo journalctl -u NetworkManager.service\n"
