@@ -1,8 +1,10 @@
 tag: vim
 -
 
-orient to talon: user.vim_command_mode_exterm(":lcd ~/.talon/user/fidget/\n")
-edit vim scripts: user.vim_command_mode_exterm(":source ~/.vim/sessions/talon_vim.session\n")
+open talon dir:
+    user.vim_command_mode_exterm(":lcd ~/.talon/user/fidget/\n")
+edit my vim scripts:
+    user.vim_command_mode_exterm(":source ~/.vim/sessions/talon_vim.session\n")
 
 # XXX - rename
 super focus:

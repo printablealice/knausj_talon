@@ -1,20 +1,10 @@
 # see doc/vim.md
-#
-# XXX - the old vim speak special characters needs to be replaced to a the
-#       existing talon ones
 # XXX - Add support for ordinal motions: "delete 5th word","find second <char>"
-# XXX - Support more complex yanking into registers
-# XXX - add fugitive mode mapping stuff. See :help fugitive
-#       most of the vim cmds should be disabled while in there? longer term
-#       solution for fugitive should be just adding in win.title changes
-#       directly into the project and sending tpope a PR
 # XXX - have two version of most lists. "standard" and then "custom", and
 #       combine them into the context lists. this should allow people to
 #       maintain custom lists without merge conflicts
 # XXX - define all the lists separately and then update ctx.lists only once
-# XXX - add custom lists of commands for terminal mode enforcement
 # XXX - document that visual selection mode implies terminal escape
-# XXX - some surround stuff stopped working
 # XXX - eventually use nvim RPC to confirm mode changes vs relying on a time
 #       delay that is buggy depending on your cpu consumption
 # XXX - add setting for disabling local terminal escape when running inside
@@ -132,13 +122,16 @@ custom_counted_action = {"panic": "u"}
 
 # Custom self.vim_counted_actions insertable entries
 # You can put custom shortcuts requiring key() here to make it easier to manage
-custom_counted_action_control_keys = {}
+custom_counted_actions_control_keys = {}
 
 ctx.lists["self.vim_counted_actions"] = {
     **standard_counted_actions,
-    **standard_counted_actions_control_keys,
     **custom_counted_action,
-    #    **custom_counted_action_control_keys,
+}
+
+ctx.lists["self.vim_counted_actions_keys"] = {
+    **standard_counted_actions_control_keys,
+    **custom_counted_actions_control_keys,
 }
 
 ctx.lists["self.vim_jump_range"] = {
@@ -156,7 +149,7 @@ ctx.lists["self.vim_jumps"] = {
 }
 
 # XXX see about replacing the play word with something that doesn't conflict
-# with an existing talon grammar
+# with an existing global context talon media grammar
 ctx.lists["self.vim_counted_actions_args"] = {
     "play macro": "@",  # takes char arg
 }
@@ -176,8 +169,8 @@ commands_with_motion = {
     "delete": "d",
     "indent": ">",
     "unindent": "<",
-    "an indent": "<",
-    "un indent": "<",
+    #    "an indent": "<",
+    #    "un indent": "<",
     "yank": "y",  # XXX - conflicts with talon 'yank' alphabet for 'y' key
     # NOTE: If you enable this and yank at the same time, some convenience
     # commands you might setup for automatic copying might get swallowed by
@@ -209,8 +202,6 @@ visual_commands = {
     # counted
     "indent": ">",
     "unindent": "<",
-    "an indent": "<",
-    "un indent": "<",
 }
 
 
@@ -273,14 +264,18 @@ ctx.lists["self.vim_motions"] = {
     "top of file": "gg",
     "end of document": "G",
     "end of file": "G",
-    # XXX - these need to be keys
-    "retrace movements": "ctrl-o",
-    "retrace movements forward": "ctrl-i",
-    # todo - convenience
+    # XXX - move below custom convenience list
     "function start": "[[",
     "funk start": "[[",
     "next function": "]]",
     "next funk": "]]",
+}
+
+
+# XXX - make easier to say
+ctx.lists["self.vim_motions_keys"] = {
+    "retrace movements": "ctrl-o",
+    "retrace movements forward": "ctrl-i",
 }
 
 # all of these motions take a character argument
@@ -363,9 +358,7 @@ ctx.lists["self.vim_surround_targets"] = {
     "block": "b",
     "big block": "B",
     # Match Talon naming
-    "dubstring": '"',
     "dub string": '"',
-    "dubquotes": '"',
     "dub quotes": '"',
     "double quotes": '"',
     # Match Talon naming
@@ -462,8 +455,11 @@ mod.list("vim_arrow", desc="All vim direction keys")
 mod.list("vim_motion_commands", desc="Counted VIM commands with motions")
 mod.list("vim_counted_motions", desc="Counted VIM motion verbs")
 mod.list("vim_counted_actions", desc="Counted VIM action verbs")
+mod.list("vim_counted_actions_keys", desc="Counted VIM action verbs")
 mod.list("vim_normal_counted_action", desc="Normal counted VIM actions")
+mod.list("vim_normal_counted_actions_keys", desc="Counted VIM action verbs")
 mod.list("vim_motions", desc="Non-counted VIM motions")
+mod.list("vim_motions_keys", desc="Non-counted VIM motions")
 mod.list("vim_motions_with_character", desc="VIM motion verbs with char arg")
 mod.list("vim_motions_with_phrase", desc="VIM motion verbs with phrase arg")
 mod.list("vim_motions_all", desc="All VIM motion verbs")
@@ -505,7 +501,17 @@ def vim_counted_actions(m) -> str:
 
 
 @mod.capture
+def vim_counted_actions_keys(m) -> str:
+    "Returns a string"
+
+
+@mod.capture
 def vim_normal_counted_action(m) -> str:
+    "Returns a string"
+
+
+@mod.capture
+def vim_normal_counted_actions_keys(m) -> str:
     "Returns a string"
 
 
@@ -545,17 +551,17 @@ def vim_motion_commands(m) -> str:
 
 
 @mod.capture
-def vim_motion_command(m) -> str:
-    "Returns a list of verbs"
-
-
-@mod.capture
 def vim_counted_motions(m) -> str:
     "Returns a list of verbs"
 
 
 @mod.capture
 def vim_motions(m) -> str:
+    "Returns a list of verbs"
+
+
+@mod.capture
+def vim_motions_keys(m) -> str:
     "Returns a list of verbs"
 
 
@@ -604,6 +610,11 @@ def vim_normal_counted_motion_command(m) -> str:
     "Returns a string"
 
 
+@mod.capture
+def vim_normal_counted_motion_keys(m) -> str:
+    "Returns a string"
+
+
 @ctx.capture(rule="{self.vim_arrow}")
 def vim_arrow(m):
     return m.vim_arrow
@@ -630,6 +641,11 @@ def vim_text_object_count(m) -> str:
 @ctx.capture(rule="{self.vim_motions}")
 def vim_motions(m) -> str:
     return m.vim_motions
+
+
+@ctx.capture(rule="{self.vim_motions_keys}")
+def vim_motions_keys(m) -> str:
+    return m.vim_motions_keys
 
 
 @ctx.capture(
@@ -670,6 +686,11 @@ def vim_motions_all_adjust(m) -> str:
 @ctx.capture(rule="{self.vim_counted_actions}")
 def vim_counted_actions(m) -> str:
     return m.vim_counted_actions
+
+
+@ctx.capture(rule="{self.vim_counted_actions_keys}")
+def vim_counted_actions_keys(m) -> str:
+    return m.vim_counted_actions_keys
 
 
 @ctx.capture(rule="[<self.number>] <self.vim_motions_all>$")
@@ -727,7 +748,7 @@ def vim_motion_commands(m) -> str:
     # the command is moot
     elif str(m) not in commands_with_motion:
         print("no match for {}".format(str(m)))
-        return None
+        return ""
 
     v.set_normal_mode()
     return commands_with_motion[str(m)]
@@ -740,6 +761,16 @@ def vim_normal_counted_motion_command(m) -> str:
     return "".join(list(m))
 
 
+@ctx.capture(rule="[<self.number>] <self.vim_motions_keys>$")
+def vim_normal_counted_motion_keys(m) -> str:
+    # we do this because repass everything to key() which needs a space
+    # separated list
+    if len(str(m).split(" ")) > 1:
+        return " ".join(list((" ".join(list(m.number)), m.vim_motions_keys)))
+    else:
+        return m.vim_motions_keys
+
+
 @ctx.capture(rule="[<self.number>] <self.vim_counted_actions>$")
 def vim_normal_counted_action(m) -> str:
     # XXX - may need to do action-specific mode checking
@@ -750,7 +781,22 @@ def vim_normal_counted_action(m) -> str:
         v.set_any_motion_mode_np()
     else:
         v.set_any_motion_mode()
+
     return "".join(list(m))
+
+
+@ctx.capture(rule="[<self.number>] <self.vim_counted_actions_keys>$")
+def vim_normal_counted_actions_keys(m) -> str:
+    v = VimMode()
+    v.cancel_queued_commands()
+    v.set_any_motion_mode()
+
+    # we do this because repass everything to key() which needs a space
+    # separated list
+    if len(str(m).split(" ")) > 1:
+        return " ".join(list((" ".join(list(m.number)), m.vim_counted_actions_keys)))
+    else:
+        return m.vim_counted_actions_keys
 
 
 @ctx.capture(
@@ -809,6 +855,12 @@ class Actions:
         v = VimMode()
         v.set_insert_mode()
         actions.insert(cmd)
+
+    def vim_insert_mode_key(cmd: str):
+        """run a given list of commands in normal mode, preserve mode"""
+        v = VimMode()
+        v.set_insert_mode()
+        actions.key(cmd)
 
     def vim_insert_mode_np(cmd: str):
         """run a given list of commands in normal mode, don't preserve"""
@@ -869,11 +921,6 @@ class Actions:
         v.set_visual_mode()
         actions.insert(cmd)
 
-        """run a given list of commands in insert mode"""
-        v = VimMode()
-        v.set_insert_mode()
-        actions.insert(cmd)
-
     # technically right now they run in in normal mode, but these calls will
     # ensure that any queued commands are removed
     def vim_command_mode(cmd: str):
@@ -930,7 +977,6 @@ class NeoVimRPC:
             try:
                 self.nvim = pynvim.attach("socket", path=self.rpc_path)
             except RuntimeError:
-                print("balls")
                 return
             self.init_ok = True
         else:
@@ -1018,7 +1064,7 @@ class VimMode:
             self.current_mode = mode
         nvrpc = NeoVimRPC()
         if nvrpc.init_ok is False:
-            print("fuck")
+            pass
         else:
             print(nvrpc.get_active_mode())
         return mode
@@ -1094,7 +1140,7 @@ class VimMode:
 
     # Often I will say `delete line` and it will trigger `@delete` and `@nine`.
     # This then keys 9. I then say `undo` to fix the bad delete, which does 9
-    # undos. Chaos ensues... the seeks to fix that
+    # undos. Chaos ensues... this seeks to fix that
     def cancel_queued_commands(self):
         if (
             settings.get("user.vim_cancel_queued_commands") == 1

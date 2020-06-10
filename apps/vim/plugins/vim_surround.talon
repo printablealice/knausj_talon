@@ -2,6 +2,10 @@
 tag: vim
 -
 
+# TODO
+#  - add custom surround with markdown command for when i forget to use snip
+#    first
+
 # visual mode only
 surround selected with <user.vim_surround_targets>:
     user.vim_visual_mode("S{vim_surround_targets}")
