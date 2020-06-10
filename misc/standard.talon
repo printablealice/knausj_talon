@@ -44,15 +44,24 @@ word streak:
 word printf: "printf"
 word shell: "shell"
 dunder in it: "__init__"
-self taught: "self."
+args:
+	insert("()")
+	key(left)
+[inside] (index | array):
+	insert("[]")
+	key(left)
+empty array: "[]"
+list in it:
+	insert("[]")
+	key(left)
 (dickt in it | inside bracket | in bracket):
 	insert("{}")
 	key(left)
+block:
+	insert("{}")
+	key(left enter enter up tab)
 (in | inside) percent:
 	insert("%%")
-	key(left)
-(new index|list in it):
-	insert("[]")
 	key(left)
 string U T F eight:
 	insert("'utf8'")

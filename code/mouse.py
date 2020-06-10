@@ -3,7 +3,7 @@ import pathlib
 import platform
 import subprocess
 
-from talon import (Context, Module, actions, cron, ctrl, imgui, noise,
+from talon import (Context, Module, actions, app, cron, ctrl, imgui, noise,
                    settings, ui)
 from talon.engine import engine
 from talon_plugins import eye_mouse, eye_zoom_mouse, speech
@@ -84,7 +84,7 @@ ctx.lists["self.mouse_button"] = {
 continuous_scoll_mode = ""
 
 
-@imgui.open(x=700, y=0)
+@imgui.open(x=700, y=0, software=False)
 def gui_wheel(gui: imgui.GUI):
     gui.text("Scroll mode: {}".format(continuous_scoll_mode))
     gui.line()
@@ -199,7 +199,7 @@ class Actions:
 
 def show_cursor_helper(show):
     """Show/hide the cursor"""
-    if "Windows-10" in platform.platform(terse=True):
+    if app.platform == "windows":
         import winreg, win32con
         import ctypes
 

@@ -1,9 +1,7 @@
 import os
-import platform
 import re
-import time
 
-from talon import Context, Module, actions, app, imgui, ui
+from talon import Context, Module, app, imgui, ui
 from talon.voice import Capture
 
 app_cache = {}
@@ -74,7 +72,7 @@ class Actions:
         gui.hide()
 
 
-@imgui.open()
+@imgui.open(software=False)
 def gui(gui: imgui.GUI):
     gui.text("Names of running applications")
     gui.line()
