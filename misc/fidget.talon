@@ -47,7 +47,6 @@ fuzzy vimdiff:
 ###
 # Work
 ###
-edit work config: "edit ~/.talon/user/fidget/misc/edg.talon\n"
 (go|jump) [to] (current|active) [work] project:
     insert("source ~/projects/current &&")
     insert(" cd $ACTIVE_PROJECT\n")
@@ -78,3 +77,14 @@ hookah:
     key(delete)
     key(space)
     key(down)
+
+# Deal with the NetworkManager 2FA pop-up when we need to enter/confirm 2FA
+# code
+prep two auth:
+    key(tab)
+    key(space)
+    key(tab:3)
+    key(right)
+    key(backspace:6)
+    user.system_command("i3-msg 'focus floating'")
+    # can now speak the 2FA code
