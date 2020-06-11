@@ -2,15 +2,19 @@
 tag: user.code_operators
 -
 #pointer operators
-op deference: user.code_operator_indirection()
+op dereference: user.code_operator_indirection()
 op address of: user.code_operator_address_of()
 op arrow: user.code_operator_structure_deference()
-#lambda 
+
+#lambda
 op lambda: user.code_operator_lambda()
+
 #subscript
 op subscript: user.code_operator_subscript()
+
 #assignment
 op (equals | assign): user.code_operator_assignment()
+
 #math operators
 op (minus | subtract): user.code_operator_subtraction()
 op (minus | subtract) equals: user.code_operator_subtraction_assignment()
@@ -23,6 +27,7 @@ op divide equals: user.code_operator_divide_equals()
 op mod: user.code_operator_modulo()
 op mod equals: user.code_operator_modulo_assignment()
 (op (power | exponent) | to the power [of]): user.code_operator_exponent()
+
 #comparison operators
 (op | is) equal: user.code_operator_equal()
 (op | is) not equal: user.code_operator_not_equal()
@@ -31,8 +36,10 @@ op mod equals: user.code_operator_modulo_assignment()
 (op | is) greater [than] or equal: user.code_operator_less_than()
 (op | is) less [than] or equal: user.code_operator_less_than_or_equal_to()
 #logical operators
+
 (op | logical) and: user.code_operator_and()
 (op | logical) or: user.code_operator_or()
+
 #bitwise operators
 [op] bitwise and: user.code_bitwise_operator_and()
 (op | logical | bitwise) and equals: user.code_bitwise_operator_and_equals()
@@ -44,5 +51,6 @@ op mod equals: user.code_operator_modulo_assignment()
 (op | logical | bitwise) (ex | exclusive) or equals: user.code_bitwise_operator_exlcusive_or_equals()
 [(op | logical | bitwise)] (left shift | shift left) equals: user.code_bitwise_operator_left_shift_equals()
 [(op | logical | bitwise)] (left right | shift right) equals: user.code_bitwise_operator_right_shift_equals()
+
 #tbd
 (op | pad) colon: " : "
