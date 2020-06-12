@@ -78,6 +78,7 @@ simple_vocabulary = [
     "parser",
     "gitlab",
     "wisp",
+    "vimvixen",
 ]
 
 mapping_vocabulary = {
@@ -160,6 +161,7 @@ mapping_vocabulary = {
     "hedra": "ghidra",
     "heedra": "ghidra",
     "double you get": "wget",
+    "pep eight": "pep8", 
 
 }
 
