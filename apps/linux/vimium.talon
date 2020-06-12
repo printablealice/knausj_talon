@@ -113,9 +113,9 @@ next [result]:
 (page|tab) new:
     key("t")
 (page|tab) (previous|left):
-    key("J")
+    insert("gT")
 (page|tab) (next|right):
-    key("K")
+    insert("gt")
 (page|tab) flip:
     key("^")
 (page|tab) (end|last):
