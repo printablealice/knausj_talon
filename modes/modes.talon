@@ -12,6 +12,7 @@ sleep all:
 	user.help_hide()
 	user.mouse_sleep()
 	speech.disable()
+    user.system_command('notify-send.sh -t 3000 -f -u low "Sleep All mode"')
 	user.engine_sleep()
 talon sleep:
     speech.disable()
