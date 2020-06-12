@@ -40,14 +40,18 @@ class win_actions:
     def filename():
         title = actions.win.title()
         result = title.split(")")
+        # Assumes the last word after the last ) entry has the filename
         if len(result) > 1:
-            result = result[1]
+            result = result[-1]
+        # print(result)
         if "." in result:
             return result
         return ""
 
     def file_ext():
-        return actions.win.filename().split(".")[-1]
+        ext = actions.win.filename().split(".")[-1]
+        # print(ext)
+        return ext
 
 
 ctx.lists["self.vim_arrow"] = {
@@ -112,13 +116,19 @@ standard_counted_actions_control_keys = {
     "page up": "ctrl-b",
     "half page down": "ctrl-d",
     "half page up": "ctrl-u",
+    "increment": "ctrl-a",
+    "decrement": "ctrl-x",
 }
 
 # Custom self.vim_counted_actions insertable entries
 # You can put custom aliases here to make it easier to manage. The idea is to
 # alias commands from standard_counted_actions above, without replacing them
 # there to prevent merge conflicts.
-custom_counted_action = {"panic": "u"}
+custom_counted_action = {
+    "panic": "u",
+    "dine": "dd",
+    "yine": "Y",
+}
 
 # Custom self.vim_counted_actions insertable entries
 # You can put custom shortcuts requiring key() here to make it easier to manage
@@ -169,8 +179,6 @@ commands_with_motion = {
     "delete": "d",
     "indent": ">",
     "unindent": "<",
-    #    "an indent": "<",
-    #    "un indent": "<",
     "yank": "y",  # XXX - conflicts with talon 'yank' alphabet for 'y' key
     # NOTE: If you enable this and yank at the same time, some convenience
     # commands you might setup for automatic copying might get swallowed by
@@ -971,8 +979,9 @@ class NeoVimRPC:
 
     def __init__(self):
         self.init_ok = False
-        self.rpc_path = self.get_active_rpc()
         self.nvim = None
+        return  # doesn't work atm due to pynvm incompability
+        self.rpc_path = self.get_active_rpc()
         if self.rpc_path is not None:
             try:
                 self.nvim = pynvim.attach("socket", path=self.rpc_path)

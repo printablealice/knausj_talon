@@ -382,9 +382,7 @@ swap [word] on [this] line:
     insert(":")
     sleep(50ms)
     insert("s///g")
-    key(left)
-    key(left)
-    key(left)
+    key(left:3)
 
 # assumes visual mode
 deleted selected empty lines:
@@ -395,9 +393,7 @@ deleted selected empty lines:
 
 swap global:
     user.vim_command_mode(":%s///g")
-    key(left)
-    key(left)
-    key(left)
+    key(left:3)
 
 ###
 # Buffers
@@ -427,7 +423,8 @@ close (bufs|buffers): user.vim_command_mode_exterm(":bd ")
 ###
 # Splits
 #
-# XXX - these use explict key calls until we have key combo support
+# XXX - it may be cleaned to have these in a vim.py function
+# XXX - most split open commands should be able to take a buffer argument
 ###
 # creating splits
 new [horizontal] split:
@@ -443,6 +440,30 @@ new (vertical|v) split:
     user.vim_set_normal_mode_exterm()
     key("ctrl-w")
     key(v)
+
+new top left split:
+    user.vim_command_mode_exterm(":to split\n")
+
+new left above split:
+    user.vim_command_mode_exterm(":lefta split\n")
+
+new right below split:
+    user.vim_command_mode_exterm(":rightb split\n")
+
+new (bot|bottom) right split:
+    user.vim_command_mode_exterm(":bo split\n")
+
+new vertical top left split:
+    user.vim_command_mode_exterm(":vertical to split\n")
+
+new vertical left above split:
+    user.vim_command_mode_exterm(":vertical lefta split\n")
+
+new vertical right below split:
+    user.vim_command_mode_exterm(":vertical rightb split\n")
+
+new vertical (bot|bottom) right split:
+    user.vim_command_mode_exterm(":vertical bo split\n")
 
 split new vertical:
     user.vim_set_normal_mode_exterm()
@@ -634,7 +655,7 @@ edit (buf|buffer) <number> [in] new tab: user.vim_command_mode_exterm(":tabnew #
 (unset|set no|hide) highlight [search]:
     user.vim_command_mode_exterm(":set nohls\n")
 (show|set) line numbers: user.vim_command_mode_exterm(":set nu\n")
-(show|set) absolute line numbers:
+(show|set) absolute [line] numbers:
     user.vim_command_mode_exterm(":set norelativenumber\n")
     user.vim_command_mode_exterm(":set number\n")
 (show|set) relative line numbers:
