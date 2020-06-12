@@ -72,6 +72,12 @@ simple_vocabulary = [
     "vimrc",
     "vmware",
     "vimium",
+    "yammer",
+    "sys",
+    "argv",
+    "parser",
+    "gitlab",
+    "wisp",
 ]
 
 mapping_vocabulary = {
@@ -139,11 +145,22 @@ mapping_vocabulary = {
     "win two key three": "win2k3",
     "win two key twelve": "win2k12",
     "wind bag": "windbg",
-    "x eighty six": "x86",
-    "x sixty four": "x64",
+    "ex eighty six": "x86",
+    "a city six": "x86",
+    "ex sixty four": "x64",
+    "a sixty for": "x64",
     "key pass": "keepass",
     "eye three": "i3",
     "an am cli": "nmcli",
+    "petty chunk": "ptchunk",
+    "ped chunk": "ptchunk",
+    "arg v": "argv",
+    "arcpurse": "argparse",
+    "arg purse": "argparse",
+    "hedra": "ghidra",
+    "heedra": "ghidra",
+    "double you get": "wget",
+
 }
 
 mapping_vocabulary.update(dict(zip(simple_vocabulary, simple_vocabulary)))
