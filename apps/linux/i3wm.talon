@@ -20,10 +20,10 @@ kill (win|window): key(super-shift-q)
 (win|window) default: key(super-e)
 (win|window) tabbed: key(super-w)
 launch: key(super-d)
-launch <phrase>:
+launch <user.text>:
         key(super-d)
         sleep(100ms)
-        insert("{phrase}")
+        insert("{text}")
 reload i three config: key(super-shift-c)
 restart i three: key(super-shift-r)
 
@@ -34,6 +34,24 @@ center window: key(super-shift-d)
 resize mode: key(super-r)
 focus parent: key(super-a)
 focus child: key(super-shift-a)
+
+# resize helpers
+grow window:
+    key(super-r)
+    key(right:10)
+    key(down:10)
+    key(escape)
+    # center window
+    key(super-shift-d)
+
+# resize helpers
+shrink window:
+    key(super-r)
+    key(left:10)
+    key(up:10)
+    key(escape)
+
+    key(super-shift-d)
 
 # XXX - should include talon sleep maybe
 lock screen: key(super-shift-x)
