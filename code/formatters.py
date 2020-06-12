@@ -1,3 +1,4 @@
+import os
 from typing import List, Union
 
 from talon import Context, Module, actions, imgui, ui
@@ -117,7 +118,7 @@ formatters_dict = {
     "FIRST_THREE": (NOSEP, lambda i, word, _: word[0:3]),
     "FIRST_FOUR": (NOSEP, lambda i, word, _: word[0:4]),
     "FIRST_FIVE": (NOSEP, lambda i, word, _: word[0:5]),
-    "FOLDER_SEPARATED": (NOSEP, every_word(lambda w: w + "/")),
+    "FOLDER_SEPARATED": (NOSEP, every_word(lambda w: w + os.sep)),
     "NO_SPACES": (NOSEP, every_word(lambda w: w)),
     "PRIVATE_CAMEL_CASE": (NOSEP, first_vs_rest(lambda w: w, lambda w: w.capitalize())),
     "PUBLIC_CAMEL_CASE": (NOSEP, every_word(lambda w: w.capitalize())),
