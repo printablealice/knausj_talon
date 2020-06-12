@@ -71,3 +71,11 @@ code.language: python
 (snip|snippet) dick string:
     user.vim_insert_mode("dstr")
     key(tab)
+
+(snip|snippet) new arg parser:
+    user.vim_insert_mode("argparse")
+    key(tab)
+
+(snip|snippet) new arg:
+    user.vim_insert_mode("narg")
+    key(tab)

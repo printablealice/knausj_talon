@@ -1,4 +1,5 @@
 # these commands are based off the official them markdown vim-snippets
+tag: vim
 code.language: markdown
 -
 
