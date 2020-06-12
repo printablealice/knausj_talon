@@ -15,6 +15,11 @@ task list <user.text>: "task list {text}\n"
 task list project: "task list project: "
 task list project <user.text>: "task list project:{text}\n"
 
+task view <user.text>: "task list project:{text}\n"
+
+# task editing
+task <number> edit: "task {number} edit\n"
+
 # task add
 task add: "task add "
 task add <user.text>: "task add {text}\n"
