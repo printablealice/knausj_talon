@@ -1,5 +1,6 @@
 os: linux
-tag: firefox
+#tag: firefox
+tag: disabled
 -
 settings():
     user.vimvixen_auto_focus = 0
