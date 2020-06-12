@@ -25,15 +25,22 @@ mod.tag(
 key = actions.key
 
 extension_lang_map = {
-    "py": "python",
-    "cs": "csharp",
+    "asm": "assembly",
+    "c": "cplusplus",
     "cpp": "cplusplus",
-    "h": "cplusplus",
-    "talon": "talon",
+    "cs": "csharp",
     "gdb": "gdb",
-    "md": "markdown",
-    "sh": "bash",
     "go": "go",
+    "h": "cplusplus",
+    "md": "markdown",
+    "pl": "perl",
+    "py": "python",
+    "rb": "ruby",
+    "s": "assembly",
+    "sh": "bash",
+    "snippets": "snippets",
+    "talon": "talon",
+    "vim": "vim",
 }
 
 # flag indicates whether or not the title tracking is enabled
