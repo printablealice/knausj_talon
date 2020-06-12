@@ -101,3 +101,6 @@ hyper:
 pucker:
     edit.paste()
     key(enter)
+
+web link: "http://"
+file link: "file://"
