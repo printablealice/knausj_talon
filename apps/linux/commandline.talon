@@ -9,16 +9,16 @@ tag: terminal
 (list|lisa) (deer|dir): "ls "
 
 # directory and files
-up (dear|dir): "../"
-(cd|deer|dir) <word>: "cd {word}"
+(up (dear|dir)|travis): "../"
+(cd|deer|dir) <user.text>: "cd {text}"
 (cd|deer|dir) up: "cd ..\n"
 parent (deer|dir): "cd ..\n"
 (cd|deer|dir) home: "cd\n"
 (cd|deer|dir) last: "cd -\n"
 make (dur|dear|dir|directory): "mkdir "
-make (dur|dear|dir|directory) <word>: "mkdir {word}"
+make (dur|dear|dir|directory) <user.text>: "mkdir {text}"
 remove (dur|dear|dir|directory): "rmdir "
-remove (dur|dear|dir|directory) <word>: "rmdir {word}"
+remove (dur|dear|dir|directory) <user.ext>: "rmdir {text}"
 remove file: "rm "
 tree: "tree\n"
 temp (dur|dear|dir|directory): "cd /tmp\n"
@@ -61,7 +61,7 @@ rip: "rg -i "
 rip (exact|precise): "rg "
 
 # networking
-show eye pee: "ip addr\n"
+show (I P|eye pee): "ip addr\n"
 show route: "ip route\n"
 generate see tags: "ctags --recurse *\n"
 generate see scope database:
@@ -112,14 +112,20 @@ find <user.text> inside (python|pie) files less:
 man: "man "
 so do: "sudo "
 d message: "dmesg"
+disk usage: "df -h\n"
 
 # extraction
 tar ball: "tar -"
 tar ball extract [zip]: "tar -xvzf "
 tar ball extract bee zip: "tar -xvjf "
+(un zip|extract zip): "unzip "
 
 curl: "curl "
-double u get: "wget "
+double you get: "wget "
+download clipboard:
+    insert("wget ")
+    edit.paste()
+    key(enter)
 
 # because talent doesn't seem to like me saying ./
 run script: "./"
@@ -129,3 +135,12 @@ for file loop:
     insert("for FILE in $(ls \"*\"); do \$FILE; done")
 
 network manager log: "sudo journalctl -u NetworkManager.service\n"
+
+# networking
+
+secure shell: "ssh"
+secure shell <user.text>: "ssh {text}\n"
+show authorized keys: "vi ~/.ssh/authorized_keys\n"
+show pub keys: "cat ~/.ssh/*.pub\n"
+edit authorized keys: "vi ~/.ssh/authorized_keys\n"
+go secure shell config: "cd ~/.ssh\n"
