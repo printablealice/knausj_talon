@@ -51,13 +51,20 @@ def get_words(name):
 class Actions:
     def switcher_focus(name: str):
         """Focus a new application by  name"""
-        os.system("i3-msg '[class=\"(?)%s\"] focus'" % name)
-        # for app in ui.apps():
-        #    #print("app.name:" + app.name)
-        #    #print("app.bundler: " + app.bundle)
-        #    if app.name == name and not app.background:
-        #        app.focus()
-        #        break
+        running = ctx.lists["self.running"]
+        wanted_app = None
+        for running_name in running.keys():
+            if running_name == name or running_name.lower().startswith(name):
+                wanted_app = running[running_name]
+                break
+        if wanted_app is None:
+            return
+
+        for app in ui.apps():
+            if app.name == wanted_app and not app.background:
+                os.system("i3-msg '[class=\"(?)%s\"] focus'" % app.name)
+                # app.focus()
+                break
 
     def switcher_launch(path: str):
         """Launch a new application by path"""
