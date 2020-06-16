@@ -76,7 +76,7 @@ settings():
 # NOTE: You can disable generic_editor.talon by renaming it, and still fully
 # control vim. These are more for people that are used to the official talon
 # editor commands that want to trial vim a bit. I don't personally use most of
-# the actions here, so they have not been thoroughly tested
+# the actions here, so they have not been thoroughly tested.
 #
 ###
 action(edit.find):
@@ -145,6 +145,14 @@ action(edit.copy):
 action(edit.paste):
     key(ctrl-shift-v)
 
+action(edit.save):
+    user.vim_command_mode(":w\n")
+
+action(edit.redo):
+    user.vim_normal_mode_key("ctrl-r")
+action(edit.undo):
+    user.vim_normal_mode_key("u")
+
 ###
 # `code/vim.py` actions based on vimspeak
 ###
@@ -165,15 +173,20 @@ action(edit.paste):
 # File editing and management
 ###
 # NOTE: using `save` alone conflicts too much with the `say`
-save file:
-    user.vim_command_mode(":w\n")
-save [file] as:
+#
+# These are prefix with `file` to match the `file save` action defined by talon
+# XXX - deprecate in favor of action
+#save file:
+#    user.vim_command_mode(":w\n")
+file save as:
     key(escape)
     user.vim_command_mode(":w ")
-save all:
+file save all:
     user.vim_command_mode_exterm(":wa\n")
-save and (quit|close):
+file save and (quit|close):
     user.vim_command_mode(":wq\n")
+file (close|quite):
+
 (close|quit) file:
     user.vim_command_mode(":q\n")
 
@@ -205,13 +218,6 @@ open this file in vertical [split|window]:
 
 (show|list) current directory: user.vim_command_mode(":pwd\n")
 change (buffer|current) directory: user.vim_command_mode(":lcd %:p:h\n")
-
-###
-# Standard commands
-###
-# XXX - technically should be handled by vim.py, but need to add "ctrl" key support
-#redo:
-#    user.vim_normal_mode_key("ctrl-r")
 
 ###
 # Navigation, movement and jumping
