@@ -63,6 +63,13 @@ rip (exact|precise): "rg "
 # networking
 show (I P|eye pee): "ip addr\n"
 show route: "ip route\n"
+net stat: "netstat -ant\n"
+net cat: "nc -vv "
+net cat listener: "nc -v -l -p "
+show hosts file: "cat /etc/hosts\n"
+edit hosts file: "sudo vi /etc/hosts\n"
+tcp dump: "tcpdump "
+
 generate see tags: "ctags --recurse *\n"
 generate see scope database:
     insert('find . -name "*.c"')
@@ -136,11 +143,18 @@ for file loop:
 
 network manager log: "sudo journalctl -u NetworkManager.service\n"
 
-# networking
-
+# ssh
 secure shell: "ssh"
 secure shell <user.text>: "ssh {text}\n"
 show authorized keys: "vi ~/.ssh/authorized_keys\n"
 show pub keys: "cat ~/.ssh/*.pub\n"
 edit authorized keys: "vi ~/.ssh/authorized_keys\n"
 go secure shell config: "cd ~/.ssh\n"
+terminate session:
+    key(enter ~ .)
+
+# process management
+pee kill: "pkill "
+pee kill <user.text>: "pkill {text}"
+kill <number>: "kill -9 {number}"
+reboot system: "sudo reboot -h now"
