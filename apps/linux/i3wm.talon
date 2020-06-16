@@ -4,11 +4,12 @@ os: linux
 # TODO: take vim_arrow vs arrow from a settings file
 -
 
-(works|screen) <number>: key("super-{number}")
-(works|screen) ten: key(super-0)
-(works|screen) (last|back|flip): key(super-u)
-(works|screen) (right|next): key(super-o)
-(works|screen) (prev|previous|left): key(super-y)
+# XXX - deprecate screen for eventual terminal command support
+(works|screen|dock) <number>: key("super-{number}")
+(works|screen|dock) ten: key(super-0)
+(works|screen|dock) (last|back|flip): key(super-u)
+(works|screen|dock) (right|next): key(super-o)
+(works|screen|dock) (prev|previous|left): key(super-y)
 
 (win|window) left: key(super-h)
 (win|window) right: key(super-l)
