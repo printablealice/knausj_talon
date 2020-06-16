@@ -79,6 +79,11 @@ simple_vocabulary = [
     "gitlab",
     "wisp",
     "vimvixen",
+    "admin",
+    "debug",
+    "debian",
+    "aenea",
+    "edit",
 ]
 
 mapping_vocabulary = {
@@ -161,8 +166,11 @@ mapping_vocabulary = {
     "hedra": "ghidra",
     "heedra": "ghidra",
     "double you get": "wget",
-    "pep eight": "pep8", 
-
+    "pep eight": "pep8",
+    "debbie an": "debian",
+    "anne": "aenea",
+    "all t snips": "ultisnips",
+    "tcp dump": "tcpdump",
 }
 
 mapping_vocabulary.update(dict(zip(simple_vocabulary, simple_vocabulary)))
