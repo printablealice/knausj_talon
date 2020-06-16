@@ -62,6 +62,7 @@ ctx.lists["self.vim_arrow"] = {
 }
 
 # XXX - need to break into normal, visual, etc
+# XXX - Technically some of these are not counted atm... so could be split
 # Standard self.vim_counted_actions insertable entries
 standard_counted_actions = {
     "after": "a",
@@ -100,11 +101,19 @@ standard_counted_actions = {
     "scroll half screen right": "zL",
     "scroll start": "zs",
     "scroll end": "ze",
+    "upper case line": "gUU",
+    "lower case line": "guu",
     # XXX - these work from visual mode and normal mode
     "insert before line": "I",
     "insert line": "I",
     "play again": "@@",
     "toggle case": "~",
+    "repeat last swap": "&",
+    # XXX - not sure how to name these
+    "delete rest": "D",
+    "delete remaining": "D",
+    "change rest": "C",
+    "change remaining": "C",
 }
 
 # Standard self.vim_counted_actions key() entries
@@ -282,6 +291,8 @@ ctx.lists["self.vim_motions"] = {
 
 # XXX - make easier to say
 ctx.lists["self.vim_motions_keys"] = {
+    "last cursor": "ctrl-o",
+    "forward cursor": "ctrl-i",
     "retrace movements": "ctrl-o",
     "retrace movements forward": "ctrl-i",
 }
@@ -733,10 +744,9 @@ def vim_text_objects(m) -> str:
     return "".join(list(m))
 
 
-# XXX - clarify this comment
-# when speaking adding in the object ranges a little bit annoying, so it's a
-# little bit and more natural to just assume that you mean around if you didn't
-# say anything
+# Sometimes you want to imply a surround action is going to work on a word, but
+# saying around is tedious, of this is defaults to selecting around if no
+# actual inner or around range is spoken
 @ctx.capture(rule="[<self.vim_text_object_count>] <self.vim_text_object_select>$")
 def vim_unranged_surround_text_objects(m) -> str:
     if len(list(m)) == 1:
@@ -1017,6 +1027,8 @@ class VimMode:
     INSERT = 3
     TERMINAL = 4
     COMMAND = 5
+    REPLACE = 5
+    VREPLACE = 5
 
     # XXX - not really necessary here, but just used to sanity check for now
     vim_modes = {
@@ -1044,8 +1056,6 @@ class VimMode:
         # list of all vim instances talon is aware of
         self.vim_instances = []
         self.current_rpc = None
-        self.normal_modes = ["n"]  # XXX - unused
-        self.visual_modes = ["v", "V", "^V"]  # XXX - unused
         self.current_mode = self.get_active_mode()
 
     def is_normal_mode(self):
@@ -1096,10 +1106,7 @@ class VimMode:
     def set_normal_mode_exterm(self):
         self.adjust_mode(self.NORMAL, escape_terminal=True)
 
-    # XXX - fix the auto stuff, maybe have separate method version or something
-
-    # XXX - should np imply exterm? as not preserving is a fairly big
-    # operation?
+    # XXX - revisit auto, maybe have separate method version or something
     def set_normal_mode_np(self, auto=True):
         self.adjust_mode(self.NORMAL, no_preserve=True, auto=auto)
 
@@ -1121,6 +1128,12 @@ class VimMode:
     def set_command_mode_exterm(self):
         self.adjust_mode(self.COMMAND, escape_terminal=True)
 
+    def set_replace_mode(self):
+        self.adjust_mode(self.REPLACE)
+
+    def set_visual_replace_mode(self):
+        self.adjust_mode(self.VREPLACE)
+
     def set_any_motion_mode(self):
         self.adjust_mode([self.NORMAL, self.VISUAL])
 
@@ -1140,7 +1153,7 @@ class VimMode:
         if type(valid_mode_ids) != list:
             valid_mode_ids = [valid_mode_ids]
         if cur not in valid_mode_ids:
-            # Just favor the first mode
+            # Just favor the first mode match
             self.set_mode(
                 valid_mode_ids[0],
                 no_preserve=no_preserve,
@@ -1233,6 +1246,10 @@ class VimMode:
             # XXX - could check cmd to see if it has the ':' and if not have
             # this func set it
             pass
+        elif wanted_mode == self.REPLACE:
+            actions.key("R")
+        elif wanted_mode == self.VREPLACE:
+            actions.key("g R")
 
         # Here we assume we are now in some normalized state:
         # need to make the notify command configurable

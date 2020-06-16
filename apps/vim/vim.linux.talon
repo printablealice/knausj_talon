@@ -1,6 +1,6 @@
 #  Usage:
-#  - See doc/vim."md
-#  - See code/vim== .py
+#  - See doc/vim.md for usage and tutorial
+#  - See code/vim.py very implementation and additional motion grammars
 #
 # Where applicable I try to explicitly select appropriate API for terminal
 # escaping, etc. However in cases where it is unlikely you will say a command
@@ -745,8 +745,8 @@ normal mode: user.vim_set_normal_mode_np()
 insert mode: user.vim_set_insert_mode()
 # command mode: user.vim_set_command_mode()
 command mode: user.vim_any_motion_mode_exterm_key(":")
-# replace mode: user.vim_set_replace_mode()
-(replace mode|overwrite): user.vim_any_motion_mode_exterm_key("R")
+(replace mode|overwrite): user.vim_set_replace_mode()
+visual replace mode: user.vim_set_visual_replace_mode()
 visual mode: user.vim_set_visual_mode()
 # visual block mode: user.vim_set_vblock_mode()
 # XXX - This will perserve INSERT atm, so not really a proper mode switch
