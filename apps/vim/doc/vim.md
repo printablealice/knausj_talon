@@ -1,3 +1,36 @@
+<!-- vim-markdown-toc GFM -->
+
+* [Using VIM under Talon](#using-vim-under-talon)
+* [Initial Setup Walkthrough](#initial-setup-walkthrough)
+    * [Talon Change - The word `yank`](#talon-change---the-word-yank)
+    * [Talon Change - The key `end`](#talon-change---the-key-end)
+    * [Talon Change - The key `word`](#talon-change---the-key-word)
+    * [The `generic_editor.talon` commands](#the-generic_editortalon-commands)
+    * [Detecting VIM running inside terminals from Talon](#detecting-vim-running-inside-terminals-from-talon)
+    * [Detecting the code language of edited files](#detecting-the-code-language-of-edited-files)
+    * [Detecting current vim mode](#detecting-current-vim-mode)
+    * [Automatically switching neovim using RPC](#automatically-switching-neovim-using-rpc)
+    * [Using VIM as your terminal](#using-vim-as-your-terminal)
+        * [Neovim Terminal Quirks](#neovim-terminal-quirks)
+        * [Working directory](#working-directory)
+        * [Installing neovim python package inside talon](#installing-neovim-python-package-inside-talon)
+* [Supported command overview](#supported-command-overview)
+* [VIM Plugins](#vim-plugins)
+    * [fugitive.vim](#fugitivevim)
+    * [vim-plug.vim](#vim-plugvim)
+    * [fzf.vim](#fzfvim)
+    * [nerdtree.vim](#nerdtreevim)
+    * [cscope.vim](#cscopevim)
+    * [ale.vim](#alevim)
+    * [surround.vim](#surroundvim)
+* [VIM Examples and Tutorial](#vim-examples-and-tutorial)
+    * [Simple motions and edits](#simple-motions-and-edits)
+        * [Intermediate Usage](#intermediate-usage)
+        * [Advanced Usage](#advanced-usage)
+* [Frequently Asked Questions](#frequently-asked-questions)
+    * [Why not just use keyboard commands](#why-not-just-use-keyboard-commands)
+
+<!-- vim-markdown-toc -->
 # Using VIM under Talon
 
 This document serves as an instruction manual and quick tutorial for people
@@ -18,7 +51,7 @@ Currently supported VIM features:
 * folds
 * tabs
 * splits
-* plugins (see list below)
+* [plugins](plugins) (see list below)
 * settings
 * automatic mode switching (including terminal)
 
@@ -188,11 +221,28 @@ chpwd_functions+=( neovim_autocd )
 
 XXX - this isn't done/documented yet
 
+# Supported command overview
+
+In this section summarizes most of the main grammars that are supported
+by the current talon vim implementation. For the most truthful representation
+of what is supported you need to check the talon and python files. All of the
+commands follow the typical vim grammar style such as
+`[count][action][motion]`. Motions are also supported is to move along where
+you are in the file or select things in VISUAL mode. By default these motions
+are also accessible for the inside INSERT mode without needing to manually
+change modes, to reduce voice strain.
+
+The core commands are as follows:
+
+
+
+
 # VIM Plugins
 
 Right now plugins are sorted into their own section under
 `apps/linux/vim_plugins/`. The below is a quick summary of the more heavily
-tested plugins.
+tested plugins. In general if you don't need these just disable them, by
+adding a `.disable` suffix.
 
 ## fugitive.vim
 
