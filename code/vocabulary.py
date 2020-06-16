@@ -171,6 +171,8 @@ mapping_vocabulary = {
     "anne": "aenea",
     "all t snips": "ultisnips",
     "tcp dump": "tcpdump",
+    "I notify": "inotify",
+    
 }
 
 mapping_vocabulary.update(dict(zip(simple_vocabulary, simple_vocabulary)))
