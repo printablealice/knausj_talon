@@ -24,6 +24,8 @@ jump to dotfiles: "cd ~/dotfiles\n"
 
 # snippets
 edit custom snippets: "vim ~/.vim/custom-snippets\n"
+edit vim snippets:
+    "vim ~/.vim/plugged/vim-snippets/UltiSnips/\n"
 edit markdown snippets:
     "vim ~/.vim/plugged/vim-snippets/UltiSnips/markdown.snippets\n"
 edit python snippets:
@@ -70,9 +72,9 @@ resource config:
 open active work space:
     user.system_command("/home/aa/scripts/workflow/work_workspace.sh")
 
-start work tunnel:
-    user.system_command("/home/aa/scripts/connect_work_vpn.sh")
-stop work tunnel:
+(connect|start) work (tunnel|vpn):
+    user.system_command_nb("/home/aa/scripts/connect_work_vpn.sh")
+(disconnect|stop) work (tunnel|vpn):
     user.system_command("/home/aa/scripts/disconnect_work_vpn.sh")
 
 ###
