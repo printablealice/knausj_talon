@@ -154,6 +154,7 @@ terminate session:
     key(enter ~ .)
 
 # process management
+run top: "htop\n"
 pee kill: "pkill "
 pee kill <user.text>: "pkill {text}"
 kill <number>: "kill -9 {number}"
