@@ -1,22 +1,10 @@
-#  Usage:
-#  - See doc/vim.md for usage and tutorial
+#  Usage: - See doc/vim.md for usage and tutorial
 #  - See code/vim.py very implementation and additional motion grammars
-#
 # Where applicable I try to explicitly select appropriate API for terminal
 # escaping, etc. However in cases where it is unlikely you will say a command
 # from terminal mode, I don't bother. Example "save file" doesn't have
 # explicit terminal escaping. This also helps vim running inside of them
 # terminal work properly.
-
-# TODO:
-#  - consider making go mandatory for buffer and tab switching
-#  - more automatic highlighting, for example:
-#     `highlight 2 above` should visual line select two lines above current.
-#     especially useful when inside vim terminal using gdb, etc
-#     `highlight X lines @ [line] NNNN`
-#     `yank X lines @ [line] NNNN`
-#     `yank last X lines` (relative reverse copy)
-#     `yank next X lines` (relative forward copy)
 
 os:linux
 app:gvim
@@ -62,12 +50,12 @@ settings():
     # When you are escaping queued commands, it seems vim needs time to recover
     # before issuing the subsequent commands. This controls how long it waits,
     # in seconds
-    user.vim_cancel_queued_commands_timeout = 0.3
+    user.vim_cancel_queued_commands_timeout = 0.25
 
     # It how long to wait before issuing commands after a mode change. You
     # want adjust this if when you say things like undo from INSERT mode, an
     # "u" gets inserted into INSERT mode
-    user.vim_mode_change_timeout = 0.3
+    user.vim_mode_change_timeout = 0.25
 
 ###
 # Actions - Talon generic_editor.talon implementation
@@ -145,9 +133,6 @@ action(edit.copy):
 action(edit.paste):
     key(ctrl-shift-v)
 
-action(edit.save):
-    user.vim_command_mode(":w\n")
-
 action(edit.redo):
     user.vim_normal_mode_key("ctrl-r")
 action(edit.undo):
@@ -172,12 +157,9 @@ action(edit.undo):
 ###
 # File editing and management
 ###
-# NOTE: using `save` alone conflicts too much with the `say`
-#
 # These are prefix with `file` to match the `file save` action defined by talon
-# XXX - deprecate in favor of action
-#save file:
-#    user.vim_command_mode(":w\n")
+action(edit.save):
+    user.vim_command_mode(":w\n")
 file save as:
     key(escape)
     user.vim_command_mode(":w ")
@@ -186,8 +168,6 @@ file save all:
 file save and (quit|close):
     user.vim_command_mode(":wq\n")
 file (close|quite):
-
-(close|quit) file:
     user.vim_command_mode(":q\n")
 
 # no \n as a saftey measure
@@ -227,19 +207,24 @@ change (buffer|current) directory: user.vim_command_mode(":lcd %:p:h\n")
 [(go|jump)] [to] line <number>:
     user.vim_command_mode_exterm(":{number}\n")
 
+# These are especially useful when in terminal mode and you want to jump to
+# something in normal mode that is in the history. Doubley so if you use
+# set relativenumber in terminal mode
 [go] relative up [line] <number>:
-    user.vim_normal_mode_exterm("{number}k\n")
+    user.vim_normal_mode_exterm("{number}k")
 
 [go] relative down [line] <number>:
-    user.vim_normal_mode_exterm("{number}j\n")
+    user.vim_normal_mode_exterm("{number}j")
 
 matching: user.vim_any_motion_mode_key("%")
 
 # jump list
 show jump list: user.vim_command_mode_exterm(":jumps\n")
 clear jump list: user.vim_command_mode_exterm(":clearjumps\n")
-(prev|previous|older) jump [entry]: user.vim_normal_mode_exterm_key("ctrl-o")
-(next|newer) jump [entry]: user.vim_normal_mode_exterm_key("ctrl-i")
+go (last|prev|previous) jump [entry]: user.vim_normal_mode_exterm_key("ctrl-o")
+go (next|newer) jump [entry]: user.vim_normal_mode_exterm_key("ctrl-i")
+(go|jump) [to] last change: user.vim_normal_mode("g;")
+(go|jump) [to] next change: user.vim_normal_mode("g,")
 # XXX - add jump to <id>
 
 # ctags/symbol
@@ -305,10 +290,24 @@ wipe line:
 # copying
 (copy|yank) line (at|number) <number>$:
     user.vim_command_mode_exterm(":{number}y\n")
+(copy|yank) <number> lines at line <number>$:
+    user.vim_command_mode_exterm(":{number_2}\n")
+    user.vim_normal_mode_exterm("y{number_1}y")
 (copy|yank) line (at|number) <number> through <number>:
     user.vim_command_mode_exterm(":{number_1},{number_2}y\n")
     user.vim_command_mode(":{number_1},{number_2}y\n")
     user.vim_command_mode("p")
+
+(copy|yank) line relative up <number>:
+    user.vim_command_mode_exterm("{number}k")
+    user.vim_command_mode("yy")
+(copy|yank) <number> lines relative up <number>:
+    user.vim_command_mode_exterm("{number_2}k")
+    user.vim_command_mode("{number_1}yy")
+(copy|yank) (above|last) <number> lines:
+    user.vim_normal_mode_exterm("{number}k")
+    user.vim_normal_mode_exterm("y{number}y")
+    user.vim_normal_mode_exterm("{number}j")
 
 # duplicating
 # These are multi-line like this to perserve INSERT.
@@ -324,12 +323,8 @@ wipe line:
     user.vim_command_mode("p")
 (dup|duplicate) line: user.vim_normal_mode_np("Yp")
 
-# start ending at end of line
-push line:
-    user.vim_normal_mode_key("A")
-
 # start ending at end of file
-push file:
+append file:
     user.vim_normal_mode_np("Go")
 
 insert <user.text>:
@@ -357,7 +352,7 @@ filter line: "=="
     user.vim_command_mode(":'[-1\n")
 
 # XXX - This should be a callable function so we can do things like:
-#       'swap on this <highlight motion>'
+#       '.swap on this <highlight motion>'
 #       'swap between line x, y'
 # assumes visual mode
 swap (selected|highlighted):
@@ -696,8 +691,9 @@ new mark <user.letter>:
     user.vim_command_mode_exterm(":marks\n")
 (list|show) specific marks:
     user.vim_command_mode_exterm(":marks ")
-(go|jump) [to] [last] edit: user.vim_normal_mode("`.")
-(go|jump) [to] [last] (cursor|location): user.vim_normal_mode_exterm("``")
+(go|jump) [to] last edit: user.vim_normal_mode("`.")
+(go|jump) [to] last insert: user.vim_normal_mode("`^")
+(go|jump) [to] last (cursor|location): user.vim_normal_mode_exterm("``")
 
 ###
 # Session
@@ -754,6 +750,7 @@ command mode: user.vim_any_motion_mode_exterm_key(":")
 (replace mode|overwrite): user.vim_set_replace_mode()
 visual replace mode: user.vim_set_visual_replace_mode()
 visual mode: user.vim_set_visual_mode()
+visual line mode: user.vim_set_visual_line_mode()
 # visual block mode: user.vim_set_vblock_mode()
 # XXX - This will perserve INSERT atm, so not really a proper mode switch
 visual block mode: user.vim_any_motion_mode_exterm_key("ctrl-v")
@@ -788,18 +785,33 @@ search (reversed|reverse) sensitive:
     user.vim_any_motion_mode_exterm("?\C")
 
 ###
-# Text Selection
+# Visual Text Selection
 ###
+# XXX - should be modes
 (visual|select|highlight) line: user.vim_visual_mode("V")
 (visual|select|highlight) block: user.vim_any_motion_mode_exterm_key("ctrl-v")
 
-select <user.vim_select_motion>:
+(select|highlight) <user.vim_select_motion>:
     user.vim_visual_mode("{vim_select_motion}")
 
-select lines <number> through <number>:
+(select|highlight) lines <number> through <number>:
     user.vim_normal_mode_np("{number_1}G")
     user.vim_set_visual_mode()
     insert("{number_2}G")
+
+(select|highlight) <number> lines:
+    user.vim_set_visual_line_mode()
+    insert("{number-1}j")
+
+(select|highlight) <number> lines at line <number>:
+    user.vim_normal_mode_np("{number_2}G")
+    user.vim_set_visual_line_mode()
+    insert("{number_1-1}j")
+
+(select|highlight) <number> above:
+    user.vim_normal_mode_np("{number}k")
+    user.vim_set_visual_line_mode()
+    insert("{number_1-1}j")
 
 ###
 # Convenience
@@ -866,4 +878,3 @@ close all folds: user.vim_normal_mode("zM")
 # split buffer, which in turn loads nerdtree.talon when focused. Don't move
 # these into nerdtree.talon for now
 nerd tree: user.vim_normal_mode_exterm(":NERDTree\n")
-nerd find [current] file: user.vim_normal_mode_exterm(":NERDTreeFind\n")

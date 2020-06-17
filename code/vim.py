@@ -848,6 +848,11 @@ class Actions:
         v = VimMode()
         v.set_visual_mode()
 
+    def vim_set_visual_line_mode():
+        """set visual line mode"""
+        v = VimMode()
+        v.set_visual_line_mode()
+
     def vim_set_insert_mode():
         """set insert mode"""
         v = VimMode()
@@ -1024,11 +1029,12 @@ class VimMode:
     # mode ids represent generic statusline mode() values. see :help mode()
     NORMAL = 1
     VISUAL = 2
-    INSERT = 3
-    TERMINAL = 4
-    COMMAND = 5
-    REPLACE = 5
-    VREPLACE = 5
+    VISUAL_LINE = 3
+    INSERT = 4
+    TERMINAL = 5
+    COMMAND = 6
+    REPLACE = 7
+    VREPLACE = 8
 
     # XXX - not really necessary here, but just used to sanity check for now
     vim_modes = {
@@ -1073,6 +1079,9 @@ class VimMode:
     def is_command_mode(self):
         return self.current_mode == "c"
 
+    def is_replace_mode(self):
+        return self.current_mode in ["R", "Rv"]
+
     def get_active_mode(self):
         title = ui.active_window().title
         mode = None
@@ -1115,6 +1124,9 @@ class VimMode:
 
     def set_visual_mode_np(self):
         self.adjust_mode(self.VISUAL, no_preserve=True)
+
+    def set_visual_line_mode(self):
+        self.adjust_mode(self.VISUAL_LINE)
 
     def set_insert_mode(self):
         self.adjust_mode(self.INSERT)
@@ -1168,7 +1180,7 @@ class VimMode:
             settings.get("user.vim_cancel_queued_commands") == 1
             and self.is_normal_mode()
         ):
-            print("escaping queued cmd")
+            # print("escaping queued cmd")
             actions.key("escape")
             timeout = settings.get("user.vim_cancel_queued_commands_timeout")
             time.sleep(timeout)
@@ -1191,6 +1203,7 @@ class VimMode:
                 settings.get("user.vim_escape_terminal_mode") is True
                 or escape_terminal is True
             ):
+                # print("escaping")
                 # break out of terminal mode
                 actions.key("ctrl-\\")
                 actions.key("ctrl-n")
@@ -1223,7 +1236,7 @@ class VimMode:
                 actions.key("escape")
 
             time.sleep(timeout)
-        elif self.is_visual_mode():
+        elif self.is_visual_mode() or self.is_command_mode() or self.is_replace_mode():
             actions.key("escape")
             time.sleep(timeout)
         elif self.is_normal_mode() and wanted_mode == self.COMMAND:
@@ -1242,6 +1255,11 @@ class VimMode:
             # ex: normal mode press 5, then press v to switch to visual
             actions.key("escape")
             actions.key("v")
+        elif wanted_mode == self.VISUAL_LINE:
+            # first we cancel queued normal commands that might mess with 'v'
+            # ex: normal mode press 5, then press v to switch to visual
+            actions.key("escape")
+            actions.key("V")
         elif wanted_mode == self.COMMAND:
             # XXX - could check cmd to see if it has the ':' and if not have
             # this func set it
