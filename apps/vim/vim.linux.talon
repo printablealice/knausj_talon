@@ -232,6 +232,7 @@ go (next|newer) jump [entry]: user.vim_normal_mode_exterm_key("ctrl-i")
 (pop|leave) (symbol|tag): user.vim_normal_mode_key("ctrl-t")
 
 # scrolling and page position
+# NOTE counted scrolling his handled in vim.py
 (focus|orient) [on] line <number>: user.vim_command_mode_exterm(":{number}\nzt")
 center [on] line <number>: user.vim_command_mode_exterm(":{number}\nz.")
 scroll top: user.vim_normal_mode_exterm("zt")
@@ -240,12 +241,6 @@ scroll bottom: user.vim_normal_mode_exterm("zb")
 scroll top reset cursor: user.vim_normal_mode_exterm("z\n")
 scroll middle reset cursor: user.vim_normal_mode_exterm("z.")
 scroll bottom reset cursor: user.vim_normal_mode_exterm("z ")
-scroll up: user.vim_normal_mode_exterm_key("ctrl-y")
-scroll down: user.vim_normal_mode_exterm_key("ctrl-e")
-page down: user.vim_normal_mode_exterm_key("ctrl-f")
-page up: user.vim_normal_mode_exterm_key("ctrl-b")
-half [page] down: user.vim_normal_mode_exterm_key("ctrl-d")
-half [page] up: user.vim_normal_mode_exterm_key("ctrl-u")
 
 ###
 # Text editing, copying, and manipulation
@@ -499,7 +494,7 @@ split <user.vim_arrow>:
     user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key("{vim_arrow}")
-split last:
+split (flip|last):
     user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(p)
@@ -538,10 +533,18 @@ spleff:
     key(h)
 
 # split top left
+splop:
+    user.vim_set_normal_mode_exterm()
+    key(ctrl-w)
+    key(t)
+
+# split bottom left
 splot:
     user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(t)
+    key(ctrl-w)
+    key(j)
 
 sprot:
     user.vim_set_normal_mode_exterm()
@@ -822,7 +825,8 @@ run as python:
 
 remove trailing white space: user.vim_normal_mode(":%s/\s\+$//e\n")
 (remove all|normalize) tabs: user.vim_normal_mode(":%s/\t/    /eg\n")
-
+show unsaved changes:
+    user.vim_command_mode(":w !diff % -\n")
 
 ###
 # Auto completion

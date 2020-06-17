@@ -104,7 +104,7 @@ standard_counted_actions = {
     "upper case line": "gUU",
     "lower case line": "guu",
     # XXX - these work from visual mode and normal mode
-    "insert before line": "I",
+    "insert before": "I",
     "insert line": "I",
     "play again": "@@",
     "toggle case": "~",
@@ -119,8 +119,8 @@ standard_counted_actions = {
 # Standard self.vim_counted_actions key() entries
 standard_counted_actions_control_keys = {
     "redo": "ctrl-r",
-    "scroll up": "ctrl-y",
-    "scroll down": "ctrl-e",
+    "scroll down": "ctrl-f",
+    "scroll up": "ctrl-b",
     "page down": "ctrl-f",
     "page up": "ctrl-b",
     "half page down": "ctrl-d",
