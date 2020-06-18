@@ -88,6 +88,10 @@ simple_vocabulary = [
     "modules",
     "buf",
     "args",
+    "parse",
+    "var",
+    "arena",
+    "main",
 ]
 
 mapping_vocabulary = {
