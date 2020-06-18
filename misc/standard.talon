@@ -1,3 +1,4 @@
+number <number>: insert("{number}")
 dragon words: "<dgnwords>"
 dragon dictation: "<phrase>"
 (shock|slap): key(enter)
@@ -94,7 +95,8 @@ play previous: key(prev)
 #menu: key(alt)
 
 local host: "127.0.0.1"
-hex (num|number) <number>: "0x{number}"
+(hex|hexadecimal) [(num|number)] <number>: "0x{number}"
+#hex (num|number) <number>: "0x{number}"
 hyper:
     edit.copy()
     edit.paste()
