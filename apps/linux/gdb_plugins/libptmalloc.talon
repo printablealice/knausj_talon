@@ -2,6 +2,7 @@ tag: gdb
 -
 
 (p t|pee tea) chunk: "ptchunk "
+(p t|pee tea) chunk help: "ptchunk -h\n"
 (p t|pee tea) search: "ptsearch "
 (p t|pee tea) arena: "ptarena "
 (p t|pee tea) bin: "ptbin "
