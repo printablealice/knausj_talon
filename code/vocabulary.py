@@ -84,6 +84,10 @@ simple_vocabulary = [
     "debian",
     "aenea",
     "edit",
+    "auto",
+    "modules",
+    "buf",
+    "args",
 ]
 
 mapping_vocabulary = {
@@ -172,7 +176,8 @@ mapping_vocabulary = {
     "all t snips": "ultisnips",
     "tcp dump": "tcpdump",
     "I notify": "inotify",
-    
+    "de bug": "debug",
+    "buf her": "buffer",
 }
 
 mapping_vocabulary.update(dict(zip(simple_vocabulary, simple_vocabulary)))
