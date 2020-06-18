@@ -262,7 +262,7 @@ swap paragraph:
     user.vim_normal_mode("d}}")
     user.vim_normal_mode("p")
 replace <user.any>:
-    user.vim_normal_mode_key("r{any}")
+    user.vim_normal_mode("r{any}")
 replace (ship|upper|upper case) <user.letters>:
     user.vim_normal_mode_key("r")
     user.keys_uppercase_letters(letters)
