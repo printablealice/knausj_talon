@@ -81,7 +81,7 @@ standard_counted_actions = {
     "erase": "x",
     "erase reversed": "X",
     "erase back": "X",
-    "put": "p",
+    #    "put": "p",
     "put below": "p",
     "paste": "p",
     "paste below": "p",
@@ -179,7 +179,7 @@ commands_with_motion = {
     # no motions
     "join": "J",
     "filter": "=",  # XXX - not sure about how to use this
-    "put": "p",
+    # "put": "p",
     "paste": "p",
     "undo": "u",
     "swap case": "~",
