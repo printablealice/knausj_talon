@@ -311,7 +311,7 @@ wipe line:
     user.vim_command_mode(":{number_1}y\n")
     user.vim_command_mode(":{number_2}\n")
     user.vim_command_mode("p")
-(duplicate|paste) line (at|number) <number> through <number>$:
+(duplicate|paste) lines <number> through <number>$:
      user.vim_command_mode(":{number_1},{number_2}y\n")
      user.vim_command_mode("p")
 (duplicate|paste) line <number>$:
