@@ -76,6 +76,6 @@ code.language: python
     user.vim_insert_mode("argparse")
     key(tab)
 
-(snip|snippet) new arg:
+(snip|snippet) add (arg|argument):
     user.vim_insert_mode("narg")
     key(tab)
