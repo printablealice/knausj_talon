@@ -27,6 +27,7 @@ task add: "task add "
 task add <user.text>: "task add {text}\n"
 task undo: "task undo\n"
 
+tasks all: "task\n"
 (tasks|task next): "task next\n"
 
 # task editing
