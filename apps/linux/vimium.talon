@@ -1,5 +1,6 @@
 os: linux
 tag: firefox
+tag: browser
 -
 
 # Navigating the page
@@ -161,3 +162,18 @@ duck duck <user.text>:
     key("ctrl-k")
     sleep(100ms)
     insert("{text}")
+
+#
+(page|tab) focus:
+    # highlight URL bar
+    key("ctrl-l")
+    sleep(10ms)
+    # pop keyboard
+    key("escape")
+    # trigger find (won't work unless we were in URL bar
+    key("ctrl-f")
+    sleep(10ms)
+    # escape out of find window
+    key("escape")
+    key("escape")
+    # now have general focus
