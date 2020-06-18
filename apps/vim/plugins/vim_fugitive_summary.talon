@@ -6,17 +6,16 @@
 # XXX - missing a significant amount of commands
 
 tag: vim
-and win.title: /Git/
-# XXX - need to figure out how to include the `[` in the regex
+and win.title: /\[Git/
 -
 
 # Staging/unstaging maps
 
-stage: key(s)
-un stage: key(u)
-un stage (all|everything): key(U)
+stage [file]: key(s)
+unstage [file]: key(u)
+unstage (all|everything): key(U)
 discard change: key(key)
-in line dif: key(=)
+(in line|toggle) diff: key(=)
 exclude this file: "gI"
 
 # Diff maps
@@ -29,7 +28,7 @@ preview file: key(p)
 
 # Commit maps
 
-commit file: "cc"
+commit changes: "cc"
 amend last commit: "ca"
 
 # Checkout/branch maps
