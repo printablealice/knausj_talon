@@ -261,7 +261,8 @@ swap lines:
 swap paragraph:
     user.vim_normal_mode("d}}")
     user.vim_normal_mode("p")
-replace <user.any>: "r{any}"
+replace <user.any>:
+    user.vim_normal_mode_key("r{any}")
 replace (ship|upper|upper case) <user.letters>:
     user.vim_normal_mode_key("r")
     user.keys_uppercase_letters(letters)
@@ -414,7 +415,8 @@ close (bufs|buffers): user.vim_command_mode_exterm(":bd ")
     user.vim_normal_mode_exterm(":split\n")
     key(ctrl-w)
     key(T)
-
+(buf|buffer) rename: user.vim_command_mode_exterm(":file ")
+(buf|buffer) rename <user.text>: user.vim_command_mode_exterm(":file {text}")
 
 ###
 # Splits
@@ -814,7 +816,13 @@ search (reversed|reverse) sensitive:
 (select|highlight) <number> above:
     user.vim_normal_mode_np("{number}k")
     user.vim_set_visual_line_mode()
-    insert("{number_1-1}j")
+    insert("{number-1}j")
+
+(select|highlight) until line <number>:
+    user.vim_normal_mode_np("m'")
+    insert(":{number}\n")
+    user.vim_set_visual_line_mode()
+    insert("''")
 
 ###
 # Convenience
