@@ -1,15 +1,13 @@
 os: linux
 # TODO: match a window manager specified in a settings file
 # TODO: take `super` from a settings file
-# TODO: take vim_arrow vs arrow from a settings file
 -
 
-# XXX - deprecate screen for eventual terminal command support
-(works|screen|dock) <number>: key("super-{number}")
-(works|screen|dock) ten: key(super-0)
-(works|screen|dock) (last|back|flip): key(super-u)
-(works|screen|dock) (right|next): key(super-o)
-(works|screen|dock) (prev|previous|left): key(super-y)
+dock <number>: key("super-{number}")
+dock ten: key(super-0)
+dock (last|back|flip): key(super-u)
+dock (right|next): key(super-o)
+dock (prev|previous|left): key(super-y)
 
 (win|window) left: key(super-h)
 (win|window) right: key(super-l)
@@ -68,7 +66,6 @@ vertical (shell|terminal):
 
 move (win|window) [to] workspace <number>: key("super-shift-{number}")
 move (win|window) [to] last workspace: key(super-shift-b)
-#move (win|window) <user.vim_arrow>: key("super-shift-{vim_arrow}")
 move (win|window) left: key("super-shift-h")
 move (win|window) right: key("super-shift-l")
 move (win|window) up: key("super-shift-k")
