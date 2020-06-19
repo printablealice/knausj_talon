@@ -486,6 +486,12 @@ split (close|quit):
     key(ctrl-w)
     key(q)
 
+# technically this won't always work
+split reopen vertical:
+    user.vim_command_mode_exterm(":vsplit#\n")
+split reopen [horizontal]:
+    user.vim_command_mode_exterm(":split#\n")
+
 new empty [horizontal] split:
     user.vim_command_mode_exterm(":new\n")
 new empty (vertical|v) split:
