@@ -92,6 +92,8 @@ simple_vocabulary = [
     "var",
     "arena",
     "main",
+    "scroll",
+    "scrolling",
 ]
 
 mapping_vocabulary = {
