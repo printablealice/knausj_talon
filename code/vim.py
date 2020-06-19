@@ -124,7 +124,9 @@ standard_counted_actions_control_keys = {
     "page down": "ctrl-f",
     "page up": "ctrl-b",
     "half page down": "ctrl-d",
+    "half scroll down": "ctrl-d",
     "half page up": "ctrl-u",
+    "half scroll up": "ctrl-u",
     "increment": "ctrl-a",
     "decrement": "ctrl-x",
 }
