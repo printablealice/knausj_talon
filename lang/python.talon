@@ -75,16 +75,9 @@ action(user.code_state_for_each):
     edit.word_left()
     key(space)
     edit.left()
-action(user.code_state_go_to): "go to "
 action(user.code_state_while):
-    insert("while ()")
+    insert("while :")
     edit.left()
-action(user.code_type_definition): "typedef "
-action(user.code_typedef_struct):
-    insert("typedef struct")
-    insert("{{\n\n}}")
-    edit.up()
-    key(tab)
 action(user.code_type_class): "class "
 action(user.code_import): "import "
 action(user.code_from_import):
@@ -92,12 +85,6 @@ action(user.code_from_import):
     key(left)
     edit.word_left()
     key(space)
-    edit.left()
-action(user.code_include_system):
-    insert("#include <>")
-    edit.left()
-action(user.code_include_local):
-    insert('#include ""')
     edit.left()
 action(user.code_comment): "#"
 action(user.code_private_function):
@@ -112,9 +99,8 @@ pie test: "pytest"
 ####
 # Operators
 ####
-#is not none: " is not None"
-#is none: "  None"
 empty dict: "{}"
+empty list: "{}"
 word (dickt | dictionary): "dict"
 state (def | deaf | deft): "def "
 class <user.text>:
@@ -123,12 +109,6 @@ class <user.text>:
     insert("():\n")
 dunder in it: "__init__"
 self taught: "self."
-from import:
-    insert("from import ")
-    key(left)
-    edit.word_left()
-    key(space)
-    edit.left()
 for in:
     insert("for in ")
     key(left)
@@ -188,6 +168,7 @@ call [function] <user.text>:
     insert("()")
     key(left)
 
+# XXX - move to a talon programming helper
 capture <user.text>:
     insert("@mod.capture\ndef ")
     insert(user.formatted_text(text, "snake"))
