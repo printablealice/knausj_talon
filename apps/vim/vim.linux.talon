@@ -832,13 +832,6 @@ search (reversed|reverse) sensitive:
     insert("''")
 
 
-###
-# Auto completion
-###
-# XXX - revisit these you complete me plug in
-complete: key(ctrl-n)
-complete next: key(ctrl-n)
-complete previous: key(ctrl-n)
 
 ###
 # Visual Mode
