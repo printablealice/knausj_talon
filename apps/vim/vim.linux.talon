@@ -716,7 +716,7 @@ force (make|save) session: user.vim_command_mode_exterm(":mksession! ")
 ###
 # Macros and registers ''
 ###
-show (registers|macros): user.vim_command_mode(":reg\n")
+(register|registers|macros) list: user.vim_command_mode(":reg\n")
 show (register|macro) <user.letter>: user.vim_command_mode(":reg {letter}\n")
 play macro <user.letter>: user.vim_any_motion_mode("@{letter}")
 repeat macro: user.vim_any_motion_mode("@@")
@@ -729,15 +729,16 @@ modify [register|macro] <user.letter>:
     insert("{letter}")
     key(')
 
-register <user.any> into [register] <user.any>:
+[copy] register <user.any> into [register] <user.any>:
     user.vim_command_mode(":let@{any_2}=@{any_1}\n")
 paste from register <user.any>: user.vim_any_motion_mode('"{any}p')
 yank (into|to) register <user.any>:
     user.vim_any_motion_mode('"{any}y')
 
+# XXX - this should allow counted yanking, into register should become an
+# optional part of vim.py matching
 yank <user.vim_text_objects> [(into|to)] register <user.any>:
     user.vim_any_motion_mode('"{any}y{vim_text_objects}')
-
 
 
 ###
@@ -830,17 +831,6 @@ search (reversed|reverse) sensitive:
     user.vim_set_visual_line_mode()
     insert("''")
 
-###
-# Convenience
-###
-run as python:
-    user.vim_normal_mode_np(":w\n")
-    insert(":exec '!python' shellescape(@%, 1)\n")
-
-remove trailing white space: user.vim_normal_mode(":%s/\s\+$//e\n")
-(remove all|normalize) tabs: user.vim_normal_mode(":%s/\t/    /eg\n")
-show unsaved changes:
-    user.vim_command_mode(":w !diff % -\n")
 
 ###
 # Auto completion
@@ -892,7 +882,28 @@ close all folds: user.vim_normal_mode("zM")
 # Plugins
 ###
 
-# NOTE: These are here rather than nerdtree.talon to allow it to load the
-# split buffer, which in turn loads nerdtree.talon when focused. Don't move
-# these into nerdtree.talon for now
+# NOTE: This is here rather than nerdtree.talon to load the split buffer, which
+# triggers nerdtree.talon when focused. Don't move this into nerdtree.talon
 nerd tree: user.vim_normal_mode_exterm(":NERDTree\n")
+
+###
+# Convenience
+###
+run as python:
+    user.vim_normal_mode_np(":w\n")
+    insert(":exec '!python' shellescape(@%, 1)\n")
+
+remove trailing white space: user.vim_normal_mode(":%s/\s\+$//e\n")
+(remove all|normalize) tabs: user.vim_normal_mode(":%s/\t/    /eg\n")
+show unsaved changes:
+    user.vim_command_mode(":w !diff % -\n")
+
+remove newlines from register <user.any>:
+    user.vim_command_mode(":let @{any}=substitute(strtrans(@{any}),'\^@',' ','g')\n")
+
+###
+# Custom
+#
+# For really user-specific customizations I suggest a different file, but this
+# section can be used for experimentation, etc.
+###
