@@ -2,8 +2,9 @@
 
 os:linux
 tag: browser
-# xxx - github doesn't list itself in the tab title
-win.title: /github/
+# matching the domain name in the tab requires a plugin like:
+# https://addons.mozilla.org/en-US/firefox/addon/domain-in-title/
+win.title: /github.com/
 -
 
 # site wide shortcuts
