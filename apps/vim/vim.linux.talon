@@ -421,7 +421,7 @@ close (bufs|buffers): user.vim_command_mode_exterm(":bd ")
 ###
 # Splits
 #
-# XXX - it may be cleaned to have these in a vim.py function
+# XXX - it may be cleaner to have these in a vim.py function
 # XXX - most split open commands should be able to take a buffer argument
 ###
 # creating splits
@@ -526,6 +526,10 @@ split preview:
     user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(P)
+split <number>:
+    user.vim_set_normal_mode_exterm()
+    insert("{number}")
+    key(ctrl-w ctrl-w)
 
 # personal convenience shortcuts
 # split right
@@ -686,7 +690,7 @@ set modifiable:
 ###
 # Marks
 ###
-new mark <user.letter>:
+(new|create) mark <user.letter>:
     user.vim_set_normal_mode_exterm()
     key(m)
     key(letter)

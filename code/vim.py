@@ -91,6 +91,7 @@ standard_counted_actions = {
     "paste above": "P",
     "repeat": ".",
     "indent line": ">>",
+    # Warning saying unindent line is painful
     "unindent line": "<<",
     "delete line": "dd",
     "yank line": "Y",
@@ -139,6 +140,8 @@ custom_counted_action = {
     "panic": "u",
     "dine": "dd",
     "yine": "Y",
+    "slide left" : "<<",
+    "slide right" : ">>",
 }
 
 # Custom self.vim_counted_actions insertable entries
@@ -914,7 +917,7 @@ class Actions:
         actions.insert(cmd)
 
     def vim_normal_mode_exterm_preserve(cmd: str):
-        """run a given list of commands in normal mode, escape from terminal 
+        """run a given list of commands in normal mode, escape from terminal
         mode, but return to terminal mode after. Special case for settings"""
         v = VimMode()
         v.set_normal_mode_exterm()
