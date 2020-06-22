@@ -12,6 +12,9 @@ words_to_keep_lowercase = "a,an,the,at,by,for,in,is,of,on,to,up,and,as,but,or,no
 )
 
 
+last_formatted_phrase = ""
+last_phrase = ""
+
 def surround(by):
     def func(i, word, last):
         if i == 0:
@@ -24,6 +27,8 @@ def surround(by):
 
 
 def FormatText(m: Union[str, Phrase], fmtrs: str):
+    global last_phrase
+    last_phrase = m
     words = []
     if isinstance(m, str):
         words = m.split(" ")
@@ -58,7 +63,11 @@ def format_text_helper(word_list, fmtrs: str):
     sep = " "
     if not spaces:
         sep = ""
-    return sep.join(words)
+    result = sep.join(words)
+
+    global last_formatted_phrase
+    last_formatted_phrase = result
+    return result
 
 
 NOSEP = True
@@ -101,6 +110,17 @@ def every_word(word_func):
 
 
 formatters_dict = {
+<<<<<<< HEAD
+=======
+    "NOOP": (SEP, lambda i, word, _: word),
+    "DOUBLE_UNDERSCORE": (NOSEP, first_vs_rest(lambda w: "__%s__" % w)),
+    "PRIVATE_CAMEL_CASE": (NOSEP, first_vs_rest(lambda w: w, lambda w: w.capitalize())),
+    "PUBLIC_CAMEL_CASE": (NOSEP, every_word(lambda w: w.capitalize())),
+    "SNAKE_CASE": (NOSEP, first_vs_rest(lambda w: w.lower(), lambda w: "_" + w.lower())),
+    "NO_SPACES": (NOSEP, every_word(lambda w: w)),
+    "DASH_SEPARATED": words_with_joiner("-"),
+    "DOUBLE_COLON_SEPARATED": words_with_joiner("::"),
+>>>>>>> 46283c27af7a94189a8f305ce973aab9ee2c9f07
     "ALL_CAPS": (SEP, every_word(lambda w: w.upper())),
     "ALL_LOWERCASE": (SEP, every_word(lambda w: w.lower())),
     "CAPITALIZE_ALL_WORDS": (
@@ -133,8 +153,14 @@ formatters_dict = {
 
 # This is the mapping from spoken phrases to formatters
 formatters_words = {
+<<<<<<< HEAD
     "allcaps": formatters_dict["ALL_CAPS"],
     "alldown": formatters_dict["ALL_LOWERCASE"],
+=======
+    "say": formatters_dict["NOOP"],
+    "speak": formatters_dict["NOOP"],
+    "dunder": formatters_dict["DOUBLE_UNDERSCORE"],
+>>>>>>> 46283c27af7a94189a8f305ce973aab9ee2c9f07
     "camel": formatters_dict["PRIVATE_CAMEL_CASE"],
     "dotted": formatters_dict["DOT_SEPARATED"],
     "dubstring": formatters_dict["DOUBLE_QUOTED_STRING"],
@@ -191,8 +217,23 @@ class Actions:
         """Hides list of formatters"""
         gui.hide()
 
+<<<<<<< HEAD
 
 @ctx.capture(rule="{self.formatters}+")
+=======
+    def clear_last_phrase():
+        """Clears the last formatted phrase"""
+        global last_formatted_phrase
+        for character in last_formatted_phrase:
+            actions.edit.delete()
+
+    def reformat_last_phrase(formatters: str) -> str:
+        """Reformats last formatted phrase"""
+        global last_phrase
+        return FormatText(last_phrase, formatters)
+
+@ctx.capture(rule='{self.formatters}+')
+>>>>>>> 46283c27af7a94189a8f305ce973aab9ee2c9f07
 def formatters(m):
     return ",".join(m.formatters_list)
 

@@ -92,8 +92,18 @@ action(user.code_private_function):
 action(user.code_protected_function):
     user.code_private_function()
 action(user.code_public_function):
+<<<<<<< HEAD
     insert("def ")
 
+=======
+	insert("def ")
+action(user.code_state_return):
+	insert("return ")
+	
+#python-specicic grammars
+dunder in it: insert("__init__")
+state (def | deaf | deft): "def "
+>>>>>>> 46283c27af7a94189a8f305ce973aab9ee2c9f07
 pie test: "pytest"
 
 ####

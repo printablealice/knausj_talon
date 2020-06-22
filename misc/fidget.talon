@@ -112,7 +112,8 @@ wiggle:
     sleep(1)
     key(super-f)
 
-#
+# this is me testing within a new vocabulary set up
+
 restart debug session:
     key(ctrl-c)
     insert("quit\n")

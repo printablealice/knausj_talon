@@ -16,3 +16,6 @@ super focus:
     user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(=)
+
+fine merge conflict:
+    user.vim_command_mode_exterm(":/\c<<<\n")
