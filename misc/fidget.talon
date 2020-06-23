@@ -55,7 +55,7 @@ fuzzy vimdiff:
 ###
 
 # shell helpers
-(go|jump) [to] (current|active) [work] project:
+(go|jump) [to] (current|active) [work] (project|directory):
     insert("source ~/projects/current &&")
     insert(" cd $ACTIVE_PROJECT\n")
 edit [to] (current|active) [work] project: "vim ~/projects/current\n"
