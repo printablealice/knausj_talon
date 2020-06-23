@@ -13,6 +13,7 @@ win.title: /VIM/
 -
 
 tag(): vim
+tag(): tab
 settings():
     # Whether or not to always revert back to the previous mode. Example, if
     # you are in insert mode and say 'delete word' it will delete one word and
@@ -216,7 +217,9 @@ change (buffer|current) directory: user.vim_command_mode(":lcd %:p:h\n")
 [go] relative down [line] <number>:
     user.vim_normal_mode_exterm("{number}j")
 
+# XXX - add support for [{, [(, etc
 matching: user.vim_any_motion_mode_key("%")
+matching <user.symbol>: user.vim_any_motion_mode("f{symbol}%")
 
 # jump list
 show jump list: user.vim_command_mode_exterm(":jumps\n")
@@ -282,6 +285,11 @@ clear line:
     user.vim_insert_mode_key("ctrl-u")
 wipe line:
     user.vim_normal_mode("0d$")
+
+# delete a line without clobbering the paste register
+# XXX - this should become a general yank, delete, etc command prefix imo
+forget line:
+    user.vim_normal_mode("\"_dd")
 
 # copying
 (copy|yank) line (at|number) <number>$:
@@ -686,6 +694,8 @@ set modifiable:
     user.vim_command_mode_exterm(":set modifiable\n")
 (unset modifiable|set no modifiable):
     user.vim_command_mode_exterm(":set nomodifiable\n")
+show filetype:
+    user.vim_command_mode_exterm(":set filetype\n")
 
 ###
 # Marks
