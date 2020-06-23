@@ -15,6 +15,7 @@ words_to_keep_lowercase = "a,an,the,at,by,for,in,is,of,on,to,up,and,as,but,or,no
 last_formatted_phrase = ""
 last_phrase = ""
 
+
 def surround(by):
     def func(i, word, last):
         if i == 0:
@@ -110,17 +111,6 @@ def every_word(word_func):
 
 
 formatters_dict = {
-<<<<<<< HEAD
-=======
-    "NOOP": (SEP, lambda i, word, _: word),
-    "DOUBLE_UNDERSCORE": (NOSEP, first_vs_rest(lambda w: "__%s__" % w)),
-    "PRIVATE_CAMEL_CASE": (NOSEP, first_vs_rest(lambda w: w, lambda w: w.capitalize())),
-    "PUBLIC_CAMEL_CASE": (NOSEP, every_word(lambda w: w.capitalize())),
-    "SNAKE_CASE": (NOSEP, first_vs_rest(lambda w: w.lower(), lambda w: "_" + w.lower())),
-    "NO_SPACES": (NOSEP, every_word(lambda w: w)),
-    "DASH_SEPARATED": words_with_joiner("-"),
-    "DOUBLE_COLON_SEPARATED": words_with_joiner("::"),
->>>>>>> 46283c27af7a94189a8f305ce973aab9ee2c9f07
     "ALL_CAPS": (SEP, every_word(lambda w: w.upper())),
     "ALL_LOWERCASE": (SEP, every_word(lambda w: w.lower())),
     "CAPITALIZE_ALL_WORDS": (
@@ -140,6 +130,7 @@ formatters_dict = {
     "FIRST_FIVE": (NOSEP, lambda i, word, _: word[0:5]),
     "FOLDER_SEPARATED": (NOSEP, every_word(lambda w: w + os.sep)),
     "NO_SPACES": (NOSEP, every_word(lambda w: w)),
+    "NOOP": (SEP, lambda i, word, _: word),
     "PRIVATE_CAMEL_CASE": (NOSEP, first_vs_rest(lambda w: w, lambda w: w.capitalize())),
     "PUBLIC_CAMEL_CASE": (NOSEP, every_word(lambda w: w.capitalize())),
     "SINGLE_QUOTED_STRING": (SEP, surround("'")),
@@ -153,14 +144,8 @@ formatters_dict = {
 
 # This is the mapping from spoken phrases to formatters
 formatters_words = {
-<<<<<<< HEAD
     "allcaps": formatters_dict["ALL_CAPS"],
     "alldown": formatters_dict["ALL_LOWERCASE"],
-=======
-    "say": formatters_dict["NOOP"],
-    "speak": formatters_dict["NOOP"],
-    "dunder": formatters_dict["DOUBLE_UNDERSCORE"],
->>>>>>> 46283c27af7a94189a8f305ce973aab9ee2c9f07
     "camel": formatters_dict["PRIVATE_CAMEL_CASE"],
     "dotted": formatters_dict["DOT_SEPARATED"],
     "dubstring": formatters_dict["DOUBLE_QUOTED_STRING"],
@@ -170,10 +155,12 @@ formatters_words = {
     "kebab": formatters_dict["DASH_SEPARATED"],
     "packed": formatters_dict["DOUBLE_COLON_SEPARATED"],
     "padded": formatters_dict["SPACE_SURROUNDED_STRING"],
+    "say": formatters_dict["NOOP"],
     "sentence": formatters_dict["CAPITALIZE_FIRST_WORD"],
     "slasher": formatters_dict["SLASH_SEPARATED"],
     "smash": formatters_dict["NO_SPACES"],
     "snake": formatters_dict["SNAKE_CASE"],
+    "speak": formatters_dict["NOOP"],
     "string": formatters_dict["SINGLE_QUOTED_STRING"],
     "title": formatters_dict["CAPITALIZE_ALL_WORDS"],
     "upper": formatters_dict["ALL_CAPS"],
@@ -217,10 +204,6 @@ class Actions:
         """Hides list of formatters"""
         gui.hide()
 
-<<<<<<< HEAD
-
-@ctx.capture(rule="{self.formatters}+")
-=======
     def clear_last_phrase():
         """Clears the last formatted phrase"""
         global last_formatted_phrase
@@ -232,8 +215,8 @@ class Actions:
         global last_phrase
         return FormatText(last_phrase, formatters)
 
-@ctx.capture(rule='{self.formatters}+')
->>>>>>> 46283c27af7a94189a8f305ce973aab9ee2c9f07
+
+@ctx.capture(rule="{self.formatters}+")
 def formatters(m):
     return ",".join(m.formatters_list)
 
