@@ -17,6 +17,10 @@ dot mark down: ".md"
 dot shell: ".sh"
 dot vim: ".vim"
 dot see: ".c"
+dot com: ".com"
+dot net: ".net"
+dot org: ".org"
+zed s h: "zsh"
 run vim: "vim "
 run make: "make\n"
 run make (durr | dear): "mkdir "
@@ -100,6 +104,10 @@ local host: "127.0.0.1"
 hyper:
     edit.copy()
     edit.paste()
+sucker:
+    edit.copy()
+    edit.paste()
+    key(enter)
 pucker:
     edit.paste()
     key(enter)
