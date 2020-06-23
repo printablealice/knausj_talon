@@ -95,6 +95,8 @@ simple_vocabulary = [
     "scroll",
     "scrolling",
     "fastbin",
+    "console",
+    "integer",
 ]
 
 mapping_vocabulary = {
