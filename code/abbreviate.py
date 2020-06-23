@@ -132,6 +132,7 @@ ctx.lists["user.abbreviation"] = {
     "value": "val",
     "variable": "var",
     "verify": "vrfy",
+    "versus": "vs",
     "window": "win",
 }
 
