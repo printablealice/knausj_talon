@@ -94,6 +94,7 @@ ctx.lists["user.abbreviation"] = {
     "pico second": "ps",
     "pixel": "px",
     "point": "pt",
+    "pointer": "ptr",
     "position": "pos",
     "previous": "prev",
     "property": "prop",
@@ -134,6 +135,7 @@ ctx.lists["user.abbreviation"] = {
     "verify": "vrfy",
     "versus": "vs",
     "window": "win",
+    "service pack": "sp",
 }
 
 
