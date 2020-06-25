@@ -97,6 +97,16 @@ simple_vocabulary = [
     "fastbin",
     "console",
     "integer",
+    "pentest",
+    "Aaron",
+    "tmux",
+    "keying",
+    "tool",
+    "exe",
+    "unix",
+    "buffer",
+    "ncc",
+    "nccgroup",
 ]
 
 mapping_vocabulary = {
@@ -187,6 +197,14 @@ mapping_vocabulary = {
     "I notify": "inotify",
     "de bug": "debug",
     "buf her": "buffer",
+    "head her": "header",
+    "help her": "helper",
+    "see seeing": "cc'ing",
+    "ex ee": "exe",
+    "xiii": "exe",
+    "windows ten": "windows 10",
+    "windows seven": "windows ",
+    "ncc group": "nccgroup",
 }
 
 mapping_vocabulary.update(dict(zip(simple_vocabulary, simple_vocabulary)))
