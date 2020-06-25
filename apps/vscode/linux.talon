@@ -1,10 +1,13 @@
 # Microsoft - Visual Studio Code
-# see app/vscode.talon for voice commands
-os: windows
-app: Visual Studio Code
-app: Code.exe
+# see app/vscode.talon for custom voice commands
+# see ide.talon for common voice commands
+os: linux
+app: Code
+app: Code - OSS
 -
+tag(): tabs
 tag(): ide
+tag(): line_commands
 # General
 action(user.ide_command_palette):
   key(ctrl-shift-p)
@@ -15,9 +18,19 @@ action(edit.indent_more):
 action(app.tab_next):
   key(ctrl-k)
   key(ctrl-pagedown)
+  
 action(app.tab_previous):
   key(ctrl-k)
   key(ctrl-pageup)
+
+# Toggleable views
+action(user.ide_toggle_fullscreen): 
+  user.ide_command_palette()
+  insert("View: Toggle Full Screen")
+  key(enter)
+#action(user.ide_toggle_distraction_free): user.idea("action ToggleDistractionFreeMode")
+#action(user.ide_toggle_presentation_mode): user.idea("action TogglePresentationMode")
+  
 # Folding
 action(user.ide_expand_deep):
   key(ctrl-k ctrl-])
@@ -53,25 +66,39 @@ action(user.ide_split_down):
   insert("workbench.action.splitEditorDown")
   key(enter)
 
+action(user.ide_split_flip): key(alt-ctrl-0)
+action(user.ide_split_window): key(ctrl-\)
+action(user.ide_clear_split): user.ide_clear_all_splits()
+action(user.ide_clear_all_splits): 
+  user.ide_command_palette()
+  insert("View: Single Column Editor Layout")
+  key(enter)
+action(user.ide_go_next_split): key(ctrl-k ctrl-right)
+action(user.ide_go_last_split): key(ctrl-k ctrl-left)
+
 #Refactor
 
 action(user.ide_refactor): key(ctrl-shift-r)
 action(user.ide_refactor_in_line): key(ctrl-shift-r)
-action(user.ide_refactor_rename): key(f2)
+action(user.ide_refactor_rename): key(f2) 
+action(user.ide_rename_file): 
+  user.ide_command_palette()
+  insert("File: Reveal Active File In Side Bar")
+  key(enter f2)
 action(user.ide_fix_format): 
-  # Format Document
-  key(alt-shift-f)
+    # Format Document
+    key(alt-shift-f)
 # Navigate
 action(user.ide_follow):
   # Go to Definition
-  key(f12)
+  key(f12) 
 
-action(user.ide_go_back):  key(alt-left)
-action(user.ide_go_forward): key(alt-right)
-action(user.ide_recent): key(ctrl-r)
+action(user.ide_go_back):
+  key(alt-left)
 
-#there is no separate "mode" for VSCode
-#action(user.ide_multi_cursor): skip()
+action(user.ide_go_forward):
+  key(alt-right)
+
 action(user.ide_multi_cursor_stop): key(escape)
 action(user.ide_up_cursor):key(ctrl-alt-up)
 action(user.ide_down_cursor): key(ctrl-alt-down)
@@ -84,42 +111,40 @@ action(user.ide_select_more): key(shift-alt-right)
 # Terminal
 action(user.ide_toggle_terminal):
   # View:Toggle Integrated Terminal
-  key(ctrl-`)
+  key(ctrl-`) 
 
 action(user.ide_terminal_new):
-  # Terminal: Created New Integrated Terminal
   key(ctrl-shift-`)
+  # Terminal: Created New Integrated Terminal
 
 action(user.ide_terminal_focus_previous):
-  user.ide_command_palette()
-  insert("Terminal:Focus Previous Terminal")
-  key(enter)
+  key(alt-left)
+  # Terminal: Focus Previous Pane
 
 action(user.ide_terminal_focus_next):
-  user.ide_command_palette()
-  insert("Terminal:Focus Next Terminal")
-  key(enter)
+  key(alt-right)
+  # Terminal: Focus Next Pane
 
 action(user.ide_terminal_trash):
-  user.ide_command_palette()
-  insert("Terminal:Kill")
-  key(enter)
+  key(ctrl-shift-delete)
 
 action(user.ide_terminal_scroll_down):
-  key(pgdown)
+  key(shift-pgdown)
 
 action(user.ide_terminal_scroll_up):
-  key(pgup)
+  key(shift-pgup)
 
 # Code Editor
 action(user.ide_toggle_comment):
   key(ctrl-/)
 
 action(user.ide_smart):
+
   # Trigger Suggest, editor.action.triggerParameterHints
   key(ctrl-space)
 
 action(user.ide_intellisense_suggest_parameters):
+  # Trigger Parameter Hints, editor.action.triggerParameterHints
   key(ctrl-shift-space)
 
 action(user.ide_done):
@@ -134,12 +159,15 @@ action(user.ide_editor_copylines_up):
     # Copy Line Up, editor.action.copyLinesUpAction
     key(shift-alt-up)
 
-
 # Workbench Focus Areas
 action(user.ide_toggle_project):
+  #FIX works manually with caplock on ctrl-shift-E typed works but not key(ctrl-shift-E) -  Linux Mint 19 (Vagrant VirtualBox),
+  #key(ctrl-shift-E)
+  user.ide_command_palette()
   # View: Show Explorer, workbench.view.explorer
-  key(ctrl-shift-e)
-                  
+  insert("workbench.files.action.focusFilesExplorer")
+  key(enter)
+
 action(user.ide_toggle_git):
   # View: Show SCM, workbench.view.scm
   key(ctrl-shift-g)
@@ -211,6 +239,11 @@ action(app.window_open):
   # New Window, workbench.action.newWindow
   key(ctrl-shift-n)
 
+action(user.ide_create_sibling):
+  user.ide_command_palette()
+  insert("File: New File")
+  key(enter)
+
 action(user.ide_create_file):
   # File: New and Titled File, workbench.action.files.newUntitledFile
   key(ctrl-n)
@@ -233,3 +266,4 @@ action(user.ide_go_sixth_tab): key(alt-6)
 action(user.ide_go_seventh_tab): key(alt-7)
 action(user.ide_go_eighth_tab): key(alt-8)
 action(user.ide_go_ninth_tab): key(alt-9)
+action(user.ide_clear_tab): key(ctrl-w)
