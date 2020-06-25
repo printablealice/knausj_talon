@@ -124,4 +124,3 @@ restart debug session:
     key(ctrl-c)
     insert("ptchunk -h\n")
     insert("heapls\n")
-    insert("ptchunk \n")
