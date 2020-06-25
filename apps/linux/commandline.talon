@@ -18,7 +18,7 @@ parent (deer|dir): "cd ..\n"
 make (dur|dear|dir|directory): "mkdir "
 make (dur|dear|dir|directory) <user.text>: "mkdir {text}"
 remove (dur|dear|dir|directory): "rmdir "
-remove (dur|dear|dir|directory) <user.ext>: "rmdir {text}"
+remove (dur|dear|dir|directory) <user.text>: "rmdir {text}"
 remove file: "rm "
 tree: "tree\n"
 temp (dur|dear|dir|directory): "cd /tmp\n"
@@ -59,6 +59,9 @@ fuzzy find file:
 
 rip: "rg -i "
 rip (exact|precise): "rg "
+now rip:
+    edit.up()
+    insert("| rg -i ")
 
 # networking
 show (I P|eye pee): "ip addr\n"
