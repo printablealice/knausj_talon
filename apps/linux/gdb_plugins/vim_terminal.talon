@@ -56,6 +56,18 @@ copy line <number> (hex value|address):
     insert("yw")
     insert(":set nohls\n")
 
+
+# relative
+# no arg, is just line above
+glitter:
+    user.vim_normal_mode_exterm("k")
+    key('0')
+    insert(":call search(\"0x\", 'c', line('.'))\n")
+    insert("yw")
+    insert(":set nohls\n")
+    user.vim_set_insert_mode()
+    edit.paste()
+
 # copy and paste the first hex value from the specified relative line
 # relative
 glitter <number>:
@@ -69,17 +81,17 @@ glitter <number>:
 
 
 # copy and paste the Nth hex value from the specified relative line
+# note for numbers like 70 actual individual digits really fast is more
+# accurate
 glitter <number> <user.ordinals>$:
     user.vim_normal_mode_exterm("{number}k")
     key('0')
     # set the search pattern for 'n' usage
     insert("/\c0x\n")
+    key('0')
     # do the actual search to include results under the cursor
     insert(":call search(\"0x\", 'c', line('.'))\n")
-    # use the ordinal to count the earlier search pattern. we minus 2 because
-    # we are sitting on the first one already. this will break if someone says
-    # first :|
-    insert("{ordinals-2}n")
+    insert("{ordinals-1}n")
     insert("ye")
     insert(":set nohls\n")
     user.vim_set_insert_mode()
