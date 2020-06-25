@@ -3,8 +3,10 @@ win.title: /VIM MODE:t/
 tag(): terminal
 
 (shimmy|pop terminal|vim mode):
-    key(ctrl-\)
-    key(ctrl-n)
+    key(ctrl-\ ctrl-n)
+
+shimmy up:
+    key(ctrl-\ ctrl-n ctrl-b)
 
 # this causes exclusive terminal windows to exit without requiring key press or
 # dropping to a new empty buffer
