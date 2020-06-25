@@ -425,6 +425,7 @@ close (bufs|buffers): user.vim_command_mode_exterm(":bd ")
     key(T)
 (buf|buffer) rename: user.vim_command_mode_exterm(":file ")
 (buf|buffer) rename <user.text>: user.vim_command_mode_exterm(":file {text}")
+new (empty|unnamed) buffer: user.vim_command_mode_exterm(":enew\n")
 
 ###
 # Splits
@@ -500,9 +501,9 @@ split reopen vertical:
 split reopen [horizontal]:
     user.vim_command_mode_exterm(":split#\n")
 
-new empty [horizontal] split:
+new (empty|unnamed) [horizontal] split:
     user.vim_command_mode_exterm(":new\n")
-new empty (vertical|v) split:
+new (empty|unnamed) (vertical|v) split:
     user.vim_command_mode_exterm(":vnew\n")
 
 # navigating splits
@@ -839,7 +840,7 @@ search (reversed|reverse) sensitive:
     user.vim_set_visual_line_mode()
     insert("{number-1}j")
 
-(select|highlight) until line <number>:
+(select|highlight) (until|till) line <number>:
     user.vim_normal_mode_np("m'")
     insert(":{number}\n")
     user.vim_set_visual_line_mode()

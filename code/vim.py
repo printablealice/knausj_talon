@@ -33,7 +33,6 @@ win.title:/VIM/
 
 
 # Based on you using a custom title string like this:
-# let &titlestring ='VIM MODE:%{mode()} (%f) %t'
 # see doc/vim.md
 @ctx.action_class("win")
 class win_actions:
@@ -139,9 +138,10 @@ standard_counted_actions_control_keys = {
 custom_counted_action = {
     "panic": "u",
     "dine": "dd",
+    "drop": "x",
     "yine": "Y",
-    "slide left" : "<<",
-    "slide right" : ">>",
+    "slide left": "<<",
+    "slide right": ">>",
 }
 
 # Custom self.vim_counted_actions insertable entries
@@ -191,6 +191,7 @@ commands_with_motion = {
     # motions
     "change": "c",
     "delete": "d",
+    "trim": "d",  # XXX - because talent doesn't like my "delete"
     "indent": ">",
     "unindent": "<",
     "yank": "y",  # XXX - conflicts with talon 'yank' alphabet for 'y' key
@@ -212,6 +213,7 @@ visual_commands = {
     "change": "c",
     "join": "J",
     "delete": "d",
+    "trim": "d",  # XXX - because talent doesn't like my "delete"
     "yank": "y",  # XXX - conflicts with talon 'yank' alphabet for 'y' key
     "copy": "y",
     "format": "gq",
@@ -230,7 +232,6 @@ visual_commands = {
 ctx.lists["self.vim_motion_commands"] = list(
     set().union(commands_with_motion.keys(), visual_commands.keys())
 )
-
 
 ctx.lists["self.vim_motions"] = {
     "back": "b",
