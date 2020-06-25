@@ -75,6 +75,15 @@ NOSEP = True
 SEP = False
 
 
+def prefixed_words_with_joiner(prefix, joiner):
+    """Pass through words unchanged, but add a separator between them."""
+
+    def formatter_function(i, word, _):
+        return prefix + word if i == 0 else joiner + word
+
+    return (NOSEP, formatter_function)
+
+
 def words_with_joiner(joiner):
     """Pass through words unchanged, but add a separator between them."""
 
@@ -129,6 +138,8 @@ formatters_dict = {
     "FIRST_FOUR": (NOSEP, lambda i, word, _: word[0:4]),
     "FIRST_FIVE": (NOSEP, lambda i, word, _: word[0:5]),
     "FOLDER_SEPARATED": (NOSEP, every_word(lambda w: w + os.sep)),
+    "LONG_ARG": prefixed_words_with_joiner("--", "-"),
+    "SHORT_ARG": prefixed_words_with_joiner("-", "-"),
     "NO_SPACES": (NOSEP, every_word(lambda w: w)),
     "NOOP": (SEP, lambda i, word, _: word),
     "PRIVATE_CAMEL_CASE": (NOSEP, first_vs_rest(lambda w: w, lambda w: w.capitalize())),
@@ -153,6 +164,7 @@ formatters_words = {
     "folder": formatters_dict["FOLDER_SEPARATED"],
     "hammer": formatters_dict["PUBLIC_CAMEL_CASE"],
     "kebab": formatters_dict["DASH_SEPARATED"],
+    "long arg": formatters_dict["LONG_ARG"],
     "packed": formatters_dict["DOUBLE_COLON_SEPARATED"],
     "padded": formatters_dict["SPACE_SURROUNDED_STRING"],
     "say": formatters_dict["NOOP"],
