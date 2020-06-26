@@ -42,8 +42,8 @@ def update_title():
     if live_update:
         if is_context_help_showing:
             if selected_context == None:
-                if ui.active_window().title != cached_window_title:
-                    refresh_context_command_map(show_enabled_contexts_only) 
+                #if ui.active_window().title != cached_window_title:
+                refresh_context_command_map(show_enabled_contexts_only) 
             else:
                 update_active_contexts_cache(registry.active_contexts())
 
@@ -211,7 +211,12 @@ def refresh_context_command_map(enabled_only = False):
         
     context_command_map = {}
     for context_name, context in registry.contexts.items():
-        short_name = context_name.replace('(Context', '').replace('.talon', '').replace(')', '').split('.')[-1].replace('_', " ")
+        splits = context_name.split('.')
+        if "talon" in splits[-1]:
+            short_name = splits[-2].replace("_", " ")
+        else:
+            short_name = splits[-1].replace("_", " ")
+
         #print("short name: " + short_name)
         if short_name in overrides:
             short_name = overrides[short_name]
@@ -252,10 +257,12 @@ def register_events(register: bool):
     if register:
         if not events_registered and live_update:
             events_registered = True
-            ui.register('', ui_event)
+            #registry.register('post:update_contexts', contexts_updated)
+            registry.register('update_commands', commands_updated)
     else:
         events_registered = False
-        ui.unregister('', ui_event)
+        #registry.unregister('post:update_contexts', contexts_updated)
+        registry.unregister('update_commands', commands_updated)
 
 @mod.action_class
 class Actions:
@@ -421,10 +428,16 @@ def help_contexts(m):
 def help_context_index(m):
     return selection_map[m.help_context_index]
 
-def ui_event(event, arg):
-    if event in ('app_activate', 'app_launch', 'app_close', 'win_open', 'win_close', 'win_title', 'win_focus'):
-        #print("updating...")
-        update_title()
+#def ui_event(event, arg):
+#    if event in ('app_activate', 'app_launch', 'app_close', 'win_open', 'win_close', 'win_title', 'win_focus'):
+#        #print("updating...")
+#        update_title()
+
+def commands_updated(_):
+    #print("commands_updated")
+    update_title()
+
 
 ctx.lists['self.help_context_index'] = []
 refresh_context_command_map()
+
