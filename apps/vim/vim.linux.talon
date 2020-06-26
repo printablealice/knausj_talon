@@ -166,7 +166,7 @@ file save as:
     user.vim_command_mode(":w ")
 file save all:
     user.vim_command_mode_exterm(":wa\n")
-file save and (quit|close):
+(file save and (quit|close)|file squeak):
     user.vim_command_mode(":wq\n")
 file (close|quite):
     user.vim_command_mode(":q\n")
@@ -736,7 +736,7 @@ show (register|macro) <user.letter>: user.vim_command_mode(":reg {letter}\n")
 play macro <user.letter>: user.vim_any_motion_mode("@{letter}")
 repeat macro: user.vim_any_motion_mode("@@")
 record macro <user.letter>: user.vim_any_motion_mode("q{letter}")
-stop recording: user.vim_any_motion_mode(q)
+(finish macro|stop recording): user.vim_any_motion_mode("q")
 modify [register|macro] <user.letter>:
     user.vim_command_mode(":let @{letter}='")
     key(ctrl-r)

@@ -5,12 +5,16 @@ tag: vim
 # TODO
 #  - add custom surround with markdown command for when i forget to use snip
 #    first
+#  - saying surround gets tiring, so maybe use wrap
 
 # visual mode only
 surround selected with <user.vim_surround_targets>:
     user.vim_visual_mode("S{vim_surround_targets}")
 
 # normal mode
+surround [this] with <user.vim_surround_targets>:
+    user.vim_normal_mode("ysw{vim_surround_targets}")
+
 surround <user.vim_text_objects> with <user.vim_surround_targets>:
     user.vim_normal_mode("ys{vim_text_objects}{vim_surround_targets}")
 
