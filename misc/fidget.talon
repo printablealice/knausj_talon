@@ -9,6 +9,10 @@ os: linux
 dev talon:
     insert("cd ~/.talon/user/fidget\n")
     insert("ls\n")
+
+talon base:
+    insert("cd ~/.talon/\n")
+    insert("ls\n")
 edit (vim|them) config: "vim ~/.vimrc\n"
 jump to (vim|them): "cd ~/.vim\n"
 edit shell config: "vim ~/.zshrc\n"
@@ -124,3 +128,12 @@ restart debug session:
     key(ctrl-c)
     insert("ptchunk -h\n")
     insert("heapls\n")
+
+orwell:
+    key(super-0)
+    sleep(1)
+    edit.copy()
+    key(super-u)
+    sleep(1)
+    edit.paste()
+    key(enter)
