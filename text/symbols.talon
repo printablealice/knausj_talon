@@ -14,10 +14,10 @@ dub arrow: "=>"
 new line: "\\n"
 carriage return: "\\r"
 line feed: "\\r\\n"
-empty dubstring:
+empty (dubstring|(dub|double) quotes):
     '""'
     key(left)
-empty escaped (dubstring|dub quotes):
+empty escaped (dubstring|(dub|double) quotes):
     '\\"\\"'
     key(left)
     key(left)
