@@ -256,6 +256,7 @@ vim_motions = {
     "column": "|",
     "start of line": "^",
     "end of line": "$",
+    # XXX - add curse variant
     "search under cursor": "*",
     "search under cursor reversed": "#",
     "again": ";",
@@ -274,9 +275,12 @@ vim_motions = {
     "down line": "+",
     "up line": "-",
     "first character": "_",
+    # XXX - add curse variant
     "cursor home": "H",
+    "cursor top": "H",
     "cursor middle": "M",
     "cursor last": "L",
+    "cursor bottom": "L",
     "start of document": "gg",
     "start of file": "gg",
     "top of document": "gg",
@@ -352,11 +356,9 @@ text_object_select = {
     "blocks": "b",
     "big block": "B",
     "big blocks": "B",
-    # Match talon naming (vimspeak used 'quote' for ")
     "dubquote": '"',
     "dub quote": '"',
     "double quotes": '"',
-    # Match talon naming
     "quote": "'",
     "single quotes": "'",
     "ticks": "'",
@@ -684,10 +686,10 @@ def vim_motions_with_upper_character(m) -> str:
 
 
 @ctx.capture(
-    rule="{self.vim_motions_with_character} (<user.letter>|<user.number>|<user.symbol>)"
+    rule="{self.vim_motions_with_character} (<user.letter>|<number_small>|<user.symbol>)"
 )
 def vim_motions_with_character(m) -> str:
-    return m.vim_motions_with_character + "".join(list(m)[1:])
+    return m.vim_motions_with_character + "".join(str(x) for x in list(m)[1:])
 
 
 @ctx.capture(rule="{self.vim_motions_with_phrase} <user.text>")
@@ -723,7 +725,7 @@ def vim_counted_actions_keys(m) -> str:
 
 @ctx.capture(rule="[<number_small>] <self.vim_motions_all>")
 def vim_counted_motions(m) -> str:
-    return "".join(list(m))
+    return "".join(str(x) for x in list(m))
 
 
 @ctx.capture(rule="{self.vim_jump_range}")
@@ -750,7 +752,7 @@ def vim_jump_targets(m) -> str:
     rule="[<number_small>] <self.vim_text_object_range> <self.vim_text_object_select>"
 )
 def vim_text_objects(m) -> str:
-    return "".join(list(m))
+    return "".join(str(x) for x in list(m))
 
 
 # Sometimes you want to imply a surround action is going to work on a word, but
@@ -785,9 +787,10 @@ def vim_motion_commands(m) -> str:
     rule="[<number_small>] <self.vim_motion_commands> [(<self.vim_motions_all> | <self.vim_text_objects> | <self.vim_jump_targets>)]"
 )
 def vim_normal_counted_motion_command(m) -> str:
-    return "".join(list(m))
+    return "".join(str(x) for x in list(m))
 
 
+# XXX - finish this
 @ctx.capture(
     rule="<self.vim_motion_commands> <user.ordinals> (<self.vim_motions_all>|<self.vim_jump_targets>)"
 )
@@ -801,7 +804,7 @@ def vim_normal_counted_motion_keys(m) -> str:
     # we do this because we pass everything to key() which needs a space
     # separated list
     if len(str(m).split(" ")) > 1:
-        return " ".join(list((" ".join(list(m.number_small)), m.vim_motions_keys)))
+        return " ".join(list((" ".join(list(str(m.number_small))), m.vim_motions_keys)))
     else:
         return m.vim_motions_keys
 
@@ -817,7 +820,7 @@ def vim_normal_counted_action(m) -> str:
     else:
         v.set_any_motion_mode()
 
-    return "".join(list(m))
+    return "".join(str(x) for x in list(m))
 
 
 @ctx.capture(rule="[<number_small>] <self.vim_counted_actions_keys>")
@@ -830,7 +833,7 @@ def vim_normal_counted_actions_keys(m) -> str:
     # separated list
     if len(str(m).split(" ")) > 1:
         return " ".join(
-            list((" ".join(list(m.number_small)), m.vim_counted_actions_keys))
+            list((" ".join(list(str(m.number_small))), m.vim_counted_actions_keys))
         )
     else:
         return m.vim_counted_actions_keys
@@ -840,7 +843,7 @@ def vim_normal_counted_actions_keys(m) -> str:
     rule="[<number_small>] (<self.vim_motions> | <self.vim_text_objects> | <self.vim_jump_targets>)"
 )
 def vim_select_motion(m) -> str:
-    return "".join(list(m))
+    return "".join(str(x) for x in list(m))
 
 
 # These are actions you can call from vim.talon via `user.method_name()` in
