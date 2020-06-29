@@ -18,9 +18,9 @@ mux kill session:
 mux new window:
     key(ctrl-b)
     key(c)
-mux window <number>:
+mux window <number_small>:
     key(ctrl-b )
-    key('{number}')
+    key('{number_small}')
 mux previous window:
     key(ctrl-b)
     key(p)

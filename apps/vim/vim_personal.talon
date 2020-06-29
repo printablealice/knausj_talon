@@ -4,7 +4,7 @@ tag: vim
 ###
 # Convenience for opening my different files
 ###
-open talon dir:
+open talon (directory|dir):
     user.vim_command_mode_exterm(":lcd ~/.talon/user/fidget/\n")
 edit my vim scripts:
     user.vim_command_mode_exterm(":source ~/.vim/sessions/talon_vim.session\n")

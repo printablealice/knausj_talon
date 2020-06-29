@@ -3,7 +3,7 @@ os: linux
 # TODO: take `super` from a settings file
 -
 
-dock <number>: key("super-{number}")
+dock <number_small>: key("super-{number_small}")
 dock ten: key(super-0)
 dock (last|back|flip): key(super-u)
 dock (right|next): key(super-o)
@@ -64,7 +64,7 @@ vertical (shell|terminal):
     key(super-v)
     key(super-enter)
 
-move (win|window) [to] workspace <number>: key("super-shift-{number}")
+move (win|window) [to] workspace <number_small>: key("super-shift-{number_small}")
 move (win|window) [to] last workspace: key(super-shift-b)
 move (win|window) left: key("super-shift-h")
 move (win|window) right: key("super-shift-l")
