@@ -1,4 +1,4 @@
-#  Usage: - See doc/vim.md for usage and tutorial
+# Usage: - See doc/vim.md for usage and tutorial
 #  - See code/vim.py very implementation and additional motion grammars
 # Where applicable I try to explicitly select appropriate API for terminal
 # escaping, etc. However in cases where it is unlikely you will say a command
@@ -144,16 +144,18 @@ action(edit.undo):
 ###
 # commands that can be triggered in visual or normal mode, and generally don't
 # have counting, etc
-<user.vim_normal_counted_motion_command>:
+<user.vim_normal_counted_motion_command>$:
     insert("{vim_normal_counted_motion_command}")
-<user.vim_normal_counted_motion_keys>:
+<user.vim_normal_counted_motion_keys>$:
     key("{vim_normal_counted_motion_keys}")
-<user.vim_motions_all_adjust>:
+<user.vim_motions_all_adjust>$:
     insert("{vim_motions_all_adjust}")
-<user.vim_normal_counted_action>:
+<user.vim_normal_counted_action>$:
     insert("{vim_normal_counted_action}")
-<user.vim_normal_counted_actions_keys>:
+<user.vim_normal_counted_actions_keys>$:
     key("{vim_normal_counted_actions_keys}")
+<user.vim_counted_motion_command_with_ordinals>$:
+    insert("{vim_counted_motion_command_with_ordinals}")
 
 ###
 # File editing and management
@@ -211,11 +213,11 @@ change (buffer|current) directory: user.vim_command_mode(":lcd %:p:h\n")
 # These are especially useful when in terminal mode and you want to jump to
 # something in normal mode that is in the history. Doubley so if you use
 # set relativenumber in terminal mode
-[go] relative up [line] <number>:
-    user.vim_normal_mode_exterm("{number}k")
+[go] relative up [line] <number_small>:
+    user.vim_normal_mode_exterm("{number_small}k")
 
-[go] relative down [line] <number>:
-    user.vim_normal_mode_exterm("{number}j")
+[go] relative down [line] <number_small>:
+    user.vim_normal_mode_exterm("{number_small}j")
 
 # XXX - add support for [{, [(, etc
 matching: user.vim_any_motion_mode_key("%")
@@ -294,9 +296,9 @@ forget line:
 # copying
 (copy|yank) line (at|number) <number>$:
     user.vim_command_mode_exterm(":{number}y\n")
-(copy|yank) <number> lines at line <number>$:
-    user.vim_command_mode_exterm(":{number_2}\n")
-    user.vim_normal_mode_exterm("y{number_1}y")
+(copy|yank) <number_small> lines at line <number>$:
+    user.vim_command_mode_exterm(":{number}\n")
+    user.vim_normal_mode_exterm("y{number_small}y")
 (copy|yank) line (at|number) <number> through <number>:
     user.vim_command_mode_exterm(":{number_1},{number_2}y\n")
     user.vim_command_mode(":{number_1},{number_2}y\n")
@@ -305,13 +307,13 @@ forget line:
 (copy|yank) line relative up <number>:
     user.vim_command_mode_exterm("{number}k")
     user.vim_command_mode("yy")
-(copy|yank) <number> lines relative up <number>:
-    user.vim_command_mode_exterm("{number_2}k")
-    user.vim_command_mode("{number_1}yy")
-(copy|yank) (above|last) <number> lines:
-    user.vim_normal_mode_exterm("{number}k")
-    user.vim_normal_mode_exterm("y{number}y")
-    user.vim_normal_mode_exterm("{number}j")
+(copy|yank) <number_small> lines relative up <number>:
+    user.vim_command_mode_exterm("{number}k")
+    user.vim_command_mode("{number_small}yy")
+(copy|yank) (above|last) <number_small> lines:
+    user.vim_normal_mode_exterm("{number_small}k")
+    user.vim_normal_mode_exterm("y{number_small}y")
+    user.vim_normal_mode_exterm("{number_small}j")
 
 # duplicating
 # These are multi-line like this to perserve INSERT.
@@ -404,8 +406,8 @@ swap global:
 # Buffers
 ###
 ((buf|buffer) list|list (buf|buffer)s): user.vim_command_mode_exterm(":ls\n")
-(buf|buffer) (close|delete) <number>: user.vim_command_mode_exterm(":bd {number} ")
-(close|delete) (buf|buffer) <number>: user.vim_command_mode_exterm(":bd {number} ")
+(buf|buffer) (close|delete) <number_small>: user.vim_command_mode_exterm(":bd {number_small} ")
+(close|delete) (buf|buffer) <number_small>: user.vim_command_mode_exterm(":bd {number_small} ")
 (buf|buffer) close current: user.vim_command_mode(":bd\n")
 (delete|close) (current|this) buffer: user.vim_command_mode_exterm(":bd\n")
 force (buf|buffer) close: user.vim_command_mode_exterm(":bd!\n")
@@ -416,7 +418,7 @@ force (buf|buffer) close: user.vim_command_mode_exterm(":bd!\n")
 [go] (buf|buffer) flip: user.vim_command_mode_exterm(":b#\n")
 [go] (buf|buffer) last: user.vim_command_mode_exterm(":bl\n")
 close (bufs|buffers): user.vim_command_mode_exterm(":bd ")
-[go] (buf|buffer) <number>: user.vim_command_mode_exterm(":b {number}\n")
+[go] (buf|buffer) <number_small>: user.vim_command_mode_exterm(":b {number_small}\n")
 # creates a split and then moves the split to a tab. required for when the
 # current tab has only one split
 (buf|buffer) (move to|make) tab:
@@ -478,15 +480,15 @@ split new vertical:
     key(v)
 
 # open specified buffer in new split
-split (buf|buffer) <number>:
+split (buf|buffer) <number_small>:
     user.vim_set_normal_mode_exterm()
-    key("{number}")
+    key("{number_small}")
     key("ctrl-w")
     key("ctrl-^")
 
 # open specified buffer in new vertical split
-vertical split (buf|buffer) <number>:
-    user.vim_command_mode_exterm(":vsplit {number}")
+vertical split (buf|buffer) <number_small>:
+    user.vim_command_mode_exterm(":vsplit {number_small}")
 
 # creating and auto-entering splits
 
@@ -535,9 +537,9 @@ split preview:
     user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(P)
-split <number>:
+split <number_small>:
     user.vim_set_normal_mode_exterm()
-    insert("{number}")
+    insert("{number_small}")
     key(ctrl-w ctrl-w)
 
 # personal convenience shortcuts
@@ -661,12 +663,12 @@ buffer end diff:
 [go] tab first: user.vim_command_mode_exterm(":tabfirst\n")
 [go] tab last: user.vim_command_mode_exterm(":tablast\n")
 [go] tab flip: user.vim_normal_mode_exterm("g\t")
-[go] tab <number>: user.vim_normal_mode_exterm("{number}gt")
+[go] tab <number_small>: user.vim_normal_mode_exterm("{number_small}gt")
 tab new: user.vim_command_mode_exterm(":tabnew\n")
 tab edit: user.vim_command_mode_exterm(":tabedit ")
 tab move right: user.vim_command_mode_exterm(":tabm +\n")
 tab move left: user.vim_command_mode_exterm(":tabm -\n")
-edit (buf|buffer) <number> [in] new tab: user.vim_command_mode_exterm(":tabnew #{number}\n")
+edit (buf|buffer) <number_small> [in] new tab: user.vim_command_mode_exterm(":tabnew #{number_small}\n")
 
 [new] tab terminal: user.vim_command_mode_exterm(":tabe term://bash\n")
 
@@ -811,10 +813,23 @@ search (reversed|reverse):
 search (reversed|reverse) sensitive:
     user.vim_any_motion_mode_exterm("?\C")
 
+# XXX - is it possible to integrate these with vim_motions_with_character?
+# ordinals work different for `t` for some reason, so we don't need to -1
+till <user.ordinals> <user.any>:
+    user.vim_any_motion_mode("t{any}{ordinals};")
+
+till (reversed|previous) <user.ordinals> <user.any>:
+    user.vim_any_motion_mode("T{any}{ordinals};")
+
+find <user.ordinals> <user.any>:
+    user.vim_any_motion_mode("f{any}{ordinals-1};")
+
+find (reversed|previous) <user.ordinals> <user.any>:
+    user.vim_any_motion_mode("F{any}{ordinals-1};")
+
 ###
 # Visual Text Selection
 ###
-# XXX - should be modes
 (visual|select|highlight) line: user.vim_visual_mode("V")
 (visual|select|highlight) block: user.vim_any_motion_mode_exterm_key("ctrl-v")
 
@@ -826,19 +841,19 @@ search (reversed|reverse) sensitive:
     user.vim_set_visual_mode()
     insert("{number_2}G")
 
-(select|highlight) <number> lines:
+(select|highlight) <number_small> lines:
     user.vim_set_visual_line_mode()
-    insert("{number-1}j")
+    insert("{number_small-1}j")
 
 (select|highlight) <number> lines at line <number>:
     user.vim_normal_mode_np("{number_2}G")
     user.vim_set_visual_line_mode()
     insert("{number_1-1}j")
 
-(select|highlight) <number> above:
-    user.vim_normal_mode_np("{number}k")
+(select|highlight) <number_small> above:
+    user.vim_normal_mode_np("{number_small}k")
     user.vim_set_visual_line_mode()
-    insert("{number-1}j")
+    insert("{number_small-1}j")
 
 (select|highlight) (until|till) line <number>:
     user.vim_normal_mode_np("m'")
