@@ -85,6 +85,7 @@ open active work space:
 # Chat
 ###
 smiley: ":)"
+sad face: ":("
 big smiley: ":D"
 jiff smiley: ">\\o "
 
@@ -115,8 +116,6 @@ wiggle:
     key(super-f)
     sleep(1)
     key(super-f)
-
-# this is me testing within a new vocabulary set up
 
 restart debug session:
     key(ctrl-c)
