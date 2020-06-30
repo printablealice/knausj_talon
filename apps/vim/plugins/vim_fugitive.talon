@@ -25,3 +25,7 @@ tag: vim
 (fugitive|git) split diff: user.vim_command_mode(":G splitdiff!")
 (fugitive|git) status: user.vim_command_mode(":G\n")
 (fugitive|git) write: user.vim_command_mode(":G write")
+
+# merge conflict resolution
+keep (target|left): user.vim_command_mode(":diffget //2\n")
+keep (merge|right): user.vim_command_mode(":diffget //3\n")
