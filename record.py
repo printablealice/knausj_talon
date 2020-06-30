@@ -33,6 +33,15 @@ speech_system.register("post:phrase", post_phrase)
 mod = Module()
 
 
+def find_existing_files(name):
+    """Yield directory names not starting with '.' under given path."""
+    entries = []
+    for entry in os.scandir(OUTPUT_DIR):
+        if entry.name.startswith(f"{name}-"):
+            entries.append(entry.name)
+    return entries
+
+
 @mod.action_class
 class Actions:
     def record_flac(words: str):
@@ -43,7 +52,8 @@ class Actions:
         path = OUTPUT_DIR / f"{words}.flac"
         if path.exists():
             largest = 0
-            existing_files = list(glob(os.path.join(OUTPUT_DIR, f"{words}-*.flac")))
+            # existing_files = list(glob(os.path.join(OUTPUT_DIR, f"{words}-*.flac")))
+            existing_files = find_existing_files(words)
             sorted_files = None
             if len(existing_files) != 0:
                 sorted_files = sorted(
@@ -55,7 +65,7 @@ class Actions:
             if sorted_files:
                 largest = int(sorted_files[0].split("-")[1].split(".")[0])
             path = OUTPUT_DIR / f"{words}-{largest + 1}.flac"
-            # print("New selected: %s" % new_path)
+            # print("New selected: %s" % path)
 
         flac.write_flac(str(path), current_phrase["samples"], compression_level=1)
         print(f"saved: {path}")
