@@ -845,10 +845,10 @@ find (reversed|previous) <user.ordinals> <user.any>:
     user.vim_set_visual_line_mode()
     insert("{number_small-1}j")
 
-(select|highlight) <number> lines at line <number>:
-    user.vim_normal_mode_np("{number_2}G")
+(select|highlight) <number_small> lines at line <number>:
+    user.vim_normal_mode_np("{number}G")
     user.vim_set_visual_line_mode()
-    insert("{number_1-1}j")
+    insert("{number_small-1}j")
 
 (select|highlight) <number_small> above:
     user.vim_normal_mode_np("{number_small}k")
@@ -860,8 +860,6 @@ find (reversed|previous) <user.ordinals> <user.any>:
     insert(":{number}\n")
     user.vim_set_visual_line_mode()
     insert("''")
-
-
 
 ###
 # Visual Mode
