@@ -642,16 +642,26 @@ set split height:
 # Diffing
 ###
 (split|window) start diff:
-    user.vim_set_command_mode_exterm(":windo diffthis\n")
+    user.vim_command_mode_exterm(":windo diffthis\n")
 
 (split|window) end diff:
-    user.vim_set_command_mode_exterm(":windo diffoff\n")
+    user.vim_command_mode_exterm(":windo diffoff\n")
 
 buffer start diff:
-    user.vim_set_command_mode_exterm(":bufdo diffthis\n")
+    user.vim_command_mode_exterm(":bufdo diffthis\n")
 
 buffer end diff:
-    user.vim_set_command_mode_exterm(":bufdo diffthis\n")
+    user.vim_command_mode_exterm(":bufdo diffthis\n")
+
+# XXX - talon doesn't like the word diff
+(refresh|update) (changes|diff):
+    user.vim_command_mode_exterm(":diffupdate\n")
+
+[go] next (conflict|change):
+    user.vim_normal_mode_exterm("]c")
+
+[go] (prev|previous) (conflict|change):
+    user.vim_normal_mode_exterm("[c")
 
 ###
 # Tab
