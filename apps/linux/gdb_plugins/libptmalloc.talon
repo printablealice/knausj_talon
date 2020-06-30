@@ -10,3 +10,7 @@ tag: gdb
 (p t|pee tea) arena of: "ptarenaof "
 (p t|pee tea) scan chunks: "ptscanchunks "
 (p t|pee tea) help: "pthelp\n"
+
+# XXX - eventually these could be replaced with generic heap actions
+heck stump <user.number> chunks: "ptchunk -x -c {number} "
+search <number> chunks:  "ptchunk -c {number} -s"
