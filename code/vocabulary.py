@@ -107,6 +107,7 @@ simple_vocabulary = [
     "buffer",
     "ncc",
     "nccgroup",
+    "draft",
 ]
 
 mapping_vocabulary = {
