@@ -32,4 +32,9 @@ state (variable|var) <user.text>$:
     text = user.formatted_text(text, "snake")
     user.keys_uppercase_letters(text)
     insert("}")
-    key(left)
+
+copy file:
+    insert("cp ")
+
+recursive copy file:
+    insert("cp -R ")
