@@ -1,4 +1,4 @@
-# knausj_talon
+[#](#) knausj_talon
 
 Talon configs for Mac, Windows, and Linux. Very much in progress. This is also intended to work with both Dragon Naturally Speaking and wav2letter.
 
@@ -10,7 +10,7 @@ Clone repo into `~/.talon/user`
 cd ~/.talon/user
 git clone git@github.com:knausj85/knausj_talon.git knausj_talon
 ```
-    
+
 Alternatively, access the directory by right clicking the Talon icon in taskbar, clicking Scripting>Open ~/talon, and navigating to user.
 
 The folder structure should look like:
@@ -33,15 +33,15 @@ If using wav2letter, extract the entire contents of the tarball (found pinned in
 
 Note: Talon for Windows should be placed in the Program Files directory (or another 'secure' directory): `C:\Program Files\talon` Talon has been signed and utilizes uiAccess for several goodies: this will allow Talon to work with applications that are run as admin.
 
-Clone repo into `%AppData%\Talon\user` 
+Clone repo into `%AppData%\Talon\user`
 
 ```insert code:
 cd %AppData%\Talon\user
 git clone git@github.com:knausj85/knausj_talon.git knausj_talon
 ```
-    
+
 Alternatively, access the directory by right clicking the Talon icon in taskbar, clicking Scripting>Open ~/talon, and navigating to user.
-    
+
 The folder structure should look like:
 
 ```insert code:
@@ -56,29 +56,29 @@ The folder structure should look like:
 
 Use the “help context,” "help active," and “help alphabet” commands to browse available commands. Available commands can change with the application or window title that has focus.
 
-It's recommended to learn the alphabet first, then get familiar with the keys, symbols, and formatters. 
+It's recommended to learn the alphabet first, then get familiar with the keys, symbols, and formatters.
 
 The alphabet is defined here
 https://github.com/knausj85/knausj_talon/blob/master/code/keys.py#L6
 
-Keys are defined later in the same file: 
+Keys are defined later in the same file:
 https://github.com/knausj85/knausj_talon/blob/master/code/keys.py#L67
 
-Symbols: 
+Symbols:
 https://github.com/knausj85/knausj_talon/blob/master/text/symbols.talon
 
-Formatters: 
+Formatters:
 https://github.com/knausj85/knausj_talon/blob/master/code/formatters.py#L102
 
 Try using formatters by saying e.g. “snake hello world,” which will insert hello_world
 
-Mutliple formatters can be used togther, e.g. “dubstring snake hello world,” which will insert "hello_world" 
+Mutliple formatters can be used togther, e.g. “dubstring snake hello world,” which will insert "hello_world"
 
 Once you have the basics of text input down, try copying some code from one window to another.
 
-After that, explore using ordinal repetition for easily repeating a command without pausing (e.g., saying “go up fifth” will go up five lines), window switching (“focus chrome”), and moving around in your text editor of choice. 
+After that, explore using ordinal repetition for easily repeating a command without pausing (e.g., saying “go up fifth” will go up five lines), window switching (“focus chrome”), and moving around in your text editor of choice.
 
-If you use vim, just start with the numbers and alphabet, otherwise look at generic_editor.talon as well at jetbrains, vscode, and any other integrations).  
+If you use vim, just start with the numbers and alphabet, otherwise look at generic_editor.talon as well at jetbrains, vscode, and any other integrations).
 
 ### Activating Programming Languages
 
@@ -86,14 +86,14 @@ Specific programming languages may be activated by voice commands, or via title 
 
 Activating languages via commands will enable the commands globally, e.g. they'll work in any application. This will also disable the title tracking method (code.language in .talon files) until the "clear language modes" voice command is used.
 
-The commands are defined here: 
+The commands are defined here:
 https://github.com/knausj85/knausj_talon/blob/69d0207c873e860002b137f985dd7cb001183a47/modes/modes.talon#L29
 
-By default, title tracking activates coding languages in supported applications such as VSCode and Notepad++. 
+By default, title tracking activates coding languages in supported applications such as VSCode and Notepad++.
 
-To enable title tracking for your application: 
+To enable title tracking for your application:
 1. The active filename (including extension) must be included in the editor's title
-2. Implement the required Talon-defined actions to correctly extract the filename and extension from the programs's title. See https://github.com/knausj85/knausj_talon/blob/69d0207c873e860002b137f985dd7cb001183a47/apps/vscode/vscode.py#L12 for an example. 
+2. Implement the required Talon-defined actions to correctly extract the filename and extension from the programs's title. See https://github.com/knausj85/knausj_talon/blob/69d0207c873e860002b137f985dd7cb001183a47/apps/vscode/vscode.py#L12 for an example.
 
 ## File Manager commands
 For the following file manager commands to work, your file manager must display the full folder path in the title bar. https://github.com/knausj85/knausj_talon/blob/baa323fcd34d8a1124658a425abe8eed59cf2ee5/apps/file_manager.talon
@@ -108,7 +108,7 @@ defaults write com.apple.finder _FXShowPosixPathInTitle -bool YES
 For Windows Explorer, follow these directions
 https://www.howtogeek.com/121218/beginner-how-to-make-explorer-always-show-the-full-path-in-windows-8/
 
-For the Windows command line, the "refresh title" command will force the title to the current directory, and all directory commands ("follow 1") will automatically update the title. The 
+For the Windows command line, the "refresh title" command will force the title to the current directory, and all directory commands ("follow 1") will automatically update the title. The
 
 
 ## Jetbrains commands
