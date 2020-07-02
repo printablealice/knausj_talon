@@ -42,3 +42,34 @@ super focus:
     user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(=)
+
+###
+# Email writing
+###
+
+nest this:
+    user.vim_set_normal_mode()
+    key(0)
+    key(m ')
+    insert("gqap")
+    key(')
+    key(')
+    key(0)
+    user.vim_set_visual_block_mode()
+    key(} up)
+    key(0 I > space escape)
+
+tidy nest:
+    user.vim_set_normal_mode()
+    key(0 l)
+    user.vim_set_visual_block_mode()
+    key(} up l)
+    key(I space escape)
+
+# turn a non line wrapped email response into a more wealth formatted
+# traditional style nesting
+re nest this:
+    key(0)
+    user.vim_set_visual_block_mode()
+    key(} up)
+    key(0 I > escape)
