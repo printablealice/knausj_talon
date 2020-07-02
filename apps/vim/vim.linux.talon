@@ -192,6 +192,7 @@ reload [vim] config:
 # For when the VIM cursor is hovering on a path
 open [this] link: user.vim_normal_mode("gx")
 open this file: user.vim_normal_mode("gf")
+open this file offset: user.vim_normal_mode("gF")
 open this file in [split|window]:
     user.vim_set_normal_mode()
     key(ctrl-w)
@@ -273,15 +274,27 @@ replace (ship|upper|upper case) <user.letters>:
     user.keys_uppercase_letters(letters)
 
 # indenting
+indent [line] <number> through <number>$:
+    user.vim_command_mode(":{number_1},{number_2}>\n")
+unindent [line] <number> through <number>$:
+    user.vim_command_mode(":{number_1},{number_2}>\n")
+# XXX - double check against slide right/left
 (shift|indent) right: user.vim_normal_mode(">>")
-indent [line] <number> through <number>$: user.vim_command_mode(":{number_1},{number_2}>\n")
 (shift|indent) left: user.vim_normal_mode("<<")
-unindent [line] <number> through <number>$: user.vim_command_mode(":{number_1},{number_2}>\n")
 
 # deleting
-delete remaining [line]: user.vim_normal_mode_key("D")
-delete line [at|number] <number>$: user.vim_command_mode(":{number}d\n")
-delete (line|lines) [at|number] <number> through <number>$: user.vim_command_mode(":{number_1},{number_2}d\n")
+delete remaining [line]:
+    user.vim_normal_mode_key("D")
+delete line [at|number] <number>$:
+    user.vim_command_mode(":{number}d\n")
+delete (line|lines) [at|number] <number> through <number>$:
+    user.vim_command_mode(":{number_1},{number_2}d\n")
+delete (until|till) line <number>:
+    user.vim_normal_mode_np("m'")
+    insert(":{number}\n")
+    user.vim_set_visual_line_mode()
+    insert("''d")
+
 
 clear line:
     user.vim_insert_mode_key("ctrl-u")
@@ -332,6 +345,12 @@ forget line:
 # start ending at end of file
 append file:
     user.vim_normal_mode_np("Go")
+
+push:
+    user.vim_normal_mode_np("$a")
+push <user.any>:
+    user.vim_normal_mode_np("$a{any}")
+
 
 insert <user.text>:
     user.vim_insert_mode("{text}")
@@ -731,6 +750,8 @@ show filetype:
     user.vim_command_mode_exterm(":marks ")
 (go|jump) [to] last edit: user.vim_normal_mode("`.")
 (go|jump) [to] last insert: user.vim_normal_mode("`^")
+# differences this puts you into insert mode
+continue last insert:user.vim_normal_mode("gi")
 (go|jump) [to] last (cursor|location): user.vim_normal_mode_exterm("``")
 
 ###
@@ -778,6 +799,11 @@ extra file info:
     key(2)
     key(ctrl-g)
 vim help: user.vim_command_mode_exterm(":help ")
+show ask e code:
+    key(g 8)
+show last output:
+    key(g <)
+
 
 ###
 # Mode Switching
@@ -872,6 +898,24 @@ find (reversed|previous) <user.ordinals> <user.any>:
     insert("''")
 
 ###
+# Visual Text Editing
+###
+prefix <user.vim_select_motion> with <user.any>:
+    user.vim_visual_mode("{vim_select_motion}")
+    insert(":")
+    # leave time for vim to populate '<,'>
+    sleep(50ms)
+    insert("s/^/{any}/g\n")
+
+# Assumes visual mode
+prefix with <user.any>:
+    insert(":")
+    # leave time for vim to populate '<,'>
+    sleep(50ms)
+    insert("s/^/{any}/g\n")
+
+
+###
 # Visual Mode
 ###
 (select|highlight) all: user.vim_normal_mode_np("ggVG")
@@ -926,9 +970,20 @@ run as python:
 
 remove trailing white space: user.vim_normal_mode(":%s/\s\+$//e\n")
 (remove all|normalize) tabs: user.vim_normal_mode(":%s/\t/    /eg\n")
+# assumes visual mode
+(delete|trim) empty lines:
+    insert(":")
+    sleep(100ms)
+    insert("g/^$/d\n")
+
 show unsaved changes:
     user.vim_command_mode(":w !diff % -\n")
 
+swap again:
+    key(g &)
+
+# useful for turning a git status list already yanked into a register into a
+# space delimited list you can peace unto the command line
 remove newlines from register <user.any>:
     user.vim_command_mode(":let @{any}=substitute(strtrans(@{any}),'\^@',' ','g')\n")
 
