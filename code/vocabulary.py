@@ -108,6 +108,14 @@ simple_vocabulary = [
     "ncc",
     "nccgroup",
     "draft",
+    "donut",
+    "insert",
+    "payload",
+    "disk",
+    "diskless",
+    "loader",
+    "ascii",
+    "disk",
 ]
 
 mapping_vocabulary = {
@@ -206,6 +214,16 @@ mapping_vocabulary = {
     "windows ten": "windows 10",
     "windows seven": "windows ",
     "ncc group": "nccgroup",
+    "ex or": "xor",
+    "sea sharp": "c#",
+    "sea file": "c file",
+    "in cert": "insert",
+    "sand box": "sandbox",
+    "use her": "user",
+    "pentest her": "pentester",
+    "test her": "tester",
+    "asked I": "ascii",
+    "ask I": "ascii",
 }
 
 mapping_vocabulary.update(dict(zip(simple_vocabulary, simple_vocabulary)))
