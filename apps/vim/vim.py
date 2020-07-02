@@ -518,12 +518,13 @@ mod.mode("vim_fugitive", desc="A fugitive mode that exposes git mappings")
 
 @mod.capture
 def vim_arrow(m) -> str:
-    "An arrow to be converted to vim direction"
+    "An arrow direction to be converted to vim direction"
+    return m.vim_arrow
 
 
 @mod.capture
 def vim_surround_targets(m) -> str:
-    "Returns a string"
+    "Returns a text object used by the surround plugin"
 
 
 @mod.capture
@@ -875,6 +876,11 @@ class Actions:
         v = VimMode()
         v.set_visual_line_mode()
 
+    def vim_set_visual_block_mode():
+        """set visual block mode"""
+        v = VimMode()
+        v.set_visual_block_mode()
+
     def vim_set_insert_mode():
         """set insert mode"""
         v = VimMode()
@@ -1052,11 +1058,12 @@ class VimMode:
     NORMAL = 1
     VISUAL = 2
     VISUAL_LINE = 3
-    INSERT = 4
-    TERMINAL = 5
-    COMMAND = 6
-    REPLACE = 7
-    VREPLACE = 8
+    VISUAL_BLOCK = 4
+    INSERT = 5
+    TERMINAL = 6
+    COMMAND = 7
+    REPLACE = 8
+    VREPLACE = 9
 
     # XXX - not really necessary here, but just used to sanity check for now
     vim_modes = {
@@ -1149,6 +1156,9 @@ class VimMode:
 
     def set_visual_line_mode(self):
         self.adjust_mode(self.VISUAL_LINE)
+
+    def set_visual_block_mode(self):
+        self.adjust_mode(self.VISUAL_BLOCK)
 
     def set_insert_mode(self):
         self.adjust_mode(self.INSERT)
@@ -1282,6 +1292,11 @@ class VimMode:
             # ex: normal mode press 5, then press v to switch to visual
             actions.key("escape")
             actions.key("V")
+        elif wanted_mode == self.VISUAL_BLOCK:
+            # first we cancel queued normal commands that might mess with 'v'
+            # ex: normal mode press 5, then press v to switch to visual
+            actions.key("escape")
+            actions.key("ctrl-v")
         elif wanted_mode == self.COMMAND:
             # XXX - could check cmd to see if it has the ':' and if not have
             # this func set it
