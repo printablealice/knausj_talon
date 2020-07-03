@@ -52,7 +52,6 @@ call alt shift key:
     edit.left()
 
 call action:
-
     insert("action()")
 
 <user.modifiers> key: "{modifiers}"
