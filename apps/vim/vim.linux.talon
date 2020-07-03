@@ -867,6 +867,7 @@ find (reversed|previous) <user.ordinals> <user.any>:
 # Visual Text Selection
 ###
 (visual|select|highlight) line: user.vim_visual_mode("V")
+block (visual|select|highlight): user.vim_any_motion_mode_exterm_key("ctrl-v")
 (visual|select|highlight) block: user.vim_any_motion_mode_exterm_key("ctrl-v")
 
 (select|highlight) <user.vim_select_motion>:
@@ -877,8 +878,17 @@ find (reversed|previous) <user.ordinals> <user.any>:
     user.vim_set_visual_mode()
     insert("{number_2}G")
 
+block (select|highlight) lines <number> through <number>:
+    user.vim_normal_mode_np("{number_1}G")
+    user.vim_set_visual_block_mode()
+    insert("{number_2}G")
+
 (select|highlight) <number_small> lines:
     user.vim_set_visual_line_mode()
+    insert("{number_small-1}j")
+
+block (select|highlight) <number_small> lines:
+    user.vim_set_visual_block_mode()
     insert("{number_small-1}j")
 
 (select|highlight) <number_small> lines at line <number>:
@@ -886,9 +896,19 @@ find (reversed|previous) <user.ordinals> <user.any>:
     user.vim_set_visual_line_mode()
     insert("{number_small-1}j")
 
+block (select|highlight) <number_small> lines at line <number>:
+    user.vim_normal_mode_np("{number}G")
+    user.vim_set_visual_block_mode()
+    insert("{number_small-1}j")
+
 (select|highlight) <number_small> above:
     user.vim_normal_mode_np("{number_small}k")
     user.vim_set_visual_line_mode()
+    insert("{number_small-1}j")
+
+block (select|highlight) <number_small> above:
+    user.vim_normal_mode_np("{number_small}k")
+    user.vim_set_visual_block_mode()
     insert("{number_small-1}j")
 
 (select|highlight) (until|till) line <number>:
@@ -896,6 +916,13 @@ find (reversed|previous) <user.ordinals> <user.any>:
     insert(":{number}\n")
     user.vim_set_visual_line_mode()
     insert("''")
+
+block (select|highlight) (until|till) line <number>:
+    user.vim_normal_mode_np("m'")
+    insert(":{number}\n")
+    user.vim_set_visual_block_mode()
+    insert("''")
+
 
 ###
 # Visual Text Editing
