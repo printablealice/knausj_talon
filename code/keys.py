@@ -7,7 +7,7 @@ from talon import Context, Module, actions
 #   fine - conflicts with find
 #   jury  - suddenly always matching with three or tree
 #   pit  - conflicts with page
-#   yank - conflicts with vim
+#   yank - conflicts with vim command
 default_alphabet = "air bat cap drum each fin gust harp sit jail crunch look made near odd peck quench red sun trap urge vest whale plex yell zip".split(
     " "
 )
@@ -104,6 +104,7 @@ ctx.lists["self.symbol"] = {
     "period": ".",
     "point": ".",
     "space": " ",
+    "void": " ",
     "semi": ";",
     "semicolon": ";",
     "apostrophe": "'",
@@ -144,6 +145,7 @@ ctx.lists["self.symbol"] = {
     "right curly brace": "}",
     "angle": "<",
     "left angle": "<",
+    "langle": "<",
     "less than": "<",
     "rangle": ">",
     "R angle": ">",
