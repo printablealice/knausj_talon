@@ -116,6 +116,8 @@ simple_vocabulary = [
     "loader",
     "ascii",
     "disk",
+    "markdown",
+    "BSD",
 ]
 
 mapping_vocabulary = {
