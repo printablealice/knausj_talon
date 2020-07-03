@@ -125,6 +125,7 @@ ctx.lists["user.abbreviation"] = {
     "synchronize": "sync",
     "synchronous": "sync",
     "system": "sys",
+    "table of contents": "toc",
     "temporary": "tmp",
     "text": "txt",
     "user": "usr",
