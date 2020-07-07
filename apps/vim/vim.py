@@ -268,9 +268,17 @@ vim_motions = {
     "paragraph": "}",
     "up paragraph": "{",
     "start of next section": "]]",
+    "next section": "]]",
     "start of previous section": "[[",
+    "previous section": "[[",
+    # XXX - next section end??
     "end of next section": "][",
+    # XXX - previous section end??
     "end of previous section": "[]",
+    # XXX - not sure about naming
+    "block end": "]}",
+    "block start": "[{",
+    "previous block": "[}",
     "matching": "%",
     "down line": "+",
     "up line": "-",
@@ -368,6 +376,9 @@ text_object_select = {
     # These are pluralized because of how you speak vim grammars
     # ex: yank inside braces
     "curly braces": "{",
+    # XXX - technically this is more of a C thing, but allows me to say
+    # ""
+    "code block": "{",
     "braces": "{",
     "square brackets": "[",
     "squares ": "[",

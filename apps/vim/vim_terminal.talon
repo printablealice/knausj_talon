@@ -14,3 +14,12 @@ exit terminal:
     key(ctrl-\)
     key(ctrl-n)
     insert("ZQ")
+
+shadow <number>:
+    user.vim_normal_mode_exterm("{number}k")
+    key('0')
+    insert("y$")
+    insert(":set nohls\n")
+    user.vim_set_insert_mode()
+    edit.paste()
+    key(space)

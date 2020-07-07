@@ -962,6 +962,9 @@ reselect: user.vim_normal_mode_np("gv")
 new terminal:
     user.vim_normal_mode_exterm(":term\n")
 
+force new terminal:
+    user.vim_normal_mode_exterm(":term!\n")
+
 [new] (split|horizontal) (term|terminal):
     # NOTE: if your using zsh you might have to switch this, though depending
     # on your setup it will still work (this loads zsh on mine)
