@@ -62,6 +62,7 @@ def ordinal(n):
         suffix = "th"
     return str(n) + suffix
 
+
 def ordinal_word(n):
     n = int(n)
     ordinal_list = []
@@ -76,8 +77,9 @@ def ordinal_word(n):
     else:
         ordinal_list.append(ordinal_ones[n - 1])
 
-    result = ' '.join(ordinal_list)
+    result = " ".join(ordinal_list)
     return result
+
 
 for n in range(1, 100):
     # This was initially minus one to compensate for its only use as a command
@@ -87,18 +89,39 @@ for n in range(1, 100):
     # ordinal_words[ordinal_word(n)] = n - 1
     ordinal_words[ordinal_word(n)] = n
 
+# remove the word first for when using as a repeater, as first doesn't make
+# sense and it makes it available for other commands
+ordinal_repeaters = ordinal_words
+del ordinal_repeaters["first"]
+
 mod = Module()
 mod.list("ordinal_words", desc="list of ordinals")
+mod.list("ordinal_repeaters", desc="list of ordinals")
 
 ctx = Context()
+
 
 @mod.capture
 def ordinals(m) -> int:
     "Returns a single ordinial as a digit"
+
+
+@mod.capture
+def ordinal_repeater(m) -> int:
+    "Returns a single ordinial as a digit, excluding first"
+
 
 @ctx.capture(rule="{self.ordinal_words}")
 def ordinals(m):
     o = m[0]
     return int(ordinal_words[o])
 
+
+@ctx.capture(rule="{self.ordinal_repeaters}")
+def ordinal_repeater(m):
+    o = m[0]
+    return int(ordinal_repeaters[o])
+
+
 ctx.lists["self.ordinal_words"] = ordinal_words.keys()
+ctx.lists["self.ordinal_repeaters"] = ordinal_repeaters.keys()
