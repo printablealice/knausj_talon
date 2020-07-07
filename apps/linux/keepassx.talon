@@ -11,7 +11,7 @@ open database: key(ctrl-o)
 save database: key(ctrl-s)
 close database: key(ctrl-w)
 lock database: key(ctrl-l)
-quit: key(ctrl-q)
+quit program: key(ctrl-q)
 
 # Entries
 [add] new entry: key(ctrl-n)
