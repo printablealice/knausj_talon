@@ -30,6 +30,7 @@ change ownership: "chown "
 
 # links
 sim link: "ln -s "
+sim link force: "ln -sf "
 hard link: "ln "
 
 # finds
@@ -162,3 +163,16 @@ pee kill: "pkill "
 pee kill <user.text>: "pkill {text}"
 kill <number>: "kill -9 {number}"
 reboot system: "sudo reboot -h now"
+
+# XXX - from the old standard.talon file
+# unsorted
+zed s h: "zsh"
+cd: "cd "
+grep: "grep "
+elle less: "ls "
+run L S: "ls\n"
+run (S S H | S H): "ssh"
+diff: "diff "
+run vim: "vim "
+run make: "make\n"
+run make (durr | dear): "mkdir "

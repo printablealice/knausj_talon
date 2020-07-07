@@ -5,12 +5,6 @@ dragon dictation: "<phrase>"
 #slap:
 #	edit.line_end()
 #key(enter)
-cd: "cd "
-grep: "grep "
-elle less: "ls "
-run L S: "ls\n"
-run (S S H | S H): "ssh"
-diff: "diff "
 dot pie: ".py"
 dot talon: ".talon"
 dot mark down: ".md"
@@ -20,10 +14,7 @@ dot see: ".c"
 dot com: ".com"
 dot net: ".net"
 dot org: ".org"
-zed s h: "zsh"
-run vim: "vim "
-run make: "make\n"
-run make (durr | dear): "mkdir "
+
 (jay son | jason ): "json"
 (http | htp): "http"
 tls: "tls"
@@ -32,9 +23,9 @@ M D five: "md5"
 (parens|args):
 	insert("()")
 	key(left)
-(block|brackets):
-	insert("{}")
-	key(left enter enter up tab)
+#(block|brackets):
+#	insert("{}")
+#	key(left enter enter up tab)
 empty array: "[]"
 #comment see: "// "
 word queue: "queue"
@@ -62,9 +53,9 @@ list in it:
 (dickt in it | inside bracket | in bracket):
 	insert("{}")
 	key(left)
-block:
-	insert("{}")
-	key(left enter enter up tab)
+#block:
+#	insert("{}")
+#	key(left enter enter up tab)
 (in | inside) percent:
 	insert("%%")
 	key(left)
