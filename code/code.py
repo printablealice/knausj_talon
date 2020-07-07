@@ -1,3 +1,5 @@
+import os
+
 from talon import Context, Module, actions, settings
 
 ctx = Context()
@@ -82,7 +84,7 @@ class Actions:
                 actions.mode.disable("user.{}".format(lang))
             else:
                 actions.mode.enable("user.{}".format(lang))
-
+        os.system('notify-send.sh -t 3000 -f -u low "Enabled {} mode"'.format(language))
         forced_language = True
 
     def code_clear_language_mode():
@@ -92,6 +94,7 @@ class Actions:
 
         for __, lang in extension_lang_map.items():
             actions.mode.disable("user.{}".format(lang))
+        os.system('notify-send.sh -t 3000 -f -u low "Cleared language modes"')
 
     def code_operator_indirection():
         """code_operator_indirection"""
