@@ -52,6 +52,8 @@ ctx.lists["user.abbreviation"] = {
     "documents": "docs",
     "double": "dbl",
     "dynamic": "dyn",
+    "enumerate": "enum",
+    "environment": "env",
     "escape": "esc",
     "example": "ex",
     "exception": "exc",
