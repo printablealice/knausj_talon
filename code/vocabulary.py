@@ -118,7 +118,12 @@ simple_vocabulary = [
     "disk",
     "markdown",
     "BSD",
+    "bool",
+    "keying",
+    "env",
+    "tags",
 ]
+
 
 mapping_vocabulary = {
     "all i": "ollie",
@@ -226,6 +231,11 @@ mapping_vocabulary = {
     "test her": "tester",
     "asked I": "ascii",
     "ask I": "ascii",
+    "get ignore": ".gitignore",
+    "data tapes": "datatypes",
+    "e numb": "enum",
+    "king": "keying",
+    "do main": "domain",
 }
 
 mapping_vocabulary.update(dict(zip(simple_vocabulary, simple_vocabulary)))
