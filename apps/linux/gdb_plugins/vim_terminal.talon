@@ -50,7 +50,7 @@ go <user.ordinals> (hex value|address):
 
 # relative
 copy line <number> (hex value|address):
-    user.vim_normal_mode_exterm("{number}k\n")
+    user.vim_normal_mode_exterm("{number}k")
     key('0')
     insert(":call search(\"0x\", 'c', line('.'))\n")
     insert("yw")
@@ -114,7 +114,7 @@ glitter <number> <user.ordinals>$:
 
 # relative
 (hexdump|matrix) [relative] up [line] <number>$:
-    user.vim_normal_mode_exterm("{number+1}k\n")
+    user.vim_normal_mode_exterm("{number+1}k")
     insert("^")
     insert(":call search(\"0x\", 'c', line('.'))\n")
     insert("yiw")
@@ -129,7 +129,7 @@ glitter <number> <user.ordinals>$:
 
 # relative
 (hexdump|matrix) [relative] down [line] <number>$:
-    user.vim_normal_mode_exterm("{number+1}j\n")
+    user.vim_normal_mode_exterm("{number+1}j")
     insert("^")
     insert(":call search(\"0x\", 'c', line('.'))\n")
     insert("yiw")
@@ -160,7 +160,7 @@ glitter <number> <user.ordinals>$:
 
 # relative
 (hexdump|matrix) [relative] down [line] <number> <user.ordinals>$:
-    user.vim_normal_mode_exterm("{number+1}j\n")
+    user.vim_normal_mode_exterm("{number+1}j")
     insert("^")
     insert(":call search(\"0x\", 'c', line('.'))\n")
     insert("yiw")
@@ -176,7 +176,7 @@ glitter <number> <user.ordinals>$:
 
 # for use with relative number lines
 (hexdump|matrix) [relative] up [line] <number> <user.ordinals>$:
-    user.vim_normal_mode_exterm("{number+1}k\n")
+    user.vim_normal_mode_exterm("{number+1}k")
     insert("^")
     insert(":call search(\"0x\", 'c', line('.'))\n")
     insert("yiw")
