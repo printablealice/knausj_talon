@@ -62,11 +62,17 @@ fuzzy vimdiff:
 (go|jump) [to] (current|active) [work] (project|directory):
     insert("source ~/projects/current &&")
     insert(" cd $ACTIVE_PROJECT\n")
+(go|jump) [to] alternate [work] (project|directory):
+    insert("source ~/projects/alternate &&")
+    insert(" cd $ACTIVE_PROJECT\n")
 edit [to] (current|active) [work] project: "vim ~/projects/current\n"
+edit [to] alternate [work] project: "vim ~/projects/alternate\n"
 edge (dur|dir): "cd ~/src/edg\n"
 run debug: "./debug.sh\n"
 run project:
     insert("run_active_project\n")
+build project:
+    insert("build_active_project\n")
 super kill g d b: "sudo pkill gdb\n"
 resource config:
     insert("delete br\ny\n")
@@ -74,6 +80,9 @@ resource config:
 
 # work auto-commands
 open active work space:
+    user.system_command("/home/aa/scripts/workflow/work_workspace.sh")
+
+open alternate work space:
     user.system_command("/home/aa/scripts/workflow/work_workspace.sh")
 
 (connect|start) work (tunnel|vpn):
