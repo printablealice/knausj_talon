@@ -333,6 +333,7 @@ vim_motions_with_character = {
 # commands
 custom_vim_motions_with_character_commands = {
     "last": "$F",  # find starting end of line
+    "first": "^f",  # find starting beginning of line
 }
 
 ctx.lists["self.vim_motions_with_character"] = {
