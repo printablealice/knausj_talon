@@ -3,7 +3,8 @@ app: vmware
 -
 
 new virtual machine: key(ctrl-n)
-quit vm ware: key(ctrl-q)
+open virtual machine: key(ctrl-o)
+quit vee em ware: key(ctrl-q)
 
 # VM
 open settings: key(ctrl-d)
