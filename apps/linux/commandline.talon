@@ -42,10 +42,14 @@ touch: "touch "
 # file management
 move file: "mv "
 copy file: "cp "
+
+# file viewing
+less: "less "
+now less that:
+    edit.up()
+    insert("| less\n")
 show me <user.text>: "cat {text}"
 show me: "cat "
-less: "less "
-
 
 clear [screen|page]: "clear\n"
 
@@ -176,3 +180,5 @@ diff: "diff "
 run vim: "vim "
 run make: "make\n"
 run make (durr | dear): "mkdir "
+
+#export <user.text>:
