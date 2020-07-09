@@ -803,7 +803,8 @@ show ask e code:
     key(g 8)
 show last output:
     key(g <)
-
+open man page: user.vim_command_mode_exterm(":Man ")
+man page this: user.vim_normal_mode("K")
 
 ###
 # Mode Switching
