@@ -7,6 +7,7 @@ ghidra server status: "server/ghidraSvr status\n"
 ghidra server stop: "server/ghidraSvr stop\n"
 ghidra server start: "server/ghidraSvr start\n"
 ghidra server install: "server/ghidraSvr install\n"
+ghidra server restart: "server/ghidraSvr restart\n"
 ghidra server: "server/ghidraSvr "
 
 # svrAdmin
