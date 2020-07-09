@@ -122,6 +122,10 @@ simple_vocabulary = [
     "keying",
     "env",
     "tags",
+    "PE",
+    "raw",
+    "page",
+    "add",
 ]
 
 
@@ -236,6 +240,10 @@ mapping_vocabulary = {
     "e numb": "enum",
     "king": "keying",
     "do main": "domain",
+    "eye pee": "IP",
+    "pee e": "PE",
+    "arm sixty four": "ARM64",
+    "arm thirty two": "ARM32",
 }
 
 mapping_vocabulary.update(dict(zip(simple_vocabulary, simple_vocabulary)))
