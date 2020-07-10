@@ -51,12 +51,12 @@ settings():
     # When you are escaping queued commands, it seems vim needs time to recover
     # before issuing the subsequent commands. This controls how long it waits,
     # in seconds
-    user.vim_cancel_queued_commands_timeout = 0.25
+    user.vim_cancel_queued_commands_timeout = 0.20
 
     # It how long to wait before issuing commands after a mode change. You
     # want adjust this if when you say things like undo from INSERT mode, an
     # "u" gets inserted into INSERT mode
-    user.vim_mode_change_timeout = 0.25
+    user.vim_mode_change_timeout = 0.20
 
 ###
 # Actions - Talon generic_editor.talon implementation
@@ -711,10 +711,10 @@ edit (buf|buffer) <number_small> [in] new tab: user.vim_command_mode_exterm(":ta
 (unset|set no|hide) highlight [search]:
     user.vim_command_mode_exterm(":set nohls\n")
 (show|set) line numbers: user.vim_command_mode_exterm(":set nu\n")
-(show|set) absolute [line] numbers:
+(show|set) absolute [line] [numbers]:
     user.vim_command_mode_exterm(":set norelativenumber\n")
     user.vim_command_mode_exterm(":set number\n")
-(show|set) relative line numbers:
+(show|set) relative [line] [numbers]:
     user.vim_command_mode_exterm(":set nonumber\n")
     user.vim_command_mode_exterm(":set relativenumber\n")
 (unset|set no|hide) line numbers: user.vim_command_mode_exterm(":set nonu\n")
@@ -728,6 +728,13 @@ set modifiable:
     user.vim_command_mode_exterm(":set nomodifiable\n")
 show filetype:
     user.vim_command_mode_exterm(":set filetype\n")
+show tab stop:
+    user.vim_command_mode_exterm(":set tabstop\n")
+    user.vim_command_mode_exterm(":set shiftwidth\n")
+set tab stop <digits>:
+    user.vim_command_mode_exterm(":set tabstop={digits}\n")
+    user.vim_command_mode_exterm(":set shiftwidth={digits}\n")
+
 
 ###
 # Marks
@@ -936,6 +943,8 @@ prefix <user.vim_select_motion> with <user.any>:
     insert("s/^/{any}/g\n")
 
 # Assumes visual mode
+# XXX - possibly worth moving to a file that actually triggers on a visual mode
+# title
 prefix with <user.any>:
     insert(":")
     # leave time for vim to populate '<,'>

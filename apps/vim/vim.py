@@ -1,5 +1,4 @@
 # see doc/vim.md
-# XXX - Add support for ordinal motions: "delete 5th word"
 # XXX - define all the lists separately and then update ctx.lists only once
 # XXX - document that visual selection mode implies terminal escape
 # XXX - eventually use nvim RPC to confirm mode changes vs relying on a time
@@ -210,7 +209,7 @@ visual_commands = {
     "change": "c",
     "join": "J",
     "delete": "d",
-    "trim": "d",  # XXX - because talent doesn't like my "delete"
+    "trim": "d",  # XXX - because talon doesn't like the way I say "delete"
     "yank": "y",  # XXX - conflicts with talon 'yank' alphabet for 'y' key
     "copy": "y",
     "format": "gq",
@@ -377,8 +376,7 @@ text_object_select = {
     # These are pluralized because of how you speak vim grammars
     # ex: yank inside braces
     "curly braces": "{",
-    # XXX - technically this is more of a C thing, but allows me to say
-    # ""
+    # XXX - technically "code block" is more of a C-specifc thing
     "code block": "{",
     "braces": "{",
     "square brackets": "[",
@@ -400,6 +398,7 @@ ctx.lists["self.vim_text_object_select"] = {
 }
 
 # Specific to the vim-surround plugin
+# XXX - should be able to partially mix with earlier list
 ctx.lists["self.vim_surround_targets"] = {
     "stars": "*",
     "asterisks": "*",
@@ -501,7 +500,7 @@ mod.setting(
 # Standard VIM motions and action
 mod.list("vim_arrow", desc="All vim direction keys")
 mod.list("vim_motion_commands", desc="Counted VIM commands with motions")
-mod.list("vim_counted_motions", desc="Counted VIM motion verbs")
+# mod.list("vim_counted_motions", desc="Counted VIM motion verbs")
 mod.list("vim_counted_actions", desc="Counted VIM action verbs")
 mod.list("vim_counted_actions_keys", desc="Counted VIM action verbs ctrl keys")
 mod.list("vim_normal_counted_action", desc="Normal counted VIM actions")
@@ -594,9 +593,9 @@ def vim_motion_commands(m) -> str:
     "Returns a list of verbs"
 
 
-@mod.capture
-def vim_counted_motions(m) -> str:
-    "Returns a list of verbs"
+# @mod.capture
+# def vim_counted_motions(m) -> str:
+#    "Returns a list of verbs"
 
 
 @mod.capture
@@ -699,7 +698,7 @@ def vim_motions_with_upper_character(m) -> str:
 
 
 @ctx.capture(
-    rule="{self.vim_motions_with_character} (<user.letter>|<number_small>|<user.symbol>)"
+    rule="{self.vim_motions_with_character} (<user.letter>|<digits>|<user.symbol>)"
 )
 def vim_motions_with_character(m) -> str:
     return m.vim_motions_with_character + "".join(str(x) for x in list(m)[1:])
@@ -736,9 +735,9 @@ def vim_counted_actions_keys(m) -> str:
     return m.vim_counted_actions_keys
 
 
-@ctx.capture(rule="[<number_small>] <self.vim_motions_all>")
-def vim_counted_motions(m) -> str:
-    return "".join(str(x) for x in list(m))
+# @ctx.capture(rule="[<number_small>] <self.vim_motions_all>")
+# def vim_counted_motions(m) -> str:
+#    return "".join(str(x) for x in list(m))
 
 
 @ctx.capture(rule="{self.vim_jump_range}")
@@ -762,7 +761,9 @@ def vim_jump_targets(m) -> str:
 
 
 @ctx.capture(
-    rule="[<number_small>] <self.vim_text_object_range> <self.vim_text_object_select>"
+    # XXX - trying to reduce list sizes and never use this
+    # rule="[<number_small>] <self.vim_text_object_range> <self.vim_text_object_select>"
+    rule="<self.vim_text_object_range> <self.vim_text_object_select>"
 )
 def vim_text_objects(m) -> str:
     return "".join(str(x) for x in list(m))
@@ -776,7 +777,7 @@ def vim_unranged_surround_text_objects(m) -> str:
     if len(list(m)) == 1:
         return "a" + "".join(list(m))
     else:
-        return "".join(list(m)[0:1]) + "a" + "".join(list(m)[1:])
+        return "".join(str(m.number_small)) + "a" + "".join(list(m)[1:])
 
 
 @ctx.capture(rule="{self.vim_motion_commands}")
@@ -803,13 +804,11 @@ def vim_normal_counted_motion_command(m) -> str:
     return "".join(str(x) for x in list(m))
 
 
-# XXX - finish this
 @ctx.capture(
     rule="<self.vim_motion_commands> <user.ordinals> (<self.vim_motions_all>|<self.vim_jump_targets>)"
 )
 def vim_counted_motion_command_with_ordinals(m) -> str:
-    print("".join(list(str(m))))
-    return ""
+    return "".join([str(m.ordinals - 1), "".join(m[2:]), m[0], "".join(m[2:])])
 
 
 @ctx.capture(rule="[<number_small>] <self.vim_motions_keys>")
@@ -822,6 +821,8 @@ def vim_normal_counted_motion_keys(m) -> str:
         return m.vim_motions_keys
 
 
+# XXX - could combine actions_keys and _action version by test if the entry is
+# in which list. might reduce number usage?
 @ctx.capture(rule="[<number_small>] <self.vim_counted_actions>")
 def vim_normal_counted_action(m) -> str:
     # XXX - may need to do action-specific mode checking
@@ -1327,5 +1328,3 @@ class VimMode:
     def notify_mode_change(self, mode):
         """Function to be customized by talon user to determine how they want
         notifications on mode changes"""
-        # .system_command('notify-send.sh -t 3000 "{} mode"'.format(mode))
-        pass
