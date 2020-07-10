@@ -1,7 +1,9 @@
 # NOTE: these are command line commands, not shell-specific bindings
 # see shell.talon for shell-specific keybindings
 os: linux
-tag: terminal
+mode: user.terminal
+mode: command
+and tag: terminal
 -
 (list|lisa): "ls\n"
 (list|lisa) long: "ls -al\n"
@@ -10,11 +12,12 @@ tag: terminal
 
 # directory and files
 (up (dear|dir)|travis): "../"
-(cd|deer|dir) <user.text>: "cd {text}"
-(cd|deer|dir) up: "cd ..\n"
+(choo|deer|dir) <user.text>: "cd {text}"
+(choo|deer|dir) up: "cd ..\n"
 parent (deer|dir): "cd ..\n"
-(cd|deer|dir) home: "cd\n"
-(cd|deer|dir) last: "cd -\n"
+(choo|deer|dir) home: "cd\n"
+(choo|deer|dir) last: "cd -\n"
+
 make (dur|dear|dir|directory): "mkdir "
 make (dur|dear|dir|directory) <user.text>: "mkdir {text}"
 remove (dur|dear|dir|directory): "rmdir "
@@ -182,3 +185,6 @@ run make: "make\n"
 run make (durr | dear): "mkdir "
 
 #export <user.text>:
+
+#
+errors to standard out: "2>&1 "
