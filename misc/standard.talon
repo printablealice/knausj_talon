@@ -14,6 +14,7 @@ dot see: ".c"
 dot com: ".com"
 dot net: ".net"
 dot org: ".org"
+dot exe: ".exe"
 
 (jay son | jason ): "json"
 (http | htp): "http"
