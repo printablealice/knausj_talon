@@ -136,6 +136,10 @@ formatters_dict = {
     "NO_SPACES": (NOSEP, every_word(lambda w: w)),
     "NOOP": (SEP, lambda i, word, _: word),
     "PRIVATE_CAMEL_CASE": (NOSEP, first_vs_rest(lambda w: w, lambda w: w.capitalize())),
+    "PROTECTED_CAMEL_CASE": (
+        NOSEP,
+        first_vs_rest(lambda w: w, lambda w: w.capitalize()),
+    ),
     "PUBLIC_CAMEL_CASE": (NOSEP, every_word(lambda w: w.capitalize())),
     "SINGLE_QUOTED_STRING": (SEP, surround("'")),
     "SLASH_SEPARATED": (NOSEP, every_word(lambda w: "/" + w)),
