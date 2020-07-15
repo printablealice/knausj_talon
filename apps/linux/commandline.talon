@@ -11,12 +11,12 @@ and tag: terminal
 (list|lisa) (deer|dir): "ls "
 
 # directory and files
-(up (dear|dir)|travis): "../"
-(choo|deer|dir) <user.text>: "cd {text}"
-(choo|deer|dir) up: "cd ..\n"
-parent (deer|dir): "cd ..\n"
-(choo|deer|dir) home: "cd\n"
-(choo|deer|dir) last: "cd -\n"
+katie: "cd "
+katie up: "cd ../\n"
+up deer: "../\n"
+katie <user.text>: "cd {text}"
+katie home: "cd\n"
+katie last: "cd -\n"
 
 make (dur|dear|dir|directory): "mkdir "
 make (dur|dear|dir|directory) <user.text>: "mkdir {text}"
