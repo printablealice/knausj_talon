@@ -126,6 +126,15 @@ simple_vocabulary = [
     "raw",
     "page",
     "add",
+    "octet",
+    "dev",
+    "mod",
+    "calc",
+    "close",
+    "gandi",
+    "memset",
+    "polybar",
+    "git",
 ]
 
 
@@ -244,6 +253,10 @@ mapping_vocabulary = {
     "pee e": "PE",
     "arm sixty four": "ARM64",
     "arm thirty two": "ARM32",
+    "dot ex e": ".exe",
+    "desk top": "desktop",
+    "dot net": ".NET",
+    "etcetera": ", etc.",
 }
 
 mapping_vocabulary.update(dict(zip(simple_vocabulary, simple_vocabulary)))
