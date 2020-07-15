@@ -22,7 +22,8 @@ tag: vim
 (fugitive|git) remove: user.vim_command_mode(":GRemove ")
 (fugitive|git) rename: user.vim_command_mode(":GRename ")
 (fugitive|git) reset (current|reset) file: user.vim_command_mode(":G reset HEAD %\n")
-(fugitive|git) split diff: user.vim_command_mode(":G splitdiff!")
+(fugitive|git) split diff: user.vim_command_mode(":Gdiffsplit!")
+(fugitive|git) vertical diff: user.vim_command_mode(":Gvdiffsplit!")
 (fugitive|git) status: user.vim_command_mode(":G\n")
 (fugitive|git) write: user.vim_command_mode(":G write")
 
