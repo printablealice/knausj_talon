@@ -78,6 +78,9 @@ resource config:
     insert("delete br\ny\n")
     insert("source debug_scripts/4.90.gdb\n")
 
+# windows vm
+jump to desktop: "cd /mnt/c/Users/edg/Desktop/\n"
+
 # work auto-commands
 open active work space:
     user.system_command("/home/aa/scripts/workflow/work_workspace.sh")
