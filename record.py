@@ -42,6 +42,11 @@ def find_existing_files(name):
     return entries
 
 
+def datetime_now():
+    """the date right now is an integer"""
+    return datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
+
+
 @mod.action_class
 class Actions:
     def record_flac(words: str):
@@ -49,23 +54,7 @@ class Actions:
         words = words.strip()
         if not current_phrase or not current_phrase.get("samples") or not words:
             return
-        path = OUTPUT_DIR / f"{words}.flac"
-        if path.exists():
-            largest = 0
-            # existing_files = list(glob(os.path.join(OUTPUT_DIR, f"{words}-*.flac")))
-            existing_files = find_existing_files(words)
-            sorted_files = None
-            if len(existing_files) != 0:
-                sorted_files = sorted(
-                    existing_files,
-                    key=lambda x: int(x.split("-")[1].split(".")[0]),
-                    reverse=True,
-                )
-            # print("Original selected: %s" % str(path))
-            if sorted_files:
-                largest = int(sorted_files[0].split("-")[1].split(".")[0])
-            path = OUTPUT_DIR / f"{words}-{largest + 1}.flac"
-            # print("New selected: %s" % path)
+        path = OUTPUT_DIR / f"{words}-{datetime_now()}.flac"
 
         flac.write_flac(str(path), current_phrase["samples"], compression_level=1)
         print(f"saved: {path}")
@@ -75,11 +64,7 @@ class Actions:
         samples = current_phrase["samples"]
         scaled = (min(32767, max(-32768, int(s * 32768))) for s in samples)
         binary = struct.pack("<{}h".format(len(samples)), *scaled)
-        path = OUTPUT_DIR / f"{words}.wav"
-        n = 0
-        while path.exists():
-            n += 1
-            path = OUTPUT_DIR / f"{words}-{n}.wav"
+        path = OUTPUT_DIR / f"{words}-{datetime_now()}.wav"
         with wave.open(str(path), "wb") as w:
             w.setnchannels(1)
             w.setsampwidth(2)
