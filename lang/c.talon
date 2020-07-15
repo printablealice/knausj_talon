@@ -1,11 +1,79 @@
 mode: user.c
 mode: command
 and code.language: c
-
 -
+tag(): user.code_operators
+tag(): user.code_comment
+tag(): user.code_generic
 settings():
     # whether or not to use uint_8 style datatypes
     user.use_stdint_datatypes = 1
+
+action(user.code_operator_indirection): "*"
+action(user.code_operator_address_of): "&"
+action(user.code_operator_structure_deference): "->"
+action(user.code_operator_lambda): "=>"
+action(user.code_operator_subscript):
+    insert("[]")
+    key(left)
+action(user.code_operator_assignment): " = "
+action(user.code_operator_subtraction): " - "
+action(user.code_operator_subtraction_assignment): " -= "
+action(user.code_operator_addition): " + "
+action(user.code_operator_addition_assignment): " += "
+action(user.code_operator_multiplication): " * "
+action(user.code_operator_multiplication_assignment): " *= "
+#action(user.code_operator_exponent): " ** "
+action(user.code_operator_division): " / "
+action(user.code_operator_division_assignment): " /= "
+action(user.code_operator_modulo): " % "
+action(user.code_operator_modulo_assignment): " %= "
+action(user.code_operator_equal): " == "
+action(user.code_operator_not_equal): " != "
+action(user.code_operator_greater_than): " > "
+action(user.code_operator_greater_than_or_equal_to): " >= "
+action(user.code_operator_less_than): " < "
+action(user.code_operator_less_than_or_equal_to): " <= "
+action(user.code_operator_and): " && "
+action(user.code_operator_or): " || "
+action(user.code_operator_bitwise_and): " & "
+action(user.code_operator_bitwise_and_assignment): " &= "
+action(user.code_operator_bitwise_or): " | "
+action(user.code_operator_bitwise_or_assignment): " |= "
+action(user.code_operator_bitwise_exlcusive_or): " ^ "
+action(user.code_operator_bitwise_exlcusive_or_assignment): " ^= "
+action(user.code_operator_bitwise_left_shift): " << "
+action(user.code_operator_bitwise_left_shift_assignment): " <<= "
+action(user.code_operator_bitwise_right_shift): " >> "
+action(user.code_operator_bitwise_right_shift_assignment): " >>= "
+action(user.code_null): "NULL"
+action(user.code_is_null): " == NULL "
+action(user.code_is_not_null): " != NULL"
+action(user.code_state_if):
+    insert("else if() {{\n}}\n")
+    key(up left:3)
+action(user.code_state_else_if):
+    insert("else if() {{\n}}\n")
+    key(up left:3)
+action(user.code_state_else):
+    insert("else\n{{\n}}\n")
+    key(up )
+action(user.code_state_switch):
+    insert("switch()")
+    edit.left()
+action(user.code_state_case):
+    insert("case \nbreak;")
+    edit.up()
+action(user.code_state_for): "for "
+action(user.code_state_go_to): "goto "
+action(user.code_state_while):
+    insert("while()")
+    edit.left()
+action(user.code_state_return): "return "
+
+###
+# old
+###
 
 #directives
 direct include:
@@ -43,43 +111,44 @@ push semi:
     edit.line_end()
     insert(";")
     key(enter)
+
 #space after parens for placement of brackets
-state if:
-    insert("if () ")
-    edit.left()
-    edit.left()
-state else:
-    insert("else ")
-state elsif:
-    insert("else if () ")
-    edit.left()
-    edit.left()
-state switch:
-    insert("switch () ")
-    edit.left()
-    edit.left()
-state case <number>:
-    insert("case {number}:")
-    key(enter)
-state default:
-    insert("default:")
-    key(enter)
-state break:
-    insert("break;")
-    key(enter)
-state continue:
-    insert("continue;")
-    key(enter)
-state for:
-    insert("for () ")
-    edit.left()
-    edit.left()
-state while:
-    insert("while () ")
-    edit.left()
-    edit.left()
-state do: "do "
-state return: "return "
+#state if:
+#    insert("if () ")
+#    edit.left()
+#    edit.left()
+#state else:
+#    insert("else ")
+#state elsif:
+#    insert("else if () ")
+#    edit.left()
+#    edit.left()
+#state switch:
+#    insert("switch () ")
+#    edit.left()
+#    edit.left()
+#state case <number>:
+#    insert("case {number}:")
+#    key(enter)
+#state default:
+#    insert("default:")
+#    key(enter)
+#state break:
+#    insert("break;")
+#    key(enter)
+#state continue:
+#    insert("continue;")
+#    key(enter)
+#state for:
+#    insert("for () ")
+#    edit.left()
+#    edit.left()
+#state while:
+#    insert("while () ")
+#    edit.left()
+#    edit.left()
+#state do: "do "
+#state return: "return "
 
 # Declare variables or structs etc.
 # Ex. * int myList
