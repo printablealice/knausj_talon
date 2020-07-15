@@ -771,7 +771,7 @@ force (make|save) session: user.vim_command_mode_exterm(":mksession! ")
 ###
 # Macros and registers ''
 ###
-(register|registers|macros) list: user.vim_command_mode(":reg\n")
+(register|registers|macros) list: user.vim_command_mode_exterm(":reg\n")
 show (register|macro) <user.letter>: user.vim_command_mode(":reg {letter}\n")
 play macro <user.letter>: user.vim_any_motion_mode("@{letter}")
 repeat macro: user.vim_any_motion_mode("@@")
@@ -784,7 +784,7 @@ modify [register|macro] <user.letter>:
     insert("{letter}")
     key(')
 
-[copy] register <user.any> into [register] <user.any>:
+[copy] register <user.any> [in] to [register] <user.any>:
     user.vim_command_mode(":let@{any_2}=@{any_1}\n")
 paste from register <user.any>: user.vim_any_motion_mode('"{any}p')
 yank (into|to) register <user.any>:
@@ -954,9 +954,9 @@ prefix with <user.any>:
 
 ###
 # Visual Mode
-###
-(select|highlight) all: user.vim_normal_mode_np("ggVG")
-reselect: user.vim_normal_mode_np("gv")
+##x
+(select|highlight) all: user.vim_normal_mode_exterm("ggVG")
+reselect: user.vim_normal_mode_exterm("gv")
 
 ###
 # Terminal mode
