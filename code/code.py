@@ -25,12 +25,13 @@ key = actions.key
 
 extension_lang_map = {
     "asm": "assembly",
-    "c": "cplusplus",
+    "c": "c",
     "cpp": "cplusplus",
     "cs": "csharp",
     "gdb": "gdb",
     "go": "go",
-    "h": "cplusplus",
+    "h": "c",
+    "hpp": "cplusplus",
     "md": "markdown",
     "pl": "perl",
     "py": "python",
