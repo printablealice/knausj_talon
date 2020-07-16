@@ -10,9 +10,16 @@ dev talon:
     insert("cd ~/.talon/user/fidget\n")
     insert("ls\n")
 
+talon shell:
+    insert("~/.talon/bin/repl\n")
 talon base:
     insert("cd ~/.talon/\n")
     insert("ls\n")
+talon (python|classes):
+    insert("cd ~/source/talon/releases/latest/resources/python/lib/python3.7/site-packages/talon\n")
+    insert("ls\n")
+talon source: "cd  ~/src/talon\n"
+
 edit (vim|them) config: "vim ~/.vimrc\n"
 jump to (vim|them): "cd ~/.vim\n"
 edit shell config: "vim ~/.zshrc\n"
@@ -35,7 +42,6 @@ edit markdown snippets:
 edit python snippets:
     "vim ~/.vim/plugged/vim-snippets/UltiSnips/python.snippets\n"
 jump to work: "cd ~/src/edg/ && ls\n"
-talon source: "cd  ~/src/talon\n"
 talon pulls: "cd  ~/src/talon_pull/fidget\n"
 new talon pull branch: "new_talon_pull_repo.sh "
 public source: "cd  ~/pub/src/\n"
