@@ -24,6 +24,14 @@ shadow <number_small>:
     edit.paste()
     key(space)
 
+shadow last <number_small>:
+    user.vim_normal_mode_exterm("{number_small}k")
+    insert('$T ')
+    insert("yW")
+    user.vim_set_insert_mode()
+    edit.paste()
+    key(space)
+
 # XXX - make this command copy the whole line like above, and have a different
 # command that operates on words
 shadow <number_small> <user.ordinals>:
