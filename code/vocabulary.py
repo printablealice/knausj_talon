@@ -134,7 +134,6 @@ simple_vocabulary = [
     "gandi",
     "memset",
     "polybar",
-    "git",
 ]
 
 
