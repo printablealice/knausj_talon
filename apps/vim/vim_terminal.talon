@@ -15,7 +15,6 @@ exit terminal:
     key(ctrl-n)
     insert("ZQ")
 
-
 shadow <number_small>:
     user.vim_normal_mode_exterm("{number_small}k")
     key('0')
