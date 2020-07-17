@@ -3,6 +3,7 @@ from talon import Context, Module, actions, app, ui
 ctx = Context()
 ctx.matches = r"""
 tag: vim
+tag: snippets
 mode: user.c
 mode: command
 and code.language: c
