@@ -32,6 +32,7 @@ extension_lang_map = {
     "go": "go",
     "h": "c",
     "hpp": "cplusplus",
+    "lua": "lua",
     "md": "markdown",
     "pl": "perl",
     "py": "python",
