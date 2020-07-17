@@ -20,49 +20,33 @@ dot exe: ".exe"
 (http | htp): "http"
 tls: "tls"
 M D five: "md5"
+string U T F eight:
+	insert("'utf8'")
+
 (regex | rejex): "regex"
-(parens|args):
+[pair] (parens|args):
 	insert("()")
 	key(left)
-#(block|brackets):
-#	insert("{}")
-#	key(left enter enter up tab)
-empty array: "[]"
-#comment see: "// "
-word queue: "queue"
-word eye: "eye"
-word iter: "iter"
-word no: "NULL"
-word cmd: "cmd"
-word dup: "dup"
-word streak:
-	insert("streq()")
-	key(left)
-word printf: "printf"
-word shell: "shell"
-dunder in it: "__init__"
+[pair] (brackets|braces): "{}"
+[pair] squares: "[]"
+[pair] angles: "<>"
+
 args:
 	insert("()")
 	key(left)
 [inside] (index | array):
 	insert("[]")
 	key(left)
-empty array: "[]"
-list in it:
-	insert("[]")
-	key(left)
 (dickt in it | inside bracket | in bracket):
 	insert("{}")
 	key(left)
-#block:
-#	insert("{}")
-#	key(left enter enter up tab)
+block:
+	insert("{}")
+	key(left enter enter up tab)
 (in | inside) percent:
 	insert("%%")
 	key(left)
-string U T F eight:
-	insert("'utf8'")
-state past: "pass"
+
 zoom in: edit.zoom_in()
 zoom out: edit.zoom_out()
 zoom reset: edit.zoom_out()
@@ -83,12 +67,6 @@ mute: key(mute)
 play next: key(next)
 play previous: key(prev)
 (play | pause): key(play_pause)
-#wipe: key(backspace)
-#(pad | padding):
-#	insert("  ")
-#	key(left)
-#funny: "ha ha"
-#menu: key(alt)
 
 local host: "127.0.0.1"
 (hex|hexadecimal) [(num|number)] <number>: "0x{number}"
