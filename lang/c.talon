@@ -110,6 +110,8 @@ state error: "#error "
 state else if: "#elif "
 state end: "#endif "
 state pragma: "#pragma "
+state break: "break;"
+state default: "default:\nbreak;"
 
 #control flow
 #best used with a push like command
