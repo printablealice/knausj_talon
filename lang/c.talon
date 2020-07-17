@@ -1,7 +1,7 @@
 mode: user.c
 mode: command
 and code.language: c
-s
+-
 tag(): user.code_operators
 tag(): user.code_comment
 tag(): user.code_block_comment
@@ -101,10 +101,6 @@ action(user.code_block_comment):
 action(user.code_block_comment_prefix): "/*"
 action(user.code_block_comment_suffix): "*/"
 
-###
-# old
-###
-
 # XXX - make these generic in programming, as they will match cpp, etc
 state define: "#define "
 state undefine: "#undef "
@@ -128,10 +124,6 @@ push brackets:
     key(enter)
     key(enter)
     edit.up()
-push semi:
-    edit.line_end()
-    insert(";")
-    key(enter)
 
 # Declare variables or structs etc.
 # Ex. * int myList
@@ -166,5 +158,3 @@ include <user.library>:
 int main:
     insert("int main()")
     edit.left()
-
-# XXX - changed to common library functions
