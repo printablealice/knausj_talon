@@ -354,6 +354,13 @@ ctx.lists["self.vim_text_object_range"] = {
     "this": "a",
 }
 
+# Common names used for text object selection, vim-surround, etc
+common_key_names = {
+    "tick": "'",
+    "quote": '"',
+}
+
+
 # XXX - Should match more wording in vim_surround_targets
 text_object_select = {
     "word": "w",
@@ -373,10 +380,10 @@ text_object_select = {
     "parens": "(",
     "parenthesis": "(",
     "angle brackets": "<",
+    "angles": "<",
     # These are pluralized because of how you speak vim grammars
     # ex: yank inside braces
     "curly braces": "{",
-    # XXX - technically "code block" is more of a C-specifc thing
     "code block": "{",
     "braces": "{",
     "square brackets": "[",
@@ -406,11 +413,14 @@ ctx.lists["self.vim_surround_targets"] = {
     "big word": "W",
     "block": "b",
     "big block": "B",
-    "dub string": '"',
-    "dub quotes": '"',
+    "string": '"',
+    # "dub string": '"',
+    # "dub quotes": '"',
+    "quotes": '"',
     "double quotes": '"',
-    "quotes": "'",
-    "string": "'",
+    # "quotes": "'",
+    "ticks": "'",
+    # "string": "'",
     "single quotes": "'",
     "loose parens": "(",
     "loose parenthesis": "(",
