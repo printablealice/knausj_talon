@@ -121,6 +121,7 @@ ctx.lists["user.abbreviation"] = {
     "represent": "repr",
     "representation": "repr",
     "request": "req",
+    "return": "ret",
     "revision": "rev",
     "ruby": "rb",
     "session id": "sid",
