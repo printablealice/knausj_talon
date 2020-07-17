@@ -57,13 +57,13 @@ action(user.code_null): "NULL"
 action(user.code_is_null): " == NULL "
 action(user.code_is_not_null): " != NULL"
 action(user.code_state_if):
-    insert("else if() {{\n}}\n")
+    insert("if() {\n}\n")
     key(up left:3)
 action(user.code_state_else_if):
-    insert("else if() {{\n}}\n")
+    insert("else if() {\n}\n")
     key(up left:3)
 action(user.code_state_else):
-    insert("else\n{{\n}}\n")
+    insert("else\n{\n}\n")
     key(up )
 action(user.code_state_switch):
     insert("switch()")
@@ -105,13 +105,17 @@ action(user.code_block_comment_suffix): "*/"
 state define: "#define "
 state undefine: "#undef "
 state if define: "#ifdef "
-state if: "#if "
+
+# XXX - preprocessor instead of pre?
+state pre if: "#if "
 state error: "#error "
-state else if: "#elif "
-state end: "#endif "
+state pre else if: "#elif "
+state pre end: "#endif "
 state pragma: "#pragma "
-state break: "break;"
+
+
 state default: "default:\nbreak;"
+state break: "break;"
 
 #control flow
 #best used with a push like command
