@@ -254,7 +254,9 @@ vim_motions = {
     "column zero": "0",
     "column": "|",
     "start of line": "^",
+    "bend": "^",
     "end of line": "$",
+    "lend": "$",
     # XXX - add curse variant
     "search under cursor": "*",
     "search under cursor reversed": "#",
