@@ -14,7 +14,7 @@ settings():
     user.code_public_variable_formatter = "SNAKE_CASE"
 action(user.code_operator_indirection): ""
 action(user.code_operator_address_of): ""
-action(user.code_operator_structure_deference): ""
+action(user.code_operator_structure_dereference): ""
 action(user.code_operator_lambda): ""
 action(user.code_operator_subscript):
     insert("[]")

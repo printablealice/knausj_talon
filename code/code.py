@@ -100,8 +100,8 @@ class Actions:
     def code_operator_address_of():
         """code_operator_address_of (e.g., C++ & op)"""
 
-    def code_operator_structure_deference():
-        """code_operator_structure_deference (e.g., C++ -> op)"""
+    def code_operator_structure_dereference():
+        """code_operator_structure_dereference (e.g., C++ -> op)"""
 
     def code_operator_lambda():
         """code_operator_lambda"""
@@ -323,6 +323,12 @@ class Actions:
 
     def code_block_comment():
         """Block comment"""
+
+    def code_block_comment_prefix():
+        """Block comment start syntax"""
+
+    def code_block_comment_suffix():
+        """Block comment end syntax"""
 
     def code_type_definition():
         """code_type_definition (typedef)"""

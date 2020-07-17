@@ -1,18 +1,25 @@
 mode: user.c
 mode: command
 and code.language: c
--
+s
 tag(): user.code_operators
 tag(): user.code_comment
+tag(): user.code_block_comment
 tag(): user.code_generic
 settings():
+    user.code_private_function_formatter = "SNAKE_CASE"
+    user.code_protected_function_formatter = "SNAKE_CASE"
+    user.code_public_function_formatter = "SNAKE_CASE"
+    user.code_private_variable_formatter = "SNAKE_CASE"
+    user.code_protected_variable_formatter = "SNAKE_CASE"
+    user.code_public_variable_formatter = "SNAKE_CASE"
     # whether or not to use uint_8 style datatypes
-    user.use_stdint_datatypes = 1
+    #    user.use_stdint_datatypes = 1
+
 
 action(user.code_operator_indirection): "*"
 action(user.code_operator_address_of): "&"
-action(user.code_operator_structure_deference): "->"
-action(user.code_operator_lambda): "=>"
+action(user.code_operator_structure_dereference): "->"
 action(user.code_operator_subscript):
     insert("[]")
     key(left)
@@ -70,30 +77,44 @@ action(user.code_state_while):
     insert("while()")
     edit.left()
 action(user.code_state_return): "return "
-
-###
-# old
-###
-
-#directives
-direct include:
+action(user.code_type_definition): "typedef "
+action(user.code_typedef_struct):
+    insert("typedef struct")
+    insert("{{\n\n}}")
+    edit.up()
+    key(tab)
+action(user.code_from_import): "using "
+action(user.code_include): insert("#include ")
+action(user.code_include_system):
     insert("#include <>")
     edit.left()
-direct define: "#define "
-direct undefine: "#undef "
-direct if define: "#ifdef "
-direct if: "#if "
-direct error: "#error "
-direct else if: "#elif "
-direct end: "#endif "
-direct pragma: "#pragma "
-state comment: "//"
-block comment:
+action(user.code_include_local):
+    insert('#include ""')
+    edit.left()
+action(user.code_comment): "//"
+action(user.code_block_comment):
     insert("/*")
     key(enter)
     key(enter)
     insert("*/")
     edit.up()
+action(user.code_block_comment_prefix): "/*"
+action(user.code_block_comment_suffix): "*/"
+
+###
+# old
+###
+
+# XXX - make these generic in programming, as they will match cpp, etc
+state define: "#define "
+state undefine: "#undef "
+state if define: "#ifdef "
+state if: "#if "
+state error: "#error "
+state else if: "#elif "
+state end: "#endif "
+state pragma: "#pragma "
+
 #control flow
 #best used with a push like command
 #the below example may not work in editors that automatically add the closing bracket
@@ -111,44 +132,6 @@ push semi:
     edit.line_end()
     insert(";")
     key(enter)
-
-#space after parens for placement of brackets
-#state if:
-#    insert("if () ")
-#    edit.left()
-#    edit.left()
-#state else:
-#    insert("else ")
-#state elsif:
-#    insert("else if () ")
-#    edit.left()
-#    edit.left()
-#state switch:
-#    insert("switch () ")
-#    edit.left()
-#    edit.left()
-#state case <number>:
-#    insert("case {number}:")
-#    key(enter)
-#state default:
-#    insert("default:")
-#    key(enter)
-#state break:
-#    insert("break;")
-#    key(enter)
-#state continue:
-#    insert("continue;")
-#    key(enter)
-#state for:
-#    insert("for () ")
-#    edit.left()
-#    edit.left()
-#state while:
-#    insert("while () ")
-#    edit.left()
-#    edit.left()
-#state do: "do "
-#state return: "return "
 
 # Declare variables or structs etc.
 # Ex. * int myList
@@ -171,18 +154,17 @@ fun <user.function> <phrase>:
 
 # Ex. (int *)
 cast to <user.cast>: "{cast}"
+standard cast to <user.stdint_cast>: "{stdint_cast}"
 <user.c_types>: "{c_types}"
 <user.c_pointers>: "{c_pointers}"
 <user.c_signed>: "{c_signed}"
+call <user.c_functions>: "{c_functions}"
 #import standard libraries
 include <user.library>:
     insert("#include <{library}>")
     key(enter)
-void: "void"
 int main:
     insert("int main()")
     edit.left()
 
-null: insert("NULL")
-
-call print: insert("printf();")
+# XXX - changed to common library functions
