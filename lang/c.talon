@@ -57,16 +57,16 @@ action(user.code_null): "NULL"
 action(user.code_is_null): " == NULL "
 action(user.code_is_not_null): " != NULL"
 action(user.code_state_if):
-    insert("if() {\n}\n")
-    key(up left:3)
+    insert("if () {\n}\n")
+    key(up:2 left:3)
 action(user.code_state_else_if):
-    insert("else if() {\n}\n")
-    key(up left:3)
+    insert("else if () {\n}\n")
+    key(up:2 left:3)
 action(user.code_state_else):
     insert("else\n{\n}\n")
-    key(up )
+    key(up:2)
 action(user.code_state_switch):
-    insert("switch()")
+    insert("switch ()")
     edit.left()
 action(user.code_state_case):
     insert("case \nbreak;")
@@ -74,13 +74,13 @@ action(user.code_state_case):
 action(user.code_state_for): "for "
 action(user.code_state_go_to): "goto "
 action(user.code_state_while):
-    insert("while()")
+    insert("while ()")
     edit.left()
 action(user.code_state_return): "return "
 action(user.code_type_definition): "typedef "
 action(user.code_typedef_struct):
     insert("typedef struct")
-    insert("{{\n\n}}")
+    insert("{\n\n}")
     edit.up()
     key(tab)
 action(user.code_from_import): "using "
