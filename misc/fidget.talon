@@ -60,6 +60,12 @@ fuzzy vimdiff:
     edit.left()
     edit.left()
 
+pulse restart:
+    key(super-enter)
+    sleep(1)
+    insert("pulseaudio -k && pulseaudio --start\n")
+    key(super-shift-q)
+
 ###
 # Work
 ###
