@@ -1,4 +1,3 @@
-
 tag: user.code_operators
 -
 #pointer operators
@@ -41,16 +40,16 @@ op mod equals: user.code_operator_modulo_assignment()
 (op | logical) or: user.code_operator_or()
 
 #bitwise operators
-[op] bitwise and: user.code_bitwise_operator_and()
-(op | logical | bitwise) and equals: user.code_bitwise_operator_and_equals()
-[op] bitwise or: user.code_bitwise_operator_or()
-(op | logical | bitwise) or equals: user.code_bitwise_operator_or_equals()
-(op | logical | bitwise) (ex | exclusive) or: user.code_bitwise_operator_exlcusive_or()
-(op | logical | bitwise) (left shift | shift left): user.code_bitwise_operator_left_shift()
-(op | logical | bitwise) (right shift | shift right): user.code_bitwise_operator_right_shift()
-(op | logical | bitwise) (ex | exclusive) or equals: user.code_bitwise_operator_exlcusive_or_equals()
-[(op | logical | bitwise)] (left shift | shift left) equals: user.code_bitwise_operator_left_shift_equals()
-[(op | logical | bitwise)] (left right | shift right) equals: user.code_bitwise_operator_right_shift_equals()
+[op] bitwise and: user.code_operator_bitwise_and()
+(op | logical | bitwise) and equals: user.code_operator_bitwise_and_equals()
+[op] bitwise or: user.code_operator_bitwise_or()
+(op | logical | bitwise) or equals: user.code_operator_bitwise_or_equals()
+(op | logical | bitwise) (ex | exclusive) or: user.code_operator_bitwise_exclusive_or()
+(op | logical | bitwise) (left shift | shift left): user.code_operator_bitwise_left_shift()
+(op | logical | bitwise) (right shift | shift right): user.code_operator_bitwise_right_shift()
+(op | logical | bitwise) (ex | exclusive) or equals: user.code_operator_bitwise_exclusive_or_equals()
+[(op | logical | bitwise)] (left shift | shift left) equals: user.code_operator_bitwise_left_shift_equals()
+[(op | logical | bitwise)] (left right | shift right) equals: user.code_operator_bitwise_right_shift_equals()
 
 #tbd
 (op | pad) colon: " : "

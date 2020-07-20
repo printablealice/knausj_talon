@@ -182,11 +182,11 @@ class Actions:
     def code_operator_bitwise_or_assignment():
         """code_operator_or_assignment"""
 
-    def code_operator_bitwise_exlcusive_or():
-        """code_operator_bitwise_exlcusive_or"""
+    def code_operator_bitwise_exclusive_or():
+        """code_operator_bitwise_exclusive_or"""
 
-    def code_operator_bitwise_exlcusive_or_assignment():
-        """code_operator_bitwise_exlcusive_or_assignment"""
+    def code_operator_bitwise_exclusive_or_assignment():
+        """code_operator_bitwise_exclusive_or_assignment"""
 
     def code_operator_bitwise_left_shift():
         """code_operator_bitwise_left_shift"""
