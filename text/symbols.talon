@@ -1,9 +1,10 @@
 question [mark]: "?"
 (downscore | underscore): "_"
 double dash: "--"
-(bracket | brack | left bracket): "{"
-(rbrack | are bracket | right bracket): "}"
-triple quote: "'''"
+#(bracket | brack | left bracket): "{"
+#(rbrack | are bracket | right bracket): "}"
+triple quote: '"""'
+triple tick: "'''"
 (dot dot | dotdot): ".."
 #ellipses: "…"
 ellipses: "..."
@@ -14,17 +15,17 @@ dub arrow: "=>"
 new line: "\\n"
 carriage return: "\\r"
 line feed: "\\r\\n"
-empty (dubstring|(dub|double) quotes):
+empty (string|quotes):
     '""'
     key(left)
-empty escaped (dubstring|(dub|double) quotes):
+empty escaped (string|quotes):
     '\\"\\"'
     key(left)
     key(left)
-empty (string|quotes):
+empty ticks:
     "''"
     key(left)
-empty escaped string:
+empty escaped ticks:
     "\\'\\'"
     key(left)
     key(left)
