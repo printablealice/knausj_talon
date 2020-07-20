@@ -83,7 +83,7 @@ class Actions:
         global forced_language
         actions.user.code_clear_language_mode()
         actions.mode.enable("user.{}".format(language))
-        os.system('notify-send.sh -t 3000 -f -u low "Enabled {} mode"'.format(language))
+        app.notify("Enabled {} mode".format(language))
         forced_language = True
 
     def code_clear_language_mode():
@@ -93,7 +93,7 @@ class Actions:
 
         for __, lang in extension_lang_map.items():
             actions.mode.disable("user.{}".format(lang))
-        os.system('notify-send.sh -t 3000 -f -u low "Cleared language modes"')
+        app.notify("Cleared language modes")
 
     def code_operator_indirection():
         """code_operator_indirection"""
