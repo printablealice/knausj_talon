@@ -712,9 +712,12 @@ edit (buf|buffer) <number_small> [in] new tab: user.vim_command_mode_exterm(":ta
 # XXX - this is a weird edge case because we actually probably want to slip back
 # to the terminal mode after setting options, but atm
 # user.vim_normal_mode_exterm() implies no preservation
-(show|set) highlight [search]: user.vim_command_mode_exterm(":set hls\n")
-(unset|set no|hide) highlight [search]:
+(show|set) highlight search: user.vim_command_mode_exterm(":set hls\n")
+(unset|set no|hide) highlight search:
     user.vim_command_mode_exterm(":set nohls\n")
+# only disable until next search
+hide highlights:
+    user.vim_command_mode_exterm(":noh\n")
 (show|set) line numbers: user.vim_command_mode_exterm(":set nu\n")
 (show|set) absolute [line] [numbers]:
     user.vim_command_mode_exterm(":set norelativenumber\n")
