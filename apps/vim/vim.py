@@ -1283,6 +1283,7 @@ class VimMode:
                 # break out of terminal mode
                 actions.key("ctrl-\\")
                 actions.key("ctrl-n")
+                self.wait_mode_change("n")
             else:
                 # Imagine you have a vim terminal and inside you're running a
                 # terminal that is using vim mode rather than emacs mode. This
@@ -1294,7 +1295,8 @@ class VimMode:
                 # instance. Needs to be tested. If you don't like this, you can
                 # set vim_escape_terminal_mode to 1
                 actions.key("escape")
-                self.wait_mode_change("n")
+                # NOTE: do not wait on mode change here, as we
+                # cannot detect it for the inner thing
         elif self.is_insert_mode():
             if (
                 wanted_mode == self.NORMAL
