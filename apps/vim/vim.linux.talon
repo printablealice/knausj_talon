@@ -58,6 +58,11 @@ settings():
     # "u" gets inserted into INSERT mode
     user.vim_mode_change_timeout = 0.20
 
+    # When you preserve mode and switch into into insert mode it will often
+    # move your cursor, which can mess up the commands you're trying to run from
+    # insert. This setting prevent the cursor move
+    user.vim_mode_switch_moves_cursor = 0
+
 ###
 # Actions - Talon generic_editor.talon implementation
 ###

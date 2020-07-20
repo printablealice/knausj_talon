@@ -509,6 +509,14 @@ mod.setting(
     desc="It how long to wait before issuing commands after a mode change",
 )
 
+mod.setting(
+    "vim_mode_switch_moves_cursor",
+    type=int,
+    default=0,
+    desc="Preserving insert mode will automatically move the cursor. Setting this to 0 can override that.",
+)
+
+
 # Standard VIM motions and action
 mod.list("vim_arrow", desc="All vim direction keys")
 mod.list("vim_motion_commands", desc="Counted VIM commands with motions")
@@ -1048,7 +1056,7 @@ class NeoVimRPC:
     def __init__(self):
         self.init_ok = False
         self.nvim = None
-        return  # doesn't work atm due to pynvm incompability
+        # return  # doesn't work atm due to pynvm incompability
         self.rpc_path = self.get_active_rpc()
         if self.rpc_path is not None:
             try:
@@ -1116,6 +1124,7 @@ class VimMode:
         # list of all vim instances talon is aware of
         self.vim_instances = []
         self.current_rpc = None
+        self.nvrpc = NeoVimRPC()
         self.current_mode = self.get_active_mode()
 
     def is_normal_mode(self):
@@ -1137,18 +1146,17 @@ class VimMode:
         return self.current_mode in ["R", "Rv"]
 
     def get_active_mode(self):
-        title = ui.active_window().title
-        mode = None
-        if "MODE:" in title:
-            mode = title.split("MODE:")[1].split(" ")[0]
-            if mode not in self.vim_modes.keys():
-                return None
-            self.current_mode = mode
-        nvrpc = NeoVimRPC()
-        if nvrpc.init_ok is False:
-            pass
+        if self.nvrpc.init_ok is True:
+            mode = self.nvrpc.get_active_mode()["mode"]
         else:
-            print(nvrpc.get_active_mode())
+            title = ui.active_window().title
+            mode = None
+            if "MODE:" in title:
+                mode = title.split("MODE:")[1].split(" ")[0]
+                if mode not in self.vim_modes.keys():
+                    return None
+                self.current_mode = mode
+
         return mode
 
     def current_mode_id(self):
@@ -1218,6 +1226,7 @@ class VimMode:
         if auto is True and settings.get("user.vim_adjust_modes") == 0:
             return
 
+        self.get_active_mode()
         cur = self.current_mode_id()
         if type(valid_mode_ids) != list:
             valid_mode_ids = [valid_mode_ids]
@@ -1242,7 +1251,18 @@ class VimMode:
             timeout = settings.get("user.vim_cancel_queued_commands_timeout")
             time.sleep(timeout)
 
-    # XXX - should switch this to neovim RPC when available
+    def wait_mode_change(self, wanted):
+        timeout = settings.get("user.vim_mode_change_timeout")
+        if self.nvrpc.init_ok:
+            while wanted != self.nvrpc.get_active_mode()["mode"][0]:
+                print("%s vs %s" % (wanted, self.nvrpc.get_active_mode()["mode"]))
+                time.sleep(0.01)
+        else:
+            time.sleep(timeout)
+
+    # XXX - should switch this to neovim RPC when available. note however, it
+    # appears neovim api doesn't support programmatic mode switching, only
+    # querying. also querying certain modes is broken (^V mode undetected)
     # for now we simply use keyboard binding combinations
     def set_mode(self, wanted_mode, no_preserve=False, escape_terminal=False):
         current_mode = self.get_active_mode()
@@ -1252,7 +1272,6 @@ class VimMode:
         ):
             return
 
-        timeout = settings.get("user.vim_mode_change_timeout")
         # print("Setting mode to {}".format(wanted_mode))
         # enter normal mode where necessary
         if self.is_terminal_mode():
@@ -1275,15 +1294,15 @@ class VimMode:
                 # instance. Needs to be tested. If you don't like this, you can
                 # set vim_escape_terminal_mode to 1
                 actions.key("escape")
-                time.sleep(timeout)
+                self.wait_mode_change("n")
         elif self.is_insert_mode():
             if (
                 wanted_mode == self.NORMAL
                 and no_preserve is False
                 and settings.get("user.vim_preserve_insert_mode") >= 1
             ):
-                # XXX - make this a configurable option
-                actions.key("ctrl-\\")  # don't move the cursor on mode switch
+                if settings.get("user.vim_mode_switch_moves_cursor") == 0:
+                    actions.key("ctrl-\\")  # don't move the cursor on mode switch
                 actions.key("ctrl-o")
             else:
                 # Presses right because entering normal mode via escape puts
@@ -1291,17 +1310,16 @@ class VimMode:
                 # Exception is `2 delete big-back` from INSERT mode.
                 actions.key("right")
                 actions.key("escape")
-
-            time.sleep(timeout)
+            self.wait_mode_change("n")
         elif self.is_visual_mode() or self.is_command_mode() or self.is_replace_mode():
             actions.key("escape")
-            time.sleep(timeout)
+            self.wait_mode_change("n")
         elif self.is_normal_mode() and wanted_mode == self.COMMAND:
             # We explicitly escape even if normal mode, to cancel any queued
             # commands that might affect our command. For instance, accidental
             # number queueing followed by :w, etc
             actions.key("escape")
-            time.sleep(timeout)
+            self.wait_mode_change("n")
 
         # switch to explicit mode if necessary
         if wanted_mode == self.INSERT:
@@ -1340,3 +1358,4 @@ class VimMode:
     def notify_mode_change(self, mode):
         """Function to be customized by talon user to determine how they want
         notifications on mode changes"""
+        pass
