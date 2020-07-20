@@ -31,13 +31,23 @@ talon mode: speech.enable()
     mode.disable("sleep")
     mode.disable("dictation")
     mode.enable("command")
-    user.system_command('notify-send.sh -t 3000 -f -u low "Command Mode"')
+    app.notify("Command Mode")
+    #user.system_command('notify-send.sh -t 3000 -f -u low "Command Mode"')
+
+# XXX - Make forcible modes
 [enable] debug mode:
     mode.enable("user.gdb")
     user.system_command('notify-send.sh -t 3000 -f -u low "Debug Mode Enabled"')
 disable debug mode:
     mode.disable("user.gdb")
     user.system_command('notify-send.sh -t 3000 -f -u low "Debug Mode Disabled"')
+
+#[enable] terminal mode:
+#    mode.enable("user.terminal")
+#    user.system_command('notify-send.sh -t 3000 -f -u low "Terminal Mode Enabled"')
+#disable terminal mode:
+#    mode.disable("user.terminal")
+#    user.system_command('notify-send.sh -t 3000 -f -u low "Terminal Mode Disabled"')
 
 ^force see sharp$:
     user.code_set_language_mode("csharp")
