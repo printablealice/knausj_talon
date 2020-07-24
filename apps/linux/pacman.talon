@@ -1,9 +1,9 @@
 os: linux
 tag: terminal
 -
-yogurt: "yaourt "
-yogurt search: "yaourt -sS "
-yogurt search <user.text>: "yaourt -sS {text}"
-yogurt install: "yaourt -S "
-yogurt install <user.text>: "yaourt -S {text}"
-yogurt remove: "yaourt -R "
+yay: "yay "
+yay search: "yay -sS "
+yay search <user.text>: "yay -sS {text}"
+yay install: "yay -S "
+yay install <user.text>: "yay -S {text}"
+yay remove: "yay -R "
