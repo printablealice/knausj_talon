@@ -56,12 +56,18 @@ settings():
     # It how long to wait before issuing commands after a mode change. You
     # want adjust this if when you say things like undo from INSERT mode, an
     # "u" gets inserted into INSERT mode
-    user.vim_mode_change_timeout = 0.20
+    user.vim_mode_change_timeout = 0.30
 
     # When you preserve mode and switch into into insert mode it will often
     # move your cursor, which can mess up the commands you're trying to run from
     # insert. This setting prevent the cursor move
     user.vim_mode_switch_moves_cursor = 0
+
+    # Whether or not use rpc if it is available
+    user.vim_use_rpc = 0
+
+    # Adds debug output to the talon log
+    user.vim_debug = 1
 
 ###
 # Actions - Talon generic_editor.talon implementation
@@ -288,7 +294,7 @@ unindent [line] <number> through <number>$:
 (shift|indent) left: user.vim_normal_mode("<<")
 
 # deleting
-delete remaining [line]:
+(delete|trim) remaining [line]:
     user.vim_normal_mode_key("D")
 delete line [at|number] <number>$:
     user.vim_command_mode(":{number}d\n")
@@ -612,11 +618,11 @@ split rotate left:
     user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(R)
-split move top:
+split move (up|top):
     user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(K)
-split move bottom:
+split move (down|bottom):
     user.vim_set_normal_mode_exterm()
     key(ctrl-w)
     key(J)
@@ -742,7 +748,14 @@ show tab stop:
 set tab stop <digits>:
     user.vim_command_mode_exterm(":set tabstop={digits}\n")
     user.vim_command_mode_exterm(":set shiftwidth={digits}\n")
-
+set see indent:
+    user.vim_command_mode_exterm(":set cindent\n")
+(set no see indent|unset see indent):
+    user.vim_command_mode_exterm(":set nocindent\n")
+set smart indent:
+    user.vim_command_mode_exterm(":set smartindent\n")
+(set no smart indent|unset smart indent):
+    user.vim_command_mode_exterm(":set nosmartindent\n")
 
 ###
 # Marks
@@ -1000,6 +1013,12 @@ fold line <number> through <number>$: user.vim_normal_mode(":{number_1},{number_
 (close fold|fold close): user.vim_normal_mode("zc")
 open all folds: user.vim_normal_mode("zR")
 close all folds: user.vim_normal_mode("zM")
+
+###
+# Command mode
+###
+last command:
+    user.vim_command_mode(":!!\n")
 
 ###
 # Plugins

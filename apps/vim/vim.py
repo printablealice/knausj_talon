@@ -257,9 +257,13 @@ vim_motions = {
     "bend": "^",
     "end of line": "$",
     "lend": "$",
-    # XXX - add curse variant
-    "search under cursor": "*",
-    "search under cursor reversed": "#",
+    "cursor search": "*",
+    "curse search": "*",
+    "cursor search reversed": "#",
+    "curse search reversed": "#",
+    # These conflict with general 'search' command
+    # "search under cursor": "*",
+    # "search under cursor reversed": "#",
     "again": ";",
     "again reversed": ",",
     "down sentence": ")",
@@ -276,7 +280,7 @@ vim_motions = {
     "end of next section": "][",
     # XXX - previous section end??
     "end of previous section": "[]",
-    # XXX - not sure about naming
+    # XXX - not sure about naming - don't seem to work yet
     "block end": "]}",
     "block start": "[{",
     "previous block": "[}",
@@ -284,12 +288,16 @@ vim_motions = {
     "down line": "+",
     "up line": "-",
     "first character": "_",
-    # XXX - add curse variant
     "cursor home": "H",
+    "curse home": "H",
     "cursor top": "H",
+    "curse top": "H",
     "cursor middle": "M",
+    "curse middle": "M",
     "cursor last": "L",
+    "curse last": "L",
     "cursor bottom": "L",
+    "curse bottom": "L",
     "start of document": "gg",
     "start of file": "gg",
     "top of document": "gg",
@@ -331,7 +339,9 @@ vim_motions_with_character = {
 }
 
 # NOTE: these will not work with the surround plug in, since they combo
-# commands
+# commands.
+# XXX - Also breaks with insert preserving. ctrl-o ^ reverts, so f* is inserted
+# need a way to fix that up
 custom_vim_motions_with_character_commands = {
     "last": "$F",  # find starting end of line
     "first": "^f",  # find starting beginning of line
@@ -459,6 +469,11 @@ ctx.lists["self.vim_surround_targets"] = {
     "bold tags": "<b>",
 }
 
+# settings that you can just set by sing on or off
+# correlates to settings that start with no in turning off
+vim_on_and_off_settings = {
+    "see indent": "cindent",
+}
 
 mod.tag("vim", desc="a tag to load various vim plugins")
 mod.setting(
@@ -514,6 +529,16 @@ mod.setting(
     type=int,
     default=0,
     desc="Preserving insert mode will automatically move the cursor. Setting this to 0 can override that.",
+)
+
+mod.setting(
+    "vim_use_rpc",
+    type=int,
+    default=0,
+    desc="Whether or not to use RPC if it is available. Useful for testing or avoiding bugs",
+)
+mod.setting(
+    "vim_debug", type=int, default=0, desc="Debugging used for development",
 )
 
 
@@ -742,6 +767,7 @@ def vim_motions_all(m) -> str:
 def vim_motions_all_adjust(m) -> str:
     v = VimMode()
     v.set_any_motion_mode()
+    print(m)
     return "".join(list(m))
 
 
@@ -1056,7 +1082,10 @@ class NeoVimRPC:
     def __init__(self):
         self.init_ok = False
         self.nvim = None
-        # return  # doesn't work atm due to pynvm incompability
+
+        if settings.get("user.vim_use_rpc") == 0:
+            return
+
         self.rpc_path = self.get_active_rpc()
         if self.rpc_path is not None:
             try:
@@ -1127,6 +1156,10 @@ class VimMode:
         self.nvrpc = NeoVimRPC()
         self.current_mode = self.get_active_mode()
 
+    def dprint(self, s):
+        if settings.get("user.vim_debug"):
+            print(s)
+
     def is_normal_mode(self):
         return self.current_mode == "n"
 
@@ -1148,11 +1181,14 @@ class VimMode:
     def get_active_mode(self):
         if self.nvrpc.init_ok is True:
             mode = self.nvrpc.get_active_mode()["mode"]
+            # XXX -
+            self.current_mode = mode
         else:
             title = ui.active_window().title
             mode = None
             if "MODE:" in title:
                 mode = title.split("MODE:")[1].split(" ")[0]
+                self.dprint(mode)
                 if mode not in self.vim_modes.keys():
                     return None
                 self.current_mode = mode
@@ -1230,6 +1266,7 @@ class VimMode:
         cur = self.current_mode_id()
         if type(valid_mode_ids) != list:
             valid_mode_ids = [valid_mode_ids]
+        self.dprint(f"from {cur} to {valid_mode_ids}")
         if cur not in valid_mode_ids:
             # Just favor the first mode match
             self.set_mode(
