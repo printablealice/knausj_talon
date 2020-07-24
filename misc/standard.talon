@@ -40,7 +40,8 @@ args:
 (dickt in it | inside bracket | in bracket):
 	insert("{}")
 	key(left)
-block:
+# XXX - block alone conflicts with vim key words
+add code block:
 	insert("{}")
 	key(left enter enter up tab)
 (in | inside) percent:
