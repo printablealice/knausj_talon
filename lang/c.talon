@@ -156,7 +156,10 @@ standard cast to <user.stdint_cast>: "{stdint_cast}"
 <user.c_types>: "{c_types}"
 <user.c_pointers>: "{c_pointers}"
 <user.c_signed>: "{c_signed}"
-call <user.c_functions>: "{c_functions}"
+standard <user.stdint_types>: "{stdint_types}"
+call <user.c_functions>:
+    insert("{c_functions}()")
+    edit.left()
 #import standard libraries
 include <user.library>:
     insert("#include <{library}>")

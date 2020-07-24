@@ -1,4 +1,5 @@
-# XXX - add a list of common C lib functions to auto-complete
+# XXX - reorder some dicts for human readability so we see functions and libraries
+# first
 
 from talon import Context, Module, actions, settings
 
@@ -116,6 +117,15 @@ ctx.lists["self.c_functions"] = {
     "ef write": "fwrite",
     "ef read": "fread",
     "ef close": "fclose",
+    "exit": "exit",
+    "signal": "signal",
+    "set jump": "setjmp",
+    "get op": "getopt",
+    "malloc": "malloc",
+    "see alloc": "calloc",
+    "alloc ah": "alloca",
+    "re alloc": "realloc",
+    "free": "free",
 }
 
 mod.list("c_pointers", desc="Common C pointers")
