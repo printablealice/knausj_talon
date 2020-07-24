@@ -94,7 +94,7 @@ resource config:
 jump to desktop: "cd /mnt/c/Users/edg/Desktop/\n"
 
 # work auto-commands
-open active work space:
+(open active work space|load active work session):
     user.system_command("/home/aa/scripts/workflow/work_workspace.sh")
 
 open alternate work space:
