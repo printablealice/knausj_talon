@@ -128,7 +128,6 @@ simple_vocabulary = [
     "add",
     "octet",
     "dev",
-    "mod",
     "calc",
     "close",
     "gandi",
@@ -136,8 +135,9 @@ simple_vocabulary = [
     "polybar",
     "yay",
     "buku",
+    "tech",
+    "hover",
 ]
-
 
 mapping_vocabulary = {
     "all i": "ollie",
@@ -258,6 +258,7 @@ mapping_vocabulary = {
     "desk top": "desktop",
     "dot net": ".NET",
     "etcetera": ", etc.",
+    "I all": "hi all",
 }
 
 mapping_vocabulary.update(dict(zip(simple_vocabulary, simple_vocabulary)))
