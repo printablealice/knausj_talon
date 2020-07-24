@@ -141,6 +141,7 @@ ctx.lists["user.abbreviation"] = {
     "system": "sys",
     "table of contents": "toc",
     "table": "tbl",
+    "technology": "tech",
     "temporary": "tmp",
     "text": "txt",
     "token": "tok",
