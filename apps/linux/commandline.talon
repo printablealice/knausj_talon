@@ -48,7 +48,7 @@ copy file: "cp "
 
 # file viewing
 less: "less "
-now less that:
+now less [that]:
     edit.up()
     insert("| less\n")
 show me <user.text>: "cat {text}"
