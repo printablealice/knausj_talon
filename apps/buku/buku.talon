@@ -1,7 +1,5 @@
 os: linux
 tag: terminal
-# NOTE: use explicit neovim paths if by default your vim editor is also your
-# terminal, otherwise buku loses track of the file
 -
 
 # general options
