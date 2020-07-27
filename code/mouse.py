@@ -169,7 +169,7 @@ class Actions:
     def mouse_scroll_down():
         """Scrolls down"""
         mouse_scroll(setting_mouse_wheel_down_amount.get())()
-        
+
     def mouse_scroll_down_continuous():
         """Scrolls down continuously"""
         global continuous_scoll_mode
@@ -184,7 +184,7 @@ class Actions:
     def mouse_scroll_up():
         """Scrolls up"""
         mouse_scroll(-setting_mouse_wheel_down_amount.get())()
-        
+
     def mouse_scroll_up_continuous():
         """Scrolls up continuously"""
         global continuous_scoll_mode
@@ -246,10 +246,6 @@ def on_pop(active):
     if gaze_job or scroll_job:
         if setting_mouse_enable_pop_stops_scroll.get() >= 1:
             stop_scroll()
-#    elif (
-#        not eye_zoom_mouse.zoom_mouse.enabled
-#        and eye_mouse.mouse.attached_tracker is not None
-#    ):
     else:
         if setting_mouse_enable_pop_click.get() >= 1:
             ctrl.mouse_click(button=0, hold=16000)

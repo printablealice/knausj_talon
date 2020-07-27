@@ -106,11 +106,6 @@ def ordinals(m) -> int:
     "Returns a single ordinial as a digit"
 
 
-@mod.capture
-def ordinal_repeater(m) -> int:
-    "Returns a single ordinial as a digit, excluding first"
-
-
 @ctx.capture(rule="{self.ordinal_words}")
 def ordinals(m):
     o = m[0]

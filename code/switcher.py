@@ -1,15 +1,17 @@
-import os
-import re
-
-from talon import Context, Module, app, imgui, ui
+from talon import app, Module, Context, actions, ui, imgui
 from talon.voice import Capture
+import re
+import time
+import os
 
 # Construct at startup a list of overides for application names (similar to how homophone list is managed)
 # ie for a given talon recognition word set  `one note`, recognized this in these switcher functions as `ONENOTE`
 # the list is a comma seperated `<Recognized Words>, <Overide>`
 # TODO: Consider put list csv's (homophones.csv, app_name_overrides.csv) files together in a seperate directory,`knausj_talon/lists`
 cwd = os.path.dirname(os.path.realpath(__file__))
-overrides_file = os.path.join(cwd, "app_name_overrides.csv")
+overrides_file = os.path.join(
+    cwd, "app_names", f"app_name_overrides.{app.platform}.csv"
+)
 overrides = {}
 with open(overrides_file, "r") as f:
     for line in f:
@@ -17,7 +19,7 @@ with open(overrides_file, "r") as f:
         line = line.split(",")
         overrides[line[0].lower()] = line[1].strip()
 
-# print(f"knausj_talon.switcher------------ app name overrides:{overrides}")
+print(f"knausj_talon.switcher------------ app name overrides:{overrides}")
 
 app_cache = {}
 

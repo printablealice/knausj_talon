@@ -1,9 +1,14 @@
 import os
+import re
 
-from talon import Context, Module, actions, settings
+from talon import Context, Module, actions, fs, imgui, registry, settings, ui
 
 ctx = Context()
 mod = Module()
+mod.list("code_functions", desc="List of functions for active language")
+mod.list("code_types", desc="List of types for active language")
+mod.list("code_libraries", desc="List of libraries for active language")
+
 setting_private_function_formatter = mod.setting("code_private_function_formatter", str)
 setting_protected_function_formatter = mod.setting(
     "code_protected_function_formatter", str
@@ -21,8 +26,9 @@ mod.tag(
     "code_generic",
     desc="Tag for enabling other basic programming commands (loops, functions, etc)",
 )
-key = actions.key
 
+key = actions.key
+function_list = []
 extension_lang_map = {
     "asm": "assembly",
     "c": "c",
@@ -48,6 +54,24 @@ extension_lang_map = {
 
 # flag indicates whether or not the title tracking is enabled
 forced_language = False
+
+
+@mod.capture(rule="{user.code_functions}")
+def code_functions(m) -> str:
+    """Returns a function name"""
+    return m.code_functions
+
+
+@mod.capture(rule="{user.code_types}")
+def code_types(m) -> str:
+    """Returns a type"""
+    return m.code_types
+
+
+@mod.capture(rule="{user.code_libraries}")
+def code_libraries(m) -> str:
+    """Returns a type"""
+    return m.code_libraries
 
 
 @ctx.action_class("code")
@@ -357,3 +381,55 @@ class Actions:
 
     def code_from_import():
         """from import python equivalent"""
+
+    def code_toggle_functions():
+        """GUI: List functions for active language"""
+        global function_list
+        if gui.showing:
+            function_list = []
+            gui.hide()
+        else:
+            update_list_and_freeze()
+
+    def code_select_function(number: int, selection: str):
+        """Inserts the selected function when the imgui is open"""
+        if gui.showing and number < len(function_list):
+            actions.user.code_insert_function(
+                registry.lists["user.code_functions"][0][function_list[number]],
+                selection,
+            )
+
+    def code_insert_function(text: str, selection: str):
+        """Inserts a function and positions the cursor appropriately"""
+
+
+def update_list_and_freeze():
+    global function_list
+    if "user.code_functions" in registry.lists:
+        function_list = sorted(registry.lists["user.code_functions"][0].keys())
+    else:
+        function_list = []
+
+    gui.freeze()
+
+
+@imgui.open(software=False)
+def gui(gui: imgui.GUI):
+    gui.text("Functions")
+    gui.line()
+
+    # print(str(registry.lists["user.code_functions"]))
+    for i, entry in enumerate(function_list, 1):
+        gui.text(
+            "{}. {}: {}".format(
+                i, entry, registry.lists["user.code_functions"][0][entry]
+            )
+        )
+
+
+def commands_updated(_):
+    if gui.showing:
+        update_list_and_freeze()
+
+
+registry.register("update_commands", commands_updated)

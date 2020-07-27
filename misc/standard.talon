@@ -15,6 +15,7 @@ dot com: ".com"
 dot net: ".net"
 dot org: ".org"
 dot exe: ".exe"
+dot bin: ".bin"
 
 (jay son | jason ): "json"
 (http | htp): "http"

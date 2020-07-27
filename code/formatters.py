@@ -11,7 +11,6 @@ words_to_keep_lowercase = "a,an,the,at,by,for,in,is,of,on,to,up,and,as,but,or,no
     ","
 )
 
-
 last_formatted_phrase = ""
 last_phrase = ""
 
