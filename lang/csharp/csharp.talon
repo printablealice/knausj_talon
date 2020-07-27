@@ -96,7 +96,9 @@ action(user.code_include_local): insert('using ')
 action(user.code_comment): "//"
 
 #todo: figure out how to handle typing beyond "void"
-action(user.code_private_function): insert("private void")
-action(user.code_public_static_function): insert("private static void")
-action(user.code_protected_function): insert("protected void")
-action(user.code_public_function): insert("public void")
+action(user.code_private_function): insert("private void ")
+action(user.code_private_static_function): insert("private static void ")
+action(user.code_public_static_function): insert("public static void ")
+action(user.code_protected_function): insert("protected void ")
+action(user.code_protected_static_function): insert ("protected static void ")
+action(user.code_public_function): insert("public void ")
