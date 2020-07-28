@@ -1,1 +1,3 @@
 .mypy_cache
+*.disabled
+code/common_names/private_*.csv
