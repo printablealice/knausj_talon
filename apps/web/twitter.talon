@@ -1,5 +1,4 @@
 os: linux
-=======
 tag: browser
 win.title: /twitter.com/
 #win.title: /Twitter/
