@@ -1,5 +1,6 @@
-from talon import Context, Module, app, clip, cron, imgui, actions, ui
 import os
+
+from talon import Context, Module, actions, app, clip, cron, imgui, ui
 
 selection_numbers = [
     "one",
@@ -71,6 +72,7 @@ is_selection = False
 
 
 def close_homophones():
+    actions.mode.enable("user.homophones")
     ctx.lists["self.homophones_selections"] = []
     gui.hide()
 
@@ -135,6 +137,7 @@ def raise_homophones(word, forced=False, selection=False):
         index = index + 1
     ctx.lists["self.homophones_selections"] = selection_numbers[: index - 1]
 
+    actions.mode.enable("user.homophones")
     show_help = False
     gui.freeze()
 
@@ -152,6 +155,9 @@ def gui(gui: imgui.GUI):
             gui.text("Pick {}: {} ".format(index, word))
             index = index + 1
 
+    if gui.button("Hide"):
+        close_homophones()
+
 
 def show_help_gui():
     global show_help
@@ -160,6 +166,10 @@ def show_help_gui():
 
 
 mod = Module()
+mod.mode(
+    "homophones",
+    "mode for commands that are available only when homephones window is visible",
+)
 mod.list("homophones_canonicals", desc="list of words ")
 mod.list("homophones_selections", desc="list of valid selection indexes")
 
@@ -234,4 +244,3 @@ def homophones_formatted_selection(m):
 
 ctx.lists["self.homophones_canonicals"] = canonical_list
 ctx.lists["self.homophones_selections"] = []
-
