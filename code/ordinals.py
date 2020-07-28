@@ -95,7 +95,7 @@ ordinal_repeaters = ordinal_words
 del ordinal_repeaters["first"]
 
 mod = Module()
-mod.list("ordinal_words", desc="list of ordinals")
+mod.list("ordinals", desc="list of ordinals")
 mod.list("ordinal_repeaters", desc="list of ordinals")
 
 ctx = Context()
@@ -106,7 +106,12 @@ def ordinals(m) -> int:
     "Returns a single ordinial as a digit"
 
 
-@ctx.capture(rule="{self.ordinal_words}")
+@mod.capture
+def ordinal_repeater(m) -> int:
+    "Returns a single ordinial as a digit"
+
+
+@ctx.capture(rule="{self.ordinals}")
 def ordinals(m):
     o = m[0]
     return int(ordinal_words[o])
@@ -118,5 +123,5 @@ def ordinal_repeater(m):
     return int(ordinal_repeaters[o])
 
 
-ctx.lists["self.ordinal_words"] = ordinal_words.keys()
+ctx.lists["self.ordinals"] = ordinal_words.keys()
 ctx.lists["self.ordinal_repeaters"] = ordinal_repeaters.keys()
