@@ -81,10 +81,11 @@ class Actions:
         if wanted_app is None:
             return
 
-        for app in ui.apps():
-            if app.name == wanted_app and not app.background:
-                os.system("i3-msg '[class=\"(?)%s\"] focus'" % app.name)
-                # app.focus()
+        for cur_app in ui.apps():
+            if cur_app.name == wanted_app and not cur_app.background:
+                # os.system("i3-msg '[class=\"(?)%s\"] focus'" % app.name)
+                print(cur_app.focus)
+                cur_app.focus()
                 break
 
     def switcher_launch(path: str):
