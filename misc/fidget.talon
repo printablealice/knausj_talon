@@ -160,3 +160,13 @@ orwell:
     sleep(1)
     edit.paste()
     key(enter)
+
+# XXX
+reveal:
+    key(super-0)
+    sleep(1)
+    key(ctrl-u)
+    key(super-u)
+    sleep(1)
+    edit.paste()
+    key(enter)
