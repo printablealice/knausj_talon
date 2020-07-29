@@ -145,6 +145,7 @@ ctx.lists["user.abbreviation"] = {
     "temporary": "tmp",
     "text": "txt",
     "token": "tok",
+    "ultimate": "ulti",
     "user": "usr",
     "utilities": "utils",
     "utility": "util",
