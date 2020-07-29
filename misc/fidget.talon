@@ -66,6 +66,15 @@ pulse restart:
     insert("pulseaudio -k && pulseaudio --start\n")
     key(super-shift-q)
 
+
+###
+# Admin
+###
+(dav mail session):
+    user.vim_command_mode(":source ~/.vim/sessions/davmail.session")
+(scratch session):
+    user.vim_command_mode(":source ~/.vim/sessions/scratch.session")
+
 ###
 # Work
 ###
