@@ -41,6 +41,15 @@ disable debug mode:
     mode.disable("user.gdb")
     app.notify("Debug Mode Enabled")
 
+
+[enable] wind bag mode:
+    mode.enable("user.windbg")
+    app.notify("Debug Mode Enabled")
+disable wind bag mode:
+    mode.disable("user.windbg")
+    app.notify("Debug Mode Enabled")
+
+
 #[enable] terminal mode:
 #    mode.enable("user.terminal")
 #    user.system_command('notify-send.sh -t 3000 -f -u low "Terminal Mode Enabled"')
