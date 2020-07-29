@@ -5,6 +5,8 @@ tag(): terminal
 (pop terminal|vim mode):
     key(ctrl-\ ctrl-n)
 
+# pop terminal mode and scroll up once, from this point onward you can scroll
+# like normal
 rabbit up:
     key(ctrl-\ ctrl-n ctrl-b)
 
@@ -15,6 +17,7 @@ exit terminal:
     key(ctrl-n)
     insert("ZQ")
 
+# shadow are commands are for copying the entire line from a given point
 shadow <number_small>:
     user.vim_normal_mode_exterm("{number_small}k")
     key('0')
@@ -24,7 +27,43 @@ shadow <number_small>:
     edit.paste()
     key(space)
 
-shadow last <number_small>:
+shadow fuzzy <user.text>:
+    user.vim_normal_mode_exterm(":call search(\"{text}\", 'bcW')\n")
+    insert("y$")
+    insert(":set nohls\n")
+    user.vim_set_insert_mode()
+    edit.paste()
+
+shadow <number_small> <user.text>:
+    user.vim_normal_mode_exterm("{number_small}k")
+    key('0')
+    insert(":call search(\"{text}\", 'c', line('.'))\n")
+    insert("y$")
+    insert(":set nohls\n")
+    user.vim_set_insert_mode()
+    edit.paste()
+
+shadow <number_small> <user.ordinals>:
+    user.vim_normal_mode_exterm("{number_small}k")
+    key('0')
+    insert("{ordinals-1}W")
+    insert("y$")
+    insert(":set nohls\n")
+    user.vim_set_insert_mode()
+    edit.paste()
+    key(space)
+
+# echo commands are for copying words from a given point
+echo <number_small>:
+    user.vim_normal_mode_exterm("{number_small}k")
+    key('0')
+    insert("yW")
+    insert(":set nohls\n")
+    user.vim_set_insert_mode()
+    edit.paste()
+    key(space)
+
+echo last <number_small>:
     user.vim_normal_mode_exterm("{number_small}k")
     insert('$T ')
     insert("yW")
@@ -32,21 +71,10 @@ shadow last <number_small>:
     edit.paste()
     key(space)
 
-# XXX - make this command copy the whole line like above, and have a different
-# command that operates on words
-shadow <number_small> <user.ordinals>:
+echo <number_small> <user.ordinals>:
     user.vim_normal_mode_exterm("{number_small}k")
     key('0')
-    insert("{ordinals}W")
-    insert("yW")
-    insert(":set nohls\n")
-    user.vim_set_insert_mode()
-    edit.paste()
-    key(space)
-
-echo <number_small>:
-    user.vim_normal_mode_exterm("{number_small}k")
-    key('0')
+    insert("{ordinals-1}W")
     insert("yW")
     insert(":set nohls\n")
     user.vim_set_insert_mode()
