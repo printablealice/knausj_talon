@@ -402,6 +402,7 @@ text_object_select = {
     "squares ": "[",
     "brackets": "[",
     "backticks": "`",
+    "graves": "`",
     "sentence": "s",
     "sentences": "s",
     "paragraph": "p",
@@ -458,6 +459,7 @@ ctx.lists["self.vim_surround_targets"] = {
     "squares": "]",
     "brackets": "]",
     "backticks": "`",
+    "graves": "`",
     "sentence": "s",
     "paragraph": "p",
     "space": "  ",  # double spaces is required because surround gets confused
@@ -1360,7 +1362,7 @@ class VimMode:
             actions.key("escape")
             self.wait_mode_change("n")
 
-        # switch to explicit mode if necessary
+        # switch to explicit mode if necessary. we will be normal mode here
         if wanted_mode == self.INSERT:
             actions.key("i")
         # or just let the original 'mode' command run from this point
