@@ -96,10 +96,6 @@ action(user.code_public_function):
 action(user.code_state_return):
 	insert("return ")
 
-#python-specicic grammars
-dunder in it: insert("__init__")
-state (def | deaf | deft): "def "
-pie test: "pytest"
 
 ####
 # Operators

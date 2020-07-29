@@ -17,6 +17,5 @@ tag: terminal
 (time warrior|time) cancel: "timew cancel\n"
 (time warrior|time) summary: "timew summary\n"
 (time warrior|time) tags: "timew tags\n"
-(time warrior|time) tags: "timew tags "
 
 (time warrior|time) extensions: "timew extensions\n"

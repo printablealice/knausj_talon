@@ -11,10 +11,7 @@ hunt next: user.find_next()
 hunt previous: user.find_previous()
 replace this: user.replace("")
 replace this <user.text>: user.replace(text)
-replace this: user.replace("")
 replace all: user.replace_everywhere("")
 replace <user.text> all: user.replace_everywhere(text)
 replace confirm that: user.replace_confirm()
 replace confirm all: user.replace_confirm_all()
-
-

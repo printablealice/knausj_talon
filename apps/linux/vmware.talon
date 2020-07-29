@@ -10,7 +10,6 @@ quit vee em ware: key(ctrl-q)
 open settings: key(ctrl-d)
 
 # Tabs
-open settings: key(ctrl-d)
 
 # Help
 open help: key(f1)
