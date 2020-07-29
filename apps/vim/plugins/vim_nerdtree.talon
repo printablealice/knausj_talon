@@ -30,6 +30,9 @@ menu: key(m)
 
 # menu-based actions
 (add|new) (node|file): "ma"
+(add|new) (folder):
+    insert("ma/")
+    edit.left()
 (remove|delete) (node|file): "md"
 (move|rename) (node|file): "mm"
 list (node|file): "ml"
