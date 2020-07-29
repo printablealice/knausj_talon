@@ -137,6 +137,7 @@ simple_vocabulary = [
     "buku",
     "tech",
     "hover",
+    "davmail",
 ]
 
 mapping_vocabulary = {
@@ -259,6 +260,7 @@ mapping_vocabulary = {
     "dot net": ".NET",
     "etcetera": ", etc.",
     "I all": "hi all",
+    "windbag": "windbg",
 }
 
 mapping_vocabulary.update(dict(zip(simple_vocabulary, simple_vocabulary)))
