@@ -7,13 +7,20 @@ tag(): debugger
 # Generic debugger actions
 ##
 action(user.debugger_step_into):
-    key(t enter)
+    key(f8)
 action(user.debugger_step_over):
-    key(p enter)
+    key(f10)
 action(user.debugger_step_out):
-    insert("gu\n")
+    insert("shift-f11")
 action(user.debugger_continue):
-    key(g enter)
+    key(f5)
+action(user.debugger_stop):
+    key(shift-f5)
+action(user.debugger_restart):
+    key(ctrl-shift-f5)
+action(user.debugger_detach):
+# XXX - trigger alt-1 to hit command window?
+    insert(".detach")
 action(user.debugger_backtrace):
     key(k enter)
 action(user.debugger_show_registers):
@@ -25,6 +32,11 @@ action(user.debugger_set_register):
     edit.left()
 action(user.debugger_show_breakpoints):
     insert("bl\n")
+action(user.debugger_break):
+    insert("ctrl-break")
+
+action(user.debugger_goto_address):
+    insert("ctrl-g")
 
 
 ##
@@ -43,3 +55,22 @@ reload symbols:
     insert(".reload\n")
 loaded modules:
     insert("lm l\n")
+
+display pointers:
+    insert("dps ")
+
+show version: key(ctrl-alt-w)
+
+##
+# Windows
+##
+
+view command: key(alt-1)
+view watch: key(alt-2)
+view locals: key(alt-3)
+view registers: key(alt-4)
+view memory: key(alt-5)
+view call stack: key(alt-6)
+view disassembly: key(alt-7)
+view scratch pad: key(alt-8)
+view (processes|threads): key(alt-9)

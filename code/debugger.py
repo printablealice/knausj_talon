@@ -18,6 +18,15 @@ class Actions:
     def debugger_continue():
         """Continue execution in the debugger"""
 
+    def debugger_restart():
+        """Restart execution in the debugger"""
+
+    def debugger_stop():
+        """Stop the debugger"""
+
+    def debugger_detach():
+        """Detach the debugger"""
+
     def debugger_backtrace():
         """Print a back trace in the debugger"""
 
@@ -30,6 +39,9 @@ class Actions:
     def debugger_show_registers():
         """Print the current registers in the debugger"""
 
+    def debugger_break():
+        """Break into the debugger"""
+
     def debugger_show_breakpoints():
         """Print the current breakpoints in the debugger"""
 
@@ -41,3 +53,6 @@ class Actions:
 
     def debugger_clear_breakpoint():
         """Clear one breakpoint in the debugger"""
+
+    def debugger_goto_address():
+        """Jump to a specific address in the debugger"""
