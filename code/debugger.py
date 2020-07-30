@@ -78,8 +78,14 @@ class Actions:
     def debugger_enable_all_breakpoint():
         """Enable all breakpoints in the debugger"""
 
+    def debugger_disassemble():
+        """Dissemble instructions at a specific address in the debugger"""
+
     def debugger_goto_address():
         """Jump to a specific address in the debugger"""
 
     def debugger_dump_string():
         """Display as specific address as a string in the debugger"""
+
+    def debugger_inspect_type():
+        """Inspect a specific data type in the debugger"""

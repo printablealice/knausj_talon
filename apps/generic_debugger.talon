@@ -40,5 +40,9 @@ enable (break|break point) <number_small>:
 
 # Memory Inspection
 back trace: user.debugger_backtrace()
+disassemble: user.debugger_disassemble()
 jump to address: user.debugger_goto_address()
 dump string: user.debugger_dump_string()
+
+# Type inspection
+inspect type: user.debugger_inspect_type()

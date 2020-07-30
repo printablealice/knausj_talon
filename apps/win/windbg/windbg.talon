@@ -16,7 +16,7 @@ action(user.debugger_step_into):
 action(user.debugger_step_over):
     key(f10)
 action(user.debugger_step_out):
-    insert("shift-f11")
+    key(shift-f11)
 action(user.debugger_continue):
     key(f5)
 action(user.debugger_stop):
@@ -56,8 +56,14 @@ action(user.debugger_goto_address):
 # Memory inspection
 action(user.debugger_backtrace):
     key(k enter)
+action(user.debugger_disassemble):
+    key(u enter)
 action(user.debugger_dump_string):
     insert("da ")
+
+# Type inspection
+action(user.debugger_inspect_type):
+    insert("dt ")
 
 ##
 # Windbg specific functionality
