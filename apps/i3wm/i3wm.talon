@@ -41,7 +41,9 @@ grow window:
     key(down:10)
     key(escape)
     # center window
+    sleep(200ms)
     key(super-shift-d)
+
 
 # resize helpers
 shrink window:
@@ -49,7 +51,8 @@ shrink window:
     key(left:10)
     key(up:10)
     key(escape)
-
+    # center window
+    sleep(200ms)
     key(super-shift-d)
 
 # XXX - should include talon sleep maybe
@@ -76,7 +79,7 @@ move (win|window) down: key("super-shift-j")
 
 make scratch: key(super-shift--)
 [(show|hide)] scratch: key(super--)
-new scratch shell:
+new scratch (shell|window):
     key(super-enter)
     sleep(200ms)
     key(super-shift--)
