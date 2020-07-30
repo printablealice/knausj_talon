@@ -45,14 +45,41 @@ class Actions:
     def debugger_show_breakpoints():
         """Print the current breakpoints in the debugger"""
 
-    def debugger_add_breakpoint():
-        """Add one breakpoint in the debugger"""
+    def debugger_add_sw_breakpoint():
+        """Add one software breakpoint in the debugger"""
 
-    def debugger_clear_breakpoints():
+    def debugger_add_hw_breakpoint():
+        """Add one hardware breakpoint in the debugger"""
+
+    def debugger_clear_all_breakpoints():
         """Clear all breakpoints in the debugger"""
 
     def debugger_clear_breakpoint():
         """Clear one breakpoint in the debugger"""
 
+    def debugger_clear_breakpoint_id(number: int):
+        """Clear one breakpoint id in the debugger"""
+
+    def debugger_disable_breakpoint_id(number: int):
+        """Disable one breakpoint id in the debugger"""
+
+    def debugger_disable_breakpoint():
+        """Disable one breakpoint in the debugger"""
+
+    def debugger_disable_all_breakpoint():
+        """Disable all breakpoints in the debugger"""
+
+    def debugger_enable_breakpoint():
+        """Enable one breakpoint in the debugger"""
+
+    def debugger_enable_breakpoint_id(number: int):
+        """Enable one breakpoint id in the debugger"""
+
+    def debugger_enable_all_breakpoint():
+        """Enable all breakpoints in the debugger"""
+
     def debugger_goto_address():
         """Jump to a specific address in the debugger"""
+
+    def debugger_dump_string():
+        """Display as specific address as a string in the debugger"""

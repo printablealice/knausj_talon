@@ -1,3 +1,6 @@
+# XXX - trigger alt-1 to hit command window for necessary commands?
+# ex: user.windbg_insert_in_cmd()
+
 mode: user.windbg
 -
 tag(): debugger
@@ -6,6 +9,8 @@ tag(): debugger
 ##
 # Generic debugger actions
 ##
+
+# Code execution
 action(user.debugger_step_into):
     key(f8)
 action(user.debugger_step_over):
@@ -19,10 +24,9 @@ action(user.debugger_stop):
 action(user.debugger_restart):
     key(ctrl-shift-f5)
 action(user.debugger_detach):
-# XXX - trigger alt-1 to hit command window?
     insert(".detach")
-action(user.debugger_backtrace):
-    key(k enter)
+
+# Registers
 action(user.debugger_show_registers):
     key(r enter)
 action(user.debugger_get_register):
@@ -30,14 +34,30 @@ action(user.debugger_get_register):
 action(user.debugger_set_register):
     insert("set $@=")
     edit.left()
+
+# Breakpoints
 action(user.debugger_show_breakpoints):
     insert("bl\n")
+action(user.debugger_add_sw_breakpoint):
+    insert("bp ")
+action(user.debugger_add_hw_breakpoint):
+    insert("ba e 1 ")
 action(user.debugger_break):
     insert("ctrl-break")
+action(user.debugger_clear_all_breakpoints):
+    insert("bc *\n")
+action(user.debugger_clear_breakpoint):
+    insert("bc ")
 
+# Navigation
 action(user.debugger_goto_address):
     insert("ctrl-g")
 
+# Memory inspection
+action(user.debugger_backtrace):
+    key(k enter)
+action(user.debugger_dump_string):
+    insert("da ")
 
 ##
 # Windbg specific functionality
