@@ -12,6 +12,9 @@ class Actions:
     def debugger_step_over():
         """Step over an instruction in the debugger"""
 
+    def debugger_step_out():
+        """Step until function exit in the debugger"""
+
     def debugger_continue():
         """Continue execution in the debugger"""
 

@@ -3,6 +3,7 @@ tag: debugger
 
 step into: user.debugger_step_into()
 step over: user.debugger_step_over()
+step out: user.debugger_step_out()
 continue: user.debugger_continue()
 back trace: user.debugger_backtrace()
 show registers: user.debugger_show_registers()
