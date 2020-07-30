@@ -1,6 +1,6 @@
 mode: dictation
 -
-settings()
+settings():
     user.warn_dictation_mode = 1
 
 #everything here should call user.dictate to preserve the state to correctly auto-capitalize.
