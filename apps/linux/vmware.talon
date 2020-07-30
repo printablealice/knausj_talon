@@ -1,5 +1,6 @@
 os: linux
 app: vmware
+app: Vmware
 -
 
 new virtual machine: key(ctrl-n)
@@ -13,3 +14,9 @@ open settings: key(ctrl-d)
 
 # Help
 open help: key(f1)
+
+# Convenience
+
+## Get your mouse out of the vm so you can run normal commands
+(pop mouse|red pill):
+    key(ctrl-alt)
