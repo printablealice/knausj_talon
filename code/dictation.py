@@ -1,30 +1,37 @@
-from talon import Module, ui, actions
+from talon import Module, actions, app, settings, ui
 
 mod = Module()
+mod.setting(
+    "warn_dictation_mode",
+    type=int,
+    default=0,
+    desc="Pop notification bubble whenever text is dictated in dictation mode",
+)
 
-#Courtesy of https://github.com/dwiel/talon_community/blob/master/misc/dictation.py
-#Port for Talon's new api + wav2letter
- 
-#dictionary of sentence ends. No space should appear after these.
+# Courtesy of https://github.com/dwiel/talon_community/blob/master/misc/dictation.py
+# Port for Talon's new api + wav2letter
+
+# dictionary of sentence ends. No space should appear after these.
 sentence_ends = {
-    "." : ".",
-    "?" : "?",
-    "!" : "!",
-
-    #these are mapped with names since passing "\n" didn't work for reasons
-    "new-paragraph" : "\n\n",
-    "new-line" : "\n",
+    ".": ".",
+    "?": "?",
+    "!": "!",
+    # these are mapped with names since passing "\n" didn't work for reasons
+    "new-paragraph": "\n\n",
+    "new-line": "\n",
 }
 
-#dictionary of punctuation. no space before these.
+# dictionary of punctuation. no space before these.
 punctuation = {
-    "," : ",",
-    ":" : ":",
-    ";" : ";",
+    ",": ",",
+    ":": ":",
+    ";": ";",
 }
+
 
 def remove_dragon_junk(word):
     return str(word).lstrip("\\").split("\\")[0]
+
 
 class AutoFormat:
     def __init__(self):
@@ -48,7 +55,7 @@ class AutoFormat:
 
             elif word in punctuation:
                 word = punctuation[word]
-                #do  nothing
+                # do  nothing
                 is_punctuation = True
 
             elif self.space:
@@ -61,10 +68,14 @@ class AutoFormat:
             self.space = "\n" not in word
             self.caps = is_sentence_end
 
+
 auto_format = AutoFormat()
 
+
 @mod.action_class
-class Actions():
+class Actions:
     def dictate(text: str):
         """Insert auto formatted text"""
         auto_format.insert(text)
+        if settings.get("user.warn_dictation_mode") == 0:
+            app.notify("Dictation Mode")
