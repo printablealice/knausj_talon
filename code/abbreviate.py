@@ -126,6 +126,7 @@ ctx.lists["user.abbreviation"] = {
     "ruby": "rb",
     "session id": "sid",
     "shell": "sh",
+    "shellcode": "sc",
     "source": "src",
     "special": "spec",
     "specific": "spec",

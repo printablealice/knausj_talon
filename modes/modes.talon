@@ -33,29 +33,27 @@ talon wake:
     mode.enable("command")
     app.notify("Command Mode")
 
-# XXX - Make forcible modes
+# XXX - switch to a mode that lets you select debuggers
 [enable] debug mode:
     mode.enable("user.gdb")
-    app.notify("Debug Mode Enabled")
+    app.notify("GDB Debugger Enabled")
 disable debug mode:
     mode.disable("user.gdb")
-    app.notify("Debug Mode Enabled")
+    app.notify("GDB Debugger Disabled")
 
 
 [enable] wind bag mode:
     mode.enable("user.windbg")
-    app.notify("Debug Mode Enabled")
+    app.notify("windbg Debugger Enabled")
 disable wind bag mode:
     mode.disable("user.windbg")
-    app.notify("Debug Mode Enabled")
+    app.notify("windbg Debugger Disabled")
 
 
 #[enable] terminal mode:
 #    mode.enable("user.terminal")
-#    user.system_command('notify-send.sh -t 3000 -f -u low "Terminal Mode Enabled"')
 #disable terminal mode:
 #    mode.disable("user.terminal")
-#    user.system_command('notify-send.sh -t 3000 -f -u low "Terminal Mode Disabled"')
 
 ^force see sharp$:
     user.code_set_language_mode("csharp")
