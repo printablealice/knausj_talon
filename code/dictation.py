@@ -11,7 +11,7 @@ mod.setting(
 # Courtesy of https://github.com/dwiel/talon_community/blob/master/misc/dictation.py
 # Port for Talon's new api + wav2letter
 
-# dictionary of sentence ends. No space should appear after these.
+# dictionary of sentence ends. No space should appear before these.
 sentence_ends = {
     ".": ".",
     "?": "?",
@@ -26,11 +26,14 @@ punctuation = {
     ",": ",",
     ":": ":",
     ";": ";",
+    "-": "-",
+    "/": "/",
+    "-": "-",
+    ")": ")",
 }
 
+no_space_after_these = set("-/(")
 
-def remove_dragon_junk(word):
-    return str(word).lstrip("\\").split("\\")[0]
 
 
 class AutoFormat:
@@ -44,9 +47,8 @@ class AutoFormat:
         self.space = False
 
     def insert(self, text):
+        result = ""
         for word in text.split():
-            remove_dragon_junk(word)
-
             is_sentence_end = False
             is_punctuation = False
             if word in sentence_ends:
@@ -65,7 +67,7 @@ class AutoFormat:
                 word = word.capitalize()
 
             actions.insert(word)
-            self.space = "\n" not in word
+            self.space = "\n" not in word and word[-1] not in no_space_after_these
             self.caps = is_sentence_end
 
 
@@ -77,5 +79,6 @@ class Actions:
     def dictate(text: str):
         """Insert auto formatted text"""
         auto_format.insert(text)
+
         if settings.get("user.warn_dictation_mode") == 0:
             app.notify("Dictation Mode")

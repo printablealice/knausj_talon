@@ -31,8 +31,8 @@ ctx.lists["user.abbreviation"] = {
     "binary": "bin",
     "button": "btn",
     "centimeter": "cm",
-    "character": "char",
     "char": "chr",
+    "character": "char",
     "class": "cls",
     "command": "cmd",
     "comment": "cmt",
@@ -124,6 +124,7 @@ ctx.lists["user.abbreviation"] = {
     "return": "ret",
     "revision": "rev",
     "ruby": "rb",
+    "service pack": "sp",
     "session id": "sid",
     "shell": "sh",
     "shellcode": "sc",
@@ -155,7 +156,6 @@ ctx.lists["user.abbreviation"] = {
     "verify": "vrfy",
     "versus": "vs",
     "window": "win",
-    "service pack": "sp",
 }
 
 

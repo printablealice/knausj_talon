@@ -1,14 +1,16 @@
 #Note: Appending $ will anchor the command
 #provide both anchored and unachored commands via 'over'
-<user.format_text>$: insert(user.format_text)
-<user.format_text> over: insert(user.format_text)
-phrase <user.text>$: insert(user.text)
-phrase <user.text> over: insert(user.text)
-(say | speak) <user.text>$: insert(user.text)
-(say | speak) <user.text> over: insert(user.text)
+(say | speak | phrase) <user.text>$: 
+  result = user.formatted_text(text, "NOOP")
+  insert(result)
+(say | speak | phrase) <user.text> over: 
+  result = user.formatted_text(text, "NOOP")
+  insert(result)
+<user.format_text>$: insert(format_text)
+<user.format_text> over: insert(format_text)
 # word conflicts with vim.py
-poke <user.word>: insert(user.word)
 #word <user.word>: insert(user.word)
+poke <user.word>: insert(user.word)
 list formatters: user.list_formatters()
 hide formatters: user.hide_formatters()
 ^nope that$: user.clear_last_phrase()

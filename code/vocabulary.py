@@ -270,10 +270,6 @@ mapping_vocabulary.update(dict(zip(simple_vocabulary, simple_vocabulary)))
 mod = Module()
 
 
-def remove_dragon_junk(word):
-    return str(word).lstrip("\\").split("\\")[0]
-
-
 @mod.capture(rule="({user.vocabulary})")
 def vocabulary(m) -> str:
     return m.vocabulary
@@ -284,7 +280,7 @@ def word(m) -> str:
     try:
         return m.vocabulary
     except AttributeError:
-        return remove_dragon_junk(m.word)
+        return actions.dictate.parse_words(m.word)[-1]
 
 
 punctuation = set(".,-!?;:")
@@ -295,17 +291,19 @@ def text(m) -> str:
     words = []
     result = ""
     for item in m:
+        # print(m)
         if isinstance(item, grammar.vm.Phrase):
-            words = words + actions.dictate.parse_words(item)
+            words = words + actions.dictate.replace_words(
+                actions.dictate.parse_words(item)
+            )
         else:
             words = words + item.split(" ")
 
     for i, word in enumerate(words):
-        if i > 0 and word not in punctuation:
+        if i > 0 and word not in punctuation and words[i - 1][-1] not in ("/-("):
             result += " "
 
         result += word
-
     return result
 
 

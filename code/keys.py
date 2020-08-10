@@ -86,11 +86,11 @@ def key(m) -> str:
 
 ctx = Context()
 ctx.lists["self.modifier"] = {
+    "alt": "alt",
     "command": "cmd",
     "control": "ctrl",  #'troll':   'ctrl',
-    "shift": "shift",  #'sky':     'shift',
-    "alt": "alt",
     "option": "alt",
+    "shift": "shift",  #'sky':     'shift',
     "super": "super",
 }
 
@@ -180,35 +180,30 @@ ctx.lists["self.symbol"] = {
 
 ctx.lists["self.number"] = dict(zip(default_digits, numbers))
 ctx.lists["self.arrow"] = {
+    "down": "down",
     "left": "left",
     "right": "right",
     "up": "up",
-    "down": "down",
 }
 
 
 simple_keys = [
-    #    'tab', 'escape', 'enter', 'space',
-    "tab",
-    "escape",
-    "space",
-    "home",
-    "pageup",
-    "pagedown",
     "end",
+    "enter",
+    "escape",
+    "home",
     "insert",
+    "pagedown",
+    "pageup",
+    "space",
+    "tab",
 ]
 
 alternate_keys = {
-    #'delete': 'delete',
-    "nuke": "delete",
-    "junk": "backspace",
     "backspace": "backspace",
     "forward delete": "delete",
-    #'up': 'up',
-    #    'down': 'down',
-    #    'right': 'right',
-    #    'left': 'left',
+    "junk": "backspace",
+    "nuke": "delete",
 }
 keys = {k: k for k in simple_keys}
 keys.update(alternate_keys)
