@@ -155,35 +155,21 @@ formatters_words = {
     "alldown": formatters_dict["ALL_LOWERCASE"],
     "camel": formatters_dict["PRIVATE_CAMEL_CASE"],
     "dotted": formatters_dict["DOT_SEPARATED"],
-<<<<<<< HEAD
-    "string": formatters_dict["DOUBLE_QUOTED_STRING"],
     "dunder": formatters_dict["DOUBLE_UNDERSCORE"],
     "folder": formatters_dict["FOLDER_SEPARATED"],
-=======
-    "dubstring": formatters_dict["DOUBLE_QUOTED_STRING"],
-    "dunder": formatters_dict["DOUBLE_UNDERSCORE"],
->>>>>>> e139b53eccc6e93fb3cff4f0a48455de0ef1b8dd
     "hammer": formatters_dict["PUBLIC_CAMEL_CASE"],
     "kebab": formatters_dict["DASH_SEPARATED"],
     "long arg": formatters_dict["LONG_ARG"],
     "packed": formatters_dict["DOUBLE_COLON_SEPARATED"],
     "padded": formatters_dict["SPACE_SURROUNDED_STRING"],
-<<<<<<< HEAD
     "say": formatters_dict["NOOP"],
-=======
-    # "say": formatters_dict["NOOP"],
->>>>>>> e139b53eccc6e93fb3cff4f0a48455de0ef1b8dd
     "sentence": formatters_dict["CAPITALIZE_FIRST_WORD"],
     "slasher": formatters_dict["SLASH_SEPARATED"],
     "smash": formatters_dict["NO_SPACES"],
     "snake": formatters_dict["SNAKE_CASE"],
-<<<<<<< HEAD
     "speak": formatters_dict["NOOP"],
+    "string": formatters_dict["DOUBLE_QUOTED_STRING"],
     "ticks": formatters_dict["SINGLE_QUOTED_STRING"],
-=======
-    # "speak": formatters_dict["NOOP"],
-    "string": formatters_dict["SINGLE_QUOTED_STRING"],
->>>>>>> e139b53eccc6e93fb3cff4f0a48455de0ef1b8dd
     "title": formatters_dict["CAPITALIZE_ALL_WORDS"],
     "upper": formatters_dict["ALL_CAPS"],
     # disable a few formatters for now
