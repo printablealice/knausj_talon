@@ -1,3 +1,7 @@
+# XXX - support for clipboard actions
+# XXX - execute until line number/cursor
+# XXX - more memory printing he thumping
+
 from talon import Module
 
 mod = Module()
@@ -12,6 +16,12 @@ class Actions:
     def debugger_step_over():
         """Step over an instruction in the debugger"""
 
+    def debugger_step_line():
+        """Step into a source line in the debugger"""
+
+    def debugger_step_over_line():
+        """Step over a source line in the debugger"""
+
     def debugger_step_out():
         """Step until function exit in the debugger"""
 
@@ -21,8 +31,14 @@ class Actions:
     def debugger_restart():
         """Restart execution in the debugger"""
 
+    def debugger_start():
+        """Start debugging"""
+
     def debugger_stop():
         """Stop the debugger"""
+
+    def debugger_exit():
+        """Exit the debugger"""
 
     def debugger_detach():
         """Detach the debugger"""
@@ -39,8 +55,11 @@ class Actions:
     def debugger_show_registers():
         """Print the current registers in the debugger"""
 
-    def debugger_break():
+    def debugger_break_now():
         """Break into the debugger"""
+
+    def debugger_break_here():
+        """Set a break on the current line"""
 
     def debugger_show_breakpoints():
         """Print the current breakpoints in the debugger"""
@@ -66,7 +85,7 @@ class Actions:
     def debugger_disable_breakpoint():
         """Disable one breakpoint in the debugger"""
 
-    def debugger_disable_all_breakpoint():
+    def debugger_disable_all_breakpoints():
         """Disable all breakpoints in the debugger"""
 
     def debugger_enable_breakpoint():
@@ -75,7 +94,7 @@ class Actions:
     def debugger_enable_breakpoint_id(number: int):
         """Enable one breakpoint id in the debugger"""
 
-    def debugger_enable_all_breakpoint():
+    def debugger_enable_all_breakpoints():
         """Enable all breakpoints in the debugger"""
 
     def debugger_disassemble():

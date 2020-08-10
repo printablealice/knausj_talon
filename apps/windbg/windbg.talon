@@ -4,7 +4,7 @@
 mode: user.windbg
 -
 tag(): debugger
-#tag(): windbg
+tag(): windbg
 
 ##
 # Generic debugger actions
@@ -15,6 +15,10 @@ action(user.debugger_step_into):
     key(f8)
 action(user.debugger_step_over):
     key(f10)
+# XXX -
+action(user.debugger_step_line): ""
+action(user.debugger_step_over_line): ""
+
 action(user.debugger_step_out):
     key(shift-f11)
 action(user.debugger_continue):
@@ -42,12 +46,20 @@ action(user.debugger_add_sw_breakpoint):
     insert("bp ")
 action(user.debugger_add_hw_breakpoint):
     insert("ba e 1 ")
-action(user.debugger_break):
-    insert("ctrl-break")
+action(user.debugger_break_now):
+    key(ctrl-break)
 action(user.debugger_clear_all_breakpoints):
     insert("bc *\n")
 action(user.debugger_clear_breakpoint):
     insert("bc ")
+action(user.debugger_enable_all_breakpoints):
+    insert("be *\n")
+action(user.debugger_enable_breakpoint):
+    insert("be ")
+action(user.debugger_disable_all_breakpoints):
+    insert("bd *\n")
+action(user.debugger_disable_breakpoint):
+    insert("bd ")
 
 # Navigation
 action(user.debugger_goto_address):
