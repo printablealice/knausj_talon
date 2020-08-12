@@ -2,7 +2,16 @@ from talon import Context, Module
 
 mod = Module()
 
-tagList = ["firefox", "gdb", "windbg", "tmux", "tabs", "debugger"]
+tagList = [
+    "firefox",
+    "gdb",
+    "windbg",
+    "tmux",
+    "tabs",
+    "debugger",
+    "disassembler",
+    "ida",
+]
 modes = {
     "gdb": "a way to force gdb commands to be loaded",
     "windbg": "a way to force windbg commands to be loaded",
