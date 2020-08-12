@@ -111,6 +111,16 @@ def mouse_index(m) -> int:
 
 @mod.action_class
 class Actions:
+    def mouse_click(button: int, count: int):
+        """Click the specified mouse button a certain number of times."""
+        for i in range(count):
+            ctrl.mouse_click(button)
+        if (
+            eye_zoom_mouse.zoom_mouse.enabled
+            and eye_zoom_mouse.zoom_mouse.state != eye_zoom_mouse.STATE_IDLE
+        ):
+            eye_zoom_mouse.zoom_mouse.cancel()
+
     def mouse_show_cursor():
         """Shows the cursor"""
         show_cursor_helper(True)
@@ -122,7 +132,7 @@ class Actions:
     def mouse_wake():
         """Enable control mouse, zoom mouse, and disables cursor"""
         eye_zoom_mouse.toggle_zoom_mouse(True)
-        # eye_mouse.control_mouse.enable()
+        eye_mouse.control_mouse.enable()
         if setting_mouse_wake_hides_cursor.get() >= 1:
             show_cursor_helper(False)
 
@@ -131,11 +141,11 @@ class Actions:
         eye_mouse.calib_start()
 
     def mouse_toggle_control_mouse():
-        """Toggles control mouse"""
+        """Toggles control mouse setting"""
         eye_mouse.control_mouse.toggle()
 
     def mouse_toggle_zoom_mouse():
-        """Toggles zoom mouse"""
+        """Toggles zoom mouse setting"""
         eye_zoom_mouse.toggle_zoom_mouse(not eye_zoom_mouse.zoom_mouse.enabled)
 
     def mouse_cancel_zoom_mouse():
@@ -145,6 +155,11 @@ class Actions:
             and eye_zoom_mouse.zoom_mouse.state != eye_zoom_mouse.STATE_IDLE
         ):
             eye_zoom_mouse.zoom_mouse.cancel()
+
+    def mouse_zoom_click():
+        """Click the mouse and zoom if necessary."""
+        eye_zoom_mouse.zoom_mouse.on_pop(0)
+
 
     def mouse_drag():
         """(TEMPORARY) Press and hold/release button 0 depending on state for dragging"""
@@ -160,7 +175,7 @@ class Actions:
         """Disables control mouse, zoom mouse, and re-enables cursor"""
         global dragging
         eye_zoom_mouse.toggle_zoom_mouse(False)
-        # eye_mouse.control_mouse.disable()
+        eye_mouse.control_mouse.disable()
         show_cursor_helper(True)
         stop_scroll()
         if dragging:
@@ -240,7 +255,6 @@ def show_cursor_helper(show):
             print("Unable to show_cursor({})".format(str(show)))
     else:
         ctrl.cursor_visible(show)
-
 
 def on_pop(active):
     if gaze_job or scroll_job:
