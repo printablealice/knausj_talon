@@ -49,6 +49,13 @@ disable wind bag mode:
     mode.disable("user.windbg")
     app.notify("windbg Debugger Disabled")
 
+[enable] ida mode:
+    mode.enable("user.ida")
+    app.notify("ida Disassembler Enabled")
+disable ida mode:
+    mode.disable("user.ida")
+    app.notify("ida Disassembler Disabled")
+
 
 #[enable] terminal mode:
 #    mode.enable("user.terminal")
