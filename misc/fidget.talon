@@ -10,6 +10,10 @@ dev talon:
     insert("cd ~/.talon/user/fidget\n")
     insert("ls\n")
 
+edit talon wiki:
+    insert("cd ~/src/talon_wiki\n")
+    insert("ls\n")
+
 talon shell:
     insert("~/.talon/bin/repl\n")
 talon base:
