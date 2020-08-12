@@ -64,12 +64,26 @@ action(user.debugger_disable_breakpoint):
 # Navigation
 action(user.debugger_goto_address):
     insert("ctrl-g")
+action(user.debugger_goto_clipboard):
+    insert("ctrl-g")
+    edit.paste()
+    key(enter)
+action(user.debugger_goto_highlighted):
+    insert("ctrl-g")
+    edit.copy()
+    edit.paste()
+    key(enter)
+
 
 # Memory inspection
 action(user.debugger_backtrace):
     key(k enter)
 action(user.debugger_disassemble):
     key(u enter)
+action(user.debugger_disassemble_clipboard):
+    key(u space)
+    edit.paste()
+    key(enter)
 action(user.debugger_dump_string):
     insert("da ")
 
@@ -77,6 +91,9 @@ action(user.debugger_dump_string):
 action(user.debugger_inspect_type):
     insert("dt ")
 
+# Convenience
+action(user.debugger_clear_line)
+    key(ctrl-a backspace)
 ##
 # Windbg specific functionality
 ##

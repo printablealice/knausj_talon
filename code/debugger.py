@@ -76,10 +76,10 @@ class Actions:
     def debugger_clear_breakpoint():
         """Clear one breakpoint in the debugger"""
 
-    def debugger_clear_breakpoint_id(number: int):
+    def debugger_clear_breakpoint_id(number_small: int):
         """Clear one breakpoint id in the debugger"""
 
-    def debugger_disable_breakpoint_id(number: int):
+    def debugger_disable_breakpoint_id(number_small: int):
         """Disable one breakpoint id in the debugger"""
 
     def debugger_disable_breakpoint():
@@ -91,20 +91,32 @@ class Actions:
     def debugger_enable_breakpoint():
         """Enable one breakpoint in the debugger"""
 
-    def debugger_enable_breakpoint_id(number: int):
+    def debugger_enable_breakpoint_id(number_small: int):
         """Enable one breakpoint id in the debugger"""
 
     def debugger_enable_all_breakpoints():
         """Enable all breakpoints in the debugger"""
 
     def debugger_disassemble():
-        """Dissemble instructions at a specific address in the debugger"""
+        """Disassemble instructions at a specific address in the debugger"""
+
+    def debugger_disassemble_clipboard():
+        """Disassemble instructions at an address in the clipboard"""
 
     def debugger_goto_address():
         """Jump to a specific address in the debugger"""
+
+    def debugger_goto_clipboard():
+        """Jump to a specific address stored in the clipboard"""
+
+    def debugger_goto_highlighted():
+        """Jump to a specific highlighted address in the debugger"""
 
     def debugger_dump_string():
         """Display as specific address as a string in the debugger"""
 
     def debugger_inspect_type():
         """Inspect a specific data type in the debugger"""
+
+    def debugger_clear_line():
+        """Clear unwanted data from the command line"""
