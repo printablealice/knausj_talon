@@ -3,19 +3,19 @@ os: linux
 tag: terminal
 -
 
-(time warrior|time): "timew\n"
+time (war|warrior): "timew\n"
 # Just set a generic timer
-(time warrior|time) start now: "timew start\n"
-(time warrior|time) start <phrase>: "timew start {phrase}"
-(time warrior|time) start <number_small> minutes ago: "timew start {number_small}mins ago "
-(time warrior|time) start <number_small> hours ago: "timew start {number_small}hours ago "
-(time warrior|time) start: "timew start "
-(time warrior|time) stop now: "timew stop\n"
-(time warrior|time) stop: "timew stop "
-(time warrior|time) stop <number_small> minutes ago: "timew stop {number_small}mins ago "
-(time warrior|time) stop <number_small> hours ago: "timew stop {number_small}hours ago "
-(time warrior|time) cancel: "timew cancel\n"
-(time warrior|time) summary: "timew summary\n"
-(time warrior|time) tags: "timew tags\n"
+time (war|warrior) start now: "timew start\n"
+time (war|warrior) start <phrase>: "timew start {phrase}"
+time (war|warrior) start <number_small> minutes ago: "timew start {number_small}mins ago "
+time (war|warrior) start <number_small> hours ago: "timew start {number_small}hours ago "
+time (war|warrior) start: "timew start "
+time (war|warrior) stop now: "timew stop\n"
+time (war|warrior) stop: "timew stop "
+time (war|warrior) stop <number_small> minutes ago: "timew stop {number_small}mins ago "
+time (war|warrior) stop <number_small> hours ago: "timew stop {number_small}hours ago "
+time (war|warrior) cancel: "timew cancel\n"
+time (war|warrior) summary: "timew summary\n"
+time (war|warrior) tags: "timew tags\n"
 
-(time warrior|time) extensions: "timew extensions\n"
+time (war|warrior) extensions: "timew extensions\n"
