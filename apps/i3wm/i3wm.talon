@@ -3,11 +3,11 @@ os: linux
 # TODO: take `super` from a settings file
 -
 
-dock <number_small>: key("super-{number_small}")
-dock ten: key(super-0)
-dock (last|back|flip): key(super-u)
-dock (right|next): key(super-o)
-dock (prev|previous|left): key(super-y)
+port <number_small>: key("super-{number_small}")
+port ten: key(super-0)
+port (last|back|flip): key(super-u)
+port (right|next): key(super-o)
+port (prev|previous|left): key(super-y)
 
 (win|window) left: key(super-h)
 (win|window) right: key(super-l)
