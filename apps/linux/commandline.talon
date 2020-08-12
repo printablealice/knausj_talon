@@ -13,7 +13,8 @@ and tag: terminal
 # directory and files
 katie: "cd "
 katie up: "cd ../\n"
-up deer: "../\n"
+(parent|up) dir: "../"
+traverse: "../"
 katie <user.text>: "cd {text}"
 katie home: "cd\n"
 katie last: "cd -\n"
@@ -157,6 +158,9 @@ network manager log: "sudo journalctl -u NetworkManager.service\n"
 # ssh
 secure shell: "ssh"
 secure shell <user.text>: "ssh {text}\n"
+secure copy [<user.text>]:
+    insert("scp -r ")
+    insert(text or "")
 show authorized keys: "vi ~/.ssh/authorized_keys\n"
 show pub keys: "cat ~/.ssh/*.pub\n"
 edit authorized keys: "vi ~/.ssh/authorized_keys\n"
