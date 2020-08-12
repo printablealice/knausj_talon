@@ -139,7 +139,7 @@ simple_vocabulary = [
     "hover",
     "davmail",
     "break",
-    "this is a test",
+    "pico",
 ]
 
 mapping_vocabulary = {
