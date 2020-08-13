@@ -978,6 +978,7 @@ prefix with <user.any>:
 ##x
 (select|highlight) all: user.vim_normal_mode_exterm("ggVG")
 reselect: user.vim_normal_mode_exterm("gv")
+make ascending: user.vim_normal_mode_key("g ctrl-a")
 
 ###
 # Terminal mode

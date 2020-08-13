@@ -7,7 +7,6 @@
 #       remote vim sessions via ssh, etc
 # XXX - import and test scenario where the mode isn't listed at all
 # XXX - add test cases
-# XXX - simplify a bunch of the lists name
 
 import time
 
@@ -69,6 +68,8 @@ standard_counted_actions = {
     # "open": "o",  # conflicts too much with other commands
     "open below": "o",
     "open above": "O",
+    # opposite is useful for visual mode cursor swapping
+    "opposite": "o",
     "substitute": "s",
     "substitute line": "S",
     "undo": "u",
