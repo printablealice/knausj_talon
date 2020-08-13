@@ -140,6 +140,7 @@ simple_vocabulary = [
     "davmail",
     "break",
     "pico",
+    "add",
 ]
 
 mapping_vocabulary = {
