@@ -1,4 +1,3 @@
-# XXX - support for clipboard actions
 # XXX - execute until line number/cursor
 # XXX - more memory printing he thumping
 

@@ -5,7 +5,10 @@ mode: user.ida
 -
 tag(): ida
 tag(): disassembler
-tag(): debugger
+settings():
+    # the number of opcodes to display next to assembly instructions, this will depend
+    # on your architecture
+    user.ida_opcode_count = 8
 
 ##
 # Generic disassembler actions
@@ -17,7 +20,7 @@ action(user.disassembler_open_file):
     sleep(100ms)
     key(down enter)
 
-# Data formatting
+# Formatting
 action(user.disassembler_make_array): key(shift-8)
 action(user.disassembler_make_binary): key(b)
 action(user.disassembler_make_character): key(r)
@@ -31,14 +34,26 @@ action(user.disassembler_make_structure_variable): key(alt-q)
 action(user.disassembler_make_unicode): key(alt-a)
 
 # Navigation
+action(user.disassembler_entry_point): key(ctrl-e)
 action(user.disassembler_jump_back): key(escape)
 action(user.disassembler_jump_address): key(g)
 action(user.disassembler_next_call): key(ctrl-alt-shift-6)
 action(user.disassembler_previous_call): key(ctrl-alt-shift-7)
 action(user.disassembler_function_start): key(ctrl-alt-shift-1)
 action(user.disassembler_function_end): key(ctrl-alt-shift-2)
+action(user.disassembler_false_branch): 
+    key(ctrl-down)
+    sleep(100ms)
+    key(enter)
+action(user.disassembler_true_branch): 
+    key(ctrl-down)
+    sleep(100ms)
+    key(down enter)
 action(user.disassembler_close_window): key(alt-f3)
 toggle graph: key(space)
+
+# Windowing
+action(user.disassembler_focus_disassembly): key(alt-2)
 
 # Searching
 action(user.disassembler_search_bytes): key(alt-b)
@@ -53,10 +68,7 @@ action(user.disassembler_next_unexplored): key(ctrl-u)
 action(user.disassembler_next_value): key(ctrl-i)
 action(user.disassembler_next_void): key(ctrl-v)
      
-##
-# Generic debugger actions
-##
-action(user.debugger_add_sw_breakpoint): key(f2)
+# Documenting
 
 ##
 # Menu

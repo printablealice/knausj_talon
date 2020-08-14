@@ -10,7 +10,7 @@ class Actions:
     def disassembler_open_file():
         """Open a new file for disassembly"""
 
-    # Binary data formatting
+    # Formatting
     def disassembler_make_array():
         """Convert into an array"""
     def disassembler_make_binary():
@@ -35,6 +35,8 @@ class Actions:
         """Convert into unicode"""
 
     # Navigation
+    def disassembler_entry_point():
+        """Navigate to program entry point"""
     def disassembler_jump_back():
         """Navigate to previous location"""
     def disassembler_jump_address():
@@ -46,9 +48,17 @@ class Actions:
     def disassembler_function_start():
         """Navigate to function start"""
     def disassembler_function_end():
-        """Navigate to function end""" 
+        """Navigate to function end"""
+    def disassembler_false_branch():
+        """Fall through on false branch"""
+    def disassembler_true_branch():
+        """Fall through on true branch"""
     def disassembler_close_window():
         """Close the current window pane"""
+
+    # Into windowing
+    def disassembler_focus_disassembly():
+        """Move focus to the disassembly window"""
 
     # Searching
     def disassembler_search_bytes():
@@ -73,3 +83,5 @@ class Actions:
         """Repeat search for value"""
     def disassembler_next_void():
         """Repeat search for next instruction with void operand"""
+
+# Documenting
