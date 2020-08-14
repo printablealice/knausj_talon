@@ -264,6 +264,9 @@ mapping_vocabulary = {
     "etcetera": ", etc.",
     "I all": "hi all",
     "windbag": "windbg",
+    "bite": "byte",
+    "bites": "bytes",
+    "doughnut": "donut",
 }
 
 mapping_vocabulary.update(dict(zip(simple_vocabulary, simple_vocabulary)))
