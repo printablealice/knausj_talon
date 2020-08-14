@@ -4,7 +4,6 @@ from talon import app, ui
 
 
 def monkey_notify(body="", title="", subtitle="", *kwargs):
-    print(kwargs)
     os.system('notify-send.sh -t 3000 -f -u low "%s"' % subtitle)
 
 
