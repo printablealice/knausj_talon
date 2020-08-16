@@ -1,19 +1,19 @@
 #defines the various mode commands
-mode: all
+not mode: user.presentation
 -
 #welcome back:
-#	user.mouse_wake()
-#	user.history_enable()
-#	speech.enable()
+#    user.mouse_wake()
+#    user.history_enable()
+#    speech.enable()
 sleep all:
-	user.switcher_hide_running()
-	user.history_disable()
-	user.homophones_hide()
-	user.help_hide()
-	user.mouse_sleep()
-	speech.disable()
+    user.switcher_hide_running()
+    user.history_disable()
+    user.homophones_hide()
+    user.help_hide()
+    user.mouse_sleep()
+    speech.disable()
     app.notify("Talon Sleep All Mode")
-	user.engine_sleep()
+    user.engine_sleep()
 talon sleep:
     speech.disable()
     app.notify("Talon Sleep")
@@ -22,7 +22,7 @@ talon wake:
     app.notify("Talon Awake")
 #dragon mode: speech.disable()
 #talon mode: speech.enable()
-^(dictation mode|dictate)$:
+^dictation mode$:
     mode.disable("sleep")
     mode.disable("command")
     mode.enable("dictation")
@@ -32,6 +32,18 @@ talon wake:
     mode.disable("dictation")
     mode.enable("command")
     app.notify("Command Mode")
+
+^presentation mode$:
+    user.switcher_hide_running()
+    user.history_disable()
+    user.homophones_hide()
+    user.help_hide()
+    user.mouse_sleep()
+    speech.disable()
+    app.notify("Presentation Mode")
+    user.engine_sleep()
+    mode.enable("user.presentation")
+
 
 # XXX - switch to a mode that lets you select debuggers
 [enable] debug mode:
