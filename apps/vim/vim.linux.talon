@@ -279,9 +279,9 @@ swap paragraph:
     user.vim_normal_mode("d}}")
     user.vim_normal_mode("p")
 replace <user.any>:
-    user.vim_normal_mode("r{any}")
+    user.vim_any_motion_mode("r{any}")
 replace (ship|upper|upper case) <user.letters>:
-    user.vim_normal_mode_key("r")
+    user.vim_any_motion_mode_key("r")
     user.keys_uppercase_letters(letters)
 
 # indenting
@@ -368,12 +368,12 @@ insert <user.text>:
 
 # helpful for fixing typos or bad lexicons that miss a character
 inject <user.any> [before]:
-    user.vim_insert_mode("{any}")
+    user.vim_insert_mode_key("{any}")
     # since there is no ctrl-o equiv coming from normal
     key(escape)
 
 inject <user.any> after:
-    user.vim_normal_mode("a{any}")
+    user.vim_normal_mode_key("a {any}")
     # since we can't perserve mode with ctrl-o
     key(escape)
 
