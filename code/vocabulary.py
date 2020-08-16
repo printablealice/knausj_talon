@@ -141,7 +141,9 @@ simple_vocabulary = [
     "break",
     "pico",
     "add",
-]
+    "giffed",
+    "gif",
+] 
 
 mapping_vocabulary = {
     "all i": "ollie",
@@ -267,6 +269,8 @@ mapping_vocabulary = {
     "bite": "byte",
     "bites": "bytes",
     "doughnut": "donut",
+    "jiffed": "giffed",
+    "jiff": "gif",
 }
 
 mapping_vocabulary.update(dict(zip(simple_vocabulary, simple_vocabulary)))
