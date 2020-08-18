@@ -50,7 +50,8 @@ enable (break|break point) <number_small>:
 
 # Memory Inspection
 (stack|back) trace: user.debugger_backtrace()
-disassemble here: user.debugger_disassemble()
+disassemble: user.debugger_disassemble()
+disassemble here: user.debugger_disassemble_here()
 disassemble clipboard: user.debugger_disassemble_clipboard()
 jump to address: user.debugger_goto_address()
 jump to clipboard: user.debugger_goto_clipboard()

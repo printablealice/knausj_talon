@@ -79,6 +79,8 @@ action(user.debugger_goto_highlighted):
 action(user.debugger_backtrace):
     key(k enter)
 action(user.debugger_disassemble):
+    key(u space)
+action(user.debugger_disassemble_here):
     key(u enter)
 action(user.debugger_disassemble_clipboard):
     key(u space)

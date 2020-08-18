@@ -26,13 +26,15 @@ x86_registers = {
 x64_registers = {
     # general purpose
     "air": "rax",
+    "racks": "rax",
     "bat": "rbx",
     "cap": "rcx",
     "drum": "rdx",
     "source": "rsi",
     "dest": "rdi",
     "stack": "rsp",
-    "frame": "rbp",
+    "stack pointer": "rsp",
+    "frame pointer": "rbp",
     "eight": "r8",
     "nine": "r9",
     "ten": "r10",
@@ -43,6 +45,7 @@ x64_registers = {
     "fifteen": "r15",
     # pointers
     "instruction": "rip",
+    "rip": "rip",
     # segment
 }
 
@@ -158,7 +161,10 @@ class Actions:
         """Enable all breakpoints in the debugger"""
 
     def debugger_disassemble():
-        """Disassemble instructions at a specific address in the debugger"""
+        """Preps the disassemble command in the debugger"""
+
+    def debugger_disassemble_here():
+        """Disassembles instructions at the current instruction pointer"""
 
     def debugger_disassemble_clipboard():
         """Disassemble instructions at an address in the clipboard"""
