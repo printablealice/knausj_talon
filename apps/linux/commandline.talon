@@ -1,4 +1,4 @@
-# NOTE: these are command line commands, not shell-specific bindings
+i NOTE: these are command line commands, not shell-specific bindings
 # see shell.talon for shell-specific keybindings
 os: linux
 mode: user.terminal
@@ -67,10 +67,19 @@ fuzzy find file:
 # grepping
 
 rip: "rg -i "
+rip around: "rg -B2 -A2 -i "
 rip (exact|precise): "rg "
 now rip:
     edit.up()
     insert("| rg -i ")
+
+# even though rip is arguably better, we still want grep for remote terminals,
+# etc
+grep: "grep -i "
+grep around: "grep -B2 -A2 -i "
+now grep:
+    edit.up()
+    insert("| grep -i ")
 
 # networking
 show (I P|eye pee): "ip addr\n"
