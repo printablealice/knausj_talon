@@ -160,7 +160,6 @@ class Actions:
         """Click the mouse and zoom if necessary."""
         eye_zoom_mouse.zoom_mouse.on_pop(0)
 
-
     def mouse_drag():
         """(TEMPORARY) Press and hold/release button 0 depending on state for dragging"""
         global dragging
@@ -170,6 +169,12 @@ class Actions:
         else:
             dragging = False
             ctrl.mouse_click(up=True)
+
+        if (
+            eye_zoom_mouse.zoom_mouse.enabled
+            and eye_zoom_mouse.zoom_mouse.state != eye_zoom_mouse.STATE_IDLE
+        ):
+            eye_zoom_mouse.zoom_mouse.cancel()
 
     def mouse_sleep():
         """Disables control mouse, zoom mouse, and re-enables cursor"""
@@ -227,8 +232,10 @@ class Actions:
 def show_cursor_helper(show):
     """Show/hide the cursor"""
     if app.platform == "windows":
-        import winreg, win32con
         import ctypes
+        import winreg
+
+        import win32con
 
         try:
             Registrykey = winreg.OpenKey(
@@ -256,16 +263,25 @@ def show_cursor_helper(show):
     else:
         ctrl.cursor_visible(show)
 
+
 def on_pop(active):
     if gaze_job or scroll_job:
         if setting_mouse_enable_pop_stops_scroll.get() >= 1:
             stop_scroll()
-    else:
+    elif (
+        not eye_zoom_mouse.zoom_mouse.enabled
+        and eye_mouse.mouse.attached_tracker is not None
+    ):
         if setting_mouse_enable_pop_click.get() >= 1:
             ctrl.mouse_click(button=0, hold=16000)
 
 
+def on_hiss(active):
+    print("hissing")
+
+
 noise.register("pop", on_pop)
+noise.register("hiss", on_hiss)
 
 
 def mouse_scroll(amount):
