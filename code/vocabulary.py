@@ -271,6 +271,8 @@ mapping_vocabulary = {
     "doughnut": "donut",
     "jiffed": "giffed",
     "jiff": "gif",
+    "gooey": "gui",
+    
 }
 
 mapping_vocabulary.update(dict(zip(simple_vocabulary, simple_vocabulary)))
