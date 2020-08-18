@@ -122,9 +122,11 @@ next [result]:
 (page|tab) (end|last):
     key("g")
     key($)
-(page|tab) (home|first):
+tab <number_small>:
     key("g")
     key(0)
+    sleep(200ms)
+    user.repeat_insert("gt", number_small)
 (page|tab) duplicate:
     insert("yt")
 # pin tab
