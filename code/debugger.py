@@ -1,10 +1,71 @@
 # XXX - execute until line number/cursor
 # XXX - more memory printing he thumping
 
-from talon import Module
+from talon import Context, Module
 
 mod = Module()
 mod.tag("debugger", desc="Tag for enabling generic debugger commands")
+
+ctx = Context()
+ctx.matches = r"""
+tag: debugger
+"""
+
+x86_registers = {
+    "air": "eax",
+    "bat": "ebx",
+    "cap": "ecx",
+    "drum": "edx",
+    "source": "esi",
+    "dest": "edi",
+    "stack": "esp",
+    "frame": "ebp",
+    "instruction": "eip",
+}
+
+x64_registers = {
+    # general purpose
+    "air": "rax",
+    "bat": "rbx",
+    "cap": "rcx",
+    "drum": "rdx",
+    "source": "rsi",
+    "dest": "rdi",
+    "stack": "rsp",
+    "frame": "rbp",
+    "eight": "r8",
+    "nine": "r9",
+    "ten": "r10",
+    "eleven": "r11",
+    "twelve": "r12",
+    "thirteen": "r13",
+    "fourteen": "r14",
+    "fifteen": "r15",
+    # pointers
+    "instruction": "rip",
+    # segment
+}
+
+# XXX - make this dynamic
+ctx.lists["self.registers"] = x64_registers
+
+# assembly_languages = {
+#    "x86": x86_registers,
+#    "x64": x64_registers,
+# }
+
+mod.list("registers", desc="Main architecture register set")
+
+
+@mod.capture
+def registers(m) -> str:
+    "Return an register"
+    return m.registers
+
+
+@ctx.capture(rule="{self.registers}")
+def registers(m):
+    return m.registers
 
 
 @mod.action_class
@@ -113,6 +174,9 @@ class Actions:
 
     def debugger_dump_string():
         """Display as specific address as a string in the debugger"""
+
+    def debugger_dump_pointers():
+        """Display as specific address as a list of pointers in the debugger"""
 
     def debugger_inspect_type():
         """Inspect a specific data type in the debugger"""

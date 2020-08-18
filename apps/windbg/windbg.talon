@@ -86,6 +86,14 @@ action(user.debugger_disassemble_clipboard):
     key(enter)
 action(user.debugger_dump_string):
     insert("da ")
+action(user.debugger_dump_pointers):
+    insert("dps ")
+
+
+# Registers XXX
+register <user.registers>:
+    key(@)
+    insert("{registers}")
 
 # Type inspection
 action(user.debugger_inspect_type):

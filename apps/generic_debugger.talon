@@ -22,6 +22,7 @@ debug restart: user.debugger_restart()
 
 # Register
 show registers: user.debugger_show_registers()
+# XXX -
 get register: user.debugger_get_register()
 set register: user.debugger_set_register()
 
@@ -54,7 +55,11 @@ disassemble clipboard: user.debugger_disassemble_clipboard()
 jump to address: user.debugger_goto_address()
 jump to clipboard: user.debugger_goto_clipboard()
 jump to highlighted: user.debugger_goto_highlighted()
+
 dump string: user.debugger_dump_string()
+dump pointers: user.debugger_dump_pointers()
+
+
 
 # Type inspection
 inspect type: user.debugger_inspect_type()
