@@ -797,7 +797,7 @@ show (register|macro) <user.letter>: user.vim_command_mode(":reg {letter}\n")
 play macro <user.letter>: user.vim_any_motion_mode("@{letter}")
 repeat macro: user.vim_any_motion_mode("@@")
 record macro <user.letter>: user.vim_any_motion_mode("q{letter}")
-(finish macro|stop recording): user.vim_any_motion_mode("q")
+(finish macro|cancel macro|stop macro|stop recording): user.vim_any_motion_mode("q")
 modify [register|macro] <user.letter>:
     user.vim_command_mode(":let @{letter}='")
     key(ctrl-r)
