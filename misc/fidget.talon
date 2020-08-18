@@ -33,6 +33,7 @@ jump to shell functions: "cd ~/.ohmyzsh/custom/functions/\n"
 jump to dotfiles: "cd ~/dotfiles\n"
 
 # config
+edit ignore file: "vim .gitignore\n"
 (edit|at it) (secure shell| S S H) config: "vim ~/.ssh/config\n"
 (edit|at it) (eye three|window manager) config: "vim ~/.i3/config\n"
 (edit|at it) window manager config: "vim ~/.i3/config\n"
@@ -183,3 +184,10 @@ reveal:
     sleep(1)
     edit.paste()
     key(enter)
+
+##
+# i3wm stuff
+##
+
+new scratch shell:
+    user.system_command_nb("/home/aa/scripts/workflow/scratch_shell.sh")

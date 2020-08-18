@@ -84,5 +84,6 @@ pucker:
     edit.paste()
     key(enter)
 
-web link: "http://"
+web link: "https://"
+insecure web link: "http://"
 file link: "file://"
