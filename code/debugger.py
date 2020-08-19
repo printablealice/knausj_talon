@@ -178,8 +178,11 @@ class Actions:
     def debugger_goto_highlighted():
         """Jump to a specific highlighted address in the debugger"""
 
-    def debugger_dump_string():
-        """Display as specific address as a string in the debugger"""
+    def debugger_dump_ascii_string():
+        """Display as specific address as an ascii string in the debugger"""
+
+    def debugger_dump_unicode_string():
+        """Display as specific address as an unicode string in the debugger"""
 
     def debugger_dump_pointers():
         """Display as specific address as a list of pointers in the debugger"""
@@ -189,3 +192,6 @@ class Actions:
 
     def debugger_clear_line():
         """Clear unwanted data from the command line"""
+
+    def debugger_list_modules():
+        """List the loaded modules in the debuggee memory space"""

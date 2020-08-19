@@ -57,10 +57,11 @@ jump to address: user.debugger_goto_address()
 jump to clipboard: user.debugger_goto_clipboard()
 jump to highlighted: user.debugger_goto_highlighted()
 
-dump string: user.debugger_dump_string()
+dump string: user.debugger_dump_ascii_string()
+dump unicode [string]: user.debugger_dump_unicode_string()
 dump pointers: user.debugger_dump_pointers()
 
-
+list modules: user.debugger_list_modules()
 
 # Type inspection
 inspect type: user.debugger_inspect_type()

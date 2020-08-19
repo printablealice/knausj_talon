@@ -86,10 +86,15 @@ action(user.debugger_disassemble_clipboard):
     key(u space)
     edit.paste()
     key(enter)
-action(user.debugger_dump_string):
+action(user.debugger_dump_ascii_string):
     insert("da ")
+action(user.debugger_dump_unicode_string):
+    insert("du ")
 action(user.debugger_dump_pointers):
     insert("dps ")
+
+action(user.debugger_list_modules):
+    insert("lm\n")
 
 
 # Registers XXX
