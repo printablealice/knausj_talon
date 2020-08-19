@@ -68,6 +68,7 @@ vertical (shell|terminal):
     key(super-enter)
 
 move (win|window) [to] port <number_small>: key("super-shift-{number_small}")
+move (win|window) [to] port ten: key("super-shift-0")
 move (win|window) [to] last port: key(super-shift-b)
 move (win|window) left: key("super-shift-h")
 move (win|window) right: key("super-shift-l")
